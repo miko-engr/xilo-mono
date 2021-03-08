@@ -1,0 +1,35 @@
+<header [ngStyle]="setBannerStyle()">
+  <div *ngIf="!this.formDetails?.showBanner && (formDetails?.logo || companyDetails?.logo)" class="logo-section">
+    <a *ngIf="companyDetails.brandingURL" [href]="companyDetails?.brandingURL" >
+    <img
+      [src]="formDetails?.logo || companyDetails?.logo"
+      [ngStyle]="{ height: companyDetails.logoHeight }"
+      alt="company-logo"
+    />
+    </a>
+    <img
+      *ngIf="!companyDetails.brandingURL"
+      [src]="formDetails?.logo || companyDetails?.logo"
+      [ngStyle]="{ height: companyDetails.logoHeight }"
+      alt="company-logo"
+    />
+  </div>
+  <div class="address-section" *ngIf="!this.formDetails?.showBanner">
+    <ul>
+      <li *ngIf="formDetails?.companyAddress || companyDetails?.mainLocation">
+        <img src="assets/icon/marker.svg" /><span>{{
+          formDetails?.companyAddress || companyDetails?.mainLocation
+        }}</span>
+      </li>
+      <li *ngIf="formDetails?.companyPhone ? formDetails?.companyPhone
+                              : ( companyDetails?.contactNumber || companyDetails?.textNumber )">
+        <a [href]="'tel:+' + formDetails?.companyPhone ? formDetails?.companyPhone
+                              : ( companyDetails?.contactNumber || companyDetails?.textNumber )">
+        <img src="assets/icon/phone.svg" /><span>{{
+              formDetails?.companyPhone ? formDetails?.companyPhone : ( companyDetails?.contactNumber
+              || companyDetails?.textNumber )}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</header>

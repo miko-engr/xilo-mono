@@ -1,0 +1,26 @@
+<div class="QuestiondropDown">
+  <div class="educationalHeader" (click)="expandEducationalDropdown()">
+    <img class="info" src="/assets/icon/info_24px-white.svg" />
+    <p>{{ properties?.educationalDropdownHeader }}</p>
+    <img class="dropdown" src="/assets/icon/{{ imgSource }}" />
+  </div>
+
+  <div class="educationalDropDownDetails" [@questionDropDown]="state">
+    <p>
+      {{ properties?.educationalDropdownDetails }}
+      {{ properties?.educationalDropdownImage }}
+    </p>
+    <img
+      [src]="properties?.educationalDropdownImage"
+      (click)="handleImageClick($event)"
+    />
+    <div
+      #imageModal
+      class="modal"
+      [ngClass]="{ 'close-animation': closeAnimation }"
+    >
+      <span class="close" (click)="closeModal()">&times;</span>
+      <img class="modal-content" />
+    </div>
+  </div>
+</div>

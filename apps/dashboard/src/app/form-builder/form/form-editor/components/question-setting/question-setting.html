@@ -1,0 +1,264 @@
+<ng-container>
+  <div class="question-setting">
+    <div class="title-row">
+      <h3>{{returnTitle()}}</h3>
+      <button (click)="onRefreshPreview()">
+        <ngx-icon svgSrc="refresh" class="close-icon"> </ngx-icon>
+      </button>
+      <button (click)="onClose()">
+        <ngx-icon svgSrc="close" class="close-icon"> </ngx-icon>
+      </button>
+    </div>
+    <div class="fields">
+      <div class="fieldGroup" *ngFor="let fieldGroup of fieldGroups">
+        <div
+          class="title"
+          *ngIf="fieldGroup.label && showField(fieldGroup) && !hideField(fieldGroup)"
+        >
+          <h3>{{fieldGroup.label}}</h3>
+        </div>
+        <div
+          *ngIf="fieldGroup.type === 'icon' && showField(fieldGroup) && !hideField(fieldGroup)"
+        >
+          <img
+            class="col-sm-3 ml-2 icon"
+            (click)="openImagePickerDialog()"
+            *ngIf="!selectedField?.templateOptions?.icon"
+            src="/assets/signup-flow/uploaded_form.svg"
+          />
+          <div
+            class="col-sm-3 ml-2 icon"
+            (click)="openImagePickerDialog()"
+            *ngIf="selectedField?.templateOptions?.icon"
+            [innerHTML]="selectedField?.templateOptions?.icon | safe: 'html'"
+          ></div>
+        </div>
+        <div *ngFor="let field of fieldGroup.fields">
+          <div class="field" *ngIf="showField(field) && !hideField(field)">
+            <div
+              class="input-field"
+              *ngIf="
+                field.type !== 'checkbox' && 
+                field.type !== 'select' && 
+                field.key !== 'defaultValue'
+              "
+            >
+              <label [for]="field.key">{{field.label}}</label>
+              <input
+                [id]="field.key"
+                [placeholder]="field.label"
+                [type]="field.type"
+                (ngModelChange)="changeField(field.key, $event)"
+                [(ngModel)]="selectedField.templateOptions[field.key]"
+              />
+            </div>
+            <div
+              class="input-field"
+              *ngIf="
+                field.key === 'defaultValue' && 
+                selectedField.type === 'input'
+              "
+            >
+              <label [for]="field.key">{{field.label}}</label>
+              <input
+                [id]="field.key"
+                [placeholder]="field.label"
+                [type]="field.type"
+                [(ngModel)]="selectedField[field.key]"
+              />
+            </div>
+            <div
+              class="input-field"
+              *ngIf="
+                field.key === 'defaultValue' && 
+                (
+                  selectedField.type === 'select' ||
+                  selectedField.type === 'radio'
+                )"
+            >
+              <label [for]="field.key">{{field.label}}</label>
+              <select [(ngModel)]="selectedField[field.key]" [id]="field.key">
+                <option [value]="null">No default</option>
+                <option
+                  [value]="option.value"
+                  *ngFor="let option of selectedField.templateOptions.options"
+                >
+                  {{ option.label }}
+                </option>
+              </select>
+            </div>
+            <div
+              class="checkbox-row"
+              *ngIf="
+                field.key === 'defaultValue' && 
+                selectedField.type === 'checkbox'
+              "
+            >
+              <label [for]="field.key">{{field.label}}</label>
+              <input
+                [id]="field.key"
+                type="checkbox"
+                [(ngModel)]="selectedField[field.key]"
+              />
+            </div>
+            <div class="input-field" *ngIf="field.type === 'select'">
+              <label [for]="field.key">{{field.label}}</label>
+              <div class="select-options-container">
+                <div
+                  *ngIf="!editMultipleOptions"
+                  class="select-option top-option"
+                  (click)="showOptions = !showOptions"
+                >
+                  <span>Edit options</span>
+                  <span>
+                    <img
+                      [ngClass]="{'up-arrow': showOptions}"
+                      src="../../../../../../assets/svgs/carret-down.svg"
+                      alt="Down arrow"
+                    />
+                  </span>
+                </div>
+                <div
+                  *ngIf="editMultipleOptions && !showOptions"
+                  class="select-option top-option"
+                  (click)="createMultipleOptionsText()"
+                >
+                  <span *ngIf="!showMultipleOptionsEditor">Edit multiple options</span>
+                  <span *ngIf="showMultipleOptionsEditor">Save multiple options</span>
+                  <span>
+                    <img
+                      [ngClass]="{'up-arrow': showMultipleOptionsEditor}"
+                      src="../../../../../../assets/svgs/carret-down.svg"
+                      alt="Down arrow"
+                    />
+                  </span>
+                </div>
+                <div class="select-option textarea" *ngIf="showMultipleOptionsEditor">
+                  Use a new line for each option
+                  <textarea
+                    [(ngModel)]="multipleOptionsText"
+                    placeholder="Add options" 
+                    name="multiple-options" 
+                    id="multiple-options" 
+                    cols="30" 
+                    rows="10"></textarea>
+                </div>
+                <div
+                  class="draggable-options"
+                  cdkDropList
+                  *ngIf="showOptions"
+                  [cdkDropListData]="selectedField.templateOptions.options"
+                  (cdkDropListDropped)="drop($event)"
+                >
+                  <div
+                    class="select-option main-option"
+                    cdkDrag
+                    [cdkDragData]="option"
+                    *ngFor="let option of selectedField.templateOptions.options; index as i"
+                  >
+                    <div
+                      class="drag-section-placeholder"
+                      *cdkDragPlaceholder
+                    ></div>
+                    <span class="drag" cdkDragHandle>
+                      <img
+                        src="../../../../../../assets/svgs/drag-indicator.svg"
+                        alt="Drag icon"
+                      />
+                    </span>
+                    <div class="main-option-display">
+                      <input
+                        type="text"
+                        [(ngModel)]="option.label"
+                        (ngModelChange)="changeOption($event, i)"
+                      />
+                    </div>
+                    <div class="main-option-value" *ngIf="showOptionValues">
+                      <input type="text" [(ngModel)]="option.value" />
+                    </div>
+                    <span class="actions" (click)="deleteOption(i)">
+                      <img
+                        src="../../../../../../assets/svgs/close.svg"
+                        alt="Close icon"
+                      />
+                    </span>
+                  </div>
+                </div>
+                <div class="select-option main-option" *ngIf="showOptions">
+                  <div class="main-option-display">
+                    <input
+                      type="text"
+                      [(ngModel)]="newOption.label"
+                      placeholder="Add new option"
+                    />
+                  </div>
+                  <div class="actions" (click)="addOption()">
+                    <span>
+                      <img
+                        src="../../../../../../assets/svgs/add-circle.svg"
+                        alt="Add icon"
+                      />
+                    </span>
+                  </div>
+                </div>
+                <div class="select-menu-checkbox-row">
+                  <input type="checkbox" [(ngModel)]="editMultipleOptions"> Edit multiple options
+                </div>
+              </div>
+              <!-- <select
+                [(ngModel)]="selectedOption"
+                (change)="selectOption($event)"
+                >
+                <option *ngFor="let option of selectedField.templateOptions.options" [ngValue]="option">
+                  {{option.label}}
+                </option>
+              </select>
+              <div *ngIf="selectedOption.label">
+                <input
+                [id]="field.key"
+                placeholder="Option Display"
+                type="text"
+                [(ngModel)]="selectedOption.label"
+                >
+                <input
+                  [id]="field.key + 1"
+                  placeholder="Option Value"
+                  type="text"
+                  [(ngModel)]="selectedOption.value"
+                  >
+                </div>
+                <button class="select-btn" (click)="addOption()">Add New Option</button>
+                <button class="select-btn" *ngIf="selectedOption.label" (click)="deleteOption()">Delete</button> -->
+            </div>
+            <div
+              class="checkbox-row"
+              *ngIf="field.type === 'select' && showOptions"
+            >
+              <input
+                id="showOptionValues"
+                type="checkbox"
+                [(ngModel)]="showOptionValues"
+              />
+              <span>Edit option values</span>
+            </div>
+            <div class="checkbox-row" *ngIf="field.type === 'checkbox'">
+              <input
+                [id]="field.key + 'checkbox'"
+                type="checkbox"
+                *ngIf="field.key !== 'hide'"
+                [(ngModel)]="selectedField.templateOptions[field.key]"
+              />
+              <input
+                id="hideCheckbox"
+                type="checkbox"
+                *ngIf="field.key === 'hide'"
+                [(ngModel)]="selectedField.hide"
+              />
+              <span>{{field.label}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,42 @@
+.header {
+  color: #000;
+  font-family: sans-serif;
+}
+
+#notes-input {
+  border: 1px solid #B4B4BB;
+  box-sizing: border-box;
+  border-radius: 8px;
+  width: 100%;
+  height: 100px;
+  padding: 11px 16px;
+  font-weight: normal;
+  font-size: 14px;
+  font-family: sans-serif;
+  outline: none;
+
+  ::placeholder {
+    font-weight: normal;
+    font-size: 14px;
+  }
+}
+
+.notes-btn {
+  padding: 0 24px;
+  width: auto;
+  height: 32px;
+  float: right;
+  background: #6e71FF;
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 8px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.notes-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}

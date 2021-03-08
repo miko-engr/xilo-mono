@@ -1,0 +1,87 @@
+<ng-template #importConfModal>
+    <div mat-dialog-header class="dialog-header mb-3 d-flex align-items-center justify-content-start">
+      <div class="company_logo">
+        <img alt="no images here" [src]="currentFormInfo?.icon" />
+      </div>
+      <div class="company_desc ml-3">
+        <h5 class="m-0">{{ currentFormInfo?.heading }}</h5>
+        <p class="m-0">{{ currentFormInfo?.desc }}</p>
+      </div>
+    </div>
+    <div mat-dialog-content [formGroup]="importNewForm" class="row" (ngSubmit)="submit(importNewForm)">
+      <div class="col-12 p-0">
+        <div class="form-group">
+          <label>URL</label>
+          <input type="text" class="form-control" formControlName="url" placeholder="Enter URL" />
+        </div>
+      </div>
+    </div>
+    <mat-dialog-actions class="dialog-multiple-button-actions d-flex align-items-center justify-content-between my-1 mt-2">
+      <div>
+        <button mat-button matDialogClose="no" class="cancel">Back</button>
+      </div>
+      <div>
+        <button mat-button matDialogClose="no" class="cancel">Cancel</button>
+        <button mat-button type="submit" [disabled]="!importNewForm.valid" matDialogClose="yes" class="connect ml-4">Import</button>
+      </div>
+    </mat-dialog-actions>
+  </ng-template>
+<ng-template #importCustomForm id="callAPIDialog" >
+    <div mat-dialog-header class="dialog-header d-flex align-items-center justify-content-center">
+        <div class="company_logo">
+            <img src="assets/signup-flow/import.svg" />
+        </div>
+        <div class="company_desc ml-3">
+            <h5 class="m-0">Import External Form</h5>
+            <p class="m-0">You may upload your external from from Jot forms, Gravity Forms, Wufuu Forms,
+                Cognito Forms</p>
+        </div>
+    </div>
+    <div mat-dialog-content>
+        <div class="form-info form-row" *ngFor="let oneForm of externalFormList; index as i">
+          <div class="d-flex align-items-center justify-content-start col-9" >
+            <div class="logo-block">
+              <img alt="no images here" [src]="oneForm?.icon">
+          </div>
+          <div class="content-block ml-2">
+              <h6 class="font-weight-bold m-0">{{oneForm?.heading}}</h6>
+              <span>{{oneForm?.desc}}</span>
+          </div>
+          </div>
+            <div class="action-block col-3 text-right">
+                <button mat-button matDialogClose="yes" class="connect"
+                    (click)="inportConfForm(oneForm, importConfModal)">Import</button>
+            </div>
+        </div>
+    </div>
+    <mat-dialog-actions align="end">
+        <button mat-button matDialogClose="no" class="cancel mb-2">Cancel</button>
+    </mat-dialog-actions>
+</ng-template>
+<div class="container">
+  <div class="import-form-with row">
+      <div  class="col-8">
+        <div class="form-row">
+         <div class="col-8 my-2" *ngFor="let form of selectedFormList; index as i;">
+              <div #element class="work-div d-flex align-items-center justify-content-start" [class.checked]="selectedFormList[i].checked" (click)="selectForm(i, form, element);">
+                  <div class="checkbox pl-3">
+                    <mat-checkbox [(ngModel)]="selectedFormList[i].checked"></mat-checkbox>
+                  </div>
+                  <div class="pl-3">
+                      <img alt="no images here" src="/assets/signup-flow/uploaded_form.svg" *ngIf="!form?.icon" />
+                      <div class="default-icon" *ngIf="form.icon" [innerHTML]="form.icon | safe: 'html'"></div>
+                  </div>
+                  <h6 class="pl-10 m-0 text-bold">{{form?.title}}</h6>
+              </div>
+            </div>
+        </div>
+      </div>
+      <!-- <div class="col-4 text-right">
+          <button (click)="importForm(importCustomForm)" class="import-from-btn">
+              Import Form
+          </button>
+      </div> -->
+  </div>
+</div>
+
+

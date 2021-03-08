@@ -1,0 +1,92 @@
+<div class="questions-container" cdkDropListGroup style="display: flex">
+  <!--
+    <aside class="left-aside" style="width: 40%" *ngIf="formFieldsRetrieved && keysRetrieved">
+        <div class="auto-complete-content-area">
+            <form [formGroup]="keyForm">
+                <ul class="item-listing" cdkDropList id="questionList" (cdkDropListDropped)="dropItFormFields($event)"
+                [cdkDropListData]="formFields">
+                    <li *ngFor="let formField of formFields | paginate: { itemsPerPage: 10, currentPage: p }; let i = index"
+                     class="input-questions">
+                        <span>
+                            {{formField.name}}
+                        </span>
+                        <span class="action-container-side" style="display: flex;">
+                            <mat-form-field>
+                                <input type="text" matInput placeholder="Keys" [formControlName]="returnIndex(i)" [matAutocomplete]="autoGroup">
+                                    <mat-autocomplete #autoGroup="matAutocomplete" [displayWith]="displayFn">
+                                    <mat-optgroup *ngFor="let group of keyGroupOptions[returnIndex(i)] | async" [label]="group.type">
+                                        <mat-option *ngFor="let key of group.keys" [value]="{type: group.type, label: key.label, key: key.key, formField: returnIndex(i)}">
+                                        {{key.label}}
+                                        </mat-option>
+                                    </mat-optgroup>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                            <mat-form-field *ngIf="showExpectedValue">
+                                <input type="text" matInput (input)="setValue(returnIndex(i), $event)" placeholder="Expected Value" [formControlName]="returnIndex(i) + '-p'">
+                            </mat-form-field>
+                        </span>
+                    </li>
+                    <div class="pagination-div">
+                        <br>
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                    </div>
+                </ul>
+            </form>
+
+            <div class="btn-div">
+                <br>
+                <button class="edit-btn ng-star-inserted" (click)="updatePdf()" routerLink="../../pdf-home"
+                    [routerLinkActive]="['']">
+                    <mat-icon>check</mat-icon>Save
+                </button>
+                <button class="edit-btn ng-star-inserted" routerLink="../../pdf-home" [routerLinkActive]="['']">
+                    <mat-icon>cancel</mat-icon> Cancel
+                </button>
+                <button class="edit-btn ng-star-inserted" (click)="downloadDefault()" style="background-color: #fff; color: #7c7fff">
+                    Template
+                </button>
+                <br>
+                <mat-checkbox (click)="showExpectedValue = !showExpectedValue">Expected Value</mat-checkbox>
+            </div>
+        </div>
+        <button mat-button class="button-back" routerLink="../../pdf-home"
+            routerLinkActive="active" [hidden]="true">
+            Back
+        </button>
+    </aside>
+    -->
+
+    <div class="right-aside" style="width: 60%; margin-left: auto; margin-right: auto; position: relative;" *ngIf="formFieldsRetrieved && keysRetrieved">
+        <div class="aside-container">
+            <div class="auto-complete-content-area p-8">
+                <div style="display: block" class="pdf-editor-container">
+                    <div class="pdf-keys-container">
+                        <form [formGroup]="keyForm" novalidate [ngStyle]="pdfOverlayStyle" (window:resize)="updateOverlayDimensions()">
+                            <div *ngFor="let input of formFields; let i = index" [ngStyle]="getInputPosition(input)">
+                                <span class="action-container-side">
+                                    <mat-form-field floatLabel="never">
+                                        <input type="text" matInput placeholder="" [formControlName]="returnIndex(i)" [matAutocomplete]="autoGroup">
+                                        <mat-autocomplete #autoGroup="matAutocomplete" [displayWith]="displayFn">
+                                        <mat-optgroup *ngFor="let group of keyGroupOptions[returnIndex(i)]" [label]="group.type">
+                                          <mat-option *ngFor="let key of group.keys" [value]="{type: group.type, label: key.label, key: key.key, formField: returnIndex(i)}">
+                                          {{key.label}}
+                                          </mat-option>
+                                        </mat-optgroup>
+                                      </mat-autocomplete>
+                                    </mat-form-field>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                    <pdf-viewer [src]="pdfSrc" [zoom]="pdfZoom" (after-load-complete)="loadComplete($event)" #pdfViewer></pdf-viewer>
+                    <div class="pdf-zoom-buttons">
+                      <button mat-mini-fab (click)="zoomIn()" style="margin-bottom: 10px; display:block;">+</button>
+                      <button mat-mini-fab (click)="zoomOut()" style="display:block;">-</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<p *ngIf="!formFieldsRetrieved">Loading ...</p>

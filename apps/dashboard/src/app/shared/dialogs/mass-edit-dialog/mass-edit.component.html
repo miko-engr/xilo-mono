@@ -1,0 +1,188 @@
+<div class="container">
+    <div class="editor" [style.width.%]="eWidth" *ngIf="formRetrieved && companyRetrieved">
+        <h1 class="title-text">Update Form</h1>
+        <mat-accordion class="panel-list"
+            cdkDropList 
+            [cdkDropListData]="form.pages" 
+            (cdkDropListDropped)="dropPage($event)">
+            <mat-expansion-panel class="panel-box" *ngFor="let page of form.pages; let i = index" 
+              (contextmenu)="onContextMenu($event, {type: 'page', obj: page, pageIndex: i})" cdkDropListGroup cdkDragLockAxis="y" 
+              cdkDrag [cdkDragData]="page">
+                <div class="panel-placeholder" *cdkDragPlaceholder></div>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <input name="title" type="text" (keydown.Space)="$event.stopPropagation();" (click)="$event.stopPropagation()" placeholder="Enter page title" [(ngModel)]="page.title" class="condition-input">
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Click to edit questions ({{page.questions.length}})
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <ng-container *ngIf="page.id && page.questions">
+                    <mat-accordion class="panel-list"
+                        cdkDropList
+                        id={{page.id}}
+                        [cdkDropListData]="page.questions" 
+                        cdkDragLockAxis="y"
+                        (cdkDropListDropped)="dropQuestion($event)">
+                        <mat-expansion-panel *ngFor="let question of page.questions; let j = index" class="panel-box"
+                            (contextmenu)="onContextMenu($event, {type: 'question', obj: question, pageIndex: i, questionIndex: j})"
+                            cdkDrag
+                            [cdkDragData]="question">
+                            <div class="panel-placeholder" *cdkDragPlaceholder></div>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <input name="headerText" (keydown.Space)="$event.stopPropagation();" type="text" (click)="$event.stopPropagation()" placeholder="Enter question header" [(ngModel)]="question.headerText" class="condition-input">
+                                    <input style="margin-left: 5px" (keydown.Space)="$event.stopPropagation();" name="subHeaderText" type="text" (click)="$event.stopPropagation()" placeholder="Enter question sub-header" [(ngModel)]="question.subHeaderText" class="condition-input">
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    Click to edit answers ({{question.answers.length}})
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ng-container *ngIf="question.id && question.answers">
+                                <mat-accordion 
+                                    cdkDropList
+                                    id={{question.id}}
+                                    [cdkDropListData]="question.answers" 
+                                    cdkDragLockAxis="y"
+                                    (cdkDropListDropped)="dropQuestion($event)">
+                                    <mat-expansion-panel *ngFor="let answer of question.answers; let k = index" class="panel-box"
+                                      (contextmenu)="onContextMenu($event, {type: 'answer', obj: answer, pageIndex: i, questionIndex: j, answerIndex: k})"
+                                        cdkDrag
+                                        [cdkDragData]="answer"
+                                        #answerPanel>
+                                        <div class="panel-placeholder" *cdkDragPlaceholder></div>
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                <input name="placeholder" (keydown.Space)="$event.stopPropagation();" type="text" (click)="$event.stopPropagation()" placeholder="Enter placeholder" [ngModel]="answer.isButton ? answer.displayValue : answer.placeholderText" (ngModelChange)="answer.isButton ? answer.displayValue=$event : answer.placeholderText=$event" class="condition-input">
+                                            </mat-panel-title>
+                                            <mat-panel-description>
+                                                Click to edit this {{returnAnswerType(answer)}}
+                                            </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                        <mat-action-row class="action-row">
+                                            <div>
+                                                <button style="color: #000" class="action-button" mat-mini-fab color="secondary" (click)="moveObject('answer', 1, i, j, k)">
+                                                    <mat-icon class="action-button-icon" matTooltip="Move Down">arrow_downward</mat-icon></button>
+                                                <button style="color: #000" class="action-button" mat-mini-fab color="secondary" (click)="moveObject('answer', -1, i, j, k)">
+                                                    <mat-icon class="action-button-icon" matTooltip="Move Up">arrow_upward</mat-icon></button>
+                                            </div>
+                                            <div>
+                                                <button class="action-button" disableRipple mat-raised-button color="primary" (click)="updateForm(false)"><mat-icon class="action-button-icon" matTooltip="Save">save_alt</mat-icon></button>
+                                                <button class="action-button" style="color: #000" disableRipple mat-raised-button color="secondary" (click)="openAnswerSettingsDialog(answer, question)"><mat-icon class="action-button-icon" matTooltip="Edit">edit</mat-icon></button>
+                                                <button class="action-button" disableRipple mat-raised-button color="warn" (click)="deleteObject('answer', i, j, k, answer.id)"><mat-icon class="action-button-icon" matTooltip="Delete">delete</mat-icon></button>
+                                                <button class="action-button" style="color: #000" disableRipple mat-raised-button color="secondary" [matMenuTriggerFor]="answerMenu"><mat-icon class="action-button-icon" matTooltip="Options">more_vert</mat-icon></button>
+                                            </div>
+                                            <mat-menu #answerMenu="matMenu">
+                                                <button mat-menu-item color="secondary" style="color: #000;" class="menu-button" *ngIf="answer.isCard" (click)="openImagePickerDialog(null, answer, 'answer', i, j, k)"><mat-icon>add_photo_alternate</mat-icon>Icon</button>
+                                                <button mat-menu-item color="secondary" style="color: #000;" class="menu-button" (click)="openConditionsDialog('answer', answer)"><mat-icon>shuffle</mat-icon>Conditions</button>
+                                                <button mat-menu-item class="menu-button" style="color: #000" disableRipple color="secondary" (click)="addObject('answer', i, j, true, answer)"><mat-icon>file_copy</mat-icon>Duplicate</button>
+                                            </mat-menu>
+                                        </mat-action-row>
+                                    </mat-expansion-panel>
+                                </mat-accordion> 
+                                <mat-card class="condition-card add-card">
+                                    <div class="condition-card-container" (click)="openTemlatesPickerDialog('Answers', i, j)">
+                                        <mat-icon class="action-button-icon" matTooltip="Save">add</mat-icon> Field From Template
+                                    </div>
+                                    <div class="condition-card-container" (click)="addObject('answer', i, j)">
+                                        <mat-icon class="action-button-icon" matTooltip="Save">add</mat-icon> New Field
+                                    </div>
+                                </mat-card>
+                            </ng-container>
+                            <mat-action-row class="action-row">
+                                <div>
+                                    <button style="color: #000" class="action-button" mat-mini-fab color="secondary" (click)="moveObject('question', 1, i, j)">
+                                        <mat-icon class="action-button-icon" matTooltip="Move Down">arrow_downward</mat-icon></button>
+                                    <button style="color: #000" class="action-button" mat-mini-fab color="secondary" (click)="moveObject('question', -1, i, j)">
+                                        <mat-icon class="action-button-icon" matTooltip="Move Up">arrow_upward</mat-icon></button>
+                                </div>
+                                <div>
+                                    <button class="action-button" disableRipple mat-raised-button color="primary" (click)="updateForm(false)"><mat-icon class="action-button-icon" matTooltip="Save">save_alt</mat-icon></button>
+                                    <button class="action-button" style="color: #000" disableRipple mat-raised-button color="secondary" (click)="openQuestionSettingsDialog(question)"><mat-icon class="action-button-icon" matTooltip="Edit">edit</mat-icon></button>
+                                    <button class="action-button" disableRipple mat-raised-button color="warn" (click)="deleteObject('question', i, j, null, question.id)"><mat-icon class="action-button-icon" matTooltip="Delete">delete</mat-icon></button>
+                                    <button class="action-button" style="color: #000" disableRipple mat-raised-button color="secondary" [matMenuTriggerFor]="questionMenu"><mat-icon class="action-button-icon" matTooltip="Options">more_vert</mat-icon></button>
+                                </div>
+                                <mat-menu #questionMenu="matMenu">
+                                    <button mat-menu-item color="secondary" style="color: #000;" class="menu-button"*ngIf="!form.isSimpleForm" (click)="openImagePickerDialog(question,null, 'question', i, j, null)"><mat-icon>add_photo_alternate</mat-icon>Icon</button>
+                                    <button mat-menu-item color="secondary" style="color: #000;" class="menu-button" (click)="openConditionsDialog('question', question)"><mat-icon>shuffle</mat-icon>Conditions</button>
+                                    <button mat-menu-item class="menu-button" style="color: #000" disableRipple color="secondary" (click)="addObject('question', i, null, true, question)"><mat-icon>file_copy</mat-icon>Duplicate</button>
+                                </mat-menu>
+                            </mat-action-row>
+                        </mat-expansion-panel>
+                    </mat-accordion> 
+                    <mat-card class="condition-card add-card">
+                        <div class="condition-card-container" (click)="openTemlatesPickerDialog('Questions', i, null)">
+                            <mat-icon class="action-button-icon" matTooltip="Save">add</mat-icon> Question From Template
+                        </div>
+                        <div class="condition-card-container" (click)="addObject('question', i, null)">
+                            <mat-icon class="action-button-icon" matTooltip="Save">add</mat-icon> New Question
+                        </div>
+                    </mat-card>
+                </ng-container>
+                <mat-action-row class="action-row">
+                    <div>
+                        <button style="color: #000" class="action-button" mat-mini-fab color="secondary" (click)="moveObject('page', 1, i)">
+                            <mat-icon class="action-button-icon" matTooltip="Move Down">arrow_downward</mat-icon></button>
+                        <button style="color: #000" class="action-button" mat-mini-fab color="secondary" (click)="moveObject('page', -1, i)">
+                            <mat-icon class="action-button-icon" matTooltip="Move Up">arrow_upward</mat-icon></button>
+                    </div>
+                    <div>
+                        <button class="action-button" style="color: #000;" disableRipple mat-raised-button color="secondary" (click)="routePreview(page)"><mat-icon class="action-button-icon" matTooltip="Preview">visibility</mat-icon></button>
+                        <button class="action-button" disableRipple mat-raised-button color="primary" (click)="updateForm(false)"><mat-icon class="action-button-icon" matTooltip="Save">save_alt</mat-icon></button>
+                        <button class="action-button" disableRipple mat-raised-button color="warn" (click)="deleteObject('page', i, null, null, page.id)"><mat-icon class="action-button-icon" matTooltip="Delete">delete</mat-icon></button>
+                        <button class="action-button" style="color: #000" disableRipple mat-raised-button color="secondary" [matMenuTriggerFor]="pageMenu"><mat-icon class="action-button-icon" matTooltip="Options">more_vert</mat-icon></button>
+                    </div>
+                    <mat-menu #pageMenu="matMenu">
+                        <button mat-menu-item color="secondary" style="color: #000;" class="menu-button" (click)="openConditionsDialog('page', page)"><mat-icon matTooltip="Conditions">shuffle</mat-icon>Conditions</button>
+                        <button mat-menu-item class="menu-button" style="color: #000" disableRipple color="secondary" (click)="addObject('page', null, null, true, page)"><mat-icon matTooltip="Duplicate">file_copy</mat-icon>Duplicate</button>
+                    </mat-menu>
+                </mat-action-row>
+            </mat-expansion-panel>
+        </mat-accordion>    
+        <mat-card class="condition-card add-card">
+            <div class="condition-card-container" (click)="openTemlatesPickerDialog('Pages', null, null)">
+                <mat-icon class="action-button-icon" matTooltip="Save">add</mat-icon> Page From Template
+            </div>
+            <div class="condition-card-container" (click)="addObject('page', null, null)">
+                <mat-icon class="action-button-icon" matTooltip="Save">add</mat-icon> New Page
+            </div>
+        </mat-card>
+        <div class="settings-save-button-container">
+            <button class="settings-btn primary" (click)="updateForm(true)">Save Changes</button>
+            <button class="settings-btn secondary" (click)="openLink()">Exit</button>
+            <button class="settings-btn secondary" (click)="routeView()">Quick View</button>
+        </div>
+    </div>
+    <div class="preview" *ngIf="formRetrieved" [style.width.%]="pWidth">
+        <div class="preview-button-container">
+            <button class="preview-button" color="secondary" mat-mini-fab aria-label="Hide Preview" (click)="closePreview()" matTooltip="Close" *ngIf="previewOpen">
+                <mat-icon>arrow_forward_ios</mat-icon>
+            </button>
+            <button class="preview-button" color="secondary" mat-mini-fab aria-label="Open Preview" (click)="openPreview()" matTooltip="Open" *ngIf="!previewOpen">
+                <mat-icon>arrow_back_ios</mat-icon>
+            </button>
+            <button class="refresh-button" color="secondary" mat-mini-fab aria-label="Refresh Preview" (click)="routePreview({routePath: pageUrl})" matTooltip="Refresh" *ngIf="previewOpen">
+                <mat-icon>refresh</mat-icon>
+            </button>
+        </div>
+        <iframe class="iframe" #iframe height="600"></iframe>
+    </div>
+    <p *ngIf="!formRetrieved && !error">Retrieving form ...</p>
+    <div class="error" *ngIf="error">
+        <p>Error retrieving form ...</p>
+        <button class="settings-btn primary" routerLink="/profile/forms">Back to Forms</button>
+    </div>
+</div>
+<div style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuPosition.x"
+    [style.top]="contextMenuPosition.y"
+    [matMenuTriggerFor]="contextMenu">
+</div>
+<mat-menu #contextMenu="matMenu">
+	<ng-template matMenuContent let-obj="obj">
+		<button mat-menu-item (click)="copyObject(obj)" *ngIf="!hasCopiedObject">Copy</button>
+		<button mat-menu-item (click)="pasteObject(obj)" *ngIf="hasCopiedObject">Paste</button>
+	</ng-template>
+</mat-menu>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

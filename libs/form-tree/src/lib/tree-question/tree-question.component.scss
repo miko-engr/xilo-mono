@@ -1,0 +1,135 @@
+.hidden {
+  opacity: 0.3;
+}
+
+.hover-container {
+  width: 100%;
+  height: 100%;
+}
+
+.title-wrapper,
+.item-wrapper {
+  display: flex;
+  width: 100%;
+  margin-bottom: 16px;
+
+  &:hover .node-buttons {
+    visibility: visible;
+  }
+  &:hover {
+    background: rgba(217, 217, 254, 0.5);
+    cursor: pointer;
+    .add-question-row {
+      transition: height 0.15s;
+      height: 24px;
+      .add-question-button {
+        margin-right: 8px;
+        transition: height 0.15s opacity 0.15s;
+        height: 24px;
+        opacity: 1;
+      }
+    }
+  }
+
+  .node-data {
+    flex: 1;
+
+    .text {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 17px;
+      color: #111111;
+    }
+    .type {
+      font-size: 12px;
+      line-height: 15px;
+      color: #636363;
+      margin-bottom: 8px;
+    }
+    .index {
+      margin-right: 16px;
+      width: 72px;
+      height: 24px;
+      border-radius: 4px;
+      background: #d9d9fe;
+      color: #000;
+      font-size: 12px;
+      font-weight: 500;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .node-buttons {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    visibility: hidden;
+    button {
+      cursor: pointer;
+      outline: none;
+      width: 24px;
+      height: 24px;
+      background: white;
+      border-radius: 50%;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 16px;
+      ngx-icon svg {
+        fill: transparent !important;
+      }
+      &.selected {
+        background: #6e71ff;
+      }
+      &:hover {
+        background: #6e71ff;
+      }
+    }
+  }
+}
+
+.editor-item-wrapper {
+  padding: 8px 24px 16px 52px;
+  position: relative;
+}
+
+.add-question-row {
+  position: absolute;
+  bottom: 0px;
+  margin-top: -15px;
+
+  .add-question-btngroup {
+    flex: 1;
+    margin-left: 48px;
+
+    position: relative;
+    .add-question-button {
+      outline: none;
+      transition: height 0.15s;
+      background: #ffffff;
+      border: 1px solid rgba(218, 218, 218, 0.2);
+      box-sizing: border-box;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      padding: 7.5px 13.5px;
+
+      .plus-icon {
+        display: flex;
+        width: 9px;
+        height: 9px;
+        align-items: center;
+        justify-content: center;
+      }
+      span {
+        font-size: 10px;
+        line-height: 12px;
+        color: #636363;
+        margin-left: 13.5px;
+      }
+    }
+  }
+}

@@ -1,0 +1,205 @@
+<section class="page-container" [ngClass]="[pageName]">
+  <div class="page-loader" *ngIf="!isMobile && !loaded">
+    <img src="/assets/icon/loader.svg" alt="" />
+  </div>
+  <div class="page-loader" *ngIf="isMobile && !loaded">
+    <img src="/assets/icon/loader-mobile.svg" alt="" />
+  </div>
+  <main
+    *ngIf="loaded && !isMobile"
+    [ngClass]="currentPageNumber < 0 ? 'page-start' : ''"
+  >
+    <section
+      [@PageAnimation]="pageAnimationState"
+      *ngIf="pageName != 'finish'"
+      class="page-section"
+      #pageSection
+    >
+      <ng-container *ngIf="currentPage?.questions?.length > 1">
+        <div class="page-header">
+          <h3 class="page-title">
+            {{ currentPage?.title }}
+          </h3>
+          <div class="progress-bar-section">
+            <div class="progress-bar">
+              <p *ngIf="!questionHovered?.flag" class="question-number">
+                Question: {{ currentQuestionNumber + 1 }}/{{
+                  currentPage?.questions?.length
+                }}
+              </p>
+              <p *ngIf="questionHovered?.flag" class="question-number">
+                {{
+                  questionHovered?.questionToBeDisplayed
+                    | valueInterpolate
+                      : mainForm
+                      : currentIndexOfMultipleItemInProgress
+                }}
+              </p>
+              <div class="progress-bar-items">
+                <span
+                  (mouseover)="progressBarHover(questionIndex)"
+                  (mouseout)="progressBarHoverOut()"
+                  (click)="handleProgressItemClick(questionIndex, question?.id)"
+                  *ngFor="
+                    let question of currentPage?.questions;
+                    let questionIndex = index
+                  "
+                  class="bar"
+                  [ngClass]="{
+                    progress: ishighlightedProgressItem(questionIndex),
+                    attended: isAttended(questionIndex, question?.id)
+                  }"
+                ></span>
+              </div>
+            </div>
+            <div class="progress-buttons">
+              <span
+                [ngClass]="isPrevIcon ? 'prevIcon-enable' : ''"
+                (click)="isPrevIcon && handleChangeQuestion('prev')"
+              >
+              </span>
+              <span
+                [ngClass]="isNextIcon ? 'nextIcon-enable' : ''"
+                (click)="isNextIcon && handleNextQuestionClick()"
+              ></span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <!-- <ng-container *ngIf="form$ | async as form">
+        <xilo-mono-form-viewer
+            [fields]="form.components"
+            [(options)]="formOptions"
+            [(formModel)]="formModel"
+            (formChanged)="onFormChanged($event)"
+        ></xilo-mono-form-viewer>
+      </ng-container> -->
+      <app-dynamic-form
+        *ngIf="currentForm"
+        [page]="currentPage"
+        [mainForm]="mainForm"
+        [isMobile]="isMobile"
+        [question]="question"
+        [currentForm]="currentForm"
+        [isLastQuestion]="isLastQuestion()"
+        (changePage)="handleChangePage($event)"
+        (changeQuestion)="handleChangeQuestion($event)"
+        [summary]="summary"
+        [client]="client"
+        [company]="company"
+        [form]="formData"
+        (createNewFormQuestionTrigger)="
+          handleCreateNewFormQuestionTrigger($event)
+        "
+        (deleteMultipleItemTrigger)="handleDeleteMultipleItemTrigger($event)"
+        [subindex]="currentIndexOfMultipleItemInProgress"
+        [questionAnimationState]="questionAnimationState"
+        (triggerSearchByAddress)="handleAddressAutocompleted($event)"
+      >
+      </app-dynamic-form>
+    </section>
+    <div class="blurEffect"></div>
+    <!-- [ngClass]="{ pushButtonUp: isNextButtonNeeded() }" -->
+    <button
+      *ngIf="isNextButtonNeeded()"
+      [disabled]="!currentForm.valid"
+      (click)="handleChangeQuestion('next')"
+      class="next-button"
+    >
+      {{ isLastQuestion() ? 'Submit' : 'Next' }}
+    </button>
+    <section
+      class="summary-section"
+      [@SummaryAnimation]="summaryAnimationState"
+    >
+      <app-summary
+        *ngIf="formData && summary && currentPage"
+        [summary]="summary"
+        [formData]="formData"
+        [isMobile]="isMobile"
+        [mainForm]="mainForm"
+        [page]="currentPage"
+        (changePage)="handleChangePage($event)"
+        (deleteMultipleItemTrigger)="handleDeleteMultipleItemTrigger($event)"
+        (gotoQuestion)="handleGotoQuestion($event)"
+        [currentIndexOfMultipleItemInProgress]="
+          currentIndexOfMultipleItemInProgress
+        "
+        (triggerSearchByAddress)="handleAddressAutocompleted($event)"
+      ></app-summary>
+    </section>
+  </main>
+  <!-- this part is for mobile layout -->
+  <main
+    *ngIf="loaded && isMobile"
+    class="mobile-screen"
+    [ngClass]="currentPageNumber == 0 ? 'page-start' : ''"
+  >
+    <app-summary
+      *ngIf="formData && summary && (currentPage || pageName === 'finish')"
+      class="summary"
+      [summary]="summary"
+      [client]="client"
+      [formData]="formData"
+      [isMobile]="isMobile"
+      [mainForm]="mainForm"
+      [page]="currentPage"
+      [subindex]="currentIndexOfMultipleItemInProgress"
+      [question]="question"
+      [isLastQuestion]="isLastQuestion()"
+      [currentForm]="currentForm"
+      (changePage)="handleChangePage($event)"
+      (changeQuestion)="handleChangeQuestion($event)"
+      (gotoQuestion)="handleGotoQuestion($event)"
+      (createNewFormQuestionTrigger)="
+        handleCreateNewFormQuestionTrigger($event)
+      "
+      (deleteMultipleItemTrigger)="handleDeleteMultipleItemTrigger($event)"
+      [currentIndexOfMultipleItemInProgress]="
+        currentIndexOfMultipleItemInProgress
+      "
+    >
+    </app-summary>
+    <section class="progress-bar-mobile">
+      <div class="progress-buttons">
+        <span
+          [ngClass]="isPrevIcon ? 'prevIcon-enable' : 'prevIcon'"
+          (click)="handleChangeQuestion('prev')"
+        >
+        </span>
+      </div>
+      <div class="progress-bar">
+        <p *ngIf="!questionHovered?.flag" class="question-number">
+          Question: {{ currentQuestionNumber + 1 }}/{{
+            currentPage?.questions?.length
+          }}
+        </p>
+        <p *ngIf="questionHovered?.flag" class="question-number">
+          {{
+            questionHovered?.questionToBeDisplayed
+              | valueInterpolate: mainForm:currentIndexOfMultipleItemInProgress
+          }}
+        </p>
+        <div class="progress-bar-items">
+          <span
+            (mouseover)="progressBarHover(i)"
+            (mouseout)="progressBarHoverOut()"
+            (click)="handleProgressItemClick(i, item?.id)"
+            *ngFor="let item of currentPage?.questions; let i = index"
+            class="bar"
+            [ngClass]="{
+              progress: ishighlightedProgressItem(i),
+              attended: isAttended(i, item?.id)
+            }"
+          ></span>
+        </div>
+      </div>
+      <div class="progress-buttons">
+        <span
+          [ngClass]="isNextIcon ? 'nextIcon-enable' : 'nextIcon'"
+          (click)="handleNextQuestionClick()"
+        ></span>
+      </div>
+    </section>
+  </main>
+</section>

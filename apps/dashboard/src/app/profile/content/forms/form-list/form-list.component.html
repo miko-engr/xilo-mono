@@ -1,0 +1,598 @@
+<div class="auto-complete-content-area" *ngIf="companyRetrieved && formsRetrieved">
+    <div class="page-container">
+        <div class="page" *ngIf="!isFormSettings">
+            <ul class="item-listing">
+                <li *ngFor="let form of forms; let i = index">
+                    <span *ngIf="!editingForm || !selectedForm || selectedForm.id !== form.id">
+                        {{form.title || form.type}}
+                        <i class="icon-cog" style="font-size: 10px" *ngIf="!editingForm" matTooltip="Settings" (click)="openFormSettings(form)"></i>
+                    </span>
+                    <span *ngIf="editingForm === true && selectedForm.id === form.id" style="display: flex">
+                        <input type="text" class="input-wrapper" [(ngModel)]="selectedForm.title" placeholder="Enter Name Here">
+                        <i *ngIf="editingForm" style="font-style: normal; font-weight: bold;margin-top: 5px;margin-left: 9px;" (click)="editingForm = false"> X</i>
+                    </span>
+                    <span class="action-container-side">
+                        <i class="icon-eye" matTooltip="View" [matMenuTriggerFor]="viewFormMenu"></i>
+                        <i class="icon-copy" matTooltip="Duplicate" [matMenuTriggerFor]="duplicateFormMenu"></i>
+                        <i class="icon-edit_pencile" matTooltip="Edit" (click)="openMassEditComponent(form); selectedForm = form"></i>
+                        <i class="icon-rubbish-bin" matTooltip="Delete" (click)="deleteForm(i)"></i>
+                        <mat-menu #viewFormMenu="matMenu">
+                            <a [href]="returnFormUrl(form, 'start')" mat-menu-item target="_blank" style="text-decoration: none;">View Form</a>
+                            <a (click)="copyLink(form, 'start')" mat-menu-item target="_blank" style="text-decoration: none;">Copy Link</a>
+                            <a (click)="copyScript(form)" mat-menu-item style="text-decoration: none;">Copy Script</a>
+                        </mat-menu>
+                        <mat-menu #duplicateFormMenu="matMenu">
+                            <a (click)="duplicateForm(form, false)" mat-menu-item style="text-decoration: none;">Duplicate</a>
+                            <a (click)="duplicateFormAsV2(form, false)" mat-menu-item style="text-decoration: none;">Duplicate As V2 (beta)</a>
+                            <a (click)="duplicateFormAsSimple(form, false)" mat-menu-item style="text-decoration: none;">Duplicate As Simple Form</a>
+                        </mat-menu>
+                    </span>
+                </li>
+                <li *ngIf="addingForm">
+                    <span>
+                        <input type="text" class="input-wrapper" placeholder="Enter Name Here" [(ngModel)]="newForm.title">
+                    </span>
+                    <span class="action-container-side">
+                        <i class="icon-resume" (click)="openFormsDialog()"></i>
+                        <i class="icon-rubbish-bin" (click)="resetEditing();"></i>
+                    </span>
+                </li>
+                <li class="box" style="justify-content: center" *ngIf="!addingForm">
+                    <mat-card class="condition-card add-card">
+                        <!-- <div class="condition-card-container" (click)="openTemlatesPickerDialog()">
+                            <mat-icon class="action-button-icon" matTooltip="Save">add</mat-icon> Form From Template
+                        </div> -->
+                        <div class="condition-card-container" (click)="addingForm = true; editingForm = false">
+                            <mat-icon class="action-button-icon" matTooltip="Save">add</mat-icon> New Form
+                        </div>
+                    </mat-card>
+                    <div class="create-form-btn" (click)="openTemlatesPickerDialog()"></div>
+                </li>
+                <li class="flex-cenetr" style="margin-top: 10px" *ngIf="addingForm">
+                    <button class="custom-save-btn" (click)="addForm()">Save</button>
+                </li>
+                <li class="flex-cenetr" style="margin-top: 10px" *ngIf="editingForm">
+                    <button class="custom-save-btn" (click)="updateForm()">Save</button>
+                </li>
+            </ul>
+        </div>
+        <div class="page" *ngIf="isFormSettings">
+            <div class="settings-container">
+                <h3 class="settings-title">Basic Form Settings</h3>
+                <div class="settings-input-container">
+                    <div class="settings-input-question">
+                        <i class="fa fa-comment-alt"></i>
+                        Form Name
+                    </div>
+                    <div class="settings-input-answer">
+                        <input class="settings-input-box" [(ngModel)]="selectedForm.title" type="text" placeholder="Enter Name Here">
+                    </div>
+                    <div class="settings-input-question">
+                        <i class="fa fa-comment-alt"></i>
+                        Is this form a simple form?
+                        <div class="settings-input-answer">
+                            <input [(ngModel)]="selectedForm.isSimpleForm" type="checkbox"> Yes
+                        </div>
+                    </div>
+                    <div class="settings-input-question">
+                        <i class="fa fa-comment-alt"></i>
+                        Do you want to show this form on the form selection page?
+                        <div class="settings-input-answer">
+                            <input [(ngModel)]="selectedForm.isEnabled" type="checkbox"> Yes
+                        </div>
+                    </div>
+                    <div class="settings-input-question">
+                        <i class="fa fa-comment-alt"></i>
+                        Should the user to return to the form selection page upon completion?
+                        <div class="settings-input-answer">
+                            <input [(ngModel)]="selectedForm.hasReturnToFormSelectionPage" type="checkbox"> Yes
+                        </div>
+                    </div>
+                    <div class="settings-input-question">
+                        <i class="fa fa-comment-alt"></i>
+                        Toggle between Logo and Banner
+                    </div>
+                    <div class="settings-input-question">
+                        <label>Logo</label>
+                        <mat-slide-toggle [(ngModel)]="selectedForm.showBanner" class="toggle-btn"></mat-slide-toggle>
+                        <label>Banner</label>
+                    </div>
+                    <div class="settings-input-question">
+                        <i class="fa fa-comment-alt"></i>
+                        Upload a banner
+                    </div>
+                    <div class="settings-input-answer">
+                        <div class="drag-drop-sec" style="text-align: left">
+                            <div class="branding-section-logo-container">
+                                <mat-card-title class="branding-title">Banner</mat-card-title>
+                                <img [src]="selectedForm.banner || '../../../assets/logo.png'" [alt]="company.name +' Banner'" class="branding-section-logo">
+                                <input type="file" class="logo-btn" name="photos" id="bannerLogo" accept="image/*" ngf style="display: none" [(files)]="bannerFile" />
+                                <ngfFormData [files]="bannerFile" [(FormData)]="myFormData" postName="photos"></ngfFormData>
+                            </div>
+                            <div class="btn-block">
+                                <label for="bannerLogo" class="upload-btn" *ngIf="!bannerFile && !selectedForm.banner">Add Banner</label>
+                                <button type="button" class="upload-btn" *ngIf="bannerFile" (click)="postImage(bannerFile, 'company', 'banner')" [disabled]="disableUploadLogo">
+                                    Save Banner
+                                </button>
+                                <label for="bannerLogo" class="upload-btn" *ngIf="!bannerFile && selectedForm.banner">Change Banner</label>
+                                <label class="upload-btn" (click)="removeImage('banner')">Remove Banner</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="!selectedForm.isSimpleForm && selectedForm.isEnabled">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            What icon should show on the form selection page?
+                        </div>
+                        <div class="settings-input-answer">
+                            <div class="drag-drop-sec" style="text-align: left;">
+                                <div class="image" style="margin-left: 0" *ngIf="selectedForm.icon !== null && selectedForm.icon" [innerHTML]="selectedForm.icon | safe: 'html'"></div>
+                                <label *ngIf="!selectedForm.icon">
+                                    <img src="../../../../../assets/upload-image.png" alt="Image" class="upload-img" (click)="openDialog()" />
+                                    <span class="drag-title" style="text-align: center" (click)="openDialog()">
+                                        Click Here
+                                    </span>
+                                        <span style="text-align: center">To Select Image</span>
+                                </label><br>
+                                <span class="upload-btn" (click)="openDialog()" *ngIf="selectedForm.icon !== null"> Change Image +</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="settings-title">Assignment Rules</h3>
+                <div>
+                    <div class="settings-input-container" *ngIf="!selectedForm.isSimpleForm">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Do you want to set a default assigned agent?
+                        </div>
+                        <div class="settings-input-answer">
+                            <input [(ngModel)]="selectedForm.hasDefaultAssignedAgent" type="checkbox"> Yes
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="selectedForm.hasDefaultAssignedAgent">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Do you want to send new lead emails to this agent only?
+                        </div>
+                        <div class="settings-input-answer">
+                            <input [(ngModel)]="selectedForm.emailDefaultAgentOnly" type="checkbox"> Yes
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="selectedForm.hasDefaultAssignedAgent">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Default Agent
+                        </div>
+                        <div class="settings-input-answer">
+                            <mat-form-field>
+                                <mat-select [(ngModel)]="selectedForm.agentFormId" (ngModelChange)="updateAgent($event)" name="agentSelection" id="agentSelection">
+                                    <mat-option *ngFor="let agent of company.agents" [value]="agent.id">{{agent.firstName + ' ' + agent.lastName}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="!selectedForm.hasDefaultAssignedAgent">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Do you want to round robin assign leads?
+                        </div>
+                        <div class="settings-input-answer">
+                            <input [(ngModel)]="selectedForm.hasRoundRobinAssignment" type="checkbox"> Yes
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="selectedForm.hasDefaultAssignedAgent">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Default Agent
+                        </div>
+                        <div class="settings-input-answer">
+                            <mat-form-field>
+                                <mat-select [(ngModel)]="selectedForm.agentFormId" (ngModelChange)="updateAgent($event)" name="agentSelection" id="agentSelection">
+                                    <mat-option *ngFor="let agent of company.agents" [value]="agent.id">{{agent.firstName + ' ' + agent.lastName}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="selectedForm.hasRoundRobinAssignment">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Round Robin Agents
+                        </div>
+                        <div class="settings-input-answer">
+                            <mat-chip-list #chipList aria-label="Agents">
+                                <mat-chip
+                                    *ngFor="let agent of selectedForm.roundRobinAgents"
+                                    [removable]="true"
+                                    (removed)="removeAgent(agent)">
+                                    {{returnAgent(agent)}}
+                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                </mat-chip>
+                            </mat-chip-list>
+                                <mat-form-field>
+                                <mat-select [(ngModel)]="selectedAgent" (ngModelChange)="addAgent($event)" name="roundRobinSelection" id="roundRobinSelection">
+                                    <mat-option *ngFor="let agent of company.agents" [value]="agent.id">{{agent.firstName + ' ' + agent.lastName}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="settings-title">Notification Settings</h3>
+                <div>
+                    <div class="settings-input-container" *ngIf="selectedForm.isSimpleForm">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Send agents email when form is submitted?
+                        </div>
+                        <div class="settings-input-answer">
+                            <input [(ngModel)]="selectedForm.sendFinishedFormEmail" type="checkbox"> Yes
+                        </div>
+                    </div>
+                    <div class="settings-input-container">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Attach PDF of submission to new lead and assigned lead emails?
+                        </div>
+                        <div class="settings-input-answer">
+                            <input [(ngModel)]="selectedForm.hasNotificationPDFAttachment" type="checkbox"> Yes
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="!selectedForm.isSimpleForm">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Send agents email when insured is complete with form?
+                        </div>
+                        <div class="settings-input-answer">
+                            <input [(ngModel)]="selectedForm.isFireOnComplete" type="checkbox"> Yes
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="!selectedForm.isSimpleForm">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Send insured email on submission?
+                        </div>
+                        <div class="settings-input-answer">
+                            <input [(ngModel)]="selectedForm.sendFinishedFormEmail" type="checkbox"> Yes
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="selectedForm.sendFinishedFormEmail">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            What do you want the email to say?
+                        </div>
+                        <div class="settings-input-answer">
+                            <textarea class="settings-input-box" placeholder="Enter Text Here" [(ngModel)]="selectedForm.finishedFormEmailText"></textarea>
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="selectedForm.sendFinishedFormEmail">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Do you want to have styling in your automatic emails?
+                        </div>
+                        <div class="settings-input-answer">
+                            <input [(ngModel)]="selectedForm.styleEmail" type="checkbox"> Yes
+                        </div>
+                    </div>
+                </div>
+                <h3 class="settings-title">Branding Settings</h3>
+                <div>
+                    <div class="settings-input-container">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Add a different logo on the form (defaults to agencies)
+                        </div>
+                        <div class="settings-input-answer">
+                            <div class="drag-drop-sec" style="text-align: left">
+                                <div class="branding-section-logo-container">
+                                    <mat-card-title class="branding-title">Logo</mat-card-title>
+                                    <img [src]="selectedForm.logo || '../../../assets/logo.png'" [alt]="company.name +' Logo'" class="branding-section-logo">
+                                    <input
+                                    type="file"
+                                    multiple
+                                    class="logo-btn"
+                                    name="photos"
+                                    id="logo"
+                                    accept="image/*"
+                                    ngf
+                                    style="display: none"
+                                    [(files)]="userFiles"
+                                    />
+                                    <ngfFormData
+                                    [files]      = "userFiles"
+                                    [(FormData)] = "myFormData"
+                                    postName     = "photos"
+                                    ></ngfFormData>
+                                </div>
+                                <div class="btn-block">
+                                    <label for="logo" class="upload-btn" *ngIf="!userFiles && (selectedForm.logo === null)">
+                                        Add Logo
+                                    </label>
+                                    <button type="button" class="upload-btn" *ngIf="userFiles" (click)="postImage(userFiles, 'company', 'logo')" [disabled]="disableUploadLogo">
+                                        Save Logo
+                                    </button>
+                                    <label for="logo" class="upload-btn" *ngIf="!userFiles && (selectedForm.logo !== null)">
+                                        Change Logo
+                                    </label>
+                                    <label class="upload-btn" (click)="removeImage('logo')">
+                                        Remove Logo
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="settings-input-question">
+                                <i class="fa fa-comment-alt"></i>
+                                Contact Phone Number
+                            </div>
+                            <div class="settings-input-answer">
+                                <input class="settings-input-box" [(ngModel)]="selectedForm.companyPhone" type="text" placeholder="Enter Contact Number">
+                            </div>
+                            <div class="settings-input-question">
+                                <i class="fa fa-comment-alt"></i>
+                                Show Address
+                            </div>
+                            <div class="settings-input-answer">
+                                <input class="settings-input-box" [(ngModel)]="selectedForm.companyAddress" type="text" placeholder="Enter Address">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="settings-title">Integration Settings</h3>
+                <div>
+                    <div class="settings-input-container" *ngIf="company.hasAMS360Integration">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            AMS360 Customer Type
+                        </div>
+                        <div class="settings-input-answer">
+                            <mat-form-field>
+                                <mat-select [(ngModel)]="selectedForm.customerType" name="customerType" id="customerType">
+                                    <mat-option value="S">Suspect</mat-option>
+                                    <mat-option value="P">Prospect</mat-option>
+                                    <mat-option value="C">Customer</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div *ngIf="pdfs && pdfs.length > 0">
+                        <div class="settings-input-container">
+                            <div class="settings-input-question">
+                                PDF associated with form
+                            </div>
+                            <div class="settings-input-answer">
+                                <mat-form-field>
+                                    <mat-select [(ngModel)]="selectedForm.pdfId" name="pdfId" id="pdfId">
+                                        <mat-option [value]="null">-- Add pdf --</mat-option>
+                                        <mat-option [value]="pdf.id" *ngFor="let pdf of pdfs">{{pdf.formName}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="settings-input-container">
+                            <div class="settings-input-question">
+                                <i class="fa fa-comment-alt"></i>
+                                Do you want to be able to download the acord at end of form?
+                            </div>
+                            <div class="settings-input-answer">
+                                <input [(ngModel)]="selectedForm.hasDownloadPdf" type="checkbox"> Yes
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="infusionsoftTags && infusionsoftTags.length > 0">
+                        <div class="settings-input-question">
+                            Add Infusionsoft Tag
+                        </div>
+                        <div class="settings-input-answer">
+                            <mat-form-field>
+                                <mat-select [(ngModel)]="selectedForm.infusionsoftTagId" name="infusionsoftTag" id="infusionsoftTag">
+                                    <mat-option [value]="null">-- Add Tag --</mat-option>
+                                    <mat-option [value]="infusionsoftTag.id" *ngFor="let infusionsoftTag of infusionsoftTags">{{infusionsoftTag.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="hasIntegration('EZLYNX')">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Set Default EZlynx Mappings
+                        </div>
+                        <div class="settings-input-answer">
+                            <button class="settings-secondary-btn" (click)="setDefaults('EZLYNX', 'auto')">Set Auto Defaults</button>
+                            <button class="settings-secondary-btn" (click)="setDefaults('EZLYNX', 'home')">Set Home Defaults</button>
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="hasIntegration('PLRATER')">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Set Default PL Rater Mappings
+                        </div>
+                        <div class="settings-input-answer">
+                            <button class="settings-secondary-btn" (click)="setDefaults('PLRATER', 'auto')">Set Auto Defaults</button>
+                            <button class="settings-secondary-btn" (click)="setDefaults('PLRATER', 'home')">Set Home Defaults</button>
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="hasIntegration('HAWKSOFT')">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Set Default Hawksoft Mappings
+                        </div>
+                        <div class="settings-input-answer">
+                            <button class="settings-secondary-btn" (click)="setDefaults('HAWKSOFT', 'auto')">Set Auto Defaults</button>
+                            <button class="settings-secondary-btn" (click)="setDefaults('HAWKSOFT', 'home')">Set Home Defaults</button>
+                        </div>
+                    </div>
+                    <div class="settings-input-container">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i> 
+                            Remove All Mappings
+                        </div>
+                        <div class="settings-input-answer">
+                            <button class="settings-secondary-btn" (click)="removeIntegrations()">Remove</button>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="settings-title">Advanced Form Settings</h3>
+                <div>
+                    <div class="settings-input-container" *ngIf="!selectedForm.isSimpleForm">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Do you want to show discounts?
+                        </div>
+                        <div class="settings-input-answer">
+                            <input [(ngModel)]="selectedForm.discountsIsEnabled" type="checkbox"> Yes
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="!selectedForm.isSimpleForm">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Do you want to show quotes?
+                        </div>
+                        <div class="settings-input-answer">
+                            <input [(ngModel)]="selectedForm.resultsIsEnabled" type="checkbox"> Yes
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="!selectedForm.isSimpleForm">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Do you want to exclude certain states from filling out the form?
+                        </div>
+                        <div class="settings-input-answer">
+                            <input [(ngModel)]="selectedForm.hasFilterByState" type="checkbox"> Yes
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="selectedForm.hasFilterByState">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            What states is this form for?
+                        </div>
+                        <div class="settings-input-answer" style="width: 350px;">
+                            <mat-button-toggle-group name="states" style="flex-wrap: wrap; border: none" [value]="selectedForm.states" (change)="updateFormStates($event)" multiple="true" aria-label="States">
+                                <mat-button-toggle *ngFor="let state of states" [value]="state" style="width: 50px">{{state}}</mat-button-toggle>
+                            </mat-button-toggle-group>
+                            <button (click)="clearStates()">Remove All States</button>
+                            <button (click)="addAllStates()">Add All States</button>
+                        </div>
+                    </div>
+                    <div class="settings-input-container">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Do you want to add tags to the form?
+                        </div>
+                        <div class="settings-input-answer">
+                            <input [(ngModel)]="selectedForm.hasFormTags" type="checkbox"> Yes
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="selectedForm.hasFormTags">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Tags
+                        </div>
+                        <div class="settings-input-answer">
+                            <mat-chip-list #chipList aria-label="Tags">
+                                <mat-chip
+                                    *ngFor="let tag of selectedForm.tags"
+                                    [removable]="true"
+                                    (removed)="remove(tag)">
+                                    {{tag}}
+                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                </mat-chip>
+                                </mat-chip-list>
+                                <mat-form-field>
+                                <mat-select [(ngModel)]="selectedTag" (ngModelChange)="addTag($event)" name="tagSelection" id="tagSelection">
+                                    <mat-option *ngFor="let tag of company.tags" [value]="tag">{{tag}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="settings-input-container">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Add custom script code below
+                        </div>
+                        <div class="settings-input-answer">
+                            <textarea class="settings-input-box" placeholder="Enter code here" [(ngModel)]="selectedForm.customHtml"></textarea>
+                        </div>
+                    </div>
+                    <div class="settings-input-container" *ngIf="!selectedForm.isSimpleForm && selectedForm.isEnabled">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            If this form is used as a link, input link below
+                        </div>
+                        <div class="settings-input-answer">
+                            <input class="settings-input-box" [(ngModel)]="selectedForm.externalLink" type="text" placeholder="Form Link">
+                        </div>
+                    </div>  
+                </div>
+                <h3 class="settings-title">Thank you Page Settings</h3>
+                <div>
+                    <div class="settings-input-container">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Add a different logo on the thank you page (defaults to agencies)
+                        </div>
+                        <div class="settings-input-answer">
+                            <div class="drag-drop-sec" style="text-align: left">
+                                <div class="branding-section-logo-container">
+                                    <mat-card-title class="branding-title">Logo</mat-card-title>
+                                    <img [src]="selectedForm.thankyouPageLogo || '../../../assets/logo.png'" [alt]="company.name +' Logo'" class="branding-section-logo">
+                                    <input
+                                    type="file"
+                                    multiple
+                                    class="logo-btn"
+                                    name="photos"
+                                    id="thankyouPageLogo"
+                                    accept="image/*"
+                                    ngf
+                                    style="display: none"
+                                    [(files)]="thankyouPageFile"
+                                    />
+                                    <ngfFormData
+                                    [files]      = "thankyouPageFile"
+                                    [(FormData)] = "myFormData"
+                                    postName     = "photos"
+                                    ></ngfFormData>
+                                </div>
+                                <div class="btn-block">
+                                    <label for="thankyouPageLogo" class="upload-btn" *ngIf="!thankyouPageFile && (selectedForm.thankyouPageLogo === null)">
+                                        Add Logo
+                                    </label>
+                                    <button type="button" class="upload-btn" *ngIf="thankyouPageFile" (click)="postImage(thankyouPageFile, 'company', 'thankyouPageLogo')" [disabled]="disableUploadLogo">
+                                        Save Logo
+                                    </button>
+                                    <label for="thankyouPageLogo" class="upload-btn" *ngIf="!thankyouPageFile && (selectedForm.thankyouPageLogo !== null)">
+                                        Change Logo
+                                    </label>
+                                    <label class="upload-btn" (click)="removeImage('thankyouPageLogo')">
+                                        Remove Logo
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-input-container">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Add Custom text for thank you page text 
+                        </div>
+                        <div class="settings-input-answer">
+                                <textarea class="settings-input-box" [(ngModel)]="selectedForm.thankYouPageText" type="text" placeholder="Enter Thank you page text"></textarea>
+                        </div>
+                    </div>
+                    <div class="settings-input-container">
+                        <div class="settings-input-question">
+                            <i class="fa fa-comment-alt"></i>
+                            Thank you page button text
+                        </div>
+                        <div class="settings-input-answer">
+                                <input class="settings-input-box" style="font-weight: 400" [(ngModel)]="selectedForm.thankYouPageButtonText" type="text" placeholder="Enter Thank you page button text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-save-button-container">
+                <button class="settings-save" (click)="updateForm()">Save</button>
+                <button class="settings-save" style="color: #000; background: #fff" (click)="resetEditing()">Back</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

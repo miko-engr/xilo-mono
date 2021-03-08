@@ -1,0 +1,73 @@
+<div class="container">
+    <mat-card class="settings-card">
+        <ag-grid-angular
+        #validationGrid
+        *ngIf="view === 'table'"
+        style="width: 50rem; height: 15rem;"
+        class="ag-theme-material"
+        [rowData]="validations"
+        [columnDefs]="columnDefs"
+        [frameworkComponents]="frameworkComponents"
+        (gridReady)="onGridReady($event)"
+        >
+        </ag-grid-angular>
+        <form class="validation-form" *ngIf="view !== 'table'">
+            <div class="section-title">
+                <h3>Error Details</h3>
+            </div>
+            <p>Vendor: {{validation.vendorName}} {{validation.vendorId}}</p>
+            <p>Error Type: {{validation.errorType}}</p>
+            <p>LOB: {{validation.lob}}</p>
+            <p>Error: {{validation.error}}</p>
+            <p *ngIf="validation?.fieldDataIn">Form Response: {{validation.fieldDataIn}}</p>
+            <p>Date: {{returnDate(validation.createdAt) | date: 'short'}}</p>
+            <br>
+            <br>
+            <div class="section-title" style="color: #111; background: rgba(204,204,204, .5)" *ngIf="validation?.errorType === 'data'">
+                <h3>Fix Error</h3>
+            </div>
+            <div class="validation-card-list" *ngIf="validation?.errorType === 'data'">
+                <div class="input-group" *ngFor="let field of formFields">
+                    <span class="input-label">{{field.label}}</span>
+                    <input [name]="field.id" #input="ngModel" (blur)="setObject(field, $event)" placeholder="Enter new value" class="validation-input" [id]="field.id" [ngModel]="returnObject(field)[field.key]" type="text" [disabled]="loading">
+                </div>
+                <br>
+                <ul *ngIf="showCards(validation)">
+                    <li>
+                        <a href="https://app.getguru.com/card/c9aAbyRi/How-to-fix-coapplicant-mapping-issues-on-EZLynx" target="_blank" style="text-decoration: underline;">Fix your {{validation.vendorName}} credentials</a>
+                    </li>
+                </ul>
+                <br>
+                <div>
+                    <button class="save-btn" (click)="saveObj()">Save</button>
+                    <button class="save-btn" style="margin-left: 1rem; background: red" (click)="deleteObj()">Delete</button>
+                </div>
+                <br>
+            </div>
+            <div *ngIf="validation?.errorType === 'credentials'" class="validation-card-list">
+                <ul>
+                    <li>
+                        <a href="https://app.getguru.com/card/cqaABG9i/How-to-update-and-agents-EZLynx-username-in-XILO" target="_blank" style="text-decoration: underline;">Fix your {{validation.vendorName}} credentials</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="section-title" *ngIf="validation?.dataIn" style="margin-bottom: 2rem;color: #111; background: rgba(204,204,204, .5)">
+                <h3>Data In</h3>
+            </div>
+            <div class="validation-card-list" *ngIf="validation?.dataIn && !validation?.vendorId">
+                <ul [innerHTML]="validation.dataIn | safe: 'html'"></ul>
+                <br>
+            </div>
+            <div class="validation-card-list" *ngIf="validation?.dataIn && validation.vendorId">
+                <pre>
+                    {{ validation.dataIn | json }}
+                </pre>
+            </div>
+            <a (click)="returnToTable()" style="cursor: pointer;text-decoration: underline;">&#8592; Back to table</a>
+        </form>
+    </mat-card>
+    <div class="settings-save-button-container">
+        <button class="settings-btn secondary" (click)="dialogRef.close()">Exit</button>
+    </div>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

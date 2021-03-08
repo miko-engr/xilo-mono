@@ -1,0 +1,46 @@
+<mat-dialog-content>
+    <div class="image-container" *ngIf="imagesRetrieved === true && images.length > 0">
+        <div class="image active" (click)="removeImage()" [innerHTML]="returnIcon() | safe: 'html'">
+        </div>
+        <div class="image upload-image" [ngClass]="{'disable': fileUploaded || fileUploadError}">
+            <label class="label-container" for="file" >
+              <!-- <span class="input-text" *ngIf="uploadPercent && !filesToUpload">
+                Upload Progress: {{ uploadPercent }}%
+              </span> -->
+              <span class="input-text" *ngIf="fileUploadError">
+                Try again
+              </span>
+              <span class="input-text" *ngIf="fileUploaded">
+                Done!
+              </span>
+              <span class="input-text" *ngIf="!fileUploaded && !filesToUpload">
+                Upload<br><mat-icon>backup</mat-icon>
+              </span>
+              <span class="input-text" *ngIf="filesToUpload">
+                Loading<br>...
+              </span>
+            </label>
+            <input
+              [disabled]="fileUploaded || fileUploadError"
+              type="file"
+              class="input-file"
+              name="photos"
+              id = "file"
+              (change)="handleUploadDocument()"
+              ngf
+              [(files)]="filesToUpload" 
+            />
+            <ngfFormData
+              [files]      = "filesToUpload"
+              [(FormData)] = "uploadFormData"
+              postName     = "photos"
+            ></ngfFormData>
+            <ngfUploadStatus
+              [(percent)] = "uploadPercent"
+              [httpEvent] = "httpEvent"
+            ></ngfUploadStatus> 
+        </div>
+        <div class="image" (click)="storeImage(i)" [innerHTML]="image | safe: 'html'" *ngFor="let image of images;index as i">
+        </div>
+    </div>
+</mat-dialog-content>

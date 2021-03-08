@@ -1,0 +1,18 @@
+<div class="content-area">
+   <div class="tabs-container" [routerLinkActive]="'active-link'">
+      <div class="tab tab-item" id="form-tab" routerLink="/profile/forms/list" [routerLinkActive]="['']" #rla2="routerLinkActive"><h5 [ngStyle]="rla2.isActive?styleTabs(true):''" class="tab-text">Forms</h5></div>
+      <!-- <div class="tab tab-item" id="discount-tab" routerLink="/profile/forms/discounts" [routerLinkActive]="['']" #rla3="routerLinkActive"><h5 [ngStyle]="rla3.isActive?styleTabs(true):''" class="tab-text">Discounts</h5></div> -->
+      <!-- <div class="tab tab-item" id="rater-tab" routerLink="/profile/forms/rater" [routerLinkActive]="['']" #rla4="routerLinkActive"><h5 [ngStyle]="rla4.isActive?styleTabs(true):''" class="tab-text">Rater</h5></div> -->
+      <div class="tab tab-item" id="pdf-tab" routerLink="/profile/forms/pdfs" [routerLinkActive]="['']" #rla5="routerLinkActive"><h5 [ngStyle]="rla5.isActive?styleTabs(true):''" class="tab-text">PDFs</h5></div>
+      <div class="clearfix"></div>
+   </div>
+   <!-- <hr class="line"> -->
+   <div class="main">
+      <div>
+         <router-outlet></router-outlet>
+      </div>
+   </div>
+   
+   <!-- New section -->
+</div>
+

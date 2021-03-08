@@ -1,0 +1,24 @@
+label {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #696863;
+}
+
+input {
+    background: #FFFFFF !important;
+    border: 1px solid #D6D6D6 !important;
+    box-sizing: border-box !important;
+    border-radius: 4px !important;
+    height: 40px !important;
+}
+
+.custom-form-responsive {
+    margin: 25px 0 !important;
+}
+
+:focus {
+    outline: none;
+}

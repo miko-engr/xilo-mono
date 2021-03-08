@@ -1,0 +1,255 @@
+@import url('../../../form-editor.scss');
+
+
+.close-icon {
+  height: 24px;
+  width: 24px;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+.cdk-drag-preview {
+  background: rgba(250, 250, 250, 0.4);
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-flow: row nowrap;
+  input {
+    margin-left: 5px;
+    border: none;
+    height: 34px;
+    background: transparent;
+  }
+  .main-option-display {
+    border: none;
+    background: transparent;
+  }
+
+  .main-option-value {
+    display: none;
+  }
+
+  .main-option {
+    display: none;
+  }
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.drag-section-placeholder {
+  background: #ccc;
+  border: dotted 3px #999;
+  min-height: 40px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.question-setting {
+  width: 400px;
+  padding: 32px;
+  background-color: white;
+  height: 100%;
+  overflow-y: scroll;
+
+  .title-row {
+    margin-bottom: 41px;
+    display: flex;
+    align-items: center;
+    h3 {
+      flex: .85;
+    }
+    button {
+      border: none;
+      outline: none;
+      width: 8px;
+      height: 8px;
+      display: flex;
+      flex: .1;
+      align-items: center;
+      justify-content: flex-end;
+      ngx-icon svg {
+        fill: black;
+      }
+    }
+  }
+
+  .fields {
+
+    .fieldGroup {
+      padding: 0;
+
+      .title {
+        margin-bottom: 14px;
+      }
+      .field {
+        margin-bottom: 21px;
+        display: flex;
+        flex-direction: column;
+
+        .checkbox-row {
+          display: flex;
+          align-items: center;
+          span {
+            margin-left: 8px;
+          }
+          input {
+            background-color: #23D6C8;
+          }
+        }
+        .input-field  {
+
+          .select-btn {
+            background: #fff;
+            border: 1px solid #111;
+            border-radius: 4px;
+            margin: 8px;
+            float: right;
+          }
+
+          label {
+            margin-left: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 17px;
+            color: #636363;
+          }
+      
+          input, select {
+            background: #FFFFFF;
+            border: 1px solid #DADADA;
+            box-sizing: border-box;
+            border-radius: 4px;
+            width: 100%;
+            height: 40px;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 15px;
+            padding: 12px 8px;
+          }
+
+          .select-options-container {
+            display: flex;
+            flex-flow: column;
+            margin-bottom: 24px;
+            .select-option {
+              background: #FFFFFF;
+              border: 1px solid #DADADA;
+              box-sizing: border-box;
+              border-radius: 4px;
+              width: 100%;
+              height: 40px;
+              font-weight: 500;
+              font-size: 12px;
+              line-height: 15px;
+              padding: 9px 8px;
+              display: flex;
+              flex-flow: row nowrap;
+              align-items: center;
+
+              #multiple-options {
+                border: none;
+                border-top: 1px solid #111;
+              }
+
+              .drag {
+                cursor: pointer;
+              }
+            }
+
+            .textarea {
+              height: auto;
+              display: flex;
+              flex-flow: column;
+              align-items: flex-start;
+              justify-content: space-between;
+            }
+
+            .actions {
+              cursor: pointer;
+              align-self: normal;
+              height: 14px;
+              width: 14px;
+
+              svg {
+                height: 14px;
+                width: 14px;
+              }
+            }
+            .main-option {
+              height: 36px;
+              .main-option-display {
+                width: 93%;
+              }
+
+              input {
+                margin-left: 5px;
+                border: none;
+                height: 34px;              
+              }
+            }
+
+            .top-option {
+              display: flex;
+              flex-flow: row nowrap;
+              justify-content: space-between;
+              cursor: pointer;
+
+              span {
+                font-weight: 500;
+                font-size: 12px;
+
+                img {
+                  transform: rotate(0);
+                }
+
+                .up-arrow {
+                  transform: rotate(180deg);
+                }
+              }
+            }
+            .select-menu-checkbox-row {
+             display: flex;
+             align-items: center;
+             padding: .5rem 0;
+
+              input {
+                height: auto !important;
+                width: auto !important;
+                margin: 0 .5rem 0 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+  .field-content-row {
+    margin-top: 29px;
+    h3 {
+      margin-bottom: 14px;
+    }
+  }
+
+  .integrations-row {
+    margin-top: 48px;
+    .ad-campaign-panel {
+      background: #FFFFFF;
+      border: 1px solid #DADADA;
+      box-sizing: border-box;
+      border-radius: 4px;
+      width: 100%;
+    }
+  }
+}

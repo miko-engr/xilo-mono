@@ -1,0 +1,44 @@
+<div class="messages-create-container">
+    <div class="messages-create-header">
+        <div class="messages-create-header-content">
+            <p class="messages-create-header-content-headerText">{{isEdit ? 'Update' : 'New'}} Note</p>
+        </div>
+    </div>
+    <div class="messages-create-body">
+        <div class="messages-create-body-top">
+            <div class="messages-create-body-top-line to">
+                <!-- <div class="autocomplete" *ngIf="!client && !isEdit">
+                    <div class="autocomplete-inputs">
+                        <input name="to" type="text" style="width: 100%" placeholder="Prospect" (ngModelChange)="filter($event)" [(ngModel)]="to" class="messages-input">
+                        <select name="dateFilter" [(ngModel)]="dateFilter" (ngModelChange)="getClients($event)" class="messages-select">
+                            <option value="30" selected>Past 30 Days</option>
+                            <option value="90">Past 90 Days</option>
+                            <option value="365">Past Year</option>
+                            <option value="allTime">All Time</option>
+                        </select>
+                    </div>
+                    <div class="autocomplete-menu" [ngStyle]="styleMenu()">
+                        <div class="row" *ngFor="let client of clients" (click)="assignClient(client)">{{returnName(client)}} ({{client.createdAt | date:'shortDate'}})</div>
+                    </div>
+                </div> -->
+                <span class="input-label" *ngIf="client">{{returnName(client)}} 
+                    <!-- <mat-icon class="messages-icon" *ngIf="!isEdit" (click)="removeClient()">close</mat-icon> -->
+                </span>
+            </div>
+        </div>
+        <div class="messages-create-body-bottom" *ngIf="!isEdit">
+            <textarea id="editor" #editor class="messages-create-footer-editor-textarea"
+            [(ngModel)]="body" name="editor"></textarea>
+        </div>
+        <div class="messages-create-body-bottom" *ngIf="isEdit">
+            <textarea id="editor" #editor class="messages-create-footer-editor-textarea"
+            [(ngModel)]="note.text" name="editor"></textarea>
+        </div>
+    </div>
+    <div class="messages-create-footer">
+        <div class="messages-create-footer-actions">
+            <button class="messages-create-footer-actions-send" (click)="isEdit ? updateNote() : createNote()">{{isEdit ? 'Save' : 'Create'}} Note</button>
+            <button class="messages-create-footer-actions-alt-send" (click)="closeDialog()">Exit</button>
+        </div>
+    </div>
+</div>

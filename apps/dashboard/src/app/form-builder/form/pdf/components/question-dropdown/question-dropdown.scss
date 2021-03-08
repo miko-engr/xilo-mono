@@ -1,0 +1,25 @@
+.question-dropdown {
+  display: flex;
+  flex-direction: row;
+  padding: 8.5px 16px;
+  height: 32px;
+  background: rgba(218, 218, 218, 0.2);
+  align-items: center;
+
+  border: 1px solid #D9D9FE;
+  box-sizing: border-box;
+  border-radius: 16px;
+  outline: none;
+
+  .chevron-bold-down {
+    width: 7.33px;
+    display: flex;
+  }
+
+  span {
+    font-size: 12px;
+    line-height: 15px;
+    margin-right: 14.33px;
+    color: #000000;
+  }
+}

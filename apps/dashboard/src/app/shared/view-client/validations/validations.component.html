@@ -1,0 +1,79 @@
+
+<div class="user-container"> 
+<form>
+   <div class="company-header">
+      <h3 class="main-header-title mat-card-title">Validation Info</h3>
+   </div>
+   <div class="main header" *ngIf="client?.id">
+      <div class="form-group">
+         <div class="group">
+            <div class="info-label-container">
+               <p class="info-label">Created Date</p>
+            </div>
+            <p class="info">{{client.createdAt | date: 'short'}}
+            </p>
+         </div>
+      </div>
+      <div class="form-group" *ngIf="client?.ezlynxValidationJson?.auto">
+         <div class="group">
+            <div class="info-label-container">
+               <p class="info-label">Auto Status</p>
+            </div>
+            <p class="info">{{client?.ezlynxValidationJson?.auto.status}}</p>
+         </div>
+         <br>
+         <div class="group">
+            <div class="info-label-container">
+               <p class="info-label">Auto Data</p>
+            </div>
+            <p class="info" *ngIf="client?.ezlynxValidationJson?.auto?.data">{{parseXml(client?.ezlynxValidationJson?.auto?.data)}}</p>
+         </div>
+         <div class="group">
+            <div class="info-label-container">
+               <p class="info-label">EZ XML</p>
+            </div>
+            <p class="info" *ngIf="client?.ezlynxValidationJson?.auto?.xml">{{parseXml(client?.ezlynxValidationJson?.auto?.xml)}}</p>
+         </div>
+         <br>
+         <div class="group">
+            <div class="info-label-container">
+               <p class="info-label">Auto Error</p>
+            </div>
+            <p class="info">{{client?.ezlynxValidationJson?.auto?.error}}</p>
+         </div>
+         <br>
+      </div>
+      <div class="form-group" *ngIf="client?.ezlynxValidationJson?.home">
+         <div class="group">
+            <div class="info-label-container">
+               <p class="info-label">Home Status</p>
+            </div>
+            <p class="info">{{client?.ezlynxValidationJson?.home.status}}</p>
+         </div>
+         <br>
+         <div class="group">
+            <div class="info-label-container">
+               <p class="info-label">Home Data</p>
+            </div>
+            <p class="info" *ngIf="client?.ezlynxValidationJson?.home?.data">{{parseXml(client?.ezlynxValidationJson?.home?.data)}}</p>
+         </div>
+         <div class="group">
+            <div class="info-label-container">
+               <p class="info-label">EZ XML</p>
+            </div>
+            <p class="info" *ngIf="client?.ezlynxValidationJson?.home?.xml">{{parseXml(client?.ezlynxValidationJson?.home?.xml)}}</p>
+         </div>
+         <br>
+         <div class="group">
+            <div class="info-label-container">
+               <p class="info-label">Home Error</p>
+            </div>
+            <p class="info">{{client?.ezlynxValidationJson?.home?.error}}</p>
+         </div>
+         <br>
+      </div>
+   </div>
+</form>
+</div>
+
+<ngx-loading [show]="!client?.id" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

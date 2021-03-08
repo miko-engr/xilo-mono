@@ -1,0 +1,373 @@
+
+<!-- <div class="content-area"> -->
+    <!-- <div class="tabs-container">
+       <div class="tab create-button" (click)="openTaskDialog()">
+          <p>+ Task</p>
+       </div>
+    </div>
+    <hr class="line"> -->
+<!-- </div> -->
+<div class="clients-container">
+    <div class="table-responsive">
+        <div class="table-analytics">
+            <div class="table-analytics-container">
+                <div class="table-analytics-box">
+                    <h4 class="table-analytics-header">{{thisMonthsDataPoint?.count || '0'}}</h4>
+                    <p class="table-analytics-sub-header">Total <br> Last 30 Days</p>
+                </div>
+                <div class="table-analytics-box">
+                    <h4 class="table-analytics-header">{{todaysDataPoint?.count || '0'}}</h4>
+                    <p class="table-analytics-sub-header">Prospects <br> Today</p>
+                </div>
+                <ng-container *ngIf="lifecycleDataPoints.length > 0">
+                    <div 
+                        class="table-analytics-box clickable-box" 
+                        (click)="getQueryParams({clientLifecycleId: dataPoint.id})" 
+                        [matTooltip]="'Click to filter by ' + dataPoint.title" 
+                        *ngFor="let dataPoint of lifecycleDataPoints"
+                    >
+                        <h4 class="table-analytics-header" [style.color]="dataPoint.color">{{ dataPoint.count || '0' }}</h4>
+                        <p class="table-analytics-sub-header">{{ dataPoint.title }}</p>
+                    </div>
+                </ng-container>
+                <div class="table-analytics-box clickable-box" style="padding-top: .75rem;" (click)="getQueryParams({reset: true})" matTooltip="Click to reset filters">
+                    <h4 class="table-analytics-header">Reset</h4>
+                    <p class="table-analytics-sub-header">Filters</p>
+                </div>
+            </div>
+        </div>
+        <table id="customers" class="client-table">
+            <tr>
+                <td *ngIf="(!selection || selection.length === 0) && !updatingFilters" style="text-align: center; width: 3%"></td>
+                <td style="text-align: center; width: 3%" *ngIf="(selection && selection.length > 0) || updatingFilters">
+                    <button class="task-selection-button" *ngIf="updatingFilters" (click)="getQueryParams({}); resetPage()">Search</button>
+                    <button class="task-selection-button" *ngIf="!updatingFilters" [matMenuTriggerFor]="selectionMenu">+ Action</button>
+                    <mat-menu #selectionMenu="matMenu">
+                        <button class="menu-button" mat-menu-item (click)="downloadFiles(client, 'CSV', null)">Export CSV</button>
+                        <button class="menu-button" mat-menu-item *ngIf="company.hasAgencySoftwareIntegration" (click)="downloadFiles(client, 'AGENCYSOFTWARE', null)">Agency Software</button>
+                        <button class="menu-button" mat-menu-item *ngIf="company.hasMyEvo" (click)="downloadFiles(client, 'MYEVO', null)">EVO</button>
+                        <button class="menu-button" mat-menu-item *ngIf="company.hasPartnerXE" (click)="downloadFiles(client, 'PARTNERXE', null)">Partner XE</button>
+                        <button class="menu-button" mat-menu-item (click)="deleteProspects()"><span class="icon-rubbish-bin"></span>Delete Selected</button>
+                    </mat-menu>
+                </td>
+                <td>
+                    <input type="text" class="task-filter-box clickable-table-box" [(ngModel)]="fullName" (ngModelChange)="filter('fullName', $event)" placeholder="Search Prospects"/>
+                </td>
+                <td>
+                    <input type="number" class="task-filter-box clickable-table-box" [(ngModel)]="phone" (ngModelChange)="filter('phone', $event)" placeholder="Search Phone #s"/>
+                </td>
+                <td>
+                    <select class="task-filter-box clickable-table-box" style="width: 100%" [(ngModel)]="filterCycleId" (ngModelChange)="getQueryParams({clientLifecycleId: filterCycleId})">
+                        <option [value]="null">Filter By Lifecycle</option>
+                        <option [value]="lifecycle.id" *ngFor="let lifecycle of clientLifecycles">{{truncatedText(lifecycle.name, 15)}}</option>
+                    </select>
+                </td>
+                <td>
+                    <div>
+                        <select class="task-filter-box clickable-table-box" [(ngModel)]="filterDateId" (ngModelChange)="filterDate($event)">
+                            <option [value]="null">Filter By Date</option>
+                            <option value="1">Today</option>
+                            <option value="7">Past 7 Days</option>
+                            <option value="30">Past 30 Days</option>
+                            <option value="90">Past 90 Days</option>
+                            <option value="365">Past 365 Days</option>
+                            <option value="allTime">All Time</option>
+                            <option value="dateRange">Date Range</option>
+                        </select>
+                    </div>
+                    <div *ngIf="filterDateId === 'dateRange'" class="date-rangepicker">
+                        <mat-date-range-input [rangePicker]="picker" class="task-filter-box">
+                            <input matStartDate [(ngModel)]="from" placeholder="From" (ngModelChange)="to=null;filterDate('dateRange')">
+                            <input matEndDate [(ngModel)]="to" placeholder="To" (ngModelChange)="filterDate('dateRange')">
+                          </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </div>
+                </td>
+                <td *ngIf="(user && user.id) || agent.canSeeAllClients || agent.canSeeAgentsOnly">
+                    <select class="task-filter-box clickable-table-box" [(ngModel)]="filterAgentId" (ngModelChange)="getQueryParams({clientAgentId: filterAgentId})">
+                        <option [value]="null">Filter By Agent</option>
+                        <option [value]="agent.id" *ngFor="let agent of company.agents">
+                            {{agent.firstName + ' ' + agent.lastName}}</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="task-filter-box clickable-table-box" style="text-align: center;" [(ngModel)]="filterFormId" (ngModelChange)="getQueryParams({formClientId: filterFormId})">
+                        <option [value]="null">Filter By Form</option>
+                        <option [value]="form.id" *ngFor="let form of allForms">{{truncatedText(form.title, 20)}}</option>
+                    </select>
+                </td>
+                <td *ngIf="company.hasTags">
+                    <select class="task-filter-box clickable-table-box" style="text-align: center;" [(ngModel)]="tagId" (ngModelChange)="getQueryParams({ tagId: $event })">
+                        <option [value]="null">Filter By Tag</option>
+                        <option [value]="tag" *ngFor="let tag of company.tags">{{tag}}</option>
+                    </select>
+                </td>
+                <td style="text-align: center;" *ngIf="company.showLeadSourceOnTable">
+                    Referred By
+                </td>
+            </tr>
+            <tr class="task-row" *ngFor="let client of clients | paginate: { itemsPerPage: 10, currentPage: p }; index as i">
+                <td style="width: 3%; text-align: center">
+                    <mat-checkbox
+                        (click)="$event.stopPropagation()"
+                        (change)="$event ? selectRow(client.id) : null"
+                        [checked]="isSelected(client.id)"
+                        [aria-label]="checkboxLabel(i)"
+                    ></mat-checkbox>
+                </td>
+                <td>
+                    <span class="small-text" [matTooltip]="returnName(client)">
+                        {{truncatedText(returnName(client), 15)}}
+                    </span>
+                    <a *ngIf="client.email" class="task-icon-link" [href]="'mailto:' + client.email" [matTooltip]="client.email"><span class="task-icon icon-message"></span></a>
+                    <!-- <a *ngIf="client.phone" class="task-icon-link" [href]="'tel:' + client.phone" [matTooltip]="client.phone"><span class="task-icon icon-phone"></span></a> -->
+                    <a *ngIf="hasZip(client)" class="task-icon-link" [matTooltip]="returnZip(client)"><span class="task-icon icon-location2"></span></a>
+                </td>
+                <td>
+                    <span class="small-text clickable-box">
+                        <a [href]="'tel:' + client.phone" style="text-decoration: none;color: #000;" matTooltip="Click to call this number">{{truncatedText(returnDigits(client.phone), 15)}}</a>
+                    </span>
+                </td>
+                <td style="min-width: 15rem;">
+                    <span class="task-type-column">
+                        <select id="lifecycle{{i}}" class="task-priority clickable-table-box" matTooltip="Click to change lifecycle"
+                                [ngStyle]="styleLifecycle(returnLifecycleData(client, i))"
+                                [(ngModel)]="client.clientLifecycleId" (ngModelChange)="updateClientLifecycle(client, i)">
+                            <option [value]="null">None</option>
+                            <option [value]="lifecycle.id" *ngFor="let lifecycle of clientLifecycles">{{lifecycle.name}}</option>
+                        </select>
+                        <span class="info-icon loading-spinner" *ngIf="integrationsAreLoading(client.id)">
+                            <img class="loading-spinner" src="assets/signup-flow/loader_icon.gif">
+                        </span>
+                        <mat-icon class="info-icon" [style.color]="client?.validationsPassed ? 'green' : 'rgba(204, 204, 204, .3)'" style="cursor: pointer;" *ngIf="!integrationsAreLoading(client.id) && (client?.validations && client?.validations.length > 0)"  matTooltip="Error Integrating" matTooltipPosition="right" (click)="openValidationsDialog(client, client.validations)">info</mat-icon>
+                        <mat-icon class="info-icon color-info-active" *ngIf="!integrationsAreLoading(client.id) && client?.finishedFormEmailFired && !(client?.validations && client?.validations.length > 0)" matTooltip="Completed Form" matTooltipPosition="right">check_circle</mat-icon>
+                        <mat-icon style="cursor: pointer; color: rgba(204, 204, 204, .3)" class="info-icon color-info" *ngIf="!integrationsAreLoading(client.id) && !client?.finishedFormEmailFired && (!client?.validations || client?.validations.length === 0)" matTooltip="Incomplete Form" matTooltipPosition="right">check_circle</mat-icon>
+                        <span class="task-type clickable-table-box" *ngIf="hasNote(client)" (click)="openNotes(client, true)"><span class="task-description" [matTooltip]="returnLastNote(client)">{{truncatedText(returnLastNote(client), 40)}}</span></span>
+                        <span class="task-type" *ngIf="!hasNote(client)" (click)="openNotes(client)"><span class="clickable-table-box" style="padding: 2px 4px;font-size: 12px;font-weight: 400;color: #a9a6b7;">Add Note</span></span>
+                    </span>
+                </td>
+                <td>
+                    <span class="task-due-date">
+                        {{returnDueDays(client.createdAt)}}
+                    </span>
+                </td>
+                <td class="relative-row">
+                    <select class="task-due-date clickable-table-box" id="agent-dropdown" style="max-width: 200px;"   *ngIf="(user && user.id) || agent.canSeeAllClients || agent.canSeeAgentsOnly" [(ngModel)]="client.clientAgentId"
+                        (ngModelChange)="updateClientAgent(client, i)">
+                        <option [value]="null" hidden>Choose Agent</option>
+                        <option [value]="agent.id" class="task-dropdown-option" *ngFor="let agent of company.agents">
+                            {{returnAgentName(agent)}}</option>
+                    </select>
+                </td>
+                <td style="text-align: center;"   [matTooltip]="returnForm(client)">
+                    {{truncatedText(returnForm(client), 20)}}
+                </td>
+                <td style="text-align: center;" *ngIf="company.hasTags">
+                    <span class="task-type clickable-table-box" [matMenuTriggerFor]="tagMenu"><span class="task-description" matTooltip="Add Tag">{{returnTags(client)}}</span></span>
+                </td>
+                <td style="text-align: center;" *ngIf="company.showLeadSourceOnTable">
+                    {{client?.referredBy || '-'}}
+                </td>
+                <td style="text-align: center;">
+                    <button class="task-completed-button" [matMenuTriggerFor]="actionMenu">+ Action</button>
+                    <button class="export-btn task-completed-button" [matMenuTriggerFor]="downloadMenu"><span class="icon-download" style="margin-right: 4px"></span>Export</button>
+
+                    <mat-menu #actionMenu="matMenu">
+                        <button class="menu-button" mat-menu-item (click)="getClientForEdit(client, i)"><span class="icon-eye"></span>View Prospect</button>
+                        <button class="menu-button" mat-menu-item *ngIf="client?.ezlynxUrl || client?.amsCustomerId" [matMenuTriggerFor]="viewOnSystemMenu">View In Other Vendor</button>
+                        <button class="menu-button" mat-menu-item [matMenuTriggerFor]="simpleFormMenu"><span class="icon-edit1"></span>Edit on Form</button>
+                        <button class="menu-button" mat-menu-item [matMenuTriggerFor]="formMenu"><span class="icon-edit1"></span>Copy Edit Link</button>
+                        <button *ngIf="company.hasSalesAutomation" [matMenuTriggerFor]="flowList" class="menu-button" mat-menu-item><span class="icon-smart-home"></span>Add To Flow</button>
+                        <button class="menu-button" mat-menu-item (click)="deleteClient(client, i)"><span class="icon-rubbish-bin"></span>Delete Prospect</button>
+                    </mat-menu>
+
+                    <mat-menu #simpleFormMenu="matMenu">
+                        <button class="menu-button" *ngFor="let form of simpleForms" mat-menu-item (click)="redirectUrl(returnUrl(form, client))">{{truncatedText(form.title, 20)}}</button>
+                    </mat-menu>
+
+                    <mat-menu #flowList="matMenu">
+                        <ng-container *ngFor="let oneFlow of flows">
+                            <button class="menu-button" mat-menu-item *ngIf="oneFlow.isEnabled"
+                                (click)="addToFlow(client, oneFlow)">{{truncatedText(oneFlow.title, 20)}}</button>
+                        </ng-container>
+                        </mat-menu>
+
+                    <mat-menu #formMenu="matMenu">
+                        <button class="menu-button" *ngFor="let form of forms" mat-menu-item (click)="copyUrl(form, client)">{{truncatedText(form.title, 20)}}</button>
+                    </mat-menu>
+
+                    <!-- <mat-menu #formMenu="matMenu">
+                        <button class="menu-button" *ngFor="let form of forms" mat-menu-item (click)="copyUrl(form, client)">{{truncatedText(form.title, 20)}}</button>
+                    </mat-menu> -->
+                    <mat-menu #viewOnSystemMenu="matMenu">
+                        <button *ngIf="client?.ezlynxUrl" class="menu-button" mat-menu-item (click)="redirectUrl(client.ezlynxUrl)">View on EZLynx</button>
+                        <button *ngIf="client?.amsCustomerId" class="menu-button" mat-menu-item (click)="redirectUrl(amsUrl(client.amsCustomerId))">View on AMS360</button>
+                    </mat-menu>
+                    <mat-menu #tagMenu="matMenu">
+                        <button class="menu-button" mat-menu-item *ngFor="let tag of company.tags; index as j" (click)="hasTag(client, tag) ? removeTag(client, tag) : addTag(client, tag)">
+                            <span>
+                                {{tag}}<mat-icon *ngIf="!hasTag(client, tag)">add</mat-icon><mat-icon *ngIf="hasTag(client, tag)">clear</mat-icon>
+                            </span>
+                        </button>
+                    </mat-menu>
+                    <mat-menu #downloadMenu="matMenu">
+                        <!-- <button class="menu-button" mat-menu-item [matMenuTriggerFor]="downloadAcordMenu">ACORD</button> -->
+                        <button class="menu-button" mat-menu-item [matMenuTriggerFor]="downloadAppliedEpicMenu"
+                            *ngIf="company.hasAppliedEpic">Applied Epic</button>
+                        <button class="menu-button" mat-menu-item (click)="saveFile(client, 'APPLIED')"
+                            *ngIf="company.hasApplied">Applied Rater</button>
+                        <button class="menu-button" mat-menu-item [matMenuTriggerFor]="downloadEZLynxMenu"
+                            *ngIf="company.hasEzlynxIntegration && !client.formViewIds"><span class="icon-flash"></span>EZLynx</button>
+                        <button class="menu-button" mat-menu-item (click)="handleIntegrate(client)"
+                            *ngIf="company.hasEzlynxIntegration && client.formViewIds"><span class="icon-flash"></span>EZLynx</button>
+                        <button class="menu-button" mat-menu-item *ngIf="company.hasInfusionsoftIntegration" (click)="saveFile(client, 'INFUSIONSOFT')"><span class="icon-flash"></span>Infusion Soft</button>
+                        <button class="menu-button" mat-menu-item [matMenuTriggerFor]="downloadPDF">PDF</button>
+                        <button class="menu-button" mat-menu-item (click)="saveFile(client, 'HAWKSOFT', 'auto')"
+                            *ngIf="company.hasHawksoftIntegration">Hawksoft</button>
+                        <button class="menu-button" mat-menu-item [matMenuTriggerFor]="downloadTurboraterMenu"
+                            *ngIf="company.hasTurboraterIntegration"><span class="icon-flash"></span>Turborater</button>
+                        <button class="menu-button" mat-menu-item *ngIf="company.hasQuoteRushIntegration" (click)="saveFile(client, 'QUOTERUSH')"><span class="icon-flash"></span>Quote Rush</button>
+                        <button class="menu-button" mat-menu-item [matMenuTriggerFor]="downloadCabrilloMenu"
+                            *ngIf="company.hasCabrilloIntegration"><span class="icon-flash"></span>Cabrillo</button>
+                        <button class="menu-button" mat-menu-item [matMenuTriggerFor]="downloadNowCertsMenu" *ngIf="company.hasNowCertsIntegration"><span class="icon-flash"></span>NowCerts</button>
+                        <button class="menu-button" mat-menu-item [matMenuTriggerFor]="downloadAppulateMenu" *ngIf="company.hasAppulateIntegration"><span class="icon-flash"></span>Appulate</button>
+                        <button class="menu-button" mat-menu-item [matMenuTriggerFor]="downloadAgencyMatrixMenu" *ngIf="company.hasAgencyMatrixIntegration">Agency Matrix</button>
+                        <button class="menu-button" mat-menu-item *ngIf="company.hasSalesforce" (click)="saveFile(client, 'SALESFORCE')"><span class="icon-flash"></span>Salesforce</button>
+                        <button class="menu-button" mat-menu-item *ngIf="company.hasAMS360Integration" [matMenuTriggerFor]="downloadAMS360Menu">AMS360 Policy</button>
+                        <button class="menu-button" mat-menu-item *ngIf="company.hasAMS360Integration" (click)="saveFile(client, 'AMS360')"><span class="icon-flash"></span>AMS360</button>
+                        <button class="menu-button" mat-menu-item (click)="saveFile(client, 'PIPEDRIVE', 'auto')"
+                            *ngIf="company.pipedriveIntegration"><span class="icon-flash"></span>Pipedrive</button>
+                        <button class="menu-button" mat-menu-item *ngIf="company.hasPLRater" [matMenuTriggerFor]="downloadPLRaterMenu">PL Rater</button>
+                        <button class="menu-button" mat-menu-item (click)="saveFile(client, 'QQ', 'auto')"
+                            *ngIf="company.hasQQIntegration"><span class="icon-flash"></span>QQ Catalyst</button>
+                        <button class="menu-button" mat-menu-item *ngIf="company.hasRicochet" (click)="saveFile(client, 'RICOCHET')"><span class="icon-flash"></span>Ricochet</button>
+                        <button class="menu-button" mat-menu-item (click)="saveFile(client, 'WEALTHBOX')"
+                            *ngIf="company.hasWealthboxIntegration"><span class="icon-flash"></span>Wealthbox</button>
+                        <button class="menu-button" mat-menu-item (click)="saveFile(client, 'ZAPIER')"
+                            *ngIf="company.hasZapier">
+                            <span class="icon-flash" [class.color-yellow]="client.zapStatus === 'Fired'"></span>Zapier</button>
+                        <button class="menu-button" mat-menu-item (click)="saveFile(client, 'XANATEK')"
+                            *ngIf="company.hasXanatekIntegration">Xanatek</button>
+
+                    </mat-menu>
+                    <mat-menu #downloadPDF="matMenu">
+                        <ng-template matMenuContent>
+                            <li style="list-style-type: none">
+                              <button class="menu-button" mat-menu-item
+                                      (click)=downloadGenericPdf(client)>PDF</button>
+                            </li>
+                            <mat-divider></mat-divider>
+                            <li *ngFor="let pdf of pdfs; let i = index" style="list-style-type: none">
+                                <button class="menu-button" mat-menu-item
+                                    (click)="
+                                        pdf.pdfFormKey ?
+                                        downloadV2Pdfs(pdf, client) :
+                                        downloadPdf(pdf,client.id) 
+                                    "
+                                    >{{pdf.formName}}</button>
+                            </li>
+                        </ng-template>
+                    </mat-menu>
+                    <mat-menu #downloadAppulateMenu="matMenu">
+                        <ng-template matMenuContent>
+                            <li *ngFor="let pdf of pdfs; let i = index" style="list-style-type: none">
+                                <button class="menu-button" mat-menu-item *ngIf="returnIsAcordPDF(pdf.formName)"
+                                    (click)=saveAppulateFile(pdf,client.id)>{{pdf.formName}}</button>
+                            </li>
+                        </ng-template>
+                    </mat-menu>
+                    <mat-menu #downloadEZLynxMenu="matMenu">
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'EZLYNX', 'Auto')">Auto</button>
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'EZLYNX', 'Home')">Home</button>
+                        <button class="menu-button" mat-menu-item [matMenuTriggerFor]="downloadSalesCenterMenu">Sales Center</button>
+                        <!-- <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'EZLYNX', 'Dwellingfire')">Dwelling Fire</button> -->
+                    </mat-menu>
+                    <mat-menu #downloadPLRaterMenu="matMenu">
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'PLRATER', 'Auto')">Auto Policy</button>
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'PLRATER', 'Home')">Home Policy</button>
+                    </mat-menu>
+                    <mat-menu #downloadSalesCenterMenu="matMenu">
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'COMMERCIAL_EZLYNX', 'commercial')">Commercial</button>
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'COMMERCIAL_EZLYNX', 'personal')">Personal</button>
+                    </mat-menu>
+                    <mat-menu #downloadAMS360Menu="matMenu">
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'AMS360FILE', 'drivers')">Drivers</button>
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'AMS360FILE', 'vehicles')">Vehicles</button>
+                    </mat-menu>
+                    <mat-menu #downloadAcordMenu="matMenu">
+                        <button class="menu-button" mat-menu-item [matMenuTriggerFor]="downloadAcordAL3Menu">AL3</button>
+                        <button class="menu-button" mat-menu-item [matMenuTriggerFor]="downloadAcordXMLMenu">XML</button>
+                    </mat-menu>
+                    <mat-menu #downloadAcordXMLMenu="matMenu">
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'ACORDXML', 'auto')">Auto</button>
+                    </mat-menu>
+                    <mat-menu #downloadAppliedEpicMenu="matMenu">
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'APPLIEDEPIC', 'auto')">Auto</button>
+                    </mat-menu>
+                    <mat-menu #downloadAcordXMLMenu="matMenu">
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'ACORDXML', 'auto')">Auto</button>
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'ACORDXML', 'home')">Home</button>
+                    </mat-menu>
+                    <mat-menu #downloadAcordAL3Menu="matMenu">
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'ACORDAL3', 'auto')">Auto</button>
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'ACORDAL3', 'home')">Home</button>
+                    </mat-menu>
+                    <mat-menu #downloadTurboraterMenu="matMenu">
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'TURBORATER', 'auto')">Auto</button>
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'TURBORATER', 'home')">Home</button>
+                    </mat-menu>
+                    <mat-menu #downloadAgencyMatrixMenu="matMenu">
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'AGENCYMATRIX', 'auto')">Auto</button>
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'AGENCYMATRIX', 'home')">Home</button>
+                    </mat-menu>
+                    <mat-menu #downloadCabrilloMenu="matMenu">
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'CABRILLO', 'home')">Home</button>
+                    </mat-menu>
+                    <mat-menu #downloadNowCertsMenu="matMenu">
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'NOWCERTS', 'auto')">Auto</button>
+                    </mat-menu>
+                    <mat-menu #downloadAgencyMatrixMenu="matMenu">
+                        <button class="menu-button" mat-menu-item
+                            (click)="saveFile(client, 'AGENCYMATRIX', 'auto')">Auto</button>
+                    </mat-menu>
+                </td>
+            </tr>
+            <tr style="width: 100%" *ngIf="clientsRetrieved && (!clients || clients.length === 0)">
+                <td colspan="9">
+                    <h3 style="width: 100%;font-weight: 500">No Prospects</h3>
+                </td>
+            </tr>
+            <tr style="width: 100%" *ngIf="!clientsRetrieved">
+                <td colspan="9">
+                    <h3 style="width: 100%;font-weight: 500">Retrieving Prospects ...</h3>
+                </td>
+            </tr>
+        </table>
+        <div class="pagination-div">
+            <pagination-controls (pageChange)="setParams('page', $event)"></pagination-controls>
+        </div>
+    </div>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

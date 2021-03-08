@@ -1,0 +1,38 @@
+<div class="team_signup_validation">
+    <h3 mat-dialog-title class="m-0 mb-1">Add new plan</h3>
+    <form [formGroup]="paymentDetails" (ngSubmit)="createPlan()">
+        <mat-form-field>
+            <mat-label>Plan Type</mat-label>
+            <mat-select name="planType" formControlName="interval" required>
+                <mat-option *ngFor="let onePlan of planType" [value]="onePlan.value">{{ onePlan.key }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="paymentDetails.get('interval').hasError('required')">
+                Plan type is required
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Plan Name</mat-label>
+            <input matInput type="text" name="productName" placeholder="Enter Plan Name"
+                formControlName="productName"
+                required pattern="(\s*[^\s]+\s*)+"/>
+                <mat-error *ngIf="paymentDetails.get('productName').hasError('required')">
+                    Plan name is required
+                </mat-error>
+                <mat-error *ngIf="paymentDetails.get('productName').hasError('pattern')">
+                    Please enter proper value
+                </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Subscription Price</mat-label>
+            <input matInput type="number" name="amount" formControlName="amount"
+                placeholder="Enter Subscription price" required />
+                <mat-error *ngIf="paymentDetails.get('amount').hasError('required')">
+                    Subscription Price is required
+                </mat-error>
+        </mat-form-field>
+        <mat-dialog-actions align="end">
+            <button mat-raised-button type="button" matDialogClose="no" class="secondary-btn mb-3">Cancel</button>
+            <button type="submit" class="primary-btn mb-3">Submit</button>
+        </mat-dialog-actions>
+    </form>
+</div>

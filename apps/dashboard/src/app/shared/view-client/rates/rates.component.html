@@ -1,0 +1,57 @@
+<div class="auto-section main" *ngIf="loading">
+  <h4>Loading ... </h4>
+</div>
+
+<form class="auto-section main flow-listing-container" *ngIf="!loading">
+  <div class="client-section auto-container">
+    <div class="company-header">
+      <h3 class="main-header-title"></h3>
+    </div>
+    <div class="table-container" *ngIf="ratesRetrieved">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Vendor Name</th>
+            <th>Product Type</th>
+            <th>Down Payment</th>
+            <th>Total Premium</th>
+            <th>Created At</th>
+            <th>Result</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="rates.length === 0">
+          <tr>
+            <td class="no-data-title" [attr.colspan]="7">No Rates Found</td></tr>
+        </tbody>
+        <tbody>
+          <tr *ngFor="let rate of rates">
+            <td class="current-flow-title">
+              <p class="flow-info">{{rate.vendorName}} </p>
+            </td>
+            <td class="current-flow-title">
+              <p class="flow-info">{{rate.productType}}&nbsp;</p>
+            </td>
+            <td class="current-flow-title">
+              <p class="flow-info">{{rate.downPayment | currency}}</p>
+            </td>
+            <td class="current-flow-title">
+              <p class="flow-info">{{rate.totalPremium | currency }}</p>
+            </td>
+            <td class="current-flow-title">
+              <p class="flow-info">{{rate.createdAt | date: 'medium'}}</p>
+            </td>
+            <td class="current-flow-title">
+              <p class="flow-info" *ngIf="rate.succeeded">Success</p>
+              <p class="flow-info" *ngIf="!rate.succeeded">Failed</p>
+            </td>
+            <td class="current-flow-title">
+              <a  style="text-decoration:none" href="{{rate.quoteUrl}}" target="_blank"><span class="icon-eye"></span></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</form>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

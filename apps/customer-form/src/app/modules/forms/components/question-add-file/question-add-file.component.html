@@ -1,0 +1,43 @@
+<div class="form-item">
+  <div class="input-container">
+    <label class="label-container" for="file" >
+      <span class="input-text">
+        {{!filesToUpload ? 'Click here to upload a file' : 'Uploading ...'}}
+      </span>
+    </label>
+    <input
+      [disabled]="fileUploadError || filesToUpload"
+      type="file"
+      class="input-file"
+      name="files"
+      id = "file"
+      (change)="handleUploadDocument()"
+      ngf
+      [(files)]="filesToUpload" 
+      multiple
+    />
+    <ngfFormData
+      [files]      = "filesToUpload"
+      [(FormData)] = "uploadFormData"
+      postName     = "files"
+    ></ngfFormData>
+    <ngfUploadStatus
+      [(percent)] = "uploadPercent"
+      [httpEvent] = "httpEvent"
+    ></ngfUploadStatus> 
+  </div>
+  <div class="input-container" [ngClass]="{'disable': fileUploaded || fileUploadError}" *ngIf="fileUploadError || fileUploaded">
+    <label class="label-container" for="file">
+      <!-- <span class="input-text" *ngIf="uploadPercent && !filesToUpload">
+        Upload Progress: {{ uploadPercent }}%
+      </span> -->
+      <span class="input-text" *ngIf="fileUploadError">
+        Try uploading again
+      </span>
+      <span class="input-text" *ngIf="fileUploaded">
+        File uploaded
+      </span>
+    </label>
+   
+  </div>
+</div>

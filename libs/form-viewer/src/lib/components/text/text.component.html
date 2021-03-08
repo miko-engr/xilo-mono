@@ -1,0 +1,5 @@
+<div [ngClass]="{ 'form-row': to?.className === 'xilo-input' }">
+  <div [ngClass]="{ 'form-item': to?.className === 'xilo-input' }">
+    <p>{{ model?.classKey ? model.classKey : to?.label }}</p>
+  </div>
+</div>

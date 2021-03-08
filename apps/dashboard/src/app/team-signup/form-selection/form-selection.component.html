@@ -1,0 +1,31 @@
+<div class="team_main_block">
+    <div class="stepper_main_block">
+      <form 
+        (ngSubmit)="onNext()" 
+        *ngIf="selectedForms"
+        #formSelectionForm="ngForm"
+        >
+        <ng-template matStepLabel>Default Forms</ng-template>
+        <div class="custom-form-group">
+          <ng-select
+            name="forms"
+            class="custom-form-input"
+            #formsInput="ngModel"
+            [(ngModel)]="selectedForms"
+            placeholder="Select multiple forms"
+            bindLabel="title"
+            bindValue="id"
+            [items]="formsList"
+            [multiple]="true"
+            [clearable]="true"
+            (change)="onChange($event)"
+          >
+          </ng-select>
+          <span *ngIf="formsInput?.invalid" class="custom-form-error">
+              <p *ngIf="formsInput.errors.required">Forms are required</p>
+          </span>
+        </div>
+        <button type="submit" class="primary-btn mt-3">Next</button>
+      </form>
+    </div>
+</div>

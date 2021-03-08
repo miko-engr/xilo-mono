@@ -1,0 +1,18 @@
+<form [formGroup]="currentForm">
+  <div [ngClass]="isInvalid || errorMessage ? ' form-item error' : 'form-item'">
+    <label
+      >{{ properties.placeholderText
+      }}{{ properties?.isRequired ? '*' : '' }}</label>
+
+    <textarea
+      class="xilo-input"
+      [required]="properties.isRequired"
+      (blur)="handleChange($event)"
+      [formControlName]="properties?.id">
+    </textarea>
+
+    <!-- errors showing -->
+    <label *ngIf="isInvalid">{{ properties?.errorText }} </label>
+  </div>
+</form>
+    

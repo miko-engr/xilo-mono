@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EZAUTO xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.ezlynx.com/XMLSchema/Auto/V200">
+    <Applicant>
+        <ApplicantType>Applicant</ApplicantType>
+        <PersonalInfo>
+            <Name>
+                <FirstName>{{Applicant.FirstName}}</FirstName>
+                <LastName>{{Applicant.LastName}}</LastName>
+            </Name>
+            <DOB c-if="Applicant.DOB">{{Applicant.DOB}}</DOB>
+            <SSN c-if="Applicant.SSN">{{Applicant.SSN}}</SSN>
+            <Gender c-if="Applicant.Gender">{{Applicant.Gender}}</Gender>
+            <MaritalStatus c-if="Applicant.MaritalStatus">{{Applicant.MaritalStatus}}</MaritalStatus>
+            <Industry c-if="Applicant.Industry">{{Applicant.Industry}}</Industry>
+            <Occupation c-if="Applicant.Occupation">{{Applicant.Occupation}}</Occupation>
+            <Education c-if="Applicant.Education">{{Applicant.Education}}</Education>
+            <Relation c-if="Applicant.Relation">{{Applicant.Relation}}</Relation>
+        </PersonalInfo>
+        <Address c-if="Home.City">
+            <AddressCode>StreetAddress</AddressCode>
+            <Addr1 c-if="Home.StreetName">
+                <StreetName>{{Home.StreetName}}</StreetName>
+                <StreetNumber>{{Home.StreetNumber}}</StreetNumber>
+                <UnitNumber>{{Home.UnitNumber}}</UnitNumber>
+            </Addr1>
+            <City>{{Home.City}}</City>
+            <StateCode c-if="Home.StateCode">{{Home.StateCode}}</StateCode>
+            <County c-if="Home.County">{{Home.County}}</County>
+            <Zip5 c-if="Home.Zip5">{{Home.Zip5}}</Zip5>
+            <Phone c-if="Applicant.PhoneNumber">
+                <PhoneType>Mobile</PhoneType>
+                <PhoneNumber>{{Applicant.PhoneNumber}}</PhoneNumber>
+            </Phone>
+            <Email c-if="Applicant.Email">{{Applicant.Email}}</Email>
+        </Address>
+        <Address c-if="Address.City">
+            <AddressCode>StreetAddress</AddressCode>
+            <Addr1 c-if="Address.StreetName">
+                <StreetName>{{Address.StreetName}}</StreetName>
+                <StreetNumber c-if="Address.StreetNumber">{{Address.StreetNumber}}</StreetNumber>
+                <UnitNumber c-if="Address.UnitNumber">{{Address.UnitNumber}}</UnitNumber>
+            </Addr1>
+            <City c-if="Address.City">{{Address.City}}</City>
+            <StateCode c-if="Address.StateCode">{{Address.StateCode}}</StateCode>
+            <County c-if="Address.County">{{Address.County}}</County>
+            <Zip5 c-if="Address.Zip5">{{Address.Zip5}}</Zip5>
+            <Phone c-if="Applicant.PhoneNumber">
+                <PhoneType>Mobile</PhoneType>
+                <PhoneNumber>{{Applicant.PhoneNumber}}</PhoneNumber>
+            </Phone>
+            <Email c-if="Applicant.Email">{{Applicant.Email}}</Email>
+        </Address>
+        <Address c-if="PreviousAddress">
+            <AddressCode>PreviousAddress</AddressCode>
+            <Addr1 c-if="PreviousAddress.StreetName">
+                <StreetName>{{PreviousAddress.StreetName}}</StreetName>
+                <StreetNumber>{{PreviousAddress.StreetNumber}}</StreetNumber>
+                <UnitNumber>{{PreviousAddress.UnitNumber}}</UnitNumber>
+            </Addr1>
+            <City c-if="PreviousAddress.City">{{PreviousAddress.City}}</City>
+            <StateCode c-if="PreviousAddress.StateCode">{{PreviousAddress.StateCode}}</StateCode>
+            <County c-if="PreviousAddress.County">{{PreviousAddress.County}}</County>
+            <Zip5 c-if="PreviousAddress.Zip5">{{PreviousAddress.Zip5}}</Zip5>
+            <Phone c-if="Applicant.PhoneNumber">
+                <PhoneType>Mobile</PhoneType>
+                <PhoneNumber>{{Applicant.PhoneNumber}}</PhoneNumber>
+            </Phone>
+            <Email c-if="Applicant.Email">{{Applicant.Email}}</Email>
+        </Address>
+    </Applicant>
+    <Applicant c-if="CoApplicant">
+        <ApplicantType>CoApplicant</ApplicantType>
+        <PersonalInfo>
+            <Name c-if="CoApplicant.FirstName">
+                <FirstName c-if="CoApplicant.FirstName">{{CoApplicant.FirstName}}</FirstName>
+                <LastName c-if="CoApplicant.LastName">{{CoApplicant.LastName}}</LastName>
+            </Name>
+            <DOB c-if="CoApplicant.DOB">{{CoApplicant.DOB}}</DOB>
+            <SSN c-if="CoApplicant.SSN">{{CoApplicant.SSN}}</SSN>
+            <Gender c-if="CoApplicant.Gender">{{CoApplicant.Gender}}</Gender>
+            <MaritalStatus c-if="CoApplicant.MaritalStatus">{{CoApplicant.MaritalStatus}}</MaritalStatus>
+            <Industry c-if="CoApplicant.Industry">{{CoApplicant.Industry}}</Industry>
+            <Occupation c-if="CoApplicant.Occupation">{{CoApplicant.Occupation}}</Occupation>
+            <Education c-if="CoApplicant.Education">{{CoApplicant.Education}}</Education>
+            <Relation c-if="CoApplicant.Relation">{{CoApplicant.Relation}}</Relation>
+        </PersonalInfo>
+        <Address c-if="Address.City">
+            <AddressCode>StreetAddress</AddressCode>
+            <Addr1 c-if="Address.StreetName">
+                <StreetName>{{Address.StreetName}}</StreetName>
+                <StreetNumber c-if="Address.StreetNumber">{{Address.StreetNumber}}</StreetNumber>
+                <UnitNumber c-if="Address.UnitNumber">{{Address.UnitNumber}}</UnitNumber>
+            </Addr1>
+            <City>{{Address.City}}</City>
+            <StateCode c-if="Address.StateCode">{{Address.StateCode}}</StateCode>
+            <County c-if="Address.County">{{Address.County}}</County>
+            <Zip5 c-if="Address.Zip5">{{Address.Zip5}}</Zip5>
+            <Phone c-if="CoApplicant.PhoneNumber">
+                <PhoneType>Mobile</PhoneType>
+                <PhoneNumber>{{CoApplicant.PhoneNumber}}</PhoneNumber>
+            </Phone>
+            <Email c-if="CoApplicant.Email">{{CoApplicant.Email}}</Email>
+        </Address>
+    </Applicant>
+    <PriorPolicyInfo c-if="PriorPolicyInfo">
+        <PriorCarrier c-if="PriorPolicyInfo.PriorCarrier">{{PriorPolicyInfo.PriorCarrier}}</PriorCarrier>
+        <Expiration c-if="PriorPolicyInfo.Expiration">{{PriorPolicyInfo.Expiration|YYYYMMDD}}</Expiration>
+        <YearsWithPriorCarrier c-if="PriorPolicyInfo.YearsWithPriorCarrier">
+            <Years c-if="PriorPolicyInfo.YearsWithPriorCarrier.Years">{{PriorPolicyInfo.YearsWithPriorCarrier.Years}}</Years>
+            <Months c-if="PriorPolicyInfo.YearsWithPriorCarrier.Months">{{PriorPolicyInfo.YearsWithPriorCarrier.Months}}</Months>
+        </YearsWithPriorCarrier>
+        <YearsWithContinuousCoverage c-if="PriorPolicyInfo.YearsWithContinuousCoverage">
+            <Years c-if="PriorPolicyInfo.YearsWithContinuousCoverage.Years">{{PriorPolicyInfo.YearsWithContinuousCoverage.Years}}</Years>
+            <Months c-if="PriorPolicyInfo.YearsWithContinuousCoverage.Months">{{PriorPolicyInfo.YearsWithContinuousCoverage.Months}}</Months>
+        </YearsWithContinuousCoverage>
+        <PriorLiabilityLimit c-if="PriorPolicyInfo.PriorLiabilityLimit">{{PriorPolicyInfo.PriorLiabilityLimit}}</PriorLiabilityLimit>
+        <PriorPolicyPremium c-if="PriorPolicyInfo.PriorPolicyPremium">{{PriorPolicyInfo.PriorPolicyPremium}}</PriorPolicyPremium>
+        <PriorPolicyTerm c-if="PriorPolicyInfo.PriorPolicyTerm">{{PriorPolicyInfo.PriorPolicyTerm}}</PriorPolicyTerm>
+    </PriorPolicyInfo>
+    <PolicyInfo>
+        <PolicyTerm c-if="PolicyInfo.PolicyTerm">{{PolicyInfo.PolicyTerm}}</PolicyTerm>
+        <Package c-if="PolicyInfo.Package">{{PolicyInfo.Package}}</Package>
+        <Effective c-if="PolicyInfo.Effective">{{PolicyInfo.Effective|YYYYMMDD}}</Effective>
+        <CreditCheckAuth>Yes</CreditCheckAuth>
+    </PolicyInfo>
+    <ResidenceInfo>
+        <CurrentAddress>
+            <YearsAtCurrent c-if="Address.YearsAtCurrent">
+                <Years c-if="Address.YearsAtCurrent.Years">{{Address.YearsAtCurrent.Years}}</Years>
+                <Months c-if="Address.YearsAtCurrent.Months">{{Address.YearsAtCurrent.Months}}</Months>
+            </YearsAtCurrent>
+            <Ownership c-if="Address.Ownership">{{Address.Ownership}}</Ownership>
+        </CurrentAddress>
+        <CurrentAddress c-if="Home.YearsAtCurrent">
+            <YearsAtCurrent c-if="Home.YearsAtCurrent">
+                <Years c-if="Home.YearsAtCurrent.Years">{{Home.YearsAtCurrent.Years}}</Years>
+                <Months c-if="Home.YearsAtCurrent.Months">{{Home.YearsAtCurrent.Months}}</Months>
+            </YearsAtCurrent>
+            <Ownership>Home (owned)</Ownership>
+        </CurrentAddress>
+        <PreviousAddress c-if="PreviousAddress">
+            <YearsAtPrevious c-if="PreviousAddress.YearsAtPrevious">
+                <Years c-if="PreviousAddress.YearsAtPrevious.Years">{{PreviousAddress.YearsAtPrevious.Years}}</Years>
+                <Months c-if="PreviousAddress.YearsAtPrevious.Months">{{PreviousAddress.YearsAtPrevious.Months}}</Months>
+            </YearsAtPrevious>
+            <Address c-if="PreviousAddress.City">
+                <AddressCode>PreviousAddress</AddressCode>
+                <Addr1 c-if="PreviousAddress.StreetName">
+                    <StreetName>{{PreviousAddress.StreetName}}</StreetName>
+                    <StreetNumber c-if="PreviousAddress.StreetNumber">{{PreviousAddress.StreetNumber}}</StreetNumber>
+                    <UnitNumber c-if="PreviousAddress.UnitNumber">{{PreviousAddress.UnitNumber}}</UnitNumber>
+                </Addr1>
+                <City>{{PreviousAddress.City}}</City>
+                <StateCode c-if="PreviousAddress.StateCode">{{PreviousAddress.StateCode}}</StateCode>
+                <County c-if="PreviousAddress.County">{{PreviousAddress.County}}</County>
+                <Zip5 c-if="PreviousAddress.Zip5">{{PreviousAddress.Zip5}}</Zip5>
+            </Address>
+        </PreviousAddress>
+        <GarageLocation c-if="GarageLocation.City">
+            <Address c-if="GarageLocation.City">
+                <AddressCode>StreetAddress</AddressCode>
+                <Addr1 c-if="GarageLocation.StreetName">
+                    <StreetName>{{GarageLocation.StreetName}}</StreetName>
+                    <StreetNumber c-if="GarageLocation.StreetNumber">{{GarageLocation.StreetNumber}}</StreetNumber>
+                    <UnitNumber c-if="GarageLocation.UnitNumber">{{GarageLocation.UnitNumber}}</UnitNumber>
+                </Addr1>
+                <City>{{GarageLocation.City}}</City>
+                <StateCode c-if="GarageLocation.StateCode">{{GarageLocation.StateCode}}</StateCode>
+                <County c-if="GarageLocation.County">{{GarageLocation.County}}</County>
+                <Zip5 c-if="GarageLocation.Zip5">{{GarageLocation.Zip5}}</Zip5>
+            </Address>
+        </GarageLocation>
+    </ResidenceInfo>
+    <Drivers c-if="Drivers">
+        <Driver c-bind="Drivers|array" id="{{Index}}">
+            <Name c-if="FirstName">
+                <FirstName c-if="FirstName">{{FirstName}}</FirstName>
+                <LastName c-if="LastName">{{LastName}}</LastName>
+            </Name>
+            <Gender c-if="Gender">{{Gender}}</Gender>
+            <DOB c-if="DOB">{{DOB|YYYYMMDD}}</DOB>
+            <SSN c-if="SSN">{{SSN}}</SSN>
+            <DLNumber c-if="DLNumber">{{DLNumber}}</DLNumber>
+            <DLState c-if="DLState">{{DLState}}</DLState>
+            <DLStatus>Valid</DLStatus>
+            <DateLicensed c-if="DateLicensed">{{DateLicensed}}</DateLicensed>
+            <AgeLicensed c-if="AgeLicensed">{{AgeLicensed}}</AgeLicensed>
+            <MaritalStatus c-if="MaritalStatus">{{MaritalStatus}}</MaritalStatus>
+            <Industry c-if="Industry">{{Industry}}</Industry>
+            <Occupation c-if="Occupation">{{Occupation}}</Occupation>
+            <Relation c-if="Relation">{{Relation}}</Relation>
+            <GoodStudent c-if="GoodStudent">{{GoodStudent}}</GoodStudent>
+            <DriverTraining c-if="DriverTraining">{{DriverTraining}}</DriverTraining>
+            <GoodDriver c-if="GoodDriver">{{GoodDriver}}</GoodDriver>
+            <PrincipalVehicle c-if="PrincipalVehicle">{{PrincipalVehicle}}</PrincipalVehicle>
+            <Accident c-bind="Accidents|array" id="{{Index}}">
+                <Date c-if="Date">{{Date}}</Date>
+                <Description c-if="Description">{{Description}}</Description>
+                <PD c-if="PD">{{PD}}</PD>
+                <BI c-if="BI">{{BI}}</BI>
+                <Collision c-if="Collision">{{Collision}}</Collision>
+                <MP c-if="MP">{{MP}}</MP>
+                <VehicleInvolved c-if="VehicleInvolved">{{VehicleInvolved}}</VehicleInvolved>
+            </Accident>
+            <Violation id="{{Index}}" c-bind="Violations|array">
+                <Date c-if="Date">{{Date}}</Date>
+                <Description c-if="Description">{{Description}}</Description>
+            </Violation>
+            <CompLoss c-bind="CompLoss|array" id="{{Index}}">
+                <Date c-if="Date">{{Date}}</Date>
+                <Description c-if="Description">{{Description}}</Description>
+                <Value c-if="Value">{{Value}}</Value>
+                <VehicleInvolved c-if="VehicleInvolved">{{VehicleInvolved}}</VehicleInvolved>
+            </CompLoss>
+            <SR22 c-if="SR22">{{SR22}}</SR22>
+            <LicenseRevokedSuspended c-if="LicenseRevokedSuspended">{{LicenseRevokedSuspended}}</LicenseRevokedSuspended>
+        </Driver>
+    </Drivers>
+    <Vehicles c-if="Vehicles">
+        <Vehicle c-bind="Vehicles|array" id="{{Index}}">
+            <UseVinLookup c-if="Vin">Yes</UseVinLookup>
+            <Vin c-if="Vin">{{Vin}}</Vin>
+            <Year c-if="Year">{{Year}}</Year>
+            <Make c-if="Make">{{Make}}</Make>
+            <Model c-if="Model">{{Model}}</Model>
+            <Sub-Model c-if="SubModel">{{SubModel}}</Sub-Model>
+            <Anti-Theft c-if="Anti-Theft">{{Anti-Theft}}</Anti-Theft>
+            <PassiveRestraints c-if="PassiveRestraints">{{PassiveRestraints}}</PassiveRestraints>
+            <AntiLockBrake c-if="AntiLockBrake">{{AntiLockBrake}}</AntiLockBrake>
+            <DaytimeRunningLights c-if="DaytimeRunningLights">{{DaytimeRunningLights}}</DaytimeRunningLights>
+            <VehicleInspection c-if="VehicleInspection">{{VehicleInspection}}</VehicleInspection>
+        </Vehicle>
+    </Vehicles>
+    <VehiclesUse c-if="Vehicles">
+        <VehicleUse c-bind="Vehicles|array" id="{{Index}}">
+            <Useage c-if="Useage">{{Useage}}</Useage>
+            <OneWayMiles c-if="OneWayMiles">{{OneWayMiles}}</OneWayMiles>
+            <DaysPerWeek c-if="DaysPerWeek">{{DaysPerWeek}}</DaysPerWeek>
+            <WeeksPerMonth c-if="WeeksPerMonth">{{WeeksPerMonth}}</WeeksPerMonth>
+            <AnnualMiles c-if="AnnualMiles">{{AnnualMiles}}</AnnualMiles>
+            <Ownership c-if="Ownership">{{Ownership}}</Ownership>
+            <Carpool c-if="Carpool">{{Carpool}}</Carpool>
+            <Odometer c-if="Odometer">{{Odometer}}</Odometer>
+            <Performance c-if="Performance">{{Performance}}</Performance>
+            <NewVehicle c-if="NewVehicle">{{NewVehicle}}</NewVehicle>
+            <AdditionalModificationValue c-if="AdditionalModificationValue">{{AdditionalModificationValue}}</AdditionalModificationValue>
+            <AlternateGarage c-if="AlternateGarage">{{AlternateGarage}}</AlternateGarage>
+            <PrincipalOperator c-if="PrincipalOperator">{{PrincipalOperator}}</PrincipalOperator>
+            <CostNew c-if="CostNew">{{CostNew}}</CostNew>
+            <UsedForDelivery c-if="UsedForDelivery">{{UsedForDelivery}}</UsedForDelivery>
+            <PriorDamagePresent c-if="PriorDamagePresent">{{PriorDamagePresent}}</PriorDamagePresent>
+            <SnowPlow c-if="SnowPlow">{{SnowPlow}}</SnowPlow>
+        </VehicleUse>
+    </VehiclesUse>
+    <Coverages>
+        <GeneralCoverage c-if="GeneralCoverage">
+            <BI c-if="GeneralCoverage.BI">{{GeneralCoverage.BI}}</BI>
+            <PD c-if="GeneralCoverage.PD">{{GeneralCoverage.PD}}</PD>
+            <MP c-if="GeneralCoverage.MD">{{GeneralCoverage.MD}}</MP>
+            <UM c-if="GeneralCoverage.UM">{{GeneralCoverage.UM}}</UM>
+            <UIM c-if="GeneralCoverage.UIM">{{GeneralCoverage.UIM}}</UIM>
+            <Multipolicy c-if="GeneralCoverage.Multipolicy">{{GeneralCoverage.Multipolicy}}</Multipolicy>
+            <RetirementCommunity c-if="GeneralCoverage.RetirementCommunity">{{GeneralCoverage.RetirementCommunity}}</RetirementCommunity>
+            <AAADiscount c-if="GeneralCoverage.AAADiscount">{{GeneralCoverage.AAADiscount}}</AAADiscount>
+            <Multicar c-if="GeneralCoverage.Multicar">{{GeneralCoverage.Multicar}}</Multicar>
+        </GeneralCoverage>
+        <VehicleCoverage c-bind="Vehicles|array" id="{{Index}}">
+            <OtherCollisionDeductible c-if="OtherCollisionDeductible">{{OtherCollisionDeductible}}</OtherCollisionDeductible>
+            <CollisionDeductible c-if="CollisionDeductible">{{CollisionDeductible}}</CollisionDeductible>
+            <FullGlass c-if="FullGlass">{{FullGlass}}</FullGlass>
+            <TowingDeductible c-if="TowingDeductible">{{TowingDeductible}}</TowingDeductible>
+            <RentalDeductible c-if="RentalDeductible">{{RentalDeductible}}</RentalDeductible>
+            <LiabilityNotRequired c-if="LiabilityNotRequired">{{LiabilityNotRequired}}</LiabilityNotRequired>
+            <LoanLeaseCoverage c-if="LoanLeaseCoverage">{{LoanLeaseCoverage}}</LoanLeaseCoverage>
+            <StatedAmount c-if="StatedAmount">{{StatedAmount}}</StatedAmount>
+            <ReplacementCost c-if="ReplacementCost">{{ReplacementCost}}</ReplacementCost>
+            <WaiverCollisionDamage c-if="WaiverCollisionDamage">{{WaiverCollisionDamage}}</WaiverCollisionDamage>
+        </VehicleCoverage>
+        </GeneralCoverage>
+        <StateSpecificCoverage>
+            <KY-Coverages c-if="KY-Coverages">
+                <KY-PIP c-if="KY-Coverages.KY-PIP">{{KY-Coverages.KY-PIP}}</KY-PIP>
+                <KY-APIP c-if="KY-Coverages.KY-APIP">{{KY-Coverages.KY-APIP}}</KY-APIP>
+                <KY-PIPDeductible c-if="KY-Coverages.KY-PIPDeductible">{{KY-Coverages.KY-PIPDeductible}}</KY-PIPDeductible>
+                <KY-TortLimitation c-if="KY-Coverages.KY-TortLimitation">{{KY-Coverages.KY-TortLimitation}}</KY-TortLimitation>
+            </KY-Coverages>
+            <TX-Coverages c-if="TX-Coverages">
+                <TX-PIP c-if="TX-Coverages.TX-PIP">{{TX-Coverages.TX-PIP}}</TX-PIP>
+                <TX-AutoDeathIndemnity c-if="TX-Coverages.TX-AutoDeathIndemnity">{{TX-Coverages.TX-AutoDeathIndemnity}}</TX-AutoDeathIndemnity>
+                <TX-UMPD c-if="TX-Coverages.TX-UMPD">{{TX-Coverages.TX-UMPD}}</TX-UMPD>
+            </TX-Coverages>
+        </StateSpecificCoverage>
+    </Coverages>
+    <VehicleAssignments c-if="Vehicles">
+        <VehicleAssignment c-if="PrincipalOperator" c-bind="Vehicles|array" id="{{Index}}">
+            <DriverAssignment c-if="PrincipalOperator" id="{{PrincipalOperator}}">100</DriverAssignment>
+        </VehicleAssignment>
+    </VehicleAssignments>
+    <GeneralInfo c-if="GeneralInfo">
+        <RatingStateCode c-if="GeneralInfo.RatingStateCode">{{GeneralInfo.RatingStateCode}}</RatingStateCode>
+        <Comments c-if="GeneralInfo.Comments">{{GeneralInfo.Comments}}</Comments>
+    </GeneralInfo>
+</EZAUTO>

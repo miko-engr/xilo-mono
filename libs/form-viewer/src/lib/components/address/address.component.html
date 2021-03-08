@@ -1,0 +1,18 @@
+<div [ngClass]="{'form-row': to?.className === 'xilo-input'}">
+  <div [ngClass]="{'form-item': to?.className === 'xilo-input'}">
+    <label class="label">
+      {{ to.label }}{{ to?.required ? '*' : '' }}
+    </label>
+    <input 
+      type="text"
+      [class]="to.className || 'xilo-input'"
+      [formlyAttributes]="field" 
+      [formControl]="formControl"
+      ngx-google-places-autocomplete
+      #placesRef="ngx-places"
+      (onAddressChange)="handleAddressChange($event)"/>
+
+    <!-- errors showing -->
+    <!-- <label *ngIf="options.showError">{{ getError() }} </label> -->
+  </div>
+</div>

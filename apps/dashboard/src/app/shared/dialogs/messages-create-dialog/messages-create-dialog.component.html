@@ -1,0 +1,55 @@
+<div class="messages-create-container">
+    <div class="messages-create-header">
+        <div class="messages-create-header-content">
+            <p class="messages-create-header-content-headerText">New Message</p>
+        </div>
+        <div class="messages-create-header-actions">
+            <select class="messages-create-header-actions-input" name="messageType" [(ngModel)]="messageType">
+                <option [value]="null">Choose message type</option>
+                <option value="text">Text</option>
+                <option value="email">Email</option>
+            </select>
+            <button class="messages-create-header-actions-btn" (click)="closeDialog()">Exit</button>
+        </div>
+    </div>
+    <div class="messages-create-body">
+        <div class="messages-create-body-top">
+            <div class="messages-create-body-top-line to">
+                <div class="autocomplete" *ngIf="!client">
+                    <div class="autocomplete-inputs">
+                        <input name="to" type="text" style="width: 100%" placeholder="To" (ngModelChange)="filter($event)" [(ngModel)]="to" class="messages-input">
+                        <select name="dateFilter" [(ngModel)]="dateFilter" (ngModelChange)="getClients($event)" class="messages-select">
+                            <option value="30" selected>Past 30 Days</option>
+                            <option value="90">Past 90 Days</option>
+                            <option value="365">Past Year</option>
+                            <option value="allTime">All Time</option>
+                        </select>
+                    </div>
+                    <div class="autocomplete-menu" [ngStyle]="styleMenu()">
+                        <div class="row" *ngFor="let client of clients" (click)="assignClient(client)">{{returnName(client)}} ({{client.createdAt | date:'shortDate'}})</div>
+                    </div>
+                </div>
+                <span class="input-label" *ngIf="client">{{returnName(client)}} <mat-icon class="messages-icon" (click)="removeClient()">close</mat-icon></span>
+            </div>
+            <div class="messages-create-body-top-line subject" *ngIf="messageType === 'email'">
+                <input type="text" class="messages-create-body-top-input" [(ngModel)]="subject" placeholder="Subject">
+            </div>
+        </div>
+        <div class="messages-create-body-bottom">
+            <textarea id="editor" #editor class="messages-create-footer-editor-textarea"
+            [(ngModel)]="body" name="editor"></textarea>
+        </div>
+    </div>
+    <div class="messages-create-footer">
+        <div class="messages-create-footer-actions">
+            <button class="messages-create-footer-actions-send" (click)="sendMessage()">Send Now</button>
+            <button class="messages-create-footer-actions-alt-send">Schedule</button>
+            <span class="messages-create-footer-tags-tag" (click)="switchEditorType('email')" [ngStyle]="styleEditorTypeTab('email')">
+                <span class="icon-message"></span>
+            </span>
+            <span class="messages-create-footer-tags-tag" (click)="switchEditorType('text')" [ngStyle]="styleEditorTypeTab('text')">
+                <span class="icon-bubble2"></span>
+            </span>
+        </div>
+    </div>
+</div>

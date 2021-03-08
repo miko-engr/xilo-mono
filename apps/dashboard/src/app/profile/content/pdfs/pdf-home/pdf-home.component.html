@@ -1,0 +1,16 @@
+<div class="auto-complete-content-area">
+  <ul class="item-listing" cdkDropList id="pageList">
+      <li *ngFor="let pdf of pdfs; let i = index" class="form-list">
+              {{pdf.formName}}
+          <span class="action-container-side">
+              <i class="icon-edit_pencile" (click)="routeToPdf(pdf.id)"></i>
+              <i class="icon-rubbish-bin" (click)="deletePdfs(i)"></i>
+          </span>
+      </li>
+      <li class="box" style="justify-content: center">
+          <button mat-icon-button routerLink="../add" [routerLinkActive]="['']">
+              <mat-icon>add</mat-icon>
+          </button>
+      </li>
+  </ul>
+</div>

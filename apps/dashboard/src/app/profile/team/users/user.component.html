@@ -1,0 +1,188 @@
+<form class="company-section">
+   <div class="user-container">
+         <div class="main-header">
+            <h3 class="main-header-title" *ngIf="!editUser && !addUser">Admins</h3>
+            <div class="custom-divider" *ngIf="!editUser && !addUser"></div>
+            <div class="form-group" *ngIf="!editUser && !addUser">
+               <div class="team-table-container">
+                     <mat-table [dataSource]=dataSource class="team-table custom-table">
+                        <ng-container matColumnDef="name">
+                           <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                           <mat-cell *matCellDef="let user"><span>{{user.firstName + ' ' + user.lastName || 'Not Complete'}}</span></mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="email">
+                           <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+                           <mat-cell *matCellDef="let user">{{user.username}}</mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                           <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                           <mat-cell *matCellDef="let user">
+                                 <button class="mat-btn" (click)="getUserById(user)"><span class="icon-edit1"></span></button>
+                                 <button class="mat-btn" (click)="getUserById(user)"><span class="icon-rubbish-bin"></span></button>
+                           </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="isActive">
+                           <mat-header-cell *matHeaderCellDef>Active</mat-header-cell>
+                           <mat-cell *matCellDef="let user">
+                                 <mat-slide-toggle [checked]="user.isActive" (change)="updateUser(user)"></mat-slide-toggle>
+                           </mat-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true" class="table-header custom-table-header"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: columnsToDisplay;" class="custom-table-header"></mat-row>
+                     </mat-table>
+                     <!--<mat-paginator #paginator [pageSize]="5" class="team-table"></mat-paginator>-->
+               </div>
+            </div>
+            <div class="custom-divider" *ngIf="!editUser && !addUser"></div>
+            <div *ngIf="!editUser && !addUser" style="width: 100%; text-align: center; padding: 10px;">
+               <mat-icon style="cursor: pointer;" (click)="addUser = true; editUser = false">add</mat-icon>
+            </div>
+            <div *ngIf="editUser">
+               <div class="form-container">
+                     <div class="input-wraper">
+                        <div class="form-group">
+                           <div class="group">
+                                 <div class="info-label-container">
+                                    <p class="info-label">Email</p>
+                                 </div>
+                                 <!--  <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                                 <input matInput required name="email" type="text" [placeholder]="user.username" id="user-email" class="custom-input" [(ngModel)]="user.username">
+                                 <!-- </mat-form-field> -->
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="input-wraper">
+                        <div class="form-group">
+                           <div class="group">
+                                 <div class="info-label-container">
+                                    <p class="info-label">First Name</p>
+                                 </div>
+                                 <!--  <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                                 <input matInput required name="firstName" type="text" [placeholder]="user.firstName" id="user-firstName" class="custom-input" [(ngModel)]="user.firstName">
+                                 <!-- </mat-form-field> -->
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="input-wraper">
+                        <div class="form-group">
+                           <div class="group">
+                                 <div class="info-label-container">
+                                    <p class="info-label">Last Name</p>
+                                 </div>
+                                 <!--  <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                                 <input matInput required name="lastName" type="text" [placeholder]="user.lastName" id="user-lastName" class="custom-input" [(ngModel)]="user.lastName">
+                                 <!-- </mat-form-field> -->
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="input-wraper">
+                        <div class="form-group">
+                           <div class="group">
+                                 <div class="info-label-container">
+                                    <p class="info-label">Password</p>
+                                 </div>
+                                 <!--   <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                                 <input matInput name="password" type="password" placeholder="Enter Password" id="password" class="custom-input" [(ngModel)]="user.password">
+                                 <!--  </mat-form-field> -->
+                           </div>
+                        </div>
+                     </div>
+                     <div class="input-wraper">
+                        <div class="form-group">
+                           <div class="group last-group">
+                                 <div class="info-label-container">
+                                    <p class="info-label">Confirm Password</p>
+                                 </div>
+                                 <!--   <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                                 <input matInput name="confirmPassword" type="text" placeholder="Enter Your Password" class="custom-input" id="confirmPassword" [(ngModel)]="passwordConfirmation">
+                                 <!--   </mat-form-field> -->
+                           </div>
+                        </div>
+                     </div>
+
+               </div>
+
+            </div>
+         </div>
+   </div>
+
+   <div *ngIf="addUser" class="user-container">
+         <!--  <hr class="line" id="second-line"> -->
+         <h3 class="main-header-title" id="companyInfo">Add New User</h3>
+         <div class="custom-divider"></div>
+         <div class="form-container">
+            <div class="input-wraper">
+               <div class="form-group">
+                     <div class="group">
+                        <div class="info-label-container">
+                           <p class="info-label">Email</p>
+                        </div>
+                        <!-- <mat-form-field class="mat-input-short"> -->
+                        <input matInput type="email" name="username" placeholder="Enter Email" id="username" class="custom-input" [(ngModel)]="newUser.username">
+                        <!-- </mat-form-field> -->
+                     </div>
+               </div>
+            </div>
+            <div class="input-wraper">
+               <div class="form-group">
+                     <div class="group">
+                        <div class="info-label-container">
+                           <p class="info-label">First Name</p>
+                        </div>
+                        <!--  <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                        <input matInput required name="firstName" type="text" placeholder="Enter First Name" id="user-firstName" class="custom-input" [(ngModel)]="newUser.firstName">
+                        <!-- </mat-form-field> -->
+                     </div>
+               </div>
+            </div>
+
+            <div class="input-wraper">
+               <div class="form-group">
+                     <div class="group">
+                        <div class="info-label-container">
+                           <p class="info-label">Last Name</p>
+                        </div>
+                        <!--  <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                        <input matInput required name="lastName" type="text" placeholder="Enter Last Name" id="user-lastName" class="custom-input" [(ngModel)]="newUser.lastName">
+                        <!-- </mat-form-field> -->
+                     </div>
+               </div>
+            </div>
+            <div class="input-wraper">
+               <div class="form-group">
+                     <div class="group">
+                        <div class="info-label-container">
+                           <p class="info-label">Password</p>
+                        </div>
+                        <!-- <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                        <input matInput name="password" type="password" placeholder="Enter Password" id="password" class="custom-input" [(ngModel)]="newUser.password">
+                        <!--  </mat-form-field> -->
+                     </div>
+               </div>
+            </div>
+            <div class="input-wraper">
+               <div class="form-group" [ngStyle]="styleGroups()">
+                     <div class="group last-group">
+                        <div class="info-label-container">
+                           <p class="info-label">Confirm Password</p>
+                        </div>
+                        <!--  <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                        <input matInput type="password" name="confirmPassword" placeholder="Confirmation Password" id="confirmPassword" class="custom-input" [(ngModel)]="passwordConfirmation">
+                        <!--  </mat-form-field> -->
+                     </div>
+               </div>
+            </div>
+
+         </div>
+
+   </div>
+
+</form>
+<div class="save-btn-overlay" *ngIf="addUser || editUser">
+   <button class="exit-btn btn" (click)="resetUser()">Cancel</button>
+   <button class="save-btn btn" (click)="updateUser()">Save</button>
+   <!-- <button class="delete-btn btn" (click)="deleteUser()" *ngIf="user.id !== null">Delete Admin</button> -->
+</div>

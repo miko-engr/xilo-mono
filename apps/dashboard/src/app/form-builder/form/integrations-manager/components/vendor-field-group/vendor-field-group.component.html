@@ -1,0 +1,94 @@
+<div class="group">
+  <div class="parent-label">
+    <h2>{{ fieldGroup.label || fieldGroup.key }}<span style="color: red">{{fieldGroup.isRequired ? '*' : ''}}</span></h2>
+    <div class="actions">
+      <div class="expand-field" *ngIf="fieldGroup.hideDescendants">
+        <img (click)="fieldGroup.hideDescendants = false" src="../../../../../../assets/icons/svg/tree-expand.svg" alt="Expand">
+      </div>
+      <div class="collapse-field" *ngIf="!fieldGroup.hideDescendants">
+        <img (click)="fieldGroup.hideDescendants = true" src="../../../../../../assets/icons/svg/tree-collapse.svg" alt="Collapse">
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="!fieldGroup.hideDescendants">
+    <ng-container
+      *ngTemplateOutlet="recursiveListTmpl; context:{ properties: fieldGroup.typeDefinition.properties }"
+    ></ng-container>
+  </ng-container>
+</div>
+
+<ng-template #recursiveListTmpl let-properties="properties" let-parentKey="parentKey">
+  <div *ngFor="let property of properties | keyvalue">
+    <div
+      *ngIf="property.value.typeDefinition && (isObjectType(property.value.typeDefinition) || isArrayType(property.value.typeDefinition))">
+      <div class="input-row" *ngIf="property.value.typeDefinition && !!parentKey">
+        <!-- <vendor-input-field [fieldName]="property.key"
+                            [fieldId]="property.value.id"
+                            [field]="property.value.typeDefinition"
+                            [parentFieldId]="parentKey"
+                            [form]="form"
+                            [integrationMapping]="integrationMapping"
+        ></vendor-input-field> -->
+        <div class="label">
+          <p style="margin-right: 1rem; margin-left: .5rem">{{ property?.value?.label || property.key }}</p>
+          
+          <div class="actions">
+            <div class="expand-field" *ngIf="!property.showDescendants">
+              <img (click)="property.showDescendants = true" src="../../../../../../assets/icons/svg/tree-expand.svg" alt="Expand">
+            </div>
+            <div class="collapse-field" *ngIf="property.showDescendants">
+              <img (click)="property.showDescendants = false" src="../../../../../../assets/icons/svg/tree-collapse.svg" alt="Collapse">
+            </div>
+          </div>
+        </div>
+        <!-- <button class="expand-descendants-btn"
+                (click)="property.showDescendants = (!!parentKey) ? !property.showDescendants : true">{{ !property.showDescendants ? 'Show' : 'Hide'}}
+          fields
+        </button> -->
+      </div>
+
+      <div class="input-row" *ngIf="property.value.typeDefinition && !parentKey" style="margin-left: 20px;">
+        <div class="label">
+          <h3>{{ property?.value?.label || property.key }}</h3>
+          <div class="actions">
+            <div class="expand-field" *ngIf="property.hideDescendants">
+              <img (click)="property.hideDescendants = false" src="../../../../../../assets/icons/svg/tree-expand.svg" alt="Expand">
+            </div>
+            <div class="collapse-field" *ngIf="!property.hideDescendants">
+              <img (click)="property.hideDescendants = true" src="../../../../../../assets/icons/svg/tree-collapse.svg" alt="Collapse">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="(property.showDescendants || !parentKey) && !property.hideDescendants" style="margin-left: 20px;">
+        <ng-container
+          *ngTemplateOutlet="recursiveListTmpl; context:{ properties: property.value.typeDefinition.properties, parentKey: createParentKey(parentKey, property.value.key) }"
+        ></ng-container>
+      </div>
+    </div>
+
+    <div class="input-row" *ngIf="property.value.typeDefinition && (isField(property))">
+      <vendor-input-field [fieldName]="property?.value?.label || property.key"
+                          [fieldId]="property.value.id"
+                          [field]="property.value.typeDefinition"
+                          [formFields]="formFields"
+                          [form]="formFields"
+                          [fieldKey]="property.value.key"
+                          [fieldParentKey]="parentKey ? (fieldGroup.key + '.' + parentKey) : fieldGroup.key"
+                          [integrationMapping]="integrationMapping"
+      ></vendor-input-field>
+    </div>
+
+    <div class="input-row" *ngIf="!property.value.typeDefinition && (isField(property))">
+      <vendor-input-field [fieldName]="property?.value?.label || property.key"
+                          [fieldId]="property.value.id"
+                          [field]="property.value"
+                          [formFields]="formFields"
+                          [form]="formFields"
+                          [integrationMapping]="integrationMapping"
+      ></vendor-input-field>
+    </div>
+
+  </div>
+</ng-template>

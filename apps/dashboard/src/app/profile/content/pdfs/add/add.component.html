@@ -1,0 +1,42 @@
+<div class="auto-complete-content-area">
+  <mat-card class="mat-elevation-z1">
+    <mat-form-field floatLabel="always">
+      <input matInput type="text" placeholder="Enter Form Name" [(ngModel)]="selectedPdf.formName">
+    </mat-form-field>
+
+    <mat-form-field floatLabel="always">
+      <input matInput type="text" placeholder="Enter Checkbox Export Values" [(ngModel)]="selectedPdf.exportValues">
+    </mat-form-field>
+
+    <br />
+    <section class="example-section">
+      <mat-checkbox class="example-margin" [(ngModel)]="selectedPdf.isTemplate">Template</mat-checkbox>
+    </section>
+    <section class="example-section">
+      <mat-checkbox class="example-margin" [(ngModel)]="version">V2</mat-checkbox>
+    </section>
+    <br />
+
+    <div class="input-file-upload">
+      <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+      <input hidden (change)="onFileSelected()" #fileInput type="file" id="file" accept="application/pdf">
+      <p *ngIf="selectedPdf.fileName" class="p-file-name">{{selectedPdf.fileName.name}}</p>
+    </div>
+
+    <div class="btn-div">
+      <button class="edit-btn ng-star-inserted" (click)="createPdf()"
+        [routerLinkActive]="['']">
+        <mat-icon>check</mat-icon>Save
+      </button>
+      <button class="edit-btn ng-star-inserted" routerLink="../pdf-home" [routerLinkActive]="['']">
+        <mat-icon>cancel</mat-icon> Cancel
+      </button>
+    </div>
+  </mat-card>
+
+  <button mat-button class="button-back" routerLink="../pdf-home">
+    Back
+  </button>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

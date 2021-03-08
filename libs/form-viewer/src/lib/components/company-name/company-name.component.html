@@ -1,0 +1,14 @@
+<div [ngClass]="{'form-row': to?.className === 'xilo-input'}">
+  <div [ngClass]="{'form-item': to?.className === 'xilo-input'}">
+    <label>
+      {{ to.placeholder }}{{ to?.required ? '*' : '' }}
+    </label>
+    <input
+      [class]="to.className || 'xilo-input'"
+      type="text"
+      [formControl]="formControl"
+      [formlyAttributes]="field"
+      (blur)="updateMetadata($event)"
+    />
+  </div>
+</div>

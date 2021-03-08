@@ -1,0 +1,169 @@
+<section
+  class="form-section"
+  [ngClass]="
+    page?.questions?.length === 1 && !isMobile ? 'form-section-start' : ''
+  "
+  [@QuestionAnimation]="questionAnimationState"
+  #FormSection
+>
+  <div class="form-header">
+    <div
+      class="header-img"
+      *ngIf="
+        (currentQuestion?.imageIsSVG && currentQuestion?.image)
+        || currentQuestion?.imageUrl
+      ">
+      <img
+        class="svg-img"
+        [src]="currentQuestion?.imageUrl"
+        alt="Question Image"
+        *ngIf="!currentQuestion?.imageIsSVG && currentQuestion?.imageUrl"
+      />
+      <div
+        class="svg-img"
+        [ngClass]="
+          page?.questions?.length === 1 && !isMobile ? 'svg-img-start' : ''
+        "
+        *ngIf="currentQuestion?.imageIsSVG && currentQuestion?.image"
+        alt="Question Image"
+        [innerHTML]="currentQuestion?.image | safe: 'html'"
+      ></div>
+    </div>
+    <div
+      class="header-content"
+      [ngClass]="{
+        'no-padding': !currentQuestion?.image && !currentQuestion?.imageUrl
+      }"
+    >
+      <h2 class="question-title">
+        {{ currentQuestion?.headerText | valueInterpolate: mainForm:subindex }}
+      </h2>
+      <h6 class="question-subtitle">{{ currentQuestion?.subHeaderText }}</h6>
+    </div>
+  </div>
+  <div class="form-field-section take-all-space">
+    <app-error-message
+      @ErrorAnimation
+      ngif
+      [errorMessage]="(errorDetailsFromPage$ | async)?.message"
+      [type]="(errorDetailsFromPage$ | async)?.type"
+    >
+    </app-error-message>
+    <!-- TODO: start page with short input condition needs to be set -->
+    <div
+      *ngFor="let answer of answers; let i = index"
+      class="form-row"
+      [ngClass]="{ 'start-page-specific': false }"
+    >
+      <ng-container
+        class="question-list"
+        *ngIf="answerIsEnabled(answer) && !answer?.isHiddenInput"
+      >
+        <app-educational-dropdown
+          *ngIf="answer.hasEducationalDropdown"
+          [properties]="answer"
+        >
+        </app-educational-dropdown>
+        <app-question-phone-number-field
+          *ngIf="answer.isPhone"
+          [properties]="answer"
+          [company]="company"
+          [form]="form"
+          [currentForm]="currentForm"
+          [isInvalid]="isInvalid(answer?.answerId)"
+        >
+        </app-question-phone-number-field>
+
+        <app-question-textbox
+          *ngIf="answer.isInput || answer.isURL"
+          [properties]="answer"
+          [currentForm]="currentForm"
+          [isInvalid]="isInvalid(answer?.answerId)"
+          (triggerGetVehicleByVIN)="getVehicleDetailsByVIN($event)"
+          (triggerSearchByAddress)="handleAddressAutocompleted($event)"
+        >
+          <!-- [errorMessage]="(errorDetailsFromPage$ | async)?.message" -->
+        </app-question-textbox>
+        <app-question-dropdown
+          *ngIf="answer.isSelect"
+          [properties]="answer"
+          [isLastQuestion]="answers.length && (i === answers.length - 1)"
+          [currentForm]="currentForm"
+          [isMobile]="isMobile"
+          [client]="client"
+          [isInvalid]="isInvalid(answer?.answerId)"
+          (getVehicleData)="handleGetVehicleData($event)"
+          [index]="i"
+          (getOccupationsFromIndustry)="
+            handleGetOccupationsFromIndustry($event)
+          "
+        >
+        </app-question-dropdown>
+        <app-question-labeled-select
+          *ngIf="answer.hasLabeledSelectOptions && !answer.isSelect"
+          [properties]="answer"
+          [currentForm]="currentForm"
+          (changeQuestion)="handleNextClick()"
+        >
+        </app-question-labeled-select>
+
+        <app-question-date-field
+          *ngIf="answer.isDatePicker"
+          [properties]="answer"
+          [currentForm]="currentForm"
+          [isInvalid]="isInvalid(answer?.answerId)"
+        ></app-question-date-field>
+
+        <app-opinion-scale
+          *ngIf="answer?.isScale"
+          [properties]="answer"
+          [currentForm]="currentForm"
+          (changeQuestion)="handleNextClick()"
+        >
+        </app-opinion-scale>
+
+        <app-multiple-add
+          *ngIf="isMultipleAdd(answer)"
+          [properties]="answer"
+          [currentForm]="currentForm"
+          (changeQuestion)="handleNextClick()"
+          (addNewItem)="handleAddNewItemTrigger($event)"
+        >
+        </app-multiple-add>
+
+        <app-question-add-file
+          *ngIf="answer?.isSecureDocumentUpload"
+          [properties]="answer"
+          (changeQuestion)="handleNextClick()"
+        >
+        </app-question-add-file>
+
+        <app-question-textarea
+         *ngIf="answer?.isTextarea"
+          [properties]="answer"
+          [currentForm]="currentForm"
+          [isInvalid]="isInvalid(answer?.answerId)"
+          (changeQuestion)="handleNextClick()"
+        >
+        </app-question-textarea>
+      </ng-container>
+
+      <!-- this button is for the startpage only that aligns with the zip code -->
+      <!-- <button
+        *ngIf="answer?.isShortInput"
+        [disabled]="!currentForm.valid"
+        (click)="handleNextClick()"
+      >
+        {{ page?.progressButtonText }}
+      </button> -->
+    </div>
+  </div>
+  <!-- this button changes questions for a page -->
+  <button
+    *ngIf="isNextButtonNeeded()"
+    [disabled]="isDisabled()"
+    (click)="handleNextClick()"
+  >
+    {{ isLastQuestion ? 'Submit' : 'Next' }}
+  </button>
+</section>

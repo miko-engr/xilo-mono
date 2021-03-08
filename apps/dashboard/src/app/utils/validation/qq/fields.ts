@@ -1,0 +1,15 @@
+export const fields = [
+    {key: 'FirstName', label: 'First Name'},
+    {key: 'LastName', label: 'Last Name'},
+    {key: 'Phone', label: 'Phone'},
+    {key: 'Email', label: 'Email'},
+    {key: 'FullAddress', label: 'Full Address'},
+    {key: 'Line1', label: 'Street Address'},
+    {key: 'City', label: 'City'},
+    {key: 'State', label: 'State'},
+    {key: 'Zip', label: 'Zip'},
+    {key: 'ContactType', label: 'Contact Type (P or C)'},
+    {key: 'ContactSubType', label: 'Contact Subtype (Defaults P)'},
+    {key: 'Status', label: 'Status (A or I)'},
+    {key: 'LocationId', label: 'Location ID (Defaults 1)'},
+];

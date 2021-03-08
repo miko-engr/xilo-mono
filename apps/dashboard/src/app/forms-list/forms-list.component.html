@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="forms-list">
+        <div class="block">
+            <button type="button" class="add-btn" (click)="routeToFormWizard()">Add Form</button>
+        </div>
+        <ng-container *ngIf="forms$ | async as formViews">
+            <div class="form" *ngFor="let form of formViews">
+                <div class="left">
+                    <div 
+                        *ngIf="form.icon" 
+                        class="form-icon" 
+                        [innerHTML]="form.icon | safeHtml: 'html'">
+                    </div>
+                    <img 
+                        *ngIf="!form.icon"
+                        class="form-icon"
+                        src="../../assets/svgs/default-form.svg" 
+                        alt="Default Logo"
+                    >
+                    <h2 class="title">{{form.title}}</h2>
+                </div>
+                <div class="right">
+                    <div class="options">
+                        <img 
+                            src="../../assets/svgs/more-vertical.svg" 
+                            alt="Options Icon"
+                            [matMenuTriggerFor]="optionMenu"
+                        >
+                    </div>
+                </div>
+                <mat-menu #optionMenu="matMenu">
+                    <button class="menu-button" mat-menu-item (click)="openForm(form)">Open</button>
+                    <button class="menu-button" mat-menu-item (click)="routeToEdit(form)">Edit</button>
+                    <button class="menu-button" mat-menu-item (click)="duplicate(form)">Duplicate</button>
+                    <button class="menu-button" mat-menu-item (click)="delete(form?.metadata?.key)">Delete</button>
+                </mat-menu>
+            </div>
+        </ng-container>
+    </div>
+</div>

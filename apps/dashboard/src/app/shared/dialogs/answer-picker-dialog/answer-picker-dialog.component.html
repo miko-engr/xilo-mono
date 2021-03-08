@@ -1,0 +1,42 @@
+<div class="container">
+    <h1 class="title-text">Add From {{data.type}}</h1>
+    <mat-card class="settings-card">
+        <form class="condition-form">
+            <div class="section-title">
+                <h3>Search templates</h3>
+            </div>
+            <div class="input-group" *ngIf="needsType()">
+                <span class="input-label">Template type <mat-icon class="info-icon" matTooltip="The template type determines what category this question or field falls in (i.e. Drivers or Prospects)" matTooltipPosition="right">info</mat-icon></span>
+                <select name="templateType" [(ngModel)]="templateType" class="condition-input">
+                    <option [value]="null" disabled>--- Choose template type --- </option>
+                    <option value="client">Prospect</option>
+                    <option value="drivers">Driver</option>
+                    <option value="vehicles">Vehicle</option>
+                    <option value="homes">Home</option>
+                    <option value="business">Commercial</option>
+                    <option value="locations">Location</option>
+                </select>
+            </div>
+            <div class="input-group" *ngIf="!needsType() || (needsType() && templateType)">
+                <span class="input-label">Search for a template <mat-icon class="info-icon" matTooltip="Start searching for a template and the results will show below" matTooltipPosition="right">info</mat-icon></span>
+                <input name="templateSearch" type="text" placeholder="Enter template search" [(ngModel)]="searchString" (ngModelChange)="filterTemplate($event)" class="condition-input">
+            </div>
+            <div class="input-group" *ngIf="setCompanyId">
+                <span class="input-label">Add company Id <mat-icon class="info-icon" matTooltip="If you reached this option you should leave the companyId as it is. This is for development" matTooltipPosition="right">info</mat-icon></span>
+                <input name="companyId" type="text" placeholder="Enter company Id" [(ngModel)]="companyId" class="condition-input">
+            </div>
+            <div class="input-group" *ngIf="templates.length === 0">
+                <p>No {{data.type}} found <span (click)="setCompanyId = true">...</span></p>
+            </div>
+            <div class="templates-container">
+                <div class="input-group result" *ngFor="let template of templates" (click)="storeTemplate(template)">
+                    <p>{{template[templateName()]}}  {{isAnswer(template) ? (' - ' + returnAnswerType(template)) : ''}}</p>
+                </div>
+            </div>
+        </form>
+    </mat-card>
+    <div class="settings-save-button-container">
+        <!-- <button class="settings-btn primary" (click)="storeTemplate()">Save Changes</button> -->
+        <button class="settings-btn secondary" (click)="dialogRef.close()">Exit</button>
+    </div>
+</div>

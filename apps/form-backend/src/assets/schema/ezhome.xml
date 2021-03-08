@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EZHOME xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.ezlynx.com/XMLSchema/Home/V200">
+    <Applicant>
+        <ApplicantType>Applicant</ApplicantType>
+        <PersonalInfo>
+            <Name>
+                <FirstName>{{Applicant.FirstName}}</FirstName>
+                <LastName>{{Applicant.LastName}}</LastName>
+            </Name>
+            <DOB c-if="Applicant.DOB">{{Applicant.DOB}}</DOB>
+            <SSN c-if="Applicant.SSN">{{Applicant.SSN}}</SSN>
+            <Gender c-if="Applicant.Gender">{{Applicant.Gender}}</Gender>
+            <MaritalStatus c-if="Applicant.MaritalStatus">{{Applicant.MaritalStatus}}</MaritalStatus>
+            <Industry c-if="Applicant.Industry">{{Applicant.Industry}}</Industry>
+            <Occupation c-if="Applicant.Occupation">{{Applicant.Occupation}}</Occupation>
+            <Education c-if="Applicant.Education">{{Applicant.Education}}</Education>
+            <Relation c-if="Applicant.Relation">{{Applicant.Relation}}</Relation>
+        </PersonalInfo>
+        <Address c-if="Home.City">
+            <AddressCode>StreetAddress</AddressCode>
+            <Addr1 c-if="Home.StreetName">
+                <StreetName>{{Home.StreetName}}</StreetName>
+                <StreetNumber>{{Home.StreetNumber}}</StreetNumber>
+                <UnitNumber>{{Home.UnitNumber}}</UnitNumber>
+            </Addr1>
+            <City>{{Home.City}}</City>
+            <StateCode c-if="Home.StateCode">{{Home.StateCode}}</StateCode>
+            <County c-if="Home.County">{{Home.County}}</County>
+            <Zip5 c-if="Home.Zip5">{{Home.Zip5}}</Zip5>
+            <Phone c-if="Applicant.PhoneNumber">
+                <PhoneType>Mobile</PhoneType>
+                <PhoneNumber>{{Applicant.PhoneNumber}}</PhoneNumber>
+            </Phone>
+            <Email c-if="Applicant.Email">{{Applicant.Email}}</Email>
+            <YearsAtAddress c-if="Home.YearsAtAddress">{{Home.YearsAtAddress}}</YearsAtAddress>
+        </Address>
+        <Address c-if="Address.City">
+            <AddressCode>PreviousAddress</AddressCode>
+            <Addr1 c-if="Address.StreetName">
+                <StreetName>{{Address.StreetName}}</StreetName>
+                <StreetNumber c-if="Address.StreetNumber">{{Address.StreetNumber}}</StreetNumber>
+                <UnitNumber c-if="Address.UnitNumber">{{Address.UnitNumber}}</UnitNumber>
+            </Addr1>
+            <City c-if="Address.City">{{Address.City}}</City>
+            <StateCode c-if="Address.StateCode">{{Address.StateCode}}</StateCode>
+            <County c-if="Address.County">{{Address.County}}</County>
+            <Zip5 c-if="Address.Zip5">{{Address.Zip5}}</Zip5>
+            <YearsAtAddress c-if="Address.YearsAtAddress">{{Address.YearsAtAddress}}</YearsAtAddress>
+        </Address>
+    </Applicant>
+    <Applicant c-if="CoApplicant">
+        <ApplicantType>CoApplicant</ApplicantType>
+        <PersonalInfo>
+            <Name c-if="CoApplicant.FirstName">
+                <FirstName c-if="CoApplicant.FirstName">{{CoApplicant.FirstName}}</FirstName>
+                <LastName c-if="CoApplicant.LastName">{{CoApplicant.LastName}}</LastName>
+            </Name>
+            <DOB c-if="CoApplicant.DOB">{{CoApplicant.DOB}}</DOB>
+            <SSN c-if="CoApplicant.SSN">{{CoApplicant.SSN}}</SSN>
+            <Gender c-if="CoApplicant.Gender">{{CoApplicant.Gender}}</Gender>
+            <MaritalStatus c-if="CoApplicant.MaritalStatus">{{CoApplicant.MaritalStatus}}</MaritalStatus>
+            <Relation c-if="CoApplicant.Relation">{{CoApplicant.Relation}}</Relation>
+            <Industry c-if="CoApplicant.Industry">{{CoApplicant.Industry}}</Industry>
+            <Occupation c-if="CoApplicant.Occupation">{{CoApplicant.Occupation}}</Occupation>
+            <Education c-if="CoApplicant.Education">{{CoApplicant.Education}}</Education>
+        </PersonalInfo>
+        <Address c-if="Address.City">
+            <AddressCode>StreetAddress</AddressCode>
+            <Addr1 c-if="Address.StreetName">
+                <StreetName>{{Address.StreetName}}</StreetName>
+                <StreetNumber c-if="Address.StreetNumber">{{Address.StreetNumber}}</StreetNumber>
+                <UnitNumber c-if="Address.UnitNumber">{{Address.UnitNumber}}</UnitNumber>
+            </Addr1>
+            <City>{{Address.City}}</City>
+            <StateCode c-if="Address.StateCode">{{Address.StateCode}}</StateCode>
+            <County c-if="Address.County">{{Address.County}}</County>
+            <Zip5 c-if="Address.Zip5">{{Address.Zip5}}</Zip5>
+            <Phone c-if="CoApplicant.PhoneNumber">
+                <PhoneType>Mobile</PhoneType>
+                <PhoneNumber>{{CoApplicant.PhoneNumber}}</PhoneNumber>
+            </Phone>
+            <Email c-if="CoApplicant.Email">{{CoApplicant.Email}}</Email>
+        </Address>
+    </Applicant>
+    <AltDwelling c-if="AltDwelling">
+        <Address>
+            <AddressCode c-if="AltDwelling.AddressCode">{{AltDwelling.AddressCode}}</AddressCode>
+            <Addr1 c-if="AltDwelling.StreetName">
+                <StreetName>{{AltDwelling.StreetName}}</StreetName>
+                <StreetNumber c-if="AltDwelling.StreetNumber">{{AltDwelling.StreetNumber}}</StreetNumber>
+                <UnitNumber c-if="AltDwelling.UnitNumber">{{AltDwelling.UnitNumber}}</UnitNumber>
+            </Addr1>
+            <City c-if="AltDwelling.City">{{AltDwelling.City}}</City>
+            <StateCode c-if="AltDwelling.StateCode">{{AltDwelling.StateCode}}</StateCode>
+            <County c-if="AltDwelling.County">{{AltDwelling.County}}</County>
+            <Zip5 c-if="AltDwelling.Zip5">{{AltDwelling.Zip5}}</Zip5>
+        </Address>
+    </AltDwelling>
+    <PriorPolicyInfo c-if="PriorPolicyInfo">
+        <PriorCarrier c-if="PriorPolicyInfo.PriorCarrier">{{PriorPolicyInfo.PriorCarrier}}</PriorCarrier>
+        <Expiration c-if="PriorPolicyInfo.Expiration">{{PriorPolicyInfo.Expiration|YYYYMMDD}}</Expiration>
+        <YearsWithPriorCarrier c-if="PriorPolicyInfo.YearsWithPriorCarrier">
+            <Years c-if="PriorPolicyInfo.YearsWithPriorCarrier.Years">{{PriorPolicyInfo.YearsWithPriorCarrier.Years}}</Years>
+            <Months c-if="PriorPolicyInfo.YearsWithPriorCarrier.Months">{{PriorPolicyInfo.YearsWithPriorCarrier.Months}}</Months>
+        </YearsWithPriorCarrier>
+        <YearsWithContinuousCoverage c-if="PriorPolicyInfo.YearsWithContinuousCoverage">
+            <Years c-if="PriorPolicyInfo.YearsWithContinuousCoverage.Years">{{PriorPolicyInfo.YearsWithContinuousCoverage.Years}}</Years>
+            <Months c-if="PriorPolicyInfo.YearsWithContinuousCoverage.Months">{{PriorPolicyInfo.YearsWithContinuousCoverage.Months}}</Months>
+        </YearsWithContinuousCoverage>
+        <ReasonNoPrior c-if="PriorPolicyInfo.ReasonNoPrior">{{PriorPolicyInfo.ReasonNoPrior}}</ReasonNoPrior>
+        <PriorPolicyPremium c-if="PriorPolicyInfo.PriorPolicyPremium">{{PriorPolicyInfo.PriorPolicyPremium}}</PriorPolicyPremium>
+    </PriorPolicyInfo>
+    <PolicyInfo c-if="PolicyInfo">
+        <PolicyTerm c-if="PolicyInfo.PolicyTerm">{{PolicyInfo.PolicyTerm}}</PolicyTerm>
+        <PolicyType c-if="PolicyInfo.PolicyType">{{PolicyInfo.PolicyType}}</PolicyType>
+        <Package c-if="PolicyInfo.Package">{{PolicyInfo.Package}}</Package>
+        <Effective c-if="PolicyInfo.Effective">{{PolicyInfo.Effective|YYYYMMDD}}</Effective>
+        <CreditCheckAuth>Yes</CreditCheckAuth>
+    </PolicyInfo>
+  <RatingInfo c-if="RatingInfo">
+    <PropertyInsCancelledLapsed c-if="RatingInfo.PropertyInsCancelledLapsed">{{RatingInfo.PropertyInsCancelledLapsed}}</PropertyInsCancelledLapsed>
+    <YearBuilt c-if="RatingInfo.YearBuilt">{{RatingInfo.YearBuilt}}</YearBuilt>
+    <Dwelling c-if="RatingInfo.Dwelling">{{RatingInfo.Dwelling}}</Dwelling>
+    <DwellingUse c-if="RatingInfo.DwellingUse">{{RatingInfo.DwellingUse}}</DwellingUse>
+    <NumberOfFullTimeDomEmps c-if="RatingInfo.NumberOfFullTimeDomEmps">{{RatingInfo.NumberOfFullTimeDomEmps}}</NumberOfFullTimeDomEmps>
+    <DistanceToFireHydrant c-if="RatingInfo.DistanceToFireHydrant">{{RatingInfo.DistanceToFireHydrant}}</DistanceToFireHydrant>
+    <WithinCityLimits c-if="RatingInfo.WithinCityLimits">{{RatingInfo.WithinCityLimits}}</WithinCityLimits>
+    <WithinProtectedSuburb c-if="RatingInfo.WithinProtectedSuburb">{{RatingInfo.WithinProtectedSuburb}}</WithinProtectedSuburb>
+    <DistanceToFireStation c-if="RatingInfo.DistanceToFireStation">{{RatingInfo.DistanceToFireStation}}</DistanceToFireStation>
+    <WithinFireDistrict c-if="RatingInfo.WithinFireDistrict">{{RatingInfo.WithinFireDistrict}}</WithinFireDistrict>
+    <ProtectionClass c-if="RatingInfo.ProtectionClass">{{RatingInfo.ProtectionClass}}</ProtectionClass>
+    <NumberOfStories c-if="RatingInfo.NumberOfStories">{{RatingInfo.NumberOfStories}}</NumberOfStories>
+    <Construction c-if="RatingInfo.Construction">{{RatingInfo.Construction}}</Construction>
+    <Structure c-if="RatingInfo.Structure">{{RatingInfo.Structure}}</Structure>
+    <Roof c-if="RatingInfo.Roof">{{RatingInfo.Roof}}</Roof>
+    <RoofULClass c-if="RatingInfo.RoofULClass">{{RatingInfo.RoofULClass}}</RoofULClass>
+    <DistanceToBrush c-if="RatingInfo.DistanceToBrush">{{RatingInfo.DistanceToBrush}}</DistanceToBrush>
+    <DistanceToTidalWater c-if="RatingInfo.DistanceToTidalWater">{{RatingInfo.DistanceToTidalWater}}</DistanceToTidalWater>
+    <SwimmingPool c-if="RatingInfo.SwimmingPool">{{RatingInfo.SwimmingPool}}</SwimmingPool>
+    <SwimmingPoolFenced c-if="RatingInfo.SwimmingPoolFenced">{{RatingInfo.SwimmingPoolFenced}}</SwimmingPoolFenced>
+    <SwimmingPoolType c-if="RatingInfo.SwimmingPoolType">{{RatingInfo.SwimmingPoolType}}</SwimmingPoolType>
+    <DogOnPremises c-if="RatingInfo.DogOnPremises">{{RatingInfo.DogOnPremises}}</DogOnPremises>
+    <HeatingType c-if="RatingInfo.HeatingType">{{RatingInfo.HeatingType}}</HeatingType>
+    <WoodBurningStove c-if="RatingInfo.WoodBurningStove">{{RatingInfo.WoodBurningStove}}</WoodBurningStove>
+    <NumberOfWoodBurningStoves c-if="RatingInfo.NumberOfWoodBurningStoves">{{RatingInfo.NumberOfWoodBurningStoves}}</NumberOfWoodBurningStoves>
+    <RoofingUpdate c-if="RatingInfo.RoofingUpdate">{{RatingInfo.RoofingUpdate}}</RoofingUpdate>
+    <RoofingUpdateYear c-if="RatingInfo.RoofingUpdateYear">{{RatingInfo.RoofingUpdateYear}}</RoofingUpdateYear>
+    <ElectricalUpdate c-if="RatingInfo.ElectricalUpdate">{{RatingInfo.ElectricalUpdate}}</ElectricalUpdate>
+    <ElectricalUpdateYear c-if="RatingInfo.ElectricalUpdateYear">{{RatingInfo.ElectricalUpdateYear}}</ElectricalUpdateYear>
+    <PlumbingUpdate c-if="RatingInfo.PlumbingUpdate">{{RatingInfo.PlumbingUpdate}}</PlumbingUpdate>
+    <PlumbingUpdateYear c-if="RatingInfo.PlumbingUpdateYear">{{RatingInfo.PlumbingUpdateYear}}</PlumbingUpdateYear>
+    <HeatingUpdate c-if="RatingInfo.HeatingUpdate">{{RatingInfo.HeatingUpdate}}</HeatingUpdate>
+    <HeatingUpdateYear c-if="RatingInfo.HeatingUpdateYear">{{RatingInfo.HeatingUpdateYear}}</HeatingUpdateYear>
+    <ElectricCircuitBreaker c-if="RatingInfo.ElectricCircuitBreaker">{{RatingInfo.ElectricCircuitBreaker}}</ElectricCircuitBreaker>
+    <UnderConstruction c-if="RatingInfo.UnderConstruction">{{RatingInfo.UnderConstruction}}</UnderConstruction>
+    <SquareFootage c-if="RatingInfo.SquareFootage">{{RatingInfo.SquareFootage}}</SquareFootage>
+    <NumberOfApartments c-if="RatingInfo.NumberOfApartments">{{RatingInfo.NumberOfApartments}}</NumberOfApartments>
+    <PurchaseDate c-if="RatingInfo.PurchaseDate">{{RatingInfo.PurchaseDate}}</PurchaseDate>
+    <PurchasePrice c-if="RatingInfo.PurchasePrice">{{RatingInfo.PurchasePrice}}</PurchasePrice>
+    <Trampoline c-if="RatingInfo.Trampoline">{{RatingInfo.Trampoline}}</Trampoline>
+    <SecondaryHeatingSource c-if="RatingInfo.SecondaryHeatingSource">{{RatingInfo.SecondaryHeatingSource}}</SecondaryHeatingSource>
+    <SecondaryHeatingSourceType c-if="RatingInfo.SecondaryHeatingSourceType">{{RatingInfo.SecondaryHeatingSourceType}}</SecondaryHeatingSourceType>
+    <BusinessOnPremises c-if="RatingInfo.BusinessOnPremises">{{RatingInfo.BusinessOnPremises}}</BusinessOnPremises>
+    <FirstMortgagee c-if="RatingInfo.FirstMortgagee">{{RatingInfo.FirstMortgagee}}</FirstMortgagee>
+    <SecondMortgagee c-if="RatingInfo.SecondMortgagee">{{RatingInfo.SecondMortgagee}}</SecondMortgagee>
+    <ThirdMortgagee c-if="RatingInfo.ThirdMortgagee">{{RatingInfo.ThirdMortgagee}}</ThirdMortgagee>
+    <EquityLineOfCredit c-if="RatingInfo.EquityLineOfCredit">{{RatingInfo.EquityLineOfCredit}}</EquityLineOfCredit>
+    <CoSigner c-if="RatingInfo.CoSigner">{{RatingInfo.CoSigner}}</CoSigner>
+    <NumberOfOtherInterests c-if="RatingInfo.NumberOfOtherInterests">{{RatingInfo.NumberOfOtherInterests}}</NumberOfOtherInterests>
+    <RoofShape c-if="RatingInfo.RoofShape">{{RatingInfo.RoofShape}}</RoofShape>
+    <WindSpeed c-if="RatingInfo.WindSpeed">{{RatingInfo.WindSpeed}}</WindSpeed>
+    <Foundation c-if="RatingInfo.Foundation">{{RatingInfo.Foundation}}</Foundation>
+    <ReplacementCostExtended c-if="RatingInfo.ReplacementCostExtended">
+        <ShapeOfDwelling c-if="RatingInfo.ReplacementCostExtended.ShapeOfDwelling">{{RatingInfo.ReplacementCostExtended.ShapeOfDwelling}}</ShapeOfDwelling>
+        <ConstructionMethod c-if="RatingInfo.ReplacementCostExtended.ConstructionMethod">{{RatingInfo.ReplacementCostExtended.ConstructionMethod}}</ConstructionMethod>
+        <Foundations c-if="RatingInfo.ReplacementCostExtended.Foundations">
+            <Slab c-if="RatingInfo.ReplacementCostExtended.Foundations.Slab">{{RatingInfo.ReplacementCostExtended.Foundations.Slab}}</Slab>
+            <CrawlSpace c-if="RatingInfo.ReplacementCostExtended.Foundations.CrawlSpace">{{RatingInfo.ReplacementCostExtended.Foundations.CrawlSpace}}</CrawlSpace>
+            <Basement c-if="RatingInfo.ReplacementCostExtended.Foundations.Basement">{{RatingInfo.ReplacementCostExtended.Foundations.Basement}}</Basement>
+            <PiersOrPile c-if="RatingInfo.ReplacementCostExtended.Foundations.PiersOrPile">{{RatingInfo.ReplacementCostExtended.Foundations.PiersOrPile}}</PiersOrPile>
+            <SuspendedOverHillside c-if="RatingInfo.ReplacementCostExtended.Foundations.SuspendedOverHillside">{{RatingInfo.ReplacementCostExtended.Foundations.SuspendedOverHillside}}</SuspendedOverHillside>
+            <BasementInformation c-if="RatingInfo.ReplacementCostExtended.Foundations.BasementInformation">
+                <BasementType c-if="RatingInfo.ReplacementCostExtended.Foundations.BasementInformation.BasementType">{{RatingInfo.ReplacementCostExtended.Foundations.BasementInformation.BasementType}}</BasementType>
+                <BasementFinished c-if="RatingInfo.ReplacementCostExtended.Foundations.BasementInformation.BasementFinished">{{RatingInfo.ReplacementCostExtended.Foundations.BasementInformation.BasementFinished}}</BasementFinished>
+                <BasementFinishedType c-if="RatingInfo.ReplacementCostExtended.Foundations.BasementInformation.BasementFinishedType">{{RatingInfo.ReplacementCostExtended.Foundations.BasementInformation.BasementFinishedType}}</BasementFinishedType>
+            </BasementInformation>
+        </Foundations>
+        <LandUnderFoundation c-if="RatingInfo.ReplacementCostExtended.LandUnderFoundation">{{RatingInfo.ReplacementCostExtended.LandUnderFoundation}}</LandUnderFoundation>
+        <Kitchens c-if="RatingInfo.ReplacementCostExtended.Kitchens">{{RatingInfo.ReplacementCostExtended.Kitchens}}</Kitchens>
+        <HeatingAndCooling c-if="RatingInfo.ReplacementCostExtended.HeatingAndCooling">
+            <AirConditioning c-if="RatingInfo.ReplacementCostExtended.HeatingAndCooling.AirConditioning">{{RatingInfo.ReplacementCostExtended.HeatingAndCooling.AirConditioning}}</AirConditioning>
+            <FirePlace c-if="RatingInfo.ReplacementCostExtended.HeatingAndCooling.FirePlace">
+                <FirePlace c-if="RatingInfo.ReplacementCostExtended.HeatingAndCooling.FirePlace.FirePlace">{{RatingInfo.ReplacementCostExtended.HeatingAndCooling.FirePlace.FirePlace}}</FirePlace>
+                <NumberOfFirePlaces c-if="RatingInfo.ReplacementCostExtended.HeatingAndCooling.FirePlace.NumberOfFirePlaces">{{RatingInfo.ReplacementCostExtended.HeatingAndCooling.FirePlace.NumberOfFirePlaces}}</NumberOfFirePlaces>
+            </FirePlace>
+        </HeatingAndCooling>
+        <GaragesAndCarports c-if="RatingInfo.ReplacementCostExtended.GaragesAndCarports">
+            <GaragesAndCarports c-if="RatingInfo.ReplacementCostExtended.GaragesAndCarports.GaragesAndCarports">{{RatingInfo.ReplacementCostExtended.GaragesAndCarports.GaragesAndCarports}}</GaragesAndCarports>
+            <NumberOfCars c-if="RatingInfo.ReplacementCostExtended.GaragesAndCarports.NumberOfCars">{{RatingInfo.ReplacementCostExtended.GaragesAndCarports.NumberOfCars}}</NumberOfCars>
+        </GaragesAndCarports>
+        <RoofPitch c-if="RatingInfo.ReplacementCostExtended.RoofPitch">{{RatingInfo.ReplacementCostExtended.RoofPitch}}</RoofPitch>
+        <NumberOfRoofOverlays c-if="RatingInfo.ReplacementCostExtended.NumberOfRoofOverlays">{{RatingInfo.ReplacementCostExtended.NumberOfRoofOverlays}}</NumberOfRoofOverlays>
+        <Baths c-if="RatingInfo.ReplacementCostExtended.Baths">
+            <FullBaths c-if="RatingInfo.ReplacementCostExtended.Baths.FullBaths">
+                <Basic c-if="RatingInfo.ReplacementCostExtended.Baths.FullBaths.Basic">{{RatingInfo.ReplacementCostExtended.Baths.FullBaths.Basic}}</Basic>
+                <BuildersGrade c-if="RatingInfo.ReplacementCostExtended.Baths.FullBaths.BuildersGrade">{{RatingInfo.ReplacementCostExtended.Baths.FullBaths.BuildersGrade}}</BuildersGrade>
+                <SemiCustom c-if="RatingInfo.ReplacementCostExtended.Baths.FullBaths.SemiCustom">{{RatingInfo.ReplacementCostExtended.Baths.FullBaths.SemiCustom}}</SemiCustom>
+                <Custom c-if="RatingInfo.ReplacementCostExtended.Baths.FullBaths.Custom">{{RatingInfo.ReplacementCostExtended.Baths.FullBaths.Custom}}</Custom>
+                <Designer c-if="RatingInfo.ReplacementCostExtended.Baths.FullBaths.Designer">{{RatingInfo.ReplacementCostExtended.Baths.FullBaths.Designer}}</Designer>
+            </FullBaths>
+            <HalfBaths c-if="RatingInfo.ReplacementCostExtended.Baths.HalfBaths">
+                <Basic c-if="RatingInfo.ReplacementCostExtended.Baths.HalfBaths.Basic">{{RatingInfo.ReplacementCostExtended.Baths.HalfBaths.Basic}}</Basic>
+                <BuildersGrade c-if="RatingInfo.ReplacementCostExtended.Baths.HalfBaths.BuildersGrade">{{RatingInfo.ReplacementCostExtended.Baths.HalfBaths.BuildersGrade}}</BuildersGrade>
+                <SemiCustom c-if="RatingInfo.ReplacementCostExtended.Baths.HalfBaths.SemiCustom">{{RatingInfo.ReplacementCostExtended.Baths.HalfBaths.SemiCustom}}</SemiCustom>
+                <Custom c-if="RatingInfo.ReplacementCostExtended.Baths.HalfBaths.Custom">{{RatingInfo.ReplacementCostExtended.Baths.HalfBaths.Custom}}</Custom>
+                <Designer c-if="RatingInfo.ReplacementCostExtended.Baths.HalfBaths.Designer">{{RatingInfo.ReplacementCostExtended.Baths.HalfBaths.Designer}}</Designer>
+            </HalfBaths>
+            <ThreeQuarterBaths c-if="RatingInfo.ReplacementCostExtended.Baths.ThreeQuarterBaths">
+                <Basic c-if="RatingInfo.ReplacementCostExtended.Baths.ThreeQuarterBaths.Basic">{{RatingInfo.ReplacementCostExtended.Baths.ThreeQuarterBaths.Basic}}</Basic>
+                <BuildersGrade c-if="RatingInfo.ReplacementCostExtended.Baths.ThreeQuarterBaths.BuildersGrade">{{RatingInfo.ReplacementCostExtended.Baths.ThreeQuarterBaths.BuildersGrade}}</BuildersGrade>
+                <SemiCustom c-if="RatingInfo.ReplacementCostExtended.Baths.ThreeQuarterBaths.SemiCustom">{{RatingInfo.ReplacementCostExtended.Baths.ThreeQuarterBaths.SemiCustom}}</SemiCustom>
+                <Custom c-if="RatingInfo.ReplacementCostExtended.Baths.ThreeQuarterBaths.Custom">{{RatingInfo.ReplacementCostExtended.Baths.ThreeQuarterBaths.Custom}}</Custom>
+                <Designer c-if="RatingInfo.ReplacementCostExtended.Baths.ThreeQuarterBaths.Designer">{{RatingInfo.ReplacementCostExtended.Baths.ThreeQuarterBaths.Designer}}</Designer>
+            </ThreeQuarterBaths>
+        </Baths>
+    </ReplacementCostExtended>
+  </RatingInfo>
+  <ReplacementCost c-if="ReplacementCost">
+    <ReplacementCost c-if="ReplacementCost.ReplacementCost">{{ReplacementCost.ReplacementCost}}</ReplacementCost>
+    <Dwelling c-if="ReplacementCost.Dwelling">{{ReplacementCost.Dwelling}}</Dwelling>
+    <OtherStructures c-if="ReplacementCost.OtherStructures">{{ReplacementCost.OtherStructures}}</OtherStructures>
+    <LossOfUse c-if="ReplacementCost.LossOfUse">{{ReplacementCost.LossOfUse}}</LossOfUse>
+    <PersonalProperty c-if="ReplacementCost.PersonalProperty">{{ReplacementCost.PersonalProperty}}</PersonalProperty>
+    <PersonalLiability c-if="ReplacementCost.PersonalLiability">{{ReplacementCost.PersonalLiability}}</PersonalLiability>
+    <MedicalPayments c-if="ReplacementCost.MedicalPayments">{{ReplacementCost.MedicalPayments}}</MedicalPayments>
+    <NumberOfFamilies c-if="ReplacementCost.NumberOfFamilies">{{ReplacementCost.NumberOfFamilies}}</NumberOfFamilies>
+    <DeductibeInfo c-if="ReplacementCost.DeductibeInfo">
+      <Deductible c-if="ReplacementCost.DeductibeInfo.Deductible">{{ReplacementCost.DeductibeInfo.Deductible}}</Deductible>
+      <TheftDeductible c-if="ReplacementCost.DeductibeInfo.TheftDeductible">{{ReplacementCost.DeductibeInfo.TheftDeductible}}</TheftDeductible>
+      <WindDeductible c-if="ReplacementCost.DeductibeInfo.WindDeductible">{{ReplacementCost.DeductibeInfo.WindDeductible}}</WindDeductible>
+      <HurricaneDeductible c-if="ReplacementCost.DeductibeInfo.HurricaneDeductible">{{ReplacementCost.DeductibeInfo.HurricaneDeductible}}</HurricaneDeductible>
+    </DeductibeInfo>
+    <RatingCredits c-if="ReplacementCost.RatingCredits">
+      <RetireesCredit c-if="ReplacementCost.RatingCredits.RetireesCredit">{{ReplacementCost.RatingCredits.RetireesCredit}}</RetireesCredit>
+      <MatureDiscount c-if="ReplacementCost.RatingCredits.MatureDiscount">{{ReplacementCost.RatingCredits.MatureDiscount}}</MatureDiscount>
+      <RetirementCommunity c-if="ReplacementCost.RatingCredits.RetirementCommunity">{{ReplacementCost.RatingCredits.RetirementCommunity}}</RetirementCommunity>
+      <LimitedAccessCommunity c-if="ReplacementCost.RatingCredits.LimitedAccessCommunity">{{ReplacementCost.RatingCredits.LimitedAccessCommunity}}</LimitedAccessCommunity>
+      <GatedCommunity c-if="ReplacementCost.RatingCredits.GatedCommunity">{{ReplacementCost.RatingCredits.GatedCommunity}}</GatedCommunity>
+      <Multipolicy c-if="ReplacementCost.RatingCredits.Multipolicy">{{ReplacementCost.RatingCredits.Multipolicy}}</Multipolicy>
+      <NonSmoker c-if="ReplacementCost.RatingCredits.NonSmoker">{{ReplacementCost.RatingCredits.NonSmoker}}</NonSmoker>
+    </RatingCredits>
+  </ReplacementCost>
+  <Endorsements c-if="Endorsements">
+    <BuildingAddAlt c-if="Endorsements.BuildingAddAlt">{{Endorsements.BuildingAddAlt}}</BuildingAddAlt>
+    <BuildingAddAltAmount c-if="Endorsements.BuildingAddAltAmount">{{Endorsements.BuildingAddAltAmount}}</BuildingAddAltAmount>
+    <BusinessPursuits c-if="Endorsements.BusinessPursuits">{{Endorsements.BusinessPursuits}}</BusinessPursuits>
+    <CreditCardLimit c-if="Endorsements.CreditCardLimit">{{Endorsements.CreditCardLimit}}</CreditCardLimit>
+    <IdentityTheft c-if="Endorsements.IdentityTheft">
+        <IdentityTheft c-if="Endorsements.IdentityTheft.IdentityTheft">{{Endorsements.IdentityTheft.IdentityTheft}}</IdentityTheft>
+    </IdentityTheft>
+    <LossAssessment c-if="Endorsements.LossAssessment">
+        <LossAssessment c-if="Endorsements.LossAssessment.LossAssessment">{{Endorsements.LossAssessment.LossAssessment}}</LossAssessment>
+        <Amount c-if="Endorsements.LossAssessment.Amount">{{Endorsements.LossAssessment.Amount}}</Amount>
+    </LossAssessment>
+    <OrdinanceOrLaw c-if="Endorsements.OrdinanceOrLaw">
+        <OrdinanceOrLaw c-if="Endorsements.OrdinanceOrLaw.OrdinanceOrLaw">{{Endorsements.OrdinanceOrLaw.OrdinanceOrLaw}}</OrdinanceOrLaw>
+        <Percent c-if="Endorsements.OrdinanceOrLaw.Percent">{{Endorsements.OrdinanceOrLaw.Percent}}</Percent>
+    </OrdinanceOrLaw>
+    <ProtectiveDevices c-if="Endorsements.ProtectiveDevices">
+        <SmokeDetector c-if="Endorsements.ProtectiveDevices.SmokeDetector">
+            <BaseProtectionDevice c-if="Endorsements.ProtectiveDevices.SmokeDetector.BaseProtectionDevice">{{Endorsements.ProtectiveDevices.SmokeDetector.BaseProtectionDevice}}</BaseProtectionDevice>
+            <FireExtinguisher c-if="Endorsements.ProtectiveDevices.SmokeDetector.FireExtinguisher">{{Endorsements.ProtectiveDevices.SmokeDetector.FireExtinguisher}}</FireExtinguisher>
+        </SmokeDetector>
+        <Fire c-if="Endorsements.ProtectiveDevices.Fire">{{Endorsements.ProtectiveDevices.Fire}}</Fire>
+        <TemperatureControl c-if="Endorsements.ProtectiveDevices.TemperatureControl">{{Endorsements.ProtectiveDevices.TemperatureControl}}</TemperatureControl>
+        <BurglarAlarm c-if="Endorsements.ProtectiveDevices.BurglarAlarm">
+            <BaseProtectionDevice c-if="Endorsements.ProtectiveDevices.BurglarAlarm.BaseProtectionDevice">{{Endorsements.ProtectiveDevices.BurglarAlarm.BaseProtectionDevice}}</BaseProtectionDevice>
+            <DeadBolt c-if="Endorsements.ProtectiveDevices.BurglarAlarm.DeadBolt">{{Endorsements.ProtectiveDevices.BurglarAlarm.DeadBolt}}</DeadBolt>
+            <VisibleToNeighbor c-if="Endorsements.ProtectiveDevices.BurglarAlarm.VisibleToNeighbor">{{Endorsements.ProtectiveDevices.BurglarAlarm.VisibleToNeighbor}}</VisibleToNeighbor>
+            <MannedSecurity c-if="Endorsements.ProtectiveDevices.BurglarAlarm.MannedSecurity">{{Endorsements.ProtectiveDevices.BurglarAlarm.MannedSecurity}}</MannedSecurity>
+        </BurglarAlarm>
+        <Sprinkler c-if="Endorsements.ProtectiveDevices.Sprinkler">{{Endorsements.ProtectiveDevices.Sprinkler}}</Sprinkler>
+    </ProtectiveDevices>
+    <PersonalInjury c-if="Endorsements.PersonalInjury">
+        <PersonalInjury c-if="Endorsements.PersonalInjury.PersonalInjury">{{Endorsements.PersonalInjury.PersonalInjury}}</PersonalInjury>
+    </PersonalInjury>
+    <ScheduledPersonalProperty c-if="Endorsements.ScheduledPersonalProperty">
+        <ScheduledPersonalProperty c-if="Endorsements.ScheduledPersonalProperty.ScheduledPersonalProperty">{{Endorsements.ScheduledPersonalProperty.ScheduledPersonalProperty}}</ScheduledPersonalProperty>
+        <Coins c-if="Endorsements.ScheduledPersonalProperty.Coins">
+            <Amount c-if="Endorsements.ScheduledPersonalProperty.Coins.Amount">{{Endorsements.ScheduledPersonalProperty.Coins.Amount}}</Amount>
+            <Breakage c-if="Endorsements.ScheduledPersonalProperty.Coins.Breakage">{{Endorsements.ScheduledPersonalProperty.Coins.Breakage}}</Breakage>
+        </Coins>
+        <Furs c-if="Endorsements.ScheduledPersonalProperty.Furs">
+            <Amount c-if="Endorsements.ScheduledPersonalProperty.Furs.Amount">{{Endorsements.ScheduledPersonalProperty.Furs.Amount}}</Amount>
+            <Breakage c-if="Endorsements.ScheduledPersonalProperty.Furs.Breakage">{{Endorsements.ScheduledPersonalProperty.Furs.Breakage}}</Breakage>
+        </Furs>
+        <FineArts c-if="Endorsements.ScheduledPersonalProperty.FineArts">
+            <Amount c-if="Endorsements.ScheduledPersonalProperty.FineArts.Amount">{{Endorsements.ScheduledPersonalProperty.FineArts.Amount}}</Amount>
+            <Breakage c-if="Endorsements.ScheduledPersonalProperty.FineArts.Breakage">{{Endorsements.ScheduledPersonalProperty.FineArts.Breakage}}</Breakage>
+        </FineArts>
+        <Guns c-if="Endorsements.ScheduledPersonalProperty.Guns">
+            <Amount c-if="Endorsements.ScheduledPersonalProperty.Guns.Amount">{{Endorsements.ScheduledPersonalProperty.Guns.Amount}}</Amount>
+            <Breakage c-if="Endorsements.ScheduledPersonalProperty.Guns.Breakage">{{Endorsements.ScheduledPersonalProperty.Guns.Breakage}}</Breakage>
+        </Guns>
+        <Jewelry c-if="Endorsements.ScheduledPersonalProperty.Jewelry">
+            <Amount c-if="Endorsements.ScheduledPersonalProperty.Jewelry.Amount">{{Endorsements.ScheduledPersonalProperty.Jewelry.Amount}}</Amount>
+            <Breakage c-if="Endorsements.ScheduledPersonalProperty.Jewelry.Breakage">{{Endorsements.ScheduledPersonalProperty.Jewelry.Breakage}}</Breakage>
+        </Jewelry>
+        <Music c-if="Endorsements.ScheduledPersonalProperty.Music">
+            <Amount c-if="Endorsements.ScheduledPersonalProperty.Music.Amount">{{Endorsements.ScheduledPersonalProperty.Music.Amount}}</Amount>
+            <Breakage c-if="Endorsements.ScheduledPersonalProperty.Music.Breakage">{{Endorsements.ScheduledPersonalProperty.Music.Breakage}}</Breakage>
+        </Music>
+        <Silverware c-if="Endorsements.ScheduledPersonalProperty.Silverware">
+            <Amount c-if="Endorsements.ScheduledPersonalProperty.Silverware.Amount">{{Endorsements.ScheduledPersonalProperty.Silverware.Amount}}</Amount>
+            <Breakage c-if="Endorsements.ScheduledPersonalProperty.Silverware.Breakage">{{Endorsements.ScheduledPersonalProperty.Silverware.Breakage}}</Breakage>
+        </Silverware>
+    </ScheduledPersonalProperty>
+    <ReplacementCostDwelling c-if="Endorsements.ReplacementCostDwelling">
+        <ReplacementCostDwelling c-if="Endorsements.ReplacementCostDwelling.ReplacementCostDwelling">{{Endorsements.ReplacementCostDwelling.ReplacementCostDwelling}}</ReplacementCostDwelling>
+        <Amount c-if="Endorsements.ReplacementCostDwelling.Amount">{{Endorsements.ReplacementCostDwelling.Amount}}</Amount>
+        <ReplacementCostDwellingPercentage c-if="Endorsements.ReplacementCostDwelling.ReplacementCostDwellingPercentage">{{Endorsements.ReplacementCostDwelling.ReplacementCostDwellingPercentage}}</ReplacementCostDwellingPercentage>
+    </ReplacementCostDwelling>
+    <ReplacementCostContent c-if="Endorsements.ReplacementCostContent">
+        <ReplacementCostContent c-if="Endorsements.ReplacementCostContent.ReplacementCostContent">{{Endorsements.ReplacementCostContent.ReplacementCostContent}}</ReplacementCostContent>
+        <Amount c-if="Endorsements.ReplacementCostContent.Amount">{{Endorsements.ReplacementCostContent.Amount}}</Amount>
+    </ReplacementCostContent>
+    <IncreasedJewelryWatchesFurs c-if="Endorsements.IncreasedJewelryWatchesFurs">
+        <JewelryWatchesFurs c-if="Endorsements.IncreasedJewelryWatchesFurs.JewelryWatchesFurs">{{Endorsements.IncreasedJewelryWatchesFurs.JewelryWatchesFurs}}</JewelryWatchesFurs>
+        <Amount c-if="Endorsements.IncreasedJewelryWatchesFurs.Amount">{{Endorsements.IncreasedJewelryWatchesFurs.Amount}}</Amount>
+    </IncreasedJewelryWatchesFurs>
+    <WaterBackup c-if="Endorsements.WaterBackup">
+        <WaterBackup c-if="Endorsements.WaterBackup.WaterBackup">{{Endorsements.WaterBackup.WaterBackup}}</WaterBackup>
+        <Amount c-if="Endorsements.WaterBackup.Amount">{{Endorsements.WaterBackup.Amount}}</Amount>
+    </WaterBackup>
+  </Endorsements>
+    <LossInfo c-bind="LossInfo|array" id="{{Index}}">
+        <DateOfIncident c-if="DateOfIncident">{{DateOfIncident}}</DateOfIncident>
+        <Description c-if="Description">{{Description}}</Description>
+        <Amount c-if="Amount">{{Amount}}</Amount>
+        <CATLoss c-if="CATLoss">{{CATLoss}}</CATLoss>
+    </LossInfo>
+    <GeneralInfo c-if="GeneralInfo">
+        <RatingStateCode c-if="GeneralInfo.RatingStateCode">{{GeneralInfo.RatingStateCode}}</RatingStateCode>
+        <Comments c-if="GeneralInfo.Comments">{{GeneralInfo.Comments}}</Comments>
+    </GeneralInfo>
+</EZHOME>

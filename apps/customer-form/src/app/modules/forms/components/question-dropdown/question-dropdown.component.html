@@ -1,0 +1,70 @@
+<form [formGroup]="currentForm">
+  <div [ngClass]="isInvalid ? ' form-item error' : 'form-item'">
+    <label>
+      <span>
+        {{ properties?.placeholderText }}{{ properties?.isRequired ? '*' : '' }}
+      </span>
+    </label>
+
+    <ng-select
+      *ngIf="
+        (!isMobile || properties?.isMultipleSelect) &&
+        !properties?.isSelectObject
+      "
+      class="accordion"
+      [dropdownPosition]="handleDropdownPosition()"
+      [items]="options"
+      [formControlName]="properties?.answerId"
+      [clearable]="false"
+      [multiple]="properties?.isMultipleSelect"
+      (change)="handleValueChange($event, false)"
+    >
+    </ng-select>
+
+    <ng-select
+      *ngIf="
+        (!isMobile || properties?.isMultipleSelect) &&
+        properties?.isSelectObject
+      "
+      class="accordion"
+      bindLabel="name"
+      bindValue="id"
+      [dropdownPosition]="handleDropdownPosition()"
+      [items]="options"
+      [formControlName]="properties?.answerId"
+      [clearable]="false"
+      [multiple]="properties?.isMultipleSelect"
+      (change)="handleValueChange($event, false)"
+    >
+    </ng-select>
+
+    <select
+      *ngIf="
+        isMobile && !properties?.isMultipleSelect && !properties?.isSelectObject
+      "
+      formControlName="{{ properties?.answerId }}"
+      (change)="handleValueChange($event.target.value, false)"
+    >
+      <option selected value> -- select an option -- </option>
+      <option *ngIf="!options.length" disabled value="">No items found</option>
+      <option *ngFor="let option of options" value="{{ option }}">
+        {{ option }}
+      </option>
+    </select>
+
+    <select
+      *ngIf="
+        isMobile && !properties?.isMultipleSelect && properties?.isSelectObject
+      "
+      formControlName="{{ properties?.answerId }}"
+      (change)="handleValueChange($event.target.value, false)"
+    >
+      <option selected value> -- select an option -- </option>
+      <option *ngIf="!options.length" disabled value="">No items found</option>
+      <option *ngFor="let option of options" value="{{ option.id }}">
+        {{ option.name }}
+      </option>
+    </select>
+    <label *ngIf="isInvalid">{{ properties?.errorText }} </label>
+  </div>
+</form>

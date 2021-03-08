@@ -1,0 +1,293 @@
+<div class="container">
+    <h1 class="title-text">Transform Response</h1>
+    <p>Manipulate the reponse pushed to {{integration.vendorName}}</p>
+    <mat-card class="settings-card">
+        <form class="condition-form">
+            <div class="input-group">
+                <span class="input-label">Method <mat-icon class="info-icon" matTooltip="How do you want to transorm the response before integrating it into your system?" matTooltipPosition="right">info</mat-icon></span>
+                <select name="method" [(ngModel)]="transformation.method" class="condition-input">
+                    <option selected [value]="null" disabled>--- Choose transformation method --- </option>
+                    <option value="add">Calculate {{returnEZLabel(integration.element)}}</option>
+                    <option value="addif">Calculate {{returnEZLabel(integration.element)}} if ...</option>
+                    <option value="set">Set {{returnEZLabel(integration.element)}} to ...</option>
+                    <option value="setif">Set {{returnEZLabel(integration.element)}} to ... if ...</option>
+                    <option value="change">Change {{returnEZLabel(integration.element)}}</option>
+                </select>
+            </div>
+            <div class="transformation-container">
+                <div class="transformation-section" id="value-var" *ngIf="transformation.method === 'add'">
+                    <div class="transformation-group">
+                        <div class="transformation-text">
+                            <p>Set to calculation</p>
+                        </div>
+                        <div class="transformation-inputs">
+                            <div class="input-group">
+                                <span class="input-label">Field</span>
+                                <mat-form-field style="font-size: 8px" (click)="$event.stopPropagation();" floatLabel="never" appearance="outline">
+                                    <input type="text" class="condition-input" style="font-size: 14px;padding-left: 8px;" [placeholder]="returnLabel(transformation.valueKey, transformation.valueObject) || 'Field'" aria-label="Key" name="key" matInput [(ngModel)]="transformation.valueKey" disableRipple [matAutocomplete]="auto">
+                                    <!-- <mat-icon style="font-size: 20px;transform: translate(-30px, 6px);" matSuffix>search</mat-icon> -->
+                                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setFields($event)" [displayWith]="displayFn">
+                                        <mat-optgroup *ngFor="let group of keyGroups" [label]="group.type">
+                                        <mat-option *ngFor="let key of group.keys | filter:transformation.valueKey" [value]="{type: group.type, label: key.label, key: key.key}">
+                                            {{key.label}}
+                                        </mat-option>
+                                        </mat-optgroup>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+            
+                            <div class="input-group">
+                                <span class="input-label">Operator</span>
+                                <select name="operator" [(ngModel)]="transformation.operator" class="condition-input" id="operator">
+                                    <option selected [value]="null" disabled>--- Choose operator --- </option>
+                                    <option value="+">Plus</option>
+                                    <option value="-">Minus</option>
+                                    <option value="/">Divded by</option>
+                                    <option value="*">Multiplied by</option>
+                                    <option value="%">Divded by (remainder)</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group">
+                                <span class="input-label">Value</span>
+                                <input name="addedValue" type="number" placeholder="value" [(ngModel)]="transformation.addedValue" class="condition-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="transformation-section" id="value-var" *ngIf="transformation.method === 'addif'">
+                    <div class="transformation-group">
+                        <div class="transformation-text">
+                            <p>If</p>
+                        </div>
+                        <div class="transformation-inputs">
+                            <!-- <span class="input-label" style="font-size: 1.5rem">
+                                {{returnLabel(integration.xiloKey, integration.xiloObject)}} will equal {{returnLabel(transformation.valueKey, transformation.valueObject)}} if {{returnLabel(transformation.conditionKey, transformation.conditionObject)}} {{transformation.conditionOperator}} {{transformation.conditionValue}}
+                            </span> -->
+                            <div class="input-group">
+                                <span class="input-label">Condition Field</span>
+                                <mat-form-field style="font-size: 8px" (click)="$event.stopPropagation();" floatLabel="never" appearance="outline">
+                                    <input type="text" class="condition-input" style="font-size: 14px;padding-left: 8px;" [placeholder]="returnLabel(transformation.conditionKey, transformation.conditionObject) || 'Field'" aria-label="Key" name="key" 
+                                            matInput [(ngModel)]="transformation.conditionKey" disableRipple [matAutocomplete]="conditionAuto">
+                                    <!-- <mat-icon style="font-size: 20px;transform: translate(-30px, 6px);" matSuffix>search</mat-icon> -->
+                                    <mat-autocomplete #conditionAuto="matAutocomplete" (optionSelected)="setConditionFields($event)" [displayWith]="displayFn">
+                                        <mat-optgroup *ngFor="let group of keyGroups" [label]="group.type">
+                                        <mat-option *ngFor="let key of group.keys | filter:transformation.conditionKey" [value]="{type: group.type, label: key.label, key: key.key}">
+                                            {{key.label}}
+                                        </mat-option>
+                                        </mat-optgroup>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+    
+                            <div class="input-group">
+                                <span class="input-label">Rule</span>
+                                <select name="conditionOperator" [(ngModel)]="transformation.conditionOperator" class="condition-input" id="conditionOperator">
+                                    <option selected [value]="null" disabled>--- Choose operator --- </option>
+                                    <option *ngFor="let op of conditionOperators" [value]="op.sign">{{op.title}}</option>
+                                </select>
+                            </div>
+    
+                            <div class="input-group">
+                                <span class="input-label">Condition Value</span>
+                                <input name="conditionValue" *ngIf="transformation.conditionOperator !== '!' && transformation.conditionOperator !== '!!'" type="text" placeholder="value" [(ngModel)]="transformation.conditionValue" class="condition-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transformation-group">
+                        <div class="transformation-text">
+                            <p>then set to calculation</p>
+                        </div>
+                        <div class="transformation-inputs">
+                            <div class="input-group">
+                                <span class="input-label">Field</span>
+                                <mat-form-field style="font-size: 8px" (click)="$event.stopPropagation();" floatLabel="never" appearance="outline">
+                                    <input type="text" class="condition-input" style="font-size: 14px;padding-left: 8px;" [placeholder]="returnLabel(transformation.valueKey, transformation.valueObject) || 'Field'" aria-label="Key" name="key" matInput [(ngModel)]="transformation.valueKey" disableRipple [matAutocomplete]="auto">
+                                    <!-- <mat-icon style="font-size: 20px;transform: translate(-30px, 6px);" matSuffix>search</mat-icon> -->
+                                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setFields($event)" [displayWith]="displayFn">
+                                        <mat-optgroup *ngFor="let group of keyGroups" [label]="group.type">
+                                        <mat-option *ngFor="let key of group.keys | filter:transformation.valueKey" [value]="{type: group.type, label: key.label, key: key.key}">
+                                            {{key.label}}
+                                        </mat-option>
+                                        </mat-optgroup>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+            
+                            <div class="input-group">
+                                <span class="input-label">Operator</span>
+                                <select name="operator" [(ngModel)]="transformation.operator" class="condition-input" id="operator">
+                                    <option selected [value]="null" disabled>--- Choose operator --- </option>
+                                    <option value="+">Plus</option>
+                                    <option value="-">Minus</option>
+                                    <option value="/">Divded by</option>
+                                    <option value="*">Multiplied by</option>
+                                    <option value="%">Divded by (remainder)</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group">
+                                <span class="input-label">Value</span>
+                                <input name="addedValue" type="number" placeholder="value" [(ngModel)]="transformation.addedValue" class="condition-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="transformation-section" id="value-var" *ngIf="transformation.method === 'set'">
+                    <div class="transformation-group">
+                        <div class="transformation-text">
+                            <p>Set to</p>
+                        </div>
+                        <div class="transformation-inputs">
+                            <div class="input-group">
+                                <span class="input-label">Value Rule</span>
+                                <select name="conditionValueMethod" [(ngModel)]="transformation.conditionValueMethod" class="condition-input" id="conditionValueMethod">
+                                    <option selected [value]="null" disabled>--- Choose value rule --- </option>
+                                    <option selected value="field">Field Value</option>
+                                    <option selected value="value">Value</option>
+                                </select>
+                            </div>
+                            <div class="input-group" *ngIf="transformation.conditionValueMethod === 'field'">
+                                <span class="input-label">Field</span>
+                                <mat-form-field style="font-size: 8px" (click)="$event.stopPropagation();" floatLabel="never" appearance="outline">
+                                    <input type="text" class="condition-input" style="font-size: 14px;padding-left: 8px;" [placeholder]="returnLabel(transformation.valueKey, transformation.valueObject) || 'Field'" aria-label="Key" name="key" matInput [(ngModel)]="transformation.valueKey" disableRipple [matAutocomplete]="auto">
+                                    <!-- <mat-icon style="font-size: 20px;transform: translate(-30px, 6px);" matSuffix>search</mat-icon> -->
+                                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setFields($event)" [displayWith]="displayFn">
+                                        <mat-optgroup *ngFor="let group of keyGroups" [label]="group.type">
+                                        <mat-option *ngFor="let key of group.keys | filter:transformation.valueKey" [value]="{type: group.type, label: key.label, key: key.key}">
+                                            {{key.label}}
+                                        </mat-option>
+                                        </mat-optgroup>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="input-group" *ngIf="!transformation.conditionValueMethod || transformation.conditionValueMethod === 'value'">
+                                <span class="input-label">Value</span>
+                                <input name="newValue" type="text" *ngIf="ezKeyGroup.fieldType === 'text'" [placeholder]="transformation.newValue || 'Enter value'" [(ngModel)]="transformation.newValue" class="condition-input">
+                                <input name="newValue" type="number" *ngIf="ezKeyGroup.fieldType === 'number'" [placeholder]="transformation.newValue || 'Enter value'" [(ngModel)]="transformation.newValue" class="condition-input">
+                                <select name="newValue" [(ngModel)]="transformation.newValue" class="condition-input" id="newValue" *ngIf="viewEZOptions">
+                                    <option selected [value]="null" disabled>--- Choose value --- </option>
+                                    <option selected *ngFor="let opt of ezKeyGroupOptions" [value]="opt">{{opt}}</option>
+                                    <option selected value="Other">Other</option>
+                                </select>
+                                <input name="newValue" type="text" *ngIf="ezKeyGroup.fieldType === 'select' && !viewEZOptions" [(ngModel)]="transformation.newValue" class="condition-input">
+                                <span class="checkbox" *ngIf="ezKeyGroupOptions && integration.vendorName === 'EZLYNX'">
+                                    <input name="viewOptions" type="checkbox" [(ngModel)]="viewEZOptions"> Use EZ Options
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="transformation-section" id="value-var" *ngIf="transformation.method === 'setif'">
+                    <div class="transformation-group">
+
+                        <div class="transformation-text">
+                            <p>If</p>
+                        </div>
+                        <div class="transformation-inputs">
+                            <!-- <span class="input-label" style="font-size: 1.5rem">
+                                {{returnLabel(integration.xiloKey, integration.xiloObject)}} will equal {{returnLabel(transformation.valueKey, transformation.valueObject)}} if {{returnLabel(transformation.conditionKey, transformation.conditionObject)}} {{transformation.conditionOperator}} {{transformation.conditionValue}}
+                            </span> -->
+                            <div class="input-group">
+                                <span class="input-label">Condition Field</span>
+                                <mat-form-field style="font-size: 8px" (click)="$event.stopPropagation();" floatLabel="never" appearance="outline">
+                                    <input type="text" class="condition-input" style="font-size: 14px;padding-left: 8px;" [placeholder]="returnLabel(transformation.conditionKey, transformation.conditionObject) || 'Field'" aria-label="Key" name="key" 
+                                            matInput [(ngModel)]="transformation.conditionKey" disableRipple [matAutocomplete]="conditionAuto">
+                                    <!-- <mat-icon style="font-size: 20px;transform: translate(-30px, 6px);" matSuffix>search</mat-icon> -->
+                                    <mat-autocomplete #conditionAuto="matAutocomplete" (optionSelected)="setConditionFields($event)" [displayWith]="displayFn">
+                                        <mat-optgroup *ngFor="let group of keyGroups" [label]="group.type">
+                                        <mat-option *ngFor="let key of group.keys | filter:transformation.conditionKey" [value]="{type: group.type, label: key.label, key: key.key}">
+                                            {{key.label}}
+                                        </mat-option>
+                                        </mat-optgroup>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+    
+                            <div class="input-group">
+                                <span class="input-label">Rule</span>
+                                <select name="conditionOperator" [(ngModel)]="transformation.conditionOperator" class="condition-input" id="conditionOperator">
+                                    <option selected [value]="null" disabled>--- Choose operator --- </option>
+                                    <option *ngFor="let op of conditionOperators" [value]="op.sign">{{op.title}}</option>
+                                </select>
+                            </div>
+    
+                            <div class="input-group" *ngIf="transformation.conditionOperator !== '!' && transformation.conditionOperator !== '!!'">
+                                <span class="input-label">Condition Value</span>
+                                <input name="conditionValue" type="text" placeholder="value" [(ngModel)]="transformation.conditionValue" class="condition-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transformation-group">
+                        <div class="transformation-text">
+                            <p>then set to</p>
+                        </div>
+                        <div class="transformation-inputs">
+                            <div class="input-group">
+                                <span class="input-label">Value Rule</span>
+                                <select name="conditionValueMethod" [(ngModel)]="transformation.conditionValueMethod" class="condition-input" id="conditionValueMethod">
+                                    <option selected [value]="null" disabled>--- Choose value rule --- </option>
+                                    <option selected value="field">Field Value</option>
+                                    <option selected value="value">Value</option>
+                                </select>
+                            </div>
+                            <div class="input-group" *ngIf="transformation.conditionValueMethod === 'field'">
+                                <span class="input-label">Field</span>
+                                <mat-form-field style="font-size: 8px" (click)="$event.stopPropagation();" floatLabel="never" appearance="outline">
+                                    <input type="text" class="condition-input" style="font-size: 14px;padding-left: 8px;" [placeholder]="returnLabel(transformation.valueKey, transformation.valueObject) || 'Field'" aria-label="Key" name="key" matInput [(ngModel)]="transformation.valueKey" disableRipple [matAutocomplete]="auto">
+                                    <!-- <mat-icon style="font-size: 20px;transform: translate(-30px, 6px);" matSuffix>search</mat-icon> -->
+                                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setFields($event)" [displayWith]="displayFn">
+                                        <mat-optgroup *ngFor="let group of keyGroups" [label]="group.type">
+                                        <mat-option *ngFor="let key of group.keys | filter:transformation.valueKey" [value]="{type: group.type, label: key.label, key: key.key}">
+                                            {{key.label}}
+                                        </mat-option>
+                                        </mat-optgroup>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="input-group" *ngIf="!transformation.conditionValueMethod || transformation.conditionValueMethod === 'value'">
+                                <span class="input-label">Value</span>
+                                <input name="newValue" type="text" *ngIf="ezKeyGroup.fieldType === 'text'" [placeholder]="transformation.newValue || 'Enter value'" [(ngModel)]="transformation.newValue" class="condition-input">
+                                <input name="newValue" type="number" *ngIf="ezKeyGroup.fieldType === 'number'" [placeholder]="transformation.newValue || 'Enter value'" [(ngModel)]="transformation.newValue" class="condition-input">
+                                <select name="newValue" [(ngModel)]="transformation.newValue" class="condition-input" id="newValue" *ngIf="viewEZOptions">
+                                    <option selected [value]="null" disabled>--- Choose value --- </option>
+                                    <option selected *ngFor="let opt of ezKeyGroupOptions" [value]="opt">{{opt}}</option>
+                                    <option selected value="Other">Other</option>
+                                </select>
+                                <input name="newValue" type="text" *ngIf="ezKeyGroup.fieldType === 'select' && !viewEZOptions" [(ngModel)]="transformation.newValue" class="condition-input">
+                                <span class="checkbox" *ngIf="ezKeyGroupOptions && integration.vendorName === 'EZLYNX'">
+                                    <input name="viewOptions" type="checkbox" [(ngModel)]="viewEZOptions"> Use EZ Options
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="transformation-section" id="value-var" *ngIf="transformation.method === 'change'">    
+                    <div class="transformation-group">
+                        <div class="transformation-text">
+                            <p>Change to</p>
+                        </div>
+                        <div class="transformation-inputs">            
+                            <div class="input-group">
+                                <span class="input-label">Transformation</span>
+                                <select name="type" [(ngModel)]="transformation.type" class="condition-input" id="type">
+                                    <option selected [value]="null" disabled>--- Choose transformation type --- </option>
+                                    <option value="number">Number</option>
+                                    <option value="uppercase">Uppercase Text</option>
+                                    <option value="lowercase">Lowercase Text</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </mat-card>
+    <div class="settings-save-button-container">
+        <button class="settings-btn primary" (click)="saveSettings()">Save Changes</button>
+        <button class="settings-btn remove" (click)="removeTransformation()">Delete</button>
+        <button class="settings-btn secondary" (click)="dialogRef.close()">Exit</button>
+    </div>
+</div>

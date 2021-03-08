@@ -1,0 +1,15 @@
+<div class="signupHeader-block">
+    <div class="header container">
+        <div><img src="assets/logo.png"></div>
+        <div class="account-block">
+            <div>
+                <span class="username">{{user?.firstName + ' ' + user?.lastName}}</span><br/>
+                <span class="company">XILO {{user?.company?.companyId}}</span>
+            </div>
+            <mat-icon>account_circle</mat-icon>
+        </div>
+    </div>
+    <div class="main-block">
+        <router-outlet></router-outlet>
+    </div>
+</div>

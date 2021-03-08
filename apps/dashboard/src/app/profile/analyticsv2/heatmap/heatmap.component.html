@@ -1,0 +1,19 @@
+<div class="heatMap-chart-box">
+    <table class="chart-header">
+        <tr>
+            <td class="chart-title"><span>Heat Map</span></td>
+            <td>
+                <div class="btn-group">
+                    <button class="day" (click)="fetchLifecycleData('days', lifecycleId)" [ngClass]="period === 'days' ? 'active' : ''">Day</button>
+                    <button (click)="fetchLifecycleData('weeks', lifecycleId)" [ngClass]="period === 'weeks' ? 'active' : ''">Week</button>
+                    <button (click)="fetchLifecycleData('months', lifecycleId)" [ngClass]="period === 'months' ? 'active' : ''">Month</button>
+                    <button class="year" (click)="fetchLifecycleData('years', lifecycleId)" [ngClass]="period === 'years' ? 'active' : ''">Year</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div #heatmap class="google-map"></div>
+    <div class="footer-btn-group">
+        <button *ngFor="let item of lifecycleList" (click)="fetchLifecycleData(period, item.id)" [ngClass]="lifecycleId === item.id ? 'active' : ''">{{item.name}}</button>
+    </div>
+</div>

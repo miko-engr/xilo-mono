@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="editor" *ngIf="companyRetrieved">
+        <h1 class="title-text">Fields</h1>
+        <div class="form-container">
+            <div class="fields-container" *ngIf="answersRetrieved">
+                <div class="field" *ngFor="let answer of answers;let i = index">
+                    <div class="field-index">
+                        Q{{i + 1}}
+                    </div>
+                    <div class="field-content">
+                        <div class="field-placeholder">
+                            <div class="field-placeholder-text">
+                                {{answer.placeholderText || answer.displayValue}} - {{returnAnswerType(answer)}}
+                            </div>
+                            <div class="field-placeholder-actions">
+                                <i class="icon-rubbish-bin" matTooltip="Delete" (click)="deleteObject(i, answer.id)"></i>
+                                <i class="icon-edit1" matTooltip="Edit" (click)="openAnswerSettingsDialog(answer)"></i>
+                            </div>
+                        </div>
+                        <div class="field-options" *ngIf="answer.isSelect && answer.options">
+                            <mat-form-field class="field-options-container">
+                                <mat-chip-list #chipList aria-label="Option selection">
+                                  <mat-chip *ngFor="let option of answer.options" [selectable]="selectable"
+                                           [removable]="removable" (removed)="remove(option, answer)">
+                                    {{option}}
+                                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                  </mat-chip>
+                                  <input placeholder="New option..."
+                                         [matChipInputFor]="chipList"
+                                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                         [matChipInputAddOnBlur]="addOnBlur"
+                                         (matChipInputTokenEnd)="add($event, answer)">
+                                </mat-chip-list>
+                              </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="settings-save-button-container">
+            <button class="settings-btn primary" [disabled]="!hasUpdate()" (click)="updateForm()">Save Changes</button>
+            <button class="settings-btn secondary" (click)="openLink()">Back</button>
+        </div>
+    </div>
+    <p *ngIf="!error && !answersRetrieved">Retrieving fields ...</p>
+    <div class="error" *ngIf="error">
+        <p>Error retrieving form ...</p>
+        <button class="settings-btn primary" routerLink="/profile/forms">Back to Forms</button>
+    </div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

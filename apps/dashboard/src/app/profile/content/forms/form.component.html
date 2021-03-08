@@ -1,0 +1,20 @@
+<div class="clients-container fade-white-bg">
+    <div class="auto-complete-container">
+        <aside class="left-aside" style="width: 100%">
+            <div class="aside-container">
+                <div class="header">
+                    <ul class="breadcrumb">
+                        <li routerLink="/profile/forms"><a href="javascript:;">Forms</a></li>
+                        <li *ngIf="isLinkActive('both')"> <span>></span></li>
+                        <li style="cursor: pointer" [ngStyle]="{color: isLinkActive('page') ? '#8d97ad' : '#8184ff'}" *ngIf="isLinkActive('both')">Pages</li>
+                        <li *ngIf="isLinkActive('question')"> <span>></span></li>
+                        <li  *ngIf="isLinkActive('question')">Questions</li>
+                    </ul>
+                </div>
+                <router-outlet></router-outlet>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

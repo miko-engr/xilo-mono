@@ -1,0 +1,135 @@
+<!-- <pdf-viewer [src]="src" [zoom]="zoom" (after-load-complete)="loadComplete($event)"></pdf-viewer> -->
+
+<!-- <app-notification data=""></app-notification> -->
+<div class="container form-builder-content h-100" *ngIf="formFieldsRetrieved">
+  <div class="row h-100">
+    <div class="col-12 pt-1 h-100">
+      <div style="display: block;" class="pdf-editor-container">
+        <div class="pdf-keys-container">
+          <div
+            class="input-container"
+            [ngStyle]="pdfOverlayStyle"
+            (window:resize)="updateOverlayDimensions()"
+          >
+            <div
+              [ngClass]="input['dragAndDropQuestion'] ? 'drag-drop' : 'inputs'"
+              *ngFor="let input of formFields; let i = index"
+              style="cursor: pointer;"
+              [matTooltip]="input.name"
+              (click)="setInput(input, i)"
+              [ngStyle]="getInputPosition(input, i)"
+              (contextmenu)="onContextMenu($event, { index: i })"
+              (mouseup)="onMouseUp(i, input.name)"
+              >
+              <span class="tag" *ngIf="input.value">{{input.placeholder}}</span>
+              <span
+                container="body"
+                class="drag-drop"
+                (treeDrop)="onDrop($event, i)"
+                (dragover)="onDragOver($event)"
+                (dragleave)="onDragLeave($event)"
+                [treeAllowDrop]="allowDrop.bind(this, i)"
+                dropdown
+              >
+                <!-- <span *ngIf="!input['dragAndDropQuestion']">{{truncatedText(input)}}</span><span class="text-balloon" *ngIf="input['dragAndDropQuestion']">
+                    {{ "{" + input['dragAndDropQuestion'] + "}" }} -->
+
+                <!-- </span> -->
+              </span>
+              <div class="btn-group" dropdown container='body' [autoClose]="true">
+                <!-- <button id="dropdown-state-change" dropdownToggle type="button" class="dropdown-toggle"
+                        aria-controls="dropdown-state-change">
+                   <span class="caret"></span>
+                </button> -->
+                <span id="dropdown-state-change" dropdownToggle class="chevron-bold-down"
+                aria-controls="dropdown-state-change">
+                <svg width="10" height="10" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g class="nc-icon-wrapper"><path transform="translate(0 6)" d="M32 4.62L27.193 0 16 10.76 4.807 0 0 4.62 16 20 32 4.62z" id="chevron-bold-down"></path></g></svg>
+              </span>
+                <div id="dropdown-state-change" *dropdownMenu class="dropdown-menu"
+                    role="menu" aria-labelledby="dropdown-state-change">
+                    <div class="dialog-content" (click)="disableClose($event)">
+                      <label>Field Type</label>
+                      <div class="">
+                        <mat-button-toggle-group (ngModelChange)="updateField(i)" [appearance]="appearance" [(ngModel)]="input.type">
+                          <mat-button-toggle value="checkbox" checked>Checkbox</mat-button-toggle>
+                          <mat-button-toggle value="input">Text input</mat-button-toggle>
+                        </mat-button-toggle-group>
+                      </div>
+                      <div class='mt-3 mb-3'>
+                        <input *ngIf='input.type === "checkbox"' [(ngModel)]='input.expectedValue' (blur)='updateField(i)' type='text' placeholder='Enter expected value'>
+                      </div>
+                      <label class="map-label">Mapped Fields</label>
+                      <div class="mapping-div">
+                        <div class="title-bar mb-3" style='margin-left:0'>
+                          <!-- <ngx-icon svgSrc="drag-indicator" class="drag-indicator"></ngx-icon> -->
+                          <span ml-2>{{input.name}}</span>
+                        </div>
+                        <div *ngIf='isRepeatSection(input)'>
+                          <label style='margin-left:0'>Enter index</label>
+                          <input type="number" (blur)="updateField(i)" [(ngModel)]="input.index">
+                        </div>
+                        <button class="unlink-btn" (click)="deleteField(i)">
+                          Unlink Field
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <pdf-viewer
+          *ngIf="pdfSrc"
+          [src]="pdfSrc"
+          [zoom]="pdfZoom"
+          (after-load-complete)="loadComplete($event)"
+          #pdfViewer
+        ></pdf-viewer>
+        <div class="pdf-zoom-buttons">
+          <button
+            (click)="zoomIn()"
+            class="zoom-btns"
+            style="margin-bottom: 10px; display: block;"
+          >
+            +
+          </button>
+          <button
+            (click)="zoomOut()"
+            class="zoom-btns"
+            style="display: block;"
+          >
+            -
+          </button>
+        </div>
+      </div>
+      <!-- <div class="col-md-12 justify-content-center field-content h">
+        </div> -->
+    </div>
+  </div>
+</div>
+
+<div
+  style="visibility: hidden; position: fixed;"
+  [style.left]="contextMenuPosition.x"
+  [style.top]="contextMenuPosition.y"
+  [matMenuTriggerFor]="contextMenu"
+></div>
+<mat-menu #contextMenu="matMenu">
+  <ng-template matMenuContent let-obj="obj">
+    <button mat-menu-item (click)="copyObject(obj)" *ngIf="!hasCopiedObject">
+      Copy
+    </button>
+    <button mat-menu-item (click)="pasteObject(obj)" *ngIf="hasCopiedObject">
+      Paste
+    </button>
+    <button
+      mat-menu-item
+      (click)="removeCopiedObject()"
+      *ngIf="hasCopiedObject"
+    >
+      Clear
+    </button>
+  </ng-template>
+</mat-menu>
+
+<!-- <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading> -->

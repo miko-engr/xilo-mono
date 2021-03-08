@@ -1,0 +1,17 @@
+<div class="content-area">
+	<!-- Tab section -->
+		<div class="tabs-container">
+		<div class="tab tab-item" id="flow-tab" routerLink="/profile/automation/flows" [routerLinkActive]="['']" #rla1="routerLinkActive"><h5  class="tab-text" [ngClass]="rla1.isActive?'active':''">Flows</h5></div>
+		<div class="tab tab-item" id="email-tab" routerLink="/profile/automation/emails" [routerLinkActive]="['']" #rla2="routerLinkActive"><h5  class="tab-text" [ngClass]="rla2.isActive?'active':''">Emails</h5></div>
+		<div class="tab tab-item" id="texts-tab" routerLink="/profile/automation/texts" [routerLinkActive]="['']" #rla3="routerLinkActive"><h5  class="tab-text" [ngClass]="rla3.isActive?'active':''">Texts</h5></div>
+		<div class="tab tab-item" id="task-tab" routerLink="/profile/automation/tasks" [routerLinkActive]="['']" #rla4="routerLinkActive"><h5  class="tab-text" [ngClass]="rla4.isActive?'active':''">Tasks</h5></div>
+        <div class="clearfix"></div>
+    </div>
+
+	<!-- End tabn navigation -->
+<div class="main">
+    <router-outlet></router-outlet>
+</div>
+
+</div>
+

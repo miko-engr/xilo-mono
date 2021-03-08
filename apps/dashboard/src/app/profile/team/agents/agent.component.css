@@ -1,0 +1,56 @@
+button,
+select,
+input {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.info-label {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0;
+    text-transform: capitalize;
+    color: #5f5c5c;
+    margin: 0;
+}
+
+.info-label-container {
+    text-align: left;
+    margin-right: 15px;
+    width: 180px;
+    display: inline-block;
+}
+
+.group a.external-link {
+    font-family: 'Poppins', sans-serif;
+    line-height: normal;
+    font-size: 12px;
+    margin: 0;
+    cursor: pointer;
+    font-weight: 400;
+    text-decoration: none;
+    background: #8184ff;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+.info {
+    text-align: left;
+    color: #5f5c5c;
+    display: inline-block;
+    font-family: 'Poppins', sans-serif;
+    line-height: normal;
+    font-size: 14px;
+    margin: 0;
+    font-weight: 500;
+}
+
+.right-aside {
+    width: 40%;
+}
+
+.left-aside {
+    width: 60%
+}

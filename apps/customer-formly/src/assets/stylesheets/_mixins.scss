@@ -1,0 +1,95 @@
+@import './breakpoints';
+// Small devices
+@mixin sm {
+  @media (min-width: #{$screen-sm-min}) {
+    @content;
+  }
+}
+
+@mixin sm-max {
+  @media (max-width: #{$screen-sm-min}) {
+    @content;
+  }
+}
+// Medium devices
+@mixin md {
+  @media (min-width: #{$screen-md-min}) {
+    @content;
+  }
+}
+
+// Medium devices
+@mixin md-max {
+  @media (max-width: #{$screen-md-min}) {
+    @content;
+  }
+}
+
+// Large devices
+@mixin lg {
+  @media (min-width: #{$screen-lg-min}) {
+    @content;
+  }
+}
+
+// Extra large devices
+@mixin xl {
+  @media (min-width: #{$screen-xl-min}) {
+    @content;
+  }
+}
+
+// /* Let's get this party started */
+// ::-webkit-scrollbar {
+//   width: 8px;
+//   height: 8px !important;
+// }
+
+// /* Track */
+// ::-webkit-scrollbar-track {
+//   -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
+//   -webkit-border-radius: 2px;
+//   border-radius: 2px;
+//   height: 8px !important;
+// }
+
+// /* Handle */
+// ::-webkit-scrollbar-thumb {
+//   -webkit-border-radius: 2px;
+//   border-radius: 2px;
+//   background: rgba(105, 104, 99, 0.6);
+//   height: 8px !important;
+// }
+// ::-webkit-scrollbar-thumb:window-inactive {
+//   background: rgba(105, 104, 99, 0.6);
+//   height: 8px !important;
+// }
+
+@mixin scrollbars(
+  $size,
+  $foreground-color,
+  $background-color: mix($foreground-color, white, 50%)
+) {
+  // For Google Chrome
+  &::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $foreground-color;
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $background-color;
+    border-radius: 2px;
+  }
+
+  // For Internet Explorer
+  & {
+    scrollbar-face-color: $foreground-color;
+    scrollbar-track-color: $background-color;
+    border-radius: 2px;
+  }
+}

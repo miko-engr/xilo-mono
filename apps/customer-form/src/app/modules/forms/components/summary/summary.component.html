@@ -1,0 +1,178 @@
+<section class="summary">
+  <h1>Summary</h1>
+  <ul class="timeline timeline-split">
+    <li class="timeline-item">
+      <!-- <div class="timeline-info"></div> -->
+      <div class="timeline-marker"></div>
+      <div class="timeline-content">
+        <h6>Insurance type</h6>
+        <h3 class="timeline-title">{{ formData?.title }}</h3>
+      </div>
+    </li>
+    <ng-container
+      *ngIf="
+        question
+          ? true
+          : page?.routePath === 'start'
+          ? summary[0] && !summary[0].pristine
+          : true
+      "
+    >
+      <ng-container *ngFor="let summaryItem of summary">
+        <li
+          [ngClass]="
+            summaryItem?.valid && !isCurrentPageInProgress(summaryItem)
+              ? 'timeline-item '
+              : isCurrentPageInProgress(summaryItem)
+              ? 'timeline-item current-item'
+              : 'timeline-item item-next'
+          "
+          *ngIf="!summaryItem?.hidden"
+        >
+          <!-- <div class="timeline-info"></div> -->
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <ng-container *ngIf="isCurrentPageInProgress(summaryItem)">
+              <h3 class="timeline-title">
+                {{ summaryItem?.title }}
+              </h3>
+              <h6>You are right here</h6>
+              <!-- this will embed the dynamic form in case of the mobile view -->
+              <app-dynamic-form
+                [isLastQuestion]="isLastQuestion"
+                *ngIf="question"
+                [page]="page"
+                [mainForm]="mainForm"
+                [client]="client"
+                [question]="question"
+                [currentForm]="currentForm"
+                [subindex]="subindex"
+                (changePage)="handlePageChange($event, summaryItem?.subIndex)"
+                (changeQuestion)="handleQuestionChange($event)"
+                (createNewFormQuestionTrigger)="handleAddNewItemTrigger($event)"
+                [isMobile]="isMobile"
+                (triggerSearchByAddress)="handleAddressAutocompleted($event)"
+              >
+              </app-dynamic-form>
+            </ng-container>
+
+            <ng-container *ngIf="!isCurrentPageInProgress(summaryItem)">
+              <h6
+                (click)="
+                  !summaryItem?.pristine &&
+                    handlePageChange(
+                      summaryItem?.pageIndex,
+                      summaryItem?.subIndex
+                    )
+                "
+              >
+                {{ summaryItem?.title }}
+              </h6>
+              <ng-container
+                *ngFor="
+                  let answer of summaryItem?.answers;
+                  let itemIndex = index
+                "
+              >
+                <h3
+                  class="timeline-title"
+                  *ngIf="itemIndex === 0"
+                  (click)="
+                    handleAnswerClick(
+                      summaryItem?.pageIndex,
+                      summaryItem?.subIndex,
+                      answer?.questionIndex
+                    )
+                  "
+                >
+                  {{
+                    answer?.answerType === 'date'
+                      ? (answer?.answerValue | date)
+                      : answer?.answerValue
+                  }}
+                </h3>
+                <h6
+                  @ShowMoreAnimation
+                  (click)="
+                    handleAnswerClick(
+                      summaryItem?.pageIndex,
+                      summaryItem?.subIndex,
+                      answer?.questionIndex
+                    )
+                  "
+                  class="timeline-subtitle"
+                  *ngIf="
+                    answer?.answerValue &&
+                    isShowMoreActivated(summaryItem) &&
+                    itemIndex !== 0
+                  "
+                >
+                  {{
+                    answer?.answerType === 'date'
+                      ? (answer?.answerValue | date)
+                      : answer?.answerValue
+                  }}
+                </h6>
+              </ng-container>
+              <p
+                class="summary-link"
+                (click)="
+                  handleAnswerClick(
+                    summaryItem?.pageIndex,
+                    summaryItem?.subIndex,
+                    summaryItem?.lastQuestionIndex + 1
+                  )
+                "
+                *ngIf="
+                  !summaryItem?.pristine &&
+                  !summaryItem?.valid &&
+                  !isCurrentPageInProgress(summaryItem)
+                "
+              >
+                Pick Up Where You Left Off
+              </p>
+
+              <p
+                class="summary-link"
+                *ngIf="
+                  summaryItem?.valid &&
+                  summaryItem?.answers?.length > 1 &&
+                  !isShowMoreActivated(summaryItem)
+                "
+                (click)="toggleShowMore(summaryItem)"
+              >
+                Show More
+              </p>
+              <p
+                class="summary-link"
+                *ngIf="
+                  summaryItem?.answers?.length > 1 &&
+                  isShowMoreActivated(summaryItem)
+                "
+                (click)="toggleShowMore()"
+              >
+                Show Less
+              </p>
+            </ng-container>
+          </div>
+          <div class="summary-actions">
+            <img
+              src="/assets/icon/pencil.svg"
+              *ngIf="
+                !summaryItem?.pristine && !isCurrentPageInProgress(summaryItem)
+              "
+              (click)="
+                handlePageChange(summaryItem?.pageIndex, summaryItem?.subIndex)
+              "
+            />
+            <img
+              src="/assets/icon/delete.svg"
+              *ngIf="summaryItem?.isCreatedAtRunTime"
+              (click)="handleDeleteMultipleItemClick(summaryItem)"
+            />
+          </div>
+        </li>
+      </ng-container>
+    </ng-container>
+  </ul>
+</section>

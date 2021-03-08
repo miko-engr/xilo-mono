@@ -1,0 +1,41 @@
+<section
+  class="form-section"
+  #header
+  [ngClass]="
+    field?.fieldGroup?.length === 1 && !isMobile ? 'form-section-start' : ''
+  "
+>
+  <div class="form-header">
+    <div class="header-img" *ngIf="to?.icon">
+      <!-- <img
+            class="svg-img"
+            [src]="to?.imageUrl"
+            alt="Question Image"
+            *ngIf="!to?.imageIsSVG && to?.imageUrl"
+          /> -->
+      <div
+        class="svg-img"
+        [ngClass]="
+          field?.fieldGroup?.length === 1 && !isMobile ? 'svg-img-start' : ''
+        "
+        *ngIf="to?.icon"
+        alt="Question Image"
+        [innerHTML]="to?.icon | safe: 'html'"
+      ></div>
+    </div>
+    <div
+      class="header-content"
+      [ngClass]="{
+        'no-padding': !to?.image && !to?.imageUrl
+      }"
+    >
+      <h2 class="question-title">
+        {{ to?.label }}
+      </h2>
+      <h6 class="question-subtitle">{{ to?.description }}</h6>
+    </div>
+  </div>
+</section>
+<section class="form-field-section take-all-space" *ngIf="!isClosed">
+  <ng-container #fieldComponent></ng-container>
+</section>

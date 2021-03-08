@@ -1,0 +1,65 @@
+<div class="nav">
+  <div class="nav-items-container">
+    <ul class="nav-items nav-left">
+      <li class="nav-item">
+        <img 
+          id="back-icon" 
+          src="../../../../assets/svgs/back-arrow-black.svg" 
+          alt="Back arrow"
+          (click)="routeToFormsList()"
+          >
+      </li>
+      <li class="nav-item">
+        <div class="nav-icon-container">
+          <div 
+            *ngIf="form?.icon"
+            [innerHTML]="form.icon | safe: 'html'">
+          </div>
+          <img 
+            *ngIf="!form?.icon"
+            src="../../../../assets/svgs/default-form.svg" 
+            alt="Form Icon"
+          >
+        </div>
+      </li>
+      <li class="nav-item">
+        <p id="logo-text">{{form?.title || 'Form'}}</p>
+      </li>
+    </ul>
+  </div>
+  <div class="nav-items-container"></div>
+  <div class="nav-items-container">
+    <ul class="nav-items nav-right">
+      <li class="nav-item">
+        <!-- <div class="nav-button-group">
+          <img src="../../../../assets/svgs/undo.svg" alt="Undo icon" class="nav-icon">
+          <img src="../../../../assets/svgs/redo.svg" alt="Redo icon" class="nav-icon">
+        </div> -->
+      </li>
+      <li class="nav-item">
+        <!-- <div class="nav-button-group">
+          <img src="../../../../assets/svgs/expandtwo.svg" alt="Expand icon" class="nav-icon">
+          <img src="../../../../assets/svgs/collapse.svg" alt="Collapse icon" class="nav-icon">
+        </div> -->
+      </li>
+      <li class="nav-item">
+        <!-- <button class="nav-button">
+          <span class="nav-button-text">Add block</span>
+          <img src="../../../../assets/svgs/carret-down.svg" class="nav-button-icon" alt="Down arrow icon">
+        </button> -->
+      </li>
+      <li class="nav-item">
+        <div id="divider"></div>
+      </li>
+      <!-- <li class="nav-item"> -->
+        <!-- <button class="nav-button">Preview</button> -->
+      <!-- </li> -->
+      <li class="nav-item">
+        <button class="primary-button nav-button" (click)="saveForm()">
+          <span class="nav-button-text">{{saveBtnText()}}</span>
+          <!-- <img src="../../../../assets/svgs/carret-down.svg" class="nav-button-icon" alt="Down arrow icon"> -->
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>

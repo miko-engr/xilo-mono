@@ -1,0 +1,129 @@
+<ng-container>
+  <div class="form-setting">
+    <div class="title-row">
+      <h3>Form Settings</h3>
+    </div>
+    <div class="fields">
+      <div class="fieldGroup">
+        <div class="field">
+          <ng-container *ngIf="form">
+            <div class="input-field">
+              <label for="field">Title</label>
+              <input
+                id="field"
+                placeholder="Enter title here"
+                type="text"
+                [(ngModel)]="form.title"
+              />
+            </div>
+            <div class="input-field">
+              <button class="settings-btn" (click)="openDialog()">
+                Change Icon
+              </button>
+            </div>
+            <div *ngIf="company?.id === 5">
+              <div class="checkbox-row">
+                <label for="field">Template</label>
+                <div class="checkbox-container">
+                  <input
+                    id="template"
+                    type="checkbox"
+                    [(ngModel)]="form.metadata.template"
+                  />
+                  <span>Yes</span>
+                </div>
+              </div>
+              <div *ngIf="form?.metadata?.template">
+                <div class="input-field">
+                  <label for="field">Template Title</label>
+                  <input
+                    id="field"
+                    placeholder="Enter template title here"
+                    type="text"
+                    [(ngModel)]="form.metadata.templateTitle"
+                  />
+                </div>
+                <div class="input-field">
+                  <label for="field">Line of Business</label>
+                  <input
+                    id="field"
+                    placeholder="Enter line of business here"
+                    type="text"
+                    [(ngModel)]="form.metadata.templateLob"
+                  />
+                </div>
+                <div class="input-field">
+                  <label for="field">Integrations</label>
+                  <input
+                    id="field"
+                    placeholder="Enter integrations here"
+                    type="text"
+                    [(ngModel)]="form.metadata.templateIntegrations"
+                  />
+                </div>
+                <div class="input-field">
+                  <label for="field">Category</label>
+                  <select
+                    id="field"
+                    [(ngModel)]="form.metadata.templateCategory"
+                  >
+                    <option value="Auto">Auto</option>
+                    <option value="Home">Home</option>
+                    <option value="Auto and Home Bundle"
+                      >Auto and Home Bundle</option
+                    >
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="settings-section-row">
+              <h3>Notification Settings</h3>
+            </div>
+            <div class="checkbox-row">
+              <label for="field"
+                >Attach PDF of submission to new lead and assigned lead
+                emails?</label
+              >
+              <div class="checkbox-container">
+                <input
+                  id="insuredEmail"
+                  type="checkbox"
+                  [(ngModel)]="form.metadata.attachPDF"
+                />
+                Yes
+              </div>
+            </div>
+            <div class="checkbox-row">
+              <label for="field">Send insured an email upon completion?</label>
+              <div class="checkbox-container">
+                <input
+                  id="insuredEmail"
+                  type="checkbox"
+                  [(ngModel)]="form.metadata.sendFinishedFormEmail"
+                />
+                Yes
+              </div>
+            </div>
+            <button class="save-btn" (click)="saveForm()">Save Settings</button>
+            <!-- <div class="input-field">
+                <label for="select">Select</label>
+                <select [(ngModel)]="options">
+                  <option [ngValue]="1">
+                    Option
+                  </option>
+                </select>
+              </div> -->
+            <!-- <div class="checkbox-row">
+                <input
+                  [id]="field.key"
+                  [type]="field.type" 
+                  [(ngModel)]="selectedField.templateOptions[field.key]"
+                >
+                <span>{{field.label}}</span>
+              </div> -->
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

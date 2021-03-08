@@ -1,0 +1,43 @@
+<accordion
+  [isAnimated]="true"
+  *ngFor="let integrationMapping of integrationMappings"
+>
+  <accordion-group [isOpen]="true">
+    <div class="header btn-block clearfix" accordion-heading type="div">
+      <div class="logo">
+        <img src="{{ integrationMapping?.vendor?.icon }}" />
+      </div>
+      <div class="info">
+        <div class="title">
+          {{ integrationMapping?.vendor?.name }}
+        </div>
+        <div class="description">
+          {{ integrationMapping?.vendor?.description }}
+        </div>
+      </div>
+      <div class="buttons">
+        <ngx-icon svgSrc="chevron-bold-up" class="chevron-bold-up"> </ngx-icon>
+        <ui-switch class="button-switch" [(ngModel)]="enable" size="small">
+        </ui-switch>
+        <ngx-icon svgSrc="more" class="button-more"> </ngx-icon>
+      </div>
+    </div>
+    <div class="content">
+      <div class="vendor-fields-mapping-wrapper">
+        <div
+          *ngFor="
+            let fieldGroup of integrationMapping?.vendor?.schema;
+            index as i
+          "
+        >
+          <vendor-field-group
+            [form]="form"
+            [formFields]="formFields"
+            [fieldGroup]="fieldGroup"
+            [integrationMapping]="integrationMapping"
+          ></vendor-field-group>
+        </div>
+      </div>
+    </div>
+  </accordion-group>
+</accordion>

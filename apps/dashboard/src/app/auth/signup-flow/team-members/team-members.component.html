@@ -1,0 +1,67 @@
+<div class="container">
+    <div id="team_members_block" class="row mt-3">
+        <div class="first_block col-8">
+            <form [formGroup]="sendInvitationForm">
+                <div class="custom-form-responsive form-block" [class.mb-4]="sendInvitationForm?.controls.userType?.touched">
+                    <label class="team-label">Member Type</label><br>
+                    <div class="mt-15">
+                        <mat-radio-group formControlName="userType">
+                          <mat-radio-button value="admin">
+                            <span class="radio">Admin
+                              <mat-icon class="info-icon" matTooltip="An admin can customize forms, edit permissions, and invite team members">info</mat-icon>
+                            </span>
+                          </mat-radio-button>
+                          <mat-radio-button value="agent" class="ml-3">
+                            <span class="radio">Agent
+                              <mat-icon class="info-icon" matTooltip="An agent can use forms and the Dashboard to collect and manage client form submissions">info</mat-icon>
+                            </span></mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <span *ngIf="sendInvitationForm?.controls.userType?.touched" class="form-error">
+                        <span *ngIf="sendInvitationForm?.controls.userType?.errors?.required">Member type required</span>
+                    </span>
+                </div>
+                <div class="custom-form-responsive form-block">
+                    <label class="team-label">First Name</label>
+                    <input type="text" placeholder="First Name" formControlName="firstName" pattern="(\s*[^\s]+\s*)+">
+                    <span *ngIf="sendInvitationForm?.controls.firstName?.touched" class="form-error">
+                        <span *ngIf="sendInvitationForm?.controls.firstName?.errors?.required">First name required</span>
+                        <span *ngIf="sendInvitationForm?.controls.firstName?.errors?.pattern">Please add proper value</span>
+                    </span>
+                </div>
+                <div class="custom-form-responsive form-block">
+                    <label class="team-label">Last Name</label>
+                    <input type="text" placeholder="Last Name" formControlName="lastName" pattern="(\s*[^\s]+\s*)+">
+                    <span *ngIf="sendInvitationForm?.controls.lastName?.touched" class="form-error">
+                        <span *ngIf="sendInvitationForm?.controls.lastName?.errors?.required">Last name required</span>
+                        <span *ngIf="sendInvitationForm?.controls.lastName?.errors?.pattern">Please add proper value</span>
+                    </span>
+                </div>
+                <div class="custom-form-responsive form-block">
+                    <label class="team-label">Email</label>
+                    <input type="text" placeholder="Email" formControlName="email" pattern="(\s*[^\s]+\s*)+">
+                    <span *ngIf="sendInvitationForm?.controls.email?.touched" class="form-error">
+                        <span *ngIf="sendInvitationForm?.controls.email?.errors?.required">Email required</span>
+                        <span *ngIf="sendInvitationForm?.controls.email?.errors?.pattern">Enter valid email</span>
+                    </span>
+                </div>
+                <div class="custom-form-responsive form-block">
+                    <label class="team-label">Phone (for texting)</label>
+                    <input type="text" matInput formControlName="contactForm" mask="(000) 000-0000" placeholder="(___) ___-____">
+                    <span *ngIf="sendInvitationForm?.controls.contactForm?.touched" class="form-error">
+                        <span *ngIf="sendInvitationForm?.controls.contactForm?.errors?.required">Phone required</span>
+                        <span *ngIf="sendInvitationForm?.controls.contactForm?.errors?.pattern">Enter valid phone number</span>
+                        <span *ngIf="sendInvitationForm?.controls.contactForm?.errors?.mask">Enter valid phone number</span>
+                    </span>
+                </div>
+                <div class="custom-form-responsive form-block" *ngIf="isEzlynx">
+                    <label class="team-label">EZLynx Username</label>
+                    <input type="text" placeholder="Enter Agent's EZLynx Username" formControlName="vendorUsername">
+                </div>
+                <div class="custom-form-responsive pt-3">
+                    <button class="send-invitation" (click)="sendInvitation()">Send Invitation</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

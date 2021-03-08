@@ -1,0 +1,211 @@
+<ng-template #callAPIDialog>
+    <div class="integrated-apis-block">
+        <div mat-dialog-header class="dialog-header d-flex align-items-center">
+            <div class="company_logo">
+                <img [src]="currentApi?.logo" />
+            </div>
+            <div class="company_desc ml-3">
+                <h5 class="m-0">{{ currentApi?.name }}</h5>
+                <p class="m-0">{{ currentApi?.description }}</p>
+            </div>
+        </div>
+    <form #f="ngForm" (ngSubmit)="f.valid && saveApiIntegrations()">
+        <div mat-dialog-content>
+            <div *ngIf="currentApi?.key === 'pipedriveIntegration'">
+                <div class="custom-form-responsive-modal">
+                    <label class="modal-label">Url</label>
+                    <input type="text" name="pipedriveUrl" #pipedriveUrl="ngModel" [(ngModel)]="settings.pipedriveUrl" placeholder="Url" required pattern="(\s*[^\s]+\s*)+">
+                    <mat-error *ngIf="f.submitted && pipedriveUrl?.invalid">
+                        <small *ngIf="pipedriveUrl.errors.required">Url is required</small>
+                        <small *ngIf="pipedriveUrl.errors.pattern">Please add proper value</small>
+                    </mat-error>
+                </div>
+                <div class="custom-form-responsive-modal">
+                    <label class="modal-label">Token</label>
+                    <input type="text" name="pipedriveToken" #pipedriveToken="ngModel" [(ngModel)]="settings.pipedriveToken" placeholder="Token" required pattern="(\s*[^\s]+\s*)+">
+                    <mat-error *ngIf="f.submitted && pipedriveToken?.invalid">
+                        <small *ngIf="pipedriveToken.errors.required">Token is required</small>
+                        <small *ngIf="pipedriveToken.errors.pattern">Please add proper value</small>
+                    </mat-error>
+                </div>
+                <div class="custom-form-responsive-modal">
+                    <label class="modal-label">Pipeline Name</label>
+                    <input type="text" name="pipedrivePipeline" #pipedrivePipeline="ngModel" [(ngModel)]="settings.pipedrivePipeline"
+                        placeholder="Pipeline Name" required pattern="(\s*[^\s]+\s*)+">
+                        <mat-error *ngIf="f.submitted && pipedrivePipeline?.invalid">
+                            <small *ngIf="pipedrivePipeline.errors.required">Pipeline name is required</small>
+                            <small *ngIf="pipedrivePipeline.errors.pattern">Please add proper value</small>
+                        </mat-error>
+                </div>
+                <div class="custom-form-responsive-modal">
+                    <label class="modal-label">Stage Name</label>
+                    <input type="text" name="pipedriveStage" #pipedriveStage="ngModel" [(ngModel)]="settings.pipedriveStage"
+                    placeholder="Stage Name" required pattern="(\s*[^\s]+\s*)+">
+                    <mat-error *ngIf="f.submitted && pipedriveStage?.invalid">
+                        <small *ngIf="pipedriveStage.errors.required">Stage name is required</small>
+                        <small *ngIf="pipedriveStage.errors.pattern">Please add proper value</small>
+                    </mat-error>
+                </div>
+            </div>
+            <div *ngIf="currentApi?.settings?.fields?.length && !currentApi?.settings?.vendorName">
+                <div *ngFor="let field of currentApi?.settings?.fields">
+                    <div class="custom-form-responsive-modal" *ngIf="!field?.isButton">
+                        <label class="modal-label">{{field?.label}}</label>
+                        <input type="text" [name]="field?.label" [placeholder]="field?.label">
+                    </div>
+                    <div class="custom-form-responsive-modal" *ngIf="field?.isButton && data?.url">
+                        <button mat-button class="modal-primary-btn"
+                            (click)="routeTo(data?.url)">{{field?.label}}</button>
+                    </div>
+                </div>
+                <div class="custom-form-responsive-modal">
+                    <label class="modal-label">Forms</label>
+                    <mat-chip-list class="mat-chip-margin m-2" *ngIf="activeForms && activeForms.length > 0">
+                        <mat-chip *ngFor="let form of activeForms">{{form.title}}
+                            <mat-icon matChipRemove (click)="removeActiveForm(form)">cancel</mat-icon>
+                        </mat-chip>
+                    </mat-chip-list>
+                    <select name="vendor-select" class="vendor-input" [(ngModel)]="selectedFormId"
+                        (ngModelChange)="setActiveForm($event)">
+                        <option [value]="null">-- Add form --</option>
+                        <option [value]="form.id" *ngFor="let form of forms">{{form.title}}</option>
+                    </select>
+                </div>
+            </div>
+            <div *ngIf="currentApi?.settings?.vendorName">
+                <div class="custom-form-responsive-modal" *ngIf="vendor?.vendorName === 'RATER'">
+                    <label class="modal-label">State (2-Letters)</label>
+                    <input type="text" max="2" class="vendor-input" #state="ngModel" placeholder="State (2-Letters)"
+                        name="state" [(ngModel)]="vendor.state" required pattern="(\s*[^\s]+\s*)+" >
+                    <mat-error *ngIf="f.submitted && state?.invalid">
+                        <small *ngIf="state.errors.required">State name is required</small>
+                        <small *ngIf="state.errors.pattern">Please add proper value</small>
+                    </mat-error>
+                </div>
+                <div class="custom-form-responsive-modal" *ngIf="vendor?.vendorName === 'RATER'">
+                    <label class="modal-label">Carrier</label>
+                    <input type="text" class="vendor-input" placeholder="Carrier" #carrier="ngModel" [(ngModel)]="vendor.carrier"
+                    name="carrier" required pattern="(\s*[^\s]+\s*)+">
+                    <mat-error *ngIf="f.submitted && carrier?.invalid">
+                        <small *ngIf="carrier.errors.required">Carrier name is required</small>
+                        <small *ngIf="carrier.errors.pattern">Please add proper value</small>
+                    </mat-error>
+                </div>
+                <div class="custom-form-responsive-modal" *ngIf="vendor.vendorName === 'AMS360'">
+                    <label class="modal-label">Agency</label>
+                    <input type="text" class="vendor-input" placeholder="Agency" #agency="ngModel" [(ngModel)]="vendor.agency"
+                        name="agency" required pattern="(\s*[^\s]+\s*)+">
+                    <mat-error *ngIf="f.submitted && agency?.invalid">
+                        <small *ngIf="agency.errors.required">agency name is required</small>
+                        <small *ngIf="agency.errors.pattern">Please add proper value</small>
+                    </mat-error>
+                </div>
+                <div class="custom-form-responsive-modal"
+                    *ngIf="!(['WEALTHBOX', 'RICOCHET', 'FACEBOOK'].includes(vendor.vendorName))">
+                    <label class="modal-label">{{vendor.vendorName !== 'TURBORATER'? 'Username': 'Account number'}}</label>
+                    <input type="text" class="vendor-input" #username="ngModel" name="username"
+                        [placeholder]="vendor.vendorName !== 'TURBORATER'? 'Username': 'Account number'"
+                        [(ngModel)]="vendor.username" required pattern="(\s*[^\s]+\s*)+">
+                        <mat-error *ngIf="f.submitted && username?.invalid">
+                            <small *ngIf="username.errors.required">Username is required</small>
+                            <small *ngIf="username.errors.pattern">Please add proper value</small>
+                        </mat-error>
+                </div>
+                <div class="custom-form-responsive-modal"
+                    *ngIf="!(['EZLYNX','TURBORATER','COMMERCIAL_EZLYNX', 'WEALTHBOX', 'RICOCHET', 'FACEBOOK'].includes(vendor.vendorName))">
+                    <label class="modal-label">Password</label>
+                    <input type="password" class="vendor-input" name="password" placeholder="Password" #password="ngModel" [(ngModel)]="vendor.password" required pattern="(\s*[^\s]+\s*)+">
+                    <mat-error *ngIf="f.submitted && password?.invalid">
+                        <small *ngIf="password.errors.required">Password is required</small>
+                        <small *ngIf="password.errors.pattern">Please add proper value</small>
+                    </mat-error>
+                </div>
+                <div class="custom-form-responsive-modal"
+                    *ngIf="(['SF','WEALTHBOX', 'RICOCHET', 'FACEBOOK'].includes(vendor.vendorName))">
+                    <label class="modal-label">Token</label>
+                    <input type="password" class="vendor-input" name="accessToken" placeholder="Token" [(ngModel)]="vendor.accessToken" #accessToken="ngModel"
+                    required pattern="(\s*[^\s]+\s*)+">
+                    <mat-error *ngIf="f.submitted && accessToken?.invalid">
+                        <small *ngIf="accessToken.errors.required">Token is required</small>
+                        <small *ngIf="accessToken.errors.pattern">Please add proper value</small>
+                    </mat-error>
+                </div>
+                <div class="custom-form-responsive-modal">
+                    <label class="modal-label">Forms</label>
+                    <mat-chip-list class="mat-chip-margin" *ngIf="activeForms && activeForms.length > 0">
+                        <mat-chip *ngFor="let form of activeForms">{{form.title}}
+                            <mat-icon matChipRemove (click)="removeActiveForm(form)">cancel</mat-icon>
+                        </mat-chip>
+                    </mat-chip-list>
+                    <select name="vendor-select" class="vendor-input" [(ngModel)]="selectedFormId"
+                        (ngModelChange)="setActiveForm($event)">
+                        <option [value]="null">-- Add form --</option>
+                        <option [value]="form.id" *ngFor="let form of forms">{{form.title}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <mat-dialog-actions class="api-settings-actions">
+            <div>
+                <button matDialogClose="yes" class="connect primary-btn"
+                    (click)="f.reset();disconnectApi(this.currentApi)">Disconnect</button>
+            </div>
+            <div>
+                <button matDialogClose="no" class="cancel secondary-btn" (click)="f.reset()">Cancel</button>
+                <button class="connect primary-btn">Save</button>
+            </div>
+        </mat-dialog-actions>
+    </form>
+    </div>
+</ng-template>
+<div class="container">
+    <div class="company-content-info integrations-search-block mt-4 mb-4">
+        <div class="integrations-header">Integrations</div>
+        <div class="integrations-block">
+            <ng-container class="custom-input-block">
+                <div class="custom-form-responsive all-service-modal-search">
+                    <input id="search" type="text" placeholder="Search.." [(ngModel)]="searchText" (keyup)="search()">
+                    <label for="search" class="input-icon">
+                        <mat-icon>search</mat-icon>
+                    </label>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div *ngFor="let data of preSelectedApisList; index as i" class="company-content-info">
+        <div class="integrations-main-block">
+            <div class="integrations-icon">
+                <img [src]="data?.logo" />
+            </div>
+            <div class="integrations-info">
+                <div class="info-label-container">
+                    <div class="info-label">{{ data?.name }}</div>
+                    <div class="info-description">{{ data?.description }}</div>
+                </div>
+            </div>
+            <div class="integrations-action">
+                <div class="integrations-buttons" *ngIf="data?.values === true || data?.values === 'true'">
+                    <mat-icon *ngIf="data?.settings?.fields?.length || data?.name == 'Pipedrive'"
+                        (click)="openSettings(callAPIDialog, data)">settings</mat-icon>
+                    <button mat-button class="disconnect-btn" *ngIf="data?.url && !data?.isAuthorized"><a mat-button
+                            class="disconnect-btn" *ngIf="data?.url && data?.isAuthorized === false"
+                            [href]="data?.url">Authorize</a></button>
+                    <button mat-button class="disconnect-btn" *ngIf="data?.isAuthorized" (click)="deAuthorized()">
+                        Disable
+                    </button>
+                    <button mat-button color="primary" (click)="disconnectApi(data)">
+                        Disconnect
+                    </button>
+                    <button class="connected-btn cursor-text-icon">
+                        <mat-icon>check</mat-icon>Connected
+                    </button>
+                </div>
+                <div class="integrations-buttons" *ngIf="!data?.values || data?.values === 'false'">
+                    <button mat-button color="primary" (click)="connect(callAPIDialog, data)">
+                        Connect
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

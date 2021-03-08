@@ -1,0 +1,50 @@
+<div class="container brand-info-main-container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="custom-form-responsive input-field-container brand-info-container">
+                <label>Logo</label>
+                <input type="file" (change)="getImage($event)" class="select-logo" #selectFile
+                    (click)="selectFile.value = null" accept="image/*">
+                <div class="logo" *ngIf="(company?.logo || imageSrc) && !isFileLarge">
+                    <span class="brand-logo-block">
+                        <img [src]="imageSrc || company?.logo" (error)="isLoadLoaded()" (load)="isLoadLoaded()" class="brand-preview">
+                    </span>
+                    <img class="change_logo mt-2" (click)="selectFile.click()" src="assets/signup-flow/edit.svg">
+                </div>
+                <div class="logo upload_logo" *ngIf="(!company?.logo && !imageSrc) || isFileLarge" (click)="selectFile.click()">
+                    <mat-icon>image</mat-icon>
+                    <div class="text">
+                        <span class="upload-text">Upload</span> your logo here<br />
+                        <span class="format">
+                            Recommended formats JPG, PNG — max size 4MB
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="custom-form-responsive input-field-container">
+                <label>Brand color</label>
+                <div class="color-fields">
+                    <div class="color-block">
+                        <input name="brandColor" type="text" [(colorPicker)]="tempColor"
+                            (colorPickerChange)="onChangeColor($event, 'brandColor')"
+                            (colorPickerOpen)="isColorPickerOpen('brandColor')"
+                            placeholder="#111111" [(ngModel)]="company.brandColor" />
+                    </div>
+                    <div class="color-preview" [ngStyle]="{ backgroundColor: company.brandColor }"></div>
+                </div>
+            </div>
+<!--            <div class="custom-form-responsive input-field-container">-->
+<!--                <label>Accent color</label>-->
+<!--                <div class="color-fields">-->
+<!--                    <div class="color-block">-->
+<!--                        <input name="accentColor" type="text" [(colorPicker)]="tempColor"-->
+<!--                            (colorPickerChange)="onChangeColor($event, 'accentColor')"-->
+<!--                            (colorPickerOpen)="isColorPickerOpen('accentColor')" -->
+<!--                            placeholder="#111111" [(ngModel)]="company.accentColor" />-->
+<!--                    </div>-->
+<!--                    <div class="color-preview" [ngStyle]="{ backgroundColor: company.accentColor }"></div>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+    </div>
+</div>

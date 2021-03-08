@@ -1,0 +1,21 @@
+.stripe-container {
+    max-width: 21rem;
+    padding: 2rem 1rem;
+    .input-container {
+        padding: .5rem;
+        border: 1px solid #111;
+        border-radius: .5rem;
+    }
+
+    .stripe-button {
+        background: #fff;
+        border: none;
+        padding: .5rem .5rem;
+        border-radius: .25rem;
+        color: #7c7fff;
+        border: 1px solid #7c7fff;
+        font-weight: 500;
+        margin-top: 1.5rem;
+        float: right;
+    }
+}

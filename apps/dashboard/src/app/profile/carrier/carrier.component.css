@@ -1,0 +1,10 @@
+.infoPopup {
+    margin-left: 150px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+}
+
+p.info-text {
+    text-align: left;
+}

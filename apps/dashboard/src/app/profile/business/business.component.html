@@ -1,0 +1,28 @@
+<div class="desktop-nav">
+    <div class="desktop-sidenav" *ngIf="!isMobile">
+        <div class="desktop-tabs-container" [routerLinkActive]="'active-link'">
+            <div class="tab tab-item" id="company-tab"><h5 routerLink="/profile/business/company" [routerLinkActive]="['']" [ngClass]="rla1.isActive?'active':''" #rla1="routerLinkActive" class="tab-text">Company</h5></div>
+            <div class="tab tab-item" id="brand-tab"><h5 routerLink="/profile/business/branding"  [routerLinkActive]="['']" [ngClass]="rla2.isActive?'active':''" #rla2="routerLinkActive" class="tab-text">Branding</h5></div>
+            <div class="tab tab-item" id="api-tab"><h5 routerLink="/profile/business/api" [routerLinkActive]="['']" [ngClass]="rla3.isActive?'active':''" #rla3="routerLinkActive" class="tab-text">API</h5></div>
+            <div class="tab tab-item" id="prospect-tab"><h5 routerLink="/profile/business/settings/user/prospects" [routerLinkActive]="['']" [ngClass]="rla4.isActive?'active':''" #rla4="routerLinkActive" class="tab-text">Prospects Settings</h5></div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    
+    <div class="content-area" [class.custom-nav-content]="!isMobile">
+        <div class="tabs-container" *ngIf="isMobile" [routerLinkActive]="'active-link'">
+            <div class="tab tab-item" id="company-tab"><h5 routerLink="/profile/business/company" [routerLinkActive]="['']" [ngClass]="rla1.isActive?'active':''" #rla1="routerLinkActive" class="tab-text">Company</h5></div>
+            <div class="tab tab-item" id="brand-tab"><h5 routerLink="/profile/business/branding"  [routerLinkActive]="['']" [ngClass]="rla2.isActive?'active':''" #rla2="routerLinkActive" class="tab-text">Branding</h5></div>
+            <div class="tab tab-item" id="api-tab"><h5 routerLink="/profile/business/api" [routerLinkActive]="['']" [ngClass]="rla3.isActive?'active':''" #rla3="routerLinkActive" class="tab-text">API</h5></div>
+            <div class="tab tab-item" id="prospect-tab"><h5 routerLink="/profile/business/settings/user/prospects" [routerLinkActive]="['']" [ngClass]="rla4.isActive?'active':''" #rla4="routerLinkActive" class="tab-text">Prospects Settings</h5></div>
+            <div class="clearfix"></div>
+        </div>
+    
+            <!-- <hr class="line"> -->
+        <div class="main" *ngIf="userRetrieved">
+            <div>
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

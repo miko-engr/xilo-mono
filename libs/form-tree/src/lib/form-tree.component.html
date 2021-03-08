@@ -1,0 +1,376 @@
+<div class="tree-root question-root">
+  <div *ngIf="mainForm?.type; then formBuilder; else loadingTemplate"></div>
+
+  <ng-template #formBuilder>
+    <!-- Only allow dragging of questions, not sections -->
+    <div
+      class="tree-section-container"
+      cdkDropList
+      [cdkDropListData]="mainForm.fieldGroup"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div
+        class="tree-section"
+        [ngClass]="{ 'is-active': activeSection === index }"
+        *ngFor="
+          let section of mainForm.fieldGroup;
+          let index = index;
+          trackBy: trackByKey
+        "
+        cdkDrag
+        [cdkDragDisabled]="mode === 'json-only'"
+        [cdkDragData]="section"
+      >
+        <ng-container *ngIf="mode !== 'json-only'">
+          <div class="drag-section-placeholder" *cdkDragPlaceholder></div>
+        </ng-container>
+        <div class="title-bar" (click)="changeActiveSection(index)">
+          <ngx-icon svgSrc="drag-indicator" class="drag-indicator"></ngx-icon>
+          <div>
+            <h3>
+              {{
+                section?.fieldArray?.templateOptions?.label ||
+                  section?.templateOptions?.label ||
+                  'Section'
+              }}
+            </h3>
+            <div
+              *ngIf="
+                section.type === 'intake-repeat' ||
+                  section.type === 'customer-repeat';
+                else elseBlock
+              "
+            >
+              Repeat Section
+            </div>
+            <ng-template #elseBlock>Section</ng-template>
+          </div>
+          <div class="node-buttons" *ngIf="!isDragging && mode !== 'json-only'">
+            <button (click)="onSettingClick(section)">
+              <img src="../assets/icons/settings.svg" alt="Settings icon" />
+            </button>
+            <button (click)="onConditionsClick(section)">
+              <img src="../assets/icons/condition.svg" alt="Condition icon" />
+            </button>
+            <button (click)="onDuplicateSection(index)">
+              <img src="../assets/icons/duplicate.svg" alt="Duplicate icon" />
+            </button>
+            <button (click)="onDeleteSection(index)">
+              <img src="../assets/icons/trash-red.svg" alt="Trash icon" />
+            </button>
+          </div>
+        </div>
+        <!-- For Intake components -->
+        <div
+          class="question-container"
+          [ngClass]="{
+            'is-active': activeSection === index || activeSection === 'all'
+          }"
+          *ngIf="
+            section.type === 'intake-section' &&
+            !section.templateOptions.isTable
+          "
+        >
+          <ng-template
+            *ngTemplateOutlet="
+              formQuestions;
+              context: {
+                $implicit: section.fieldGroup,
+                section: section,
+                sections: mainForm.fieldGroup
+              }
+            "
+          ></ng-template>
+        </div>
+        <!-- <ng-container *ngIf="section.type === 'intake-section' && section.templateOptions.isTable">
+            <ng-template *ngTemplateOutlet="formQuestions; context: {$implicit: section.fieldGroup}"></ng-template>
+        </ng-container> -->
+        <div
+          class="question-container"
+          [ngClass]="{
+            'is-active': activeSection === index || activeSection === 'all'
+          }"
+          *ngIf="section.type === 'intake-repeat'"
+        >
+          <ng-template
+            *ngTemplateOutlet="
+              formQuestions;
+              context: {
+                $implicit: section.fieldArray.fieldGroup,
+                section: section,
+                sections: mainForm.fieldGroup
+              }
+            "
+          ></ng-template>
+        </div>
+        <!-- For customer form components -->
+        <div
+          class="question-container"
+          [ngClass]="{
+            'is-active': activeSection === index || activeSection === 'all'
+          }"
+          *ngIf="
+            section.type === 'customer-section' &&
+            !section.templateOptions.isTable
+          "
+        >
+          <ng-template
+            *ngTemplateOutlet="
+              questionGroups;
+              context: {
+                $implicit: section.fieldGroup,
+                section: section,
+                sections: mainForm.fieldGroup
+              }
+            "
+          ></ng-template>
+        </div>
+        <!-- <ng-container *ngIf="section.type === 'intake-section' && section.templateOptions.isTable">
+            <ng-template *ngTemplateOutlet="questionGroups; context: {$implicit: section.fieldGroup}"></ng-template>
+        </ng-container> -->
+        <div
+          class="question-container"
+          [ngClass]="{
+            'is-active': activeSection === index || activeSection === 'all'
+          }"
+          *ngIf="section.type === 'customer-repeat'"
+        >
+          <ng-template
+            *ngTemplateOutlet="
+              questionGroups;
+              context: {
+                $implicit: section.fieldArray.fieldGroup,
+                section: section,
+                sections: mainForm.fieldGroup
+              }
+            "
+          ></ng-template>
+        </div>
+        <ng-template
+          #questionGroups
+          let-questionGroups
+          let-section="section"
+          let-sections="sections"
+        >
+          <div
+            cdkDropList
+            [id]="section.key"
+            (cdkDropListDropped)="dropItem($event)"
+            [cdkDropListData]="questionGroups"
+          >
+            <div
+              cdkDrag
+              [cdkDragDisabled]="mode === 'json-only'"
+              (cdkDragStarted)="onDragStart($event, section)"
+              (cdkDragReleased)="onDragEnd($event)"
+              [cdkDragData]="questionGroup"
+              (mouseenter)="onHoverDuringDrag(qIndex)"
+              class="tree-question node-wrapper"
+              *ngFor="
+                let questionGroup of questionGroups;
+                let qIndex = index;
+                trackBy: trackByKey
+              "
+            >
+              <ng-container *ngIf="mode !== 'json-only'">
+                <div class="drag-section-placeholder" *cdkDragPlaceholder></div>
+              </ng-container>
+              <div
+                class="question-group-item-wrapper item-wrapper editor-item-wrapper"
+                [ngClass]="{ hidden: questionGroup?.hide }"
+                (click)="changeActiveQuestionGroup(qIndex)"
+                (mouseenter)="questionHoverId = questionGroup.key"
+              >
+                <div class="node-data">
+                  <div class="question-group-title-container">
+                    <div class="index">{{ qIndex + 1 }}</div>
+                    <div class="text" [class.title]="true">
+                      {{ questionGroup?.templateOptions?.label }}
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="node-buttons"
+                  *ngIf="!isDragging && mode !== 'json-only'"
+                >
+                  <button (click)="onSettingClick(section, questionGroup)">
+                    <!-- [ngClass]="{'selected' : selectedNode && selectedNode.data && selectedNode.data.id === node.data.id && isSettingOpened}" -->
+                    <img
+                      src="../assets/icons/settings.svg"
+                      alt="Settings icon"
+                    />
+                  </button>
+                  <button (click)="onConditionsClick(questionGroup)">
+                    <img
+                      src="../assets/icons/condition.svg"
+                      alt="Condition icon"
+                    />
+                  </button>
+                  <button (click)="onDuplicateQuestionGroup(index, qIndex)">
+                    <img
+                      src="../assets/icons/duplicate.svg"
+                      alt="Duplicate icon"
+                    />
+                  </button>
+                  <button (click)="onDeleteQuestionGroup(index, qIndex)">
+                    <img src="../assets/icons/trash-red.svg" alt="Trash icon" />
+                  </button>
+                </div>
+              </div>
+              <!-- questions -->
+              <div
+                class="question-container"
+                [ngClass]="{
+                  'is-active':
+                    activeQuestionGroup === qIndex ||
+                    activeQuestionGroup === 'all'
+                }"
+                *ngIf="!section.templateOptions.isTable"
+              >
+                <ng-template
+                  *ngTemplateOutlet="
+                    formQuestions;
+                    context: {
+                      $implicit: questionGroup.fieldGroup,
+                      questionGroup: questionGroup,
+                      section: section,
+                      sections: mainForm.fieldGroup,
+                      qgIndex: qIndex
+                    }
+                  "
+                ></ng-template>
+              </div>
+              <div
+                class="add-question-row"
+                *ngIf="
+                  !isDragging &&
+                  questionHoverId === questionGroup.key &&
+                  mode !== 'json-only' &&
+                  activeQuestionGroup !== qIndex
+                "
+              >
+                <div class="btn-group add-question-btngroup">
+                  <button
+                    class="add-question-button"
+                    type="button"
+                    id="add-question-button"
+                    (click)="openBlockDialog(0, qIndex, index, false, true)"
+                  >
+                    <ngx-icon svgSrc="plus" class="plus-icon"> </ngx-icon>
+                    <span>Add question</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template
+          #formQuestions
+          let-formQuestions
+          let-qgIndex="qgIndex"
+          let-questionGroup="questionGroup"
+          let-section="section"
+          let-sections="sections"
+        >
+          <div
+            cdkDropList
+            [id]="questionGroup ? questionGroup.key : section.key"
+            (cdkDropListDropped)="dropItem($event)"
+            [cdkDropListData]="formQuestions"
+            [cdkDropListConnectedTo]="
+              questionGroup ? questionGroupKeys[qgIndex] : []
+            "
+          >
+            <div
+              cdkDrag
+              (cdkDragStarted)="onDragStart($event, section, questionGroup)"
+              (cdkDragReleased)="onDragEnd($event)"
+              [cdkDragData]="question"
+              class="tree-question node-wrapper"
+              *ngFor="
+                let question of formQuestions;
+                let qIndex = index;
+                trackBy: trackByKey
+              "
+            >
+              <ng-container *ngIf="mode !== 'json-only'">
+                <div class="drag-section-placeholder" *cdkDragPlaceholder></div>
+              </ng-container>
+              <div
+                class="item-wrapper editor-item-wrapper"
+                [ngClass]="{ hidden: question?.hide }"
+                (mouseenter)="questionHoverId = question.key"
+              >
+                <div class="node-data">
+                  <div class="type">{{ capitalize(question.type) }}</div>
+                  <div class="text" [class.title]="true">
+                    {{ question.templateOptions?.label }}
+                  </div>
+                </div>
+                <div
+                  class="node-buttons"
+                  *ngIf="!isDragging && mode !== 'json-only'"
+                >
+                  <button
+                    (click)="onSettingClick(section, questionGroup, question)"
+                  >
+                    <!-- [ngClass]="{'selected' : selectedNode && selectedNode.data && selectedNode.data.id === node.data.id && isSettingOpened}" -->
+                    <img
+                      src="../assets/icons/settings.svg"
+                      alt="Settings icon"
+                    />
+                  </button>
+                  <button (click)="onConditionsClick(question)">
+                    <img
+                      src="../assets/icons/condition.svg"
+                      alt="Condition icon"
+                    />
+                  </button>
+                  <button (click)="onDuplicateQuestion(index, qgIndex, qIndex)">
+                    <img
+                      src="../assets/icons/duplicate.svg"
+                      alt="Duplicate icon"
+                    />
+                  </button>
+                  <button (click)="onDeleteQuestion(index, qgIndex, qIndex)">
+                    <img src="../assets/icons/trash-red.svg" alt="Trash icon" />
+                  </button>
+                </div>
+              </div>
+              <div
+                class="add-question-row"
+                *ngIf="
+                  !isDragging &&
+                  questionHoverId === question.key &&
+                  mode !== 'json-only'
+                "
+              >
+                <div class="btn-group add-question-btngroup">
+                  <button
+                    class="add-question-button"
+                    type="button"
+                    id="add-question-button"
+                    (click)="openBlockDialog(qIndex, qgIndex, index)"
+                  >
+                    <img
+                      src="../assets/icons/plus.svg"
+                      class="plus-icon"
+                      alt="Plus icon"
+                    />
+                    <span>Add question</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #loadingTemplate>
+    <div class="loading">
+      Loading Form...
+    </div>
+  </ng-template>
+</div>

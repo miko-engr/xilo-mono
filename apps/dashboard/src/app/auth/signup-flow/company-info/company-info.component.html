@@ -1,0 +1,91 @@
+<div *ngIf="!isCompleted">
+  <div class="company-info-header">
+    <div class="company-header-block container">
+      <div class="first-block">
+        <img [src]="currentHeader?.logo" />
+      </div>
+      <div class="middle-block">
+        <div class="heading">{{ currentHeader?.heading }}</div>
+        <div class="info">{{ currentHeader?.info }}</div>
+        <span class="steps">Step: {{ currentHeader?.step }}/5</span>
+        <mat-progress-bar mode="determinate" [value]="currentHeader?.value"></mat-progress-bar>
+      </div>
+      <div class="last-block">
+        <div class="action-block">
+          <button class="back-btn first_child" (click)="back(currentHeader.step)" [class.disabled]="currentHeader?.step === 1" [disabled]="currentHeader?.step === 1">
+            Back
+          </button>
+          <button class="next-btn" *ngIf="!currentHeader?.isLastStep" [class.next-btn-disabled]="isDisabled()" [disabled]="isDisabled()"
+            (click)="next(currentHeader.step)">
+            Next
+          </button>
+          <button class="next-btn" *ngIf="currentHeader?.isLastStep" (click)="completeProfile()">
+            Complete Profile
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="company-content-block" *ngIf="currentHeader?.step == 1">
+    <div class="container">
+      <div class="custom-form-responsive form-block">
+        <label>Company name</label>
+        <input type="text" placeholder="Enter company name" (change)="isInputChange()" [(ngModel)]="company.name" />
+        <span class="form-error" *ngIf="!isValid && !company.name">
+          <span>Company name required</span>
+        </span>
+      </div>
+      <div class="custom-form-responsive form-block">
+        <label>Contact phone number</label>
+        <input type="text" matInput placeholder="(___) ___ - ____" (change)="isInputChange()"
+        [(ngModel)]="company.contactNumber" mask="(000) 000-0000" [validation]="true"/>
+        <span class="form-error">
+          <span *ngIf="!company.contactNumber">Contact phone number required</span>
+          <span *ngIf="company.contactNumber && company.contactNumber.length < 10">Add valid phone number</span>
+        </span>
+      </div>
+      <div class="custom-form-responsive form-block">
+        <label>Company Address</label>
+        <input ngx-google-places-autocomplete type="text" (change)="isInputChange()" placeholder="Enter company address"
+          (onAddressChange)="handleAddressChange($event)" [(ngModel)]="company.fullAddress" />
+        <span class="form-error" *ngIf="!isValid && !company.fullAddress">
+          <span>Company address required</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="company-content-block" *ngIf="currentHeader?.step == 2">
+    <app-brand-info [brandInfo]="company" [action]="action" (onUpdated)="brandInfoUpdated($event)"></app-brand-info>
+  </div>
+
+  <div class="company-content-block" *ngIf="currentHeader?.step == 3">
+    <app-team-members></app-team-members>
+  </div>
+  <div class="company-content-block" *ngIf="currentHeader?.step == 4">
+    <app-forms #formsComponent (onUpdated)="navigateToFeedback($event)"></app-forms>
+  </div>
+
+  <div class="company-content-block" *ngIf="currentHeader?.step == 5">
+      <app-integrated-apis [integratedApis]="company" [action]="action" (onUpdated)="apisInfoUpdated($event)">
+      </app-integrated-apis>
+    </div>
+</div>
+
+<div *ngIf="isCompleted">
+  <div class="company-content-block" class="container">
+    <div class="profile_setup_form">
+      <div class="first_block">
+        <div class="heading">Your profile is ready!</div>
+        <div class="desc">Click below to Login</div>
+        <div class="action">
+          <button (click)="goToDashboard()">Go to dashboard</button>
+        </div>
+      </div>
+      <div class="second_block">
+        <img src="assets/signup-flow/success_2.svg">
+      </div>
+    </div>
+  </div>
+</div>

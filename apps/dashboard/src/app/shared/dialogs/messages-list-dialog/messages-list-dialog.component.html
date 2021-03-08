@@ -1,0 +1,57 @@
+<div class="messages-list-container">
+    <div class="messages-list-header">
+        <div class="messages-list-header-content">
+            <p class="messages-list-header-content-headerText">Conversation with {{returnName(client)}}</p>
+        </div>
+        <div class="messages-list-header-actions">
+            <input class="messages-list-header-actions-input" [(ngModel)]="bodyFilter" (ngModelChange)="filter($event)" placeholder="Search messages">
+            <button class="messages-list-header-actions-btn" (click)="closeDialog()">Exit</button>
+        </div>
+    </div>
+    <div class="messages-list-body" (click)="editorActive = false">
+        <div class="messages-list-body-row" [ngStyle]="styleRow(message)" *ngFor="let message of messages">
+            <div class="messages-list-body-row-icons" *ngIf="message.fromClient">
+                <div class="messages-list-body-row-icons-name">
+                    <p class="messages-list-body-row-icons-name-letter">{{returnNameFirstLetter()}}</p>
+                </div>
+                <div class="messages-list-body-row-icons-message-type">
+                    <span class="icon-message" *ngIf="!message.to"></span>
+                    <span class="icon-bubble2" *ngIf="message.to"></span>
+                </div>
+            </div>
+            <div class="messages-list-body-row-message-container" [ngStyle]="styleMessage(message)">
+                <div class="messages-list-body-row-message" (click)="selectMessage(message)">{{isSelected(message) ? message.body : truncatedText(message.body)}}</div>
+                <div class="messages-list-body-row-actions" *ngIf="message.fromClient">
+                    <span class="messages-list-body-row-actions-reply" (click)="setEditorReply(message)">Reply</span>
+                </div>
+            </div>
+            <div class="messages-list-body-row-icons" *ngIf="!message.fromClient">
+                <div class="messages-list-body-row-icons-name" style="margin-right: .5rem">
+                    <p class="messages-list-body-row-icons-name-letter">
+                        <span class="icon-message" *ngIf="!message.to"></span>
+                        <span class="icon-bubble2" *ngIf="message.to"></span>                    
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="messages-list-footer">
+        <div class="messages-list-footer-tags">
+            <span class="messages-list-footer-tags-tag" (click)="switchEditorType('email')" [ngStyle]="styleEditorTypeTab('email')">Email</span>
+            <span class="messages-list-footer-tags-tag" (click)="switchEditorType('text')" [ngStyle]="styleEditorTypeTab('text')">Text</span>
+        </div>
+        <div class="messages-list-footer-editor">
+            <div class="messages-create-body-top-line subject" *ngIf="editorType === 'email'">
+                <input type="text" class="messages-create-body-top-input" [(ngModel)]="subject" placeholder="Subject">
+            </div>
+            <textarea id="editor" #editor class="messages-list-footer-editor-textarea" 
+                (focus)="editorActive = true" 
+                [(ngModel)]="body" [ngStyle]="styleEditor()" name="editor"></textarea>
+            <div class="messages-list-footer-editor-actions">
+                <span class="messages-list-footer-editor-actions send-icon" (click)="sendMessage()">
+                    <span class="icon-redo2"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

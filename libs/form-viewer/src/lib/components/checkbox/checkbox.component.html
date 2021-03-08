@@ -1,0 +1,11 @@
+<div class="intake-checkbox" class="form-item">
+  <input
+    [name]="field.key"
+    [id]="field.key"
+    type="checkbox"
+    [formControl]="formControl"
+    [formlyAttributes]="field"
+  />
+  <label [for]="field.key">{{ to.text }}</label>
+  <!-- <label *ngIf="showError">{{ getError() }} </label> -->
+</div>

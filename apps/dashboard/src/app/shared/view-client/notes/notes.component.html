@@ -1,0 +1,27 @@
+<div class="notes-section">
+<div class="user-container">
+        <div class="company-header">
+<h3 class="main-header-title">Notes</h3>
+<button class="edit-btn" *ngIf="!editInputs" (click)="onEditInputs()"><span class="icon-add"></span>Add Note</button>
+    </div>
+    <form *ngIf="editInputs">
+        <textarea name="notes" id="notes" placeholder="Type note" [(ngModel)]="note.text" class="note-text-box"></textarea>
+    </form>
+    <div class="notes-boxes-container">
+        <div class="box" *ngFor="let thisNote of client.notes">
+            <p>{{thisNote.text}}</p>
+            <small><span>Created:</span> {{thisNote.createdAt | date: 'short'}}</small>
+        </div>
+    </div>
+</div>
+    
+
+
+    
+    
+</div>
+
+<div class="save-btn-overlay" *ngIf="editInputs === true">
+    <button class="btn" (click)="addNote()">Save Note</button>
+    <button class="exit-btn btn" (click)="onEditInputs()">Exit</button>
+</div>

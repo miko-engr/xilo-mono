@@ -1,0 +1,659 @@
+{
+  "obj": {
+    "title": "Auto Form",
+    "metadata": {
+      "key": "27ea5138-99ce-4971-8227-233ebdb572ee",
+      "version": 0,
+      "templateTitle": "Auto",
+      "templateLob": "Auto",
+      "templateIntegrations": "None",
+      "templateCategory": "Auto"
+    },
+    "components": [
+      {
+        "type": "customer-form",
+        "fieldGroup": [
+          {
+            "key": "bd9a6000-d28c-4b81-afc4-10a239f9f30c",
+            "type": "customer-repeat",
+            "label": "Drivers",
+            "fieldArray": {
+              "type": "customer-section",
+              "wrappers": [
+                "customer-section-panel"
+              ],
+              "fieldGroup": [
+                {
+                  "key": "5d64dae0-405f-4ff7-b92d-d6164a0f27341",
+                  "type": "question-group",
+                  "wrappers": [
+                    "question-panel"
+                  ],
+                  "fieldGroup": [
+                    {
+                      "key": "7ba08263-8c39-4fae-a914-b8869dcfbc8a",
+                      "type": "input",
+                      "templateOptions": {
+                        "label": "First Name",
+                        "required": true,
+                        "className": "xilo-input",
+                        "placeholder": "First Name"
+                      }
+                    },
+                    {
+                      "key": "ab50b1a0-d6b9-47db-9c13-6fb973abdf1c",
+                      "type": "input",
+                      "templateOptions": {
+                        "label": "Last Name",
+                        "required": true,
+                        "className": "xilo-input",
+                        "placeholder": "Last Name"
+                      }
+                    },
+                    {
+                      "key": "d4204d49-440c-47e5-9eeb-964c84543123",
+                      "type": "input",
+                      "templateOptions": {
+                        "type": "date",
+                        "label": "Birthday",
+                        "className": "xilo-input",
+                        "placeholder": "Birthday"
+                      }
+                    }
+                  ],
+                  "templateOptions": {
+                    "label": "Can you tell us about yourself?"
+                  }
+                },
+                {
+                  "key": "5d64dae0-405f-4ff7-b92d-d6164a0f2734122",
+                  "type": "question-group",
+                  "wrappers": [
+                    "question-panel"
+                  ],
+                  "fieldGroup": [
+                    {
+                      "key": "7ba08263-8c39-4fae-a914-b8869dcfbc8a22",
+                      "type": "selectbox",
+                      "templateOptions": {
+                        "label": "Gender",
+                        "required": true,
+                        "className": "xilo-input",
+                        "placeholder": "Gender",
+                        "options": [
+                          {
+                            "label": "Male",
+                            "value": "Male"
+                          },
+                          {
+                            "label": "Female",
+                            "value": "Female"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "templateOptions": {
+                    "label": "What is your gender?",
+                    "text": "Please choose one of the following"
+                  }
+                },
+                {
+                  "key": "5d64dae0-405f-4ff7-b92d-d6164a0f273410",
+                  "type": "question-group",
+                  "wrappers": [
+                    "question-panel"
+                  ],
+                  "fieldGroup": [
+                    {
+                      "key": "f992ffa2-e474-43c0-b1db-d7f7cb2c4fb3",
+                      "type": "select",
+                      "templateOptions": {
+                        "label": "Education Level",
+                        "options": [
+                          {
+                            "label": "No High School Diploma",
+                            "value": "No High School Diploma"
+                          },
+                          {
+                            "label": "Some College - No Degree",
+                            "value": "Some College - No Degree"
+                          },
+                          {
+                            "label": "Vocational/Technical Degree",
+                            "value": "Vocational/Technical Degree"
+                          },
+                          {
+                            "label": "Associates Degree",
+                            "value": "Associates Degree"
+                          },
+                          {
+                            "label": "Bachelors",
+                            "value": "Bachelors"
+                          },
+                          {
+                            "label": "Masters",
+                            "value": "Masters"
+                          },
+                          {
+                            "label": "Phd",
+                            "value": "Phd"
+                          },
+                          {
+                            "label": "Medical Degree",
+                            "value": "Medical Degree"
+                          },
+                          {
+                            "label": "Law Degree",
+                            "value": "Law Degree"
+                          }
+                        ],
+                        "className": "xilo-input",
+                        "placeholder": "Education Level"
+                      }
+                    },
+                    {
+                      "key": "1198f67d-4624-4172-ae05-1bcbc89aaf56",
+                      "type": "input",
+                      "templateOptions": {
+                        "label": "Industry",
+                        "className": "xilo-input",
+                        "placeholder": "Industry"
+                      }
+                    },
+                    {
+                      "key": "e2848787-82d1-4e0f-ab5e-f1ac3caee5ab",
+                      "type": "input",
+                      "templateOptions": {
+                        "label": "Occupation",
+                        "className": "xilo-input",
+                        "placeholder": "Occupation"
+                      }
+                    }
+                  ],
+                  "templateOptions": {
+                    "label": "What do you do for a living?"
+                  }
+                },
+                {
+                  "key": "5d64dae0-405f-4ff7-b92d-d6164a0f2734101",
+                  "type": "question-group",
+                  "wrappers": [
+                    "question-panel"
+                  ],
+                  "fieldGroup": [
+                    {
+                      "key": "fc6ddd3c-9fdf-47ac-9b93-b268ae561e74",
+                      "type": "input",
+                      "templateOptions": {
+                        "label": "Driver's License Number",
+                        "required": true,
+                        "className": "xilo-input",
+                        "placeholder": "Driver's License Number"
+                      }
+                    },
+                    {
+                      "key": "79fb0689-78d2-434f-bc2d-2150249a2a73",
+                      "type": "select",
+                      "templateOptions": {
+                        "label": "License State",
+                        "options": [
+                          {
+                            "label": "CA",
+                            "value": "CA"
+                          },
+                          {
+                            "label": "DE",
+                            "value": "DE"
+                          },
+                          {
+                            "label": "FL",
+                            "value": "FL"
+                          },
+                          {
+                            "label": "GA",
+                            "value": "GA"
+                          },
+                          {
+                            "label": "MD",
+                            "value": "MD"
+                          },
+                          {
+                            "label": "NJ",
+                            "value": "NJ"
+                          },
+                          {
+                            "label": "NY",
+                            "value": "NY"
+                          },
+                          {
+                            "label": "PA",
+                            "value": "PA"
+                          },
+                          {
+                            "label": "TX",
+                            "value": "TX"
+                          }
+                        ],
+                        "className": "xilo-input",
+                        "placeholder": "License State"
+                      }
+                    },
+                    {
+                      "key": "5d33d156-d87f-4871-bce3-4d375858c18c",
+                      "type": "input",
+                      "templateOptions": {
+                        "min": "14",
+                        "type": "number",
+                        "label": "Age Licensed",
+                        "className": "xilo-input",
+                        "placeholder": "Age Licensed"
+                      }
+                    }
+                  ],
+                  "templateOptions": {
+                    "label": "What about your license information?"
+                  }
+                }
+              ],
+              "templateOptions": {
+                "label": "Driver",
+                "hasRepeatButtons": true
+              }
+            },
+            "templateOptions": {
+              "label": "Driver",
+              "subIndex": 0
+            }
+          },
+          {
+            "key": "5d64dae0-405f-4ff7-b92d-d6164a0f27d1314",
+            "type": "customer-repeat",
+            "fieldArray": {
+              "type": "customer-section",
+              "wrappers": [
+                "customer-section-panel"
+              ],
+              "fieldGroup": [
+                {
+                  "key": "5d64dae0-405f-4ff7-b92d-d6164a0f2734102",
+                  "type": "question-group",
+                  "wrappers": [
+                    "question-panel"
+                  ],
+                  "fieldGroup": [
+                    {
+                      "key": "d7cbb58b-26ba-46c9-9bbb-8f2eb965107d",
+                      "type": "input",
+                      "templateOptions": {
+                        "label": "VIN",
+                        "className": "xilo-input",
+                        "placeholder": "VIN"
+                      }
+                    },
+                    {
+                      "key": "5d64dae0-405f-4ff7-b92d-d6164a0f27d1112",
+                      "type": "select",
+                      "templateOptions": {
+                        "tags": {
+                          "vehicleYear": true
+                        },
+                        "label": "Year",
+                        "options": [
+                          {
+                            "label": 2020,
+                            "value": 2020
+                          },
+                          {
+                            "label": 2019,
+                            "value": 2019
+                          },
+                          {
+                            "label": 2018,
+                            "value": 2018
+                          },
+                          {
+                            "label": 2017,
+                            "value": 2017
+                          },
+                          {
+                            "label": 2016,
+                            "value": 2016
+                          },
+                          {
+                            "label": 2015,
+                            "value": 2015
+                          }
+                        ],
+                        "className": "xilo-input",
+                        "placeholder": "Year",
+                        "required": true
+                      }
+                    },
+                    {
+                      "key": "5d64dae0-405f-4ff7-b92d-d6164a0f27d910",
+                      "type": "select",
+                      "templateOptions": {
+                        "tags": {
+                          "vehicleMake": true
+                        },
+                        "label": "Make",
+                        "options": [
+                          {
+                            "label": "Jeep",
+                            "value": "Jeep"
+                          }
+                        ],
+                        "className": "xilo-input",
+                        "placeholder": "Make"
+                      }
+                    },
+                    {
+                      "key": "5d64dae0-405f-4ff7-b92d-d6164a0f27d78",
+                      "type": "select",
+                      "templateOptions": {
+                        "tags": {
+                          "vehicleModel": true
+                        },
+                        "label": "Model",
+                        "options": [
+                          {
+                            "label": "Jeep",
+                            "value": "Jeep"
+                          }
+                        ],
+                        "className": "xilo-input",
+                        "placeholder": "Model"
+                      }
+                    },
+                    {
+                      "key": "5d64dae0-405f-4ff7-b92d-d6164a0f27d56",
+                      "type": "select",
+                      "templateOptions": {
+                        "tags": {
+                          "vehicleBodyStyle": true
+                        },
+                        "label": "Body Style",
+                        "options": [
+                          {
+                            "label": "Jeep",
+                            "value": "Jeep"
+                          }
+                        ],
+                        "className": "xilo-input",
+                        "placeholder": "Body Style"
+                      }
+                    }
+                  ],
+                  "templateOptions": {
+                    "label": "Can you tell us the vehicel you're insuring?"
+                  }
+                },
+                {
+                  "key": "5d64dae0-405f-4ff7-b92d-d6164a0f2734103",
+                  "type": "question-group",
+                  "wrappers": [
+                    "question-panel"
+                  ],
+                  "fieldGroup": [
+                    {
+                      "key": "66ec0511-19b3-4625-8550-fd9c7ee436cd",
+                      "type": "radio",
+                      "templateOptions": {
+                        "label": "Primary Use",
+                        "options": [
+                          {
+                            "label": "Business",
+                            "value": "Business"
+                          },
+                          {
+                            "label": "Pleasure",
+                            "value": "Pleasure"
+                          },
+                          {
+                            "label": "To/From Work",
+                            "value": "To/From Work"
+                          },
+                          {
+                            "label": "To/From School",
+                            "value": "To/From School"
+                          }
+                        ],
+                        "className": "intake-radio",
+                        "placeholder": "Radio"
+                      }
+                    },
+                    {
+                      "key": "978ae3b5-5be8-4d1d-8b3f-5aa10282986f",
+                      "type": "radio",
+                      "templateOptions": {
+                        "label": "Ownership Type",
+                        "options": [
+                          {
+                            "label": "Owned",
+                            "value": "Owned"
+                          },
+                          {
+                            "label": "Leased",
+                            "value": "Leased"
+                          },
+                          {
+                            "label": "Financed",
+                            "value": "Financed"
+                          }
+                        ],
+                        "className": "intake-radio",
+                        "placeholder": "Radio"
+                      }
+                    },
+                    {
+                      "key": "fc734471-4d90-4f5a-be45-6c5374882014",
+                      "type": "input",
+                      "templateOptions": {
+                        "type": "date",
+                        "label": "Purchase Date",
+                        "className": "xilo-input",
+                        "placeholder": "Purchase Date"
+                      }
+                    },
+                    {
+                      "key": "c9a7de91-7147-4e56-aa7c-3e16bb9613ca",
+                      "type": "input",
+                      "templateOptions": {
+                        "type": "number",
+                        "label": "Annual Miles",
+                        "className": "xilo-input",
+                        "placeholder": "Annual Miles"
+                      }
+                    }
+                  ],
+                  "templateOptions": {
+                    "label": "How do you primarily use the vehicle?"
+                  }
+                }
+              ],
+              "templateOptions": {
+                "label": "Vehicle",
+                "hasRepeatButtons": true
+              }
+            },
+            "templateOptions": {
+              "label": "Vehicle",
+              "subIndex": 0
+            }
+          },
+          {
+            "key": "5d64dae0-405f-4ff7-b92d-d6164a0f2734",
+            "type": "customer-section",
+            "wrappers": [
+              "customer-section-panel"
+            ],
+            "fieldGroup": [
+              {
+                "key": "5d64dae0-405f-4ff7-b92d-d6164a0f2734105",
+                "type": "question-group",
+                "wrappers": [
+                  "question-panel"
+                ],
+                "fieldGroup": [
+                  {
+                    "key": "04aa2686-e00d-4752-8c35-fb4480c068ee",
+                    "type": "input",
+                    "templateOptions": {
+                      "type": "email",
+                      "label": "Email",
+                      "className": "xilo-input",
+                      "placeholder": "Email"
+                    }
+                  },
+                  {
+                    "key": "f65f1f20-ce0e-4705-ae85-736a83700e51",
+                    "type": "phonenumber",
+                    "templateOptions": {
+                      "label": "Phone",
+                      "className": "xilo-input",
+                      "placeholder": "Phone"
+                    }
+                  },
+                  {
+                    "key": "5d64dae0-405f-4ff7-b92d-d6164a0f27d12",
+                    "type": "address",
+                    "templateOptions": {
+                      "label": "Current Address",
+                      "className": "xilo-input",
+                      "placeholder": "Current Address"
+                    }
+                  }
+                ],
+                "templateOptions": {
+                  "label": "Where can we send your quote?",
+                  "text": "This helps us get your quote to the right person"
+                }
+              },
+              {
+                "key": "5d64dae0-405f-4ff7-b92d-d6164a0f2734106",
+                "type": "question-group",
+                "wrappers": [
+                  "question-panel"
+                ],
+                "fieldGroup": [
+                  {
+                    "key": "f074fbfb-04eb-40bf-ba3a-f9714d88b35b",
+                    "type": "checkbox",
+                    "templateOptions": {
+                      "text": "Has Prior Insurance",
+                      "label": "Checkbox",
+                      "className": "xilo-input",
+                      "placeholder": "Checkbox"
+                    }
+                  }
+                ],
+                "templateOptions": {
+                  "label": "Do you currently have insurance?",
+                  "text": "We'll need this to see your insurance history"
+                }
+              }
+            ],
+            "templateOptions": {
+              "label": "Insurance"
+            }
+          },
+          {
+            "key": "9a9af207-b723-417e-9ba8-a0aceb8588d7",
+            "type": "customer-repeat",
+            "fieldArray": {
+              "type": "customer-section",
+              "wrappers": [
+                "customer-section-panel"
+              ],
+              "fieldGroup": [
+                {
+                  "key": "5d64dae0-405f-4ff7-b92d-d6164a0f2734107",
+                  "type": "question-group",
+                  "wrappers": [
+                    "question-panel"
+                  ],
+                  "fieldGroup": [
+                    {
+                      "key": "862b6576-182c-429a-adac-fe00704aa696",
+                      "type": "checkbox",
+                      "templateOptions": {
+                        "text": "Has Accident, Violation or Claim",
+                        "label": "Checkbox",
+                        "className": "xilo-input",
+                        "placeholder": "Checkbox"
+                      }
+                    },
+                    {
+                      "key": "44ac512a-0879-4e14-bd25-184901601cd8",
+                      "type": "radio",
+                      "templateOptions": {
+                        "label": "Type of Accident",
+                        "options": [
+                          {
+                            "label": "Accident",
+                            "value": "Accident"
+                          },
+                          {
+                            "label": "Violation",
+                            "value": "Violation"
+                          }
+                        ],
+                        "className": "intake-radio",
+                        "placeholder": "Radio"
+                      }
+                    }
+                  ],
+                  "templateOptions": {
+                    "label": "Have you had any incidents in the last 5 years?"
+                  }
+                },
+                {
+                  "key": "5d64dae0-405f-4ff7-b92d-d6164a0f2734109",
+                  "type": "question-group",
+                  "wrappers": [
+                    "question-panel"
+                  ],
+                  "fieldGroup": [
+                    {
+                      "key": "7f43886d-884e-4da1-9a46-60f21d9a35f1",
+                      "type": "input",
+                      "templateOptions": {
+                        "label": "Incident Description",
+                        "className": "xilo-input",
+                        "placeholder": "Incident Description"
+                      }
+                    },
+                    {
+                      "key": "5d64dae0-405f-4ff7-b92d-d6164a0f27de",
+                      "type": "input",
+                      "templateOptions": {
+                        "type": "date",
+                        "label": "Incident Date",
+                        "className": "xilo-input",
+                        "placeholder": "Incident Date"
+                      }
+                    }
+                  ],
+                  "templateOptions": {
+                    "label": "Can you tell us more about the incident?"
+                  }
+                }
+              ],
+              "templateOptions": {
+                "label": "Incident",
+                "hasRepeatButtons": true
+              }
+            },
+            "templateOptions": {
+              "label": "Incident",
+              "subIndex": 0
+            }
+          }
+        ]
+      }
+    ],
+    "icon": "auto",
+    "companyFormViewId": 5
+  }
+}

@@ -1,0 +1,86 @@
+<div class="header">
+    <h1 class="header-title">Affilliates<i (click)="toggleInfo()" class="fa fa-info"></i></h1>
+
+    <div *ngIf="show" class="infoPopup">
+        <i (click)="toggleInfo()" class="fa fa-close"></i>
+        <p class="infoText">To Add An Affiliate Link: <br>1. Click "Add Affilliate Name" <br>2. Enter affilliate name <br> 
+        3. Fill in the rest of the fields <br> 4. Add logo of affiliate <br>5. Click add to complete </p>
+    </div>
+</div>
+<div class="main" *ngIf="userRetrieved">
+    <h3 class="section-text">Contracted Insurance Affiliates</h3>
+    <div class="form-group">
+        <div class="group" style="width: 250px">
+            <label for="affiliateSelect">Edit Affiliate</label><br>
+            <select class="section-select" name="affiliateSelect" id="affiliateSelect" [(ngModel)]="affiliateIndex" (change)="onChangeAffiliate($event.target.value)">
+                <option [value]="null">Select Affiliate By Name</option>
+                <option [value]="i" *ngFor="let affiliate of user.affiliates; index as i">{{affiliate.name}}</option>
+            </select>
+        </div>
+    </div>
+    <form #affiliateForm="ngForm" class="section-1">
+        <div class="form-group">
+            <div class="group">
+                <label for="affiliateName">Name</label><br>
+                <p class="section-info" *ngIf="!editAffiliateName" (click)="editInput('affiliateName')">{{affiliate.name || 'Add Affiliate Name'}}</p>
+                <span *ngIf="!editAffiliateName"><i class="fa fa-pencil-square-o" (click)="editInput('affiliateName')"></i></span>
+                <input type="text" name="nameInput" [placeholder]="affiliate.name || 'Enter Your Affiliates Name'" (click)="editInput('affiliateName')" class="section-input" id="affiliateName" [(ngModel)]="affiliate.name" *ngIf="editAffiliateName">
+            </div>
+            <div class="group">
+                <label for="affiliateSlogan">Slogan</label><br>
+                <p class="section-info" *ngIf="!editAffiliateSlogan" (click)="editInput('affiliateSlogan')">{{affiliate.slogan || 'Add Affiliate Slogan'}}</p>
+                <span *ngIf="!editAffiliateSlogan"><i class="fa fa-pencil-square-o" (click)="editInput('affiliateSlogan')"></i></span>
+                <input name="sloganInput" type="text" placeholder="Enter Your Affiliates Slogan" (click)="editInput('affiliateSlogan')"  class="section-input" id="affiliateSlogan" [(ngModel)]="affiliate.slogan" *ngIf="editAffiliateSlogan">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="group">
+                <label for="affiliateLink">Link</label><br>
+                <p class="section-info" *ngIf="!editAffiliateHotLink" (click)="editInput('affiliateHotLink')">{{affiliate.hotLink || 'Add Affiliate Link'}}</p>
+                <span *ngIf="!editAffiliateHotLink"><i class="fa fa-pencil-square-o" (click)="editInput('affiliateHotLink')"></i></span>
+                <input type="text" #linkInput="ngModel" name="linkInput" required [pattern]="url" 
+                [placeholder]="affiliate.hotLink || 'Enter Your Affiliates Link'" (click)="editInput('affiliateHotLink')"  
+                class="section-input" id="affiliateLink" [(ngModel)]="affiliate.hotLink" *ngIf="editAffiliateHotLink">
+            </div>
+            <div class="group" style="text-align: center;" *ngIf="affiliateIndex !== null">
+                <label for="remove" style="margin-bottom: 5px;">Remove Affiliate</label><br>
+                <span id="remove" style="text-align: center; margin-top: 5px;"><i class="fa fa-trash" style="font-size: 22px" *ngIf="!disableUpdateAffiliate" (click)="updateAffiliate('remove')"></i><span *ngIf="disableUpdateAffiliate">Loading...</span></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="group" *ngIf="!affiliateFileUploaded" style="margin-bottom: 20px;">
+                <label class="upload" for="logo2" *ngIf="!affiliateFiles">Logo +</label><br>
+                <input
+                        type="file"
+                        multiple
+                        class="section-file"
+                        id="logo2"
+                        name="photos"
+                        accept="image/*"
+                        ngf
+                        style="display: none"
+                        [(files)]="affiliateFiles"
+                />
+                <span style="margin-bottom: 10px" *ngIf="affiliateFiles">{{affiliateFiles[0].name}} <br></span>
+                <button class="upload-button" *ngIf="affiliateFiles" (click)="postImage(affiliateFiles, 'affiliate')" [disabled]="disableUploadAffiliateLogo">Click To Complete Upload</button>
+                <ngfFormData
+                        [files]      = "affiliateFiles"
+                        [(FormData)] = "myFormData"
+                        postName     = "photos"
+                ></ngfFormData>
+            </div>
+            <a class="file-link" [href]="affiliate.logo" target="_blank" *ngIf="!affiliateFileUploaded && affiliate.logo !== null && !affiliateFiles">Download Current Logo</a>
+            <p class="file-uploaded" *ngIf="affiliateFileUploaded">Logo Successfully Uploaded. Click Add To Finish</p>
+        </div>
+        <button type="button" class="btn" style="width: auto; margin-bottom: 10px; background-color: #fdfdfd; color: #7c7fff" (click)="resetInputs()" *ngIf="editAffiliate">Add A New Affiliate</button>
+        <div class="form-group">
+            <button type="submit" class="btn" (click)="createAffiliate()" *ngIf="!editAffiliate" [disabled]="disableSaveAffiliate || linkInput?.errors">Add</button>
+            <button type="submit" class="btn" (click)="updateAffiliate('update')" *ngIf="editAffiliate" [disabled]="disableUpdateAffiliate || linkInput?.errors">Update</button>
+        </div>
+    </form>
+</div>
+<div class="main" *ngIf="!userRetrieved">
+    <h3>...</h3>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

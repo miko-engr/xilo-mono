@@ -1,0 +1,23 @@
+<mat-card class="agency-system-wraper">
+   <div class="company-header content-area company-header-api">
+      <mat-card-title class="main-header-title">Integrated APIs</mat-card-title>
+      <button mat-button color="primary" class="all-services-btn" id="apiEditBtn" (click)="openAllServices()">All Services</button>
+      <div *ngIf="isUnsaved" class="edit-actions-btn">
+         <span>You have unsaved changes</span>
+         <button mat-button color="primary" class="discard-button" (click)="resetInputs()">Discard changes</button>
+         <button mat-button color="primary" class="save-button" (click)="updateCompany()">Save</button>
+      </div>
+      <button mat-button color="primary" class="edit-btn" id="apiEditBtn" *ngIf="!editInputs" (click)="onEditInputs()">
+         <span class="icon-edit"></span>Edit
+      </button>
+   </div>
+   <div class="integrations">
+      <div *ngFor="let item of integrationsList">
+         <app-integrations [integrationtype]="integrationtype" [company]="company" (prepareIntegration)="prepareApiIntegration()" [data]="item"></app-integrations>
+      </div>
+      <div *ngIf="integrationsList?.length === 0">
+         No Integrated APIs
+      </div>
+   </div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

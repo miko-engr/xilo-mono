@@ -1,0 +1,121 @@
+@import '../../../assets/custom-theme.scss';
+
+.page-header {
+  max-height: 84px;
+  width: 72%;
+  z-index: 12;
+  position: relative;
+  background: white;
+  .page-title {
+    font-style: normal;
+    font-weight: bold;
+    display: flex;
+    align-items: flex-end;
+    color: $black-light;
+    @extend .headline2;
+  }
+  .progress-bar-section {
+    align-items: flex-end;
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    .progress-bar-items {
+      span {
+        &.progress,
+        &.attended,
+        &.error {
+          color: $white;
+          transition: transition 1s;
+          cursor: pointer;
+          &:hover {
+            transform: scaley(1.3);
+            transition-duration: 1s;
+          }
+        }
+
+        &.progress {
+          background-color: $brand;
+        }
+        &.attended {
+          background-color: $brand-color-light;
+        }
+        &.error {
+          background-color: red;
+        }
+
+        // min-width: 51px;
+        height: 8px;
+        background-color: $progress-bar-color;
+        box-shadow: inset 1px 0px 0px #fafafa;
+        border-radius: 2px 0px 0px 2px;
+      }
+      display: flex;
+      justify-content: flex-start;
+      .bar {
+        background: $bar-bg;
+        flex-grow: 1;
+        flex-basis: 0;
+        margin-left: 2px;
+      }
+    }
+    .progress-buttons {
+      padding-left: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      span {
+        padding-right: 5px;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 32px;
+        height: 32px;
+        &:first-child {
+          background-image: url('/assets/icon/left-arrow.svg');
+        }
+        &:nth-child(2) {
+          background-image: url('/assets/icon/right-arrow.svg');
+        }
+      }
+      span.prevIcon-enable {
+        background-image: url('/assets/icon/left-enabled.svg');
+        cursor: pointer;
+      }
+      span.nextIcon-enable {
+        cursor: pointer;
+        background-image: url('/assets/icon/arrow-right-enabled.svg');
+      }
+    }
+  }
+  .progress-bar-wrapper {
+    border-radius: $bar-radius;
+    overflow: hidden;
+    width: 100%;
+    span {
+      display: block;
+    }
+    .question-number {
+      font-family: InterRegular, Helvetica Neue, Arial;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 17px;
+      -ms-flex-align: end;
+      align-items: flex-end;
+      color: #636363;
+      padding-bottom: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
+    }
+  }
+}
+
+.form-section {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-evenly;
+  label {
+    padding-left: 8px;
+  }
+}

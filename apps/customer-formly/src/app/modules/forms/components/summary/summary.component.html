@@ -1,0 +1,72 @@
+<section class="summary">
+  <h1>Summary</h1>
+  <ul class="timeline timeline-split">
+    <li class="timeline-item">
+      <!-- <div class="timeline-info"></div> -->
+      <div class="timeline-marker"></div>
+      <div class="timeline-content">
+        <h6>Insurance type</h6>
+        <h3 class="timeline-title">{{ formData?.title }}</h3>
+      </div>
+    </li>
+    <ng-container
+      *ngIf="
+        (formData?.components)[0]?.fieldGroup &&
+        (formData?.components)[0]?.formControl
+      "
+    >
+      <ng-container
+        *ngFor="
+          let summaryItem of formData.components[0].fieldGroup;
+          index as sectionIndex;
+          last as lastSummaryItem
+        "
+      >
+        <ng-container *ngIf="hasRepeatAnswers(summaryItem); else noRepeat">
+          <ng-container
+            *ngFor="
+              let repeatAnswer of getRepeatAnswers(summaryItem);
+              index as repeatIndex;
+              last as lastRepeat
+            "
+          >
+            <app-summary-item
+              [summaryItem]="summaryItem"
+              [valid]="summaryItemValid(summaryItem, repeatIndex)"
+              [inProgress]="
+                isCurrentPageInProgress(summaryItem, sectionIndex, repeatIndex)
+              "
+              [hasRepeats]="true"
+              [showProgressIndicator]="
+                showProgressIndicator(summaryItem, sectionIndex, repeatIndex)
+              "
+              [subindex]="repeatIndex"
+              [isLast]="lastSummaryItem && lastRepeat"
+              [visited]="checkVisited(sectionIndex)"
+              (pageChange)="handlePageChange(sectionIndex, repeatIndex)"
+              (resumeProgress)="resumeProgress()"
+            >
+            </app-summary-item>
+          </ng-container>
+        </ng-container>
+        <ng-template #noRepeat>
+          <app-summary-item
+            [summaryItem]="summaryItem"
+            [valid]="summaryItemValid(summaryItem)"
+            [inProgress]="isCurrentPageInProgress(summaryItem, sectionIndex)"
+            [hasRepeats]="false"
+            [showProgressIndicator]="
+              showProgressIndicator(summaryItem, sectionIndex)
+            "
+            [subindex]="0"
+            [isLast]="lastSummaryItem"
+            [visited]="checkVisited(sectionIndex)"
+            (pageChange)="handlePageChange(sectionIndex)"
+            (resumeProgress)="resumeProgress()"
+          >
+          </app-summary-item>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+  </ul>
+</section>

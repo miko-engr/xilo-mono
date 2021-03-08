@@ -1,0 +1,8 @@
+<div class="container">
+  <div 
+    *ngFor="let step of field.fieldGroup; let index = index; let last = last;"
+    class="form-section"
+  >
+  <formly-field [field]="step" *ngIf="activeGroup === index"></formly-field>
+  </div>
+</div>

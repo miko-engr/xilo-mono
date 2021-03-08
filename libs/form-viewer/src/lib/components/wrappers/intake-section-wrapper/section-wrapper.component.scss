@@ -1,0 +1,112 @@
+section {
+  font-family: sans-serif;
+  width: 100%;
+}
+
+.closed-section {
+  height: 73px!important;
+}
+
+.header-section {
+  height: auto;
+  background: #FAFAFA;
+  padding: 24px 16px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  transition: ease-in .2s;
+
+  .left {
+
+    .header {
+      margin: 0;
+      margin-bottom: 16px;
+      font-weight: bold;
+      font-size: 24px;
+      text-align: left;
+    }
+    .repeat-btns {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: flex-start;
+
+      .repeat-btn-label {
+        margin-right: 8px;
+        margin-top: 8px;
+        background: #fff;
+        border: 1px solid #DADADA;
+        border-radius: 16px;
+        outline: none;
+        border: none;
+        height: 32px;
+        padding: 7.5px 16px;
+        color: #111;
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+
+        .repeat-delete {
+          color: #fff;
+          fill: #fff;
+          margin-left: 12px;
+          transform: translateY(2px);
+        }
+      }
+
+      .disabled {
+        cursor: not-allowed;
+      }
+
+      .primary {
+        background: #6E71FF;
+        color: #fff;
+      }
+
+      .repeat-btn-add {
+        background: rgba(217, 217, 254, 0.4);
+        border: 1px solid #6E71FF;
+        box-sizing: border-box;
+        border-radius: 16px;
+        margin-top: 8px;
+        height: 33px;
+        font-weight: 500;
+        font-size: 14px;
+        color: #6E71FF;
+        padding: 7.5px 16px;
+        cursor: pointer;
+      }
+
+      .repeat-btn-add:disabled {
+        color: #fff;
+        background: rgba(200, 200, 200, .5);
+        border: 1px solid rgba(200, 200, 200, .5);
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .right {
+
+    .collapse-icon {
+      cursor: pointer;
+    }
+
+    .expand-icon {
+      cursor: pointer;
+      width: 10px;
+    }
+  }
+}
+
+.form-section {
+  margin-bottom: 84px;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-evenly;
+  label {
+    padding-left: 8px;
+  }
+}

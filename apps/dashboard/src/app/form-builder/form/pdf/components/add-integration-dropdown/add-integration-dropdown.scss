@@ -1,0 +1,36 @@
+::ng-deep {
+  .add-integration-dropdown {
+    display: flex;
+    align-items: center;
+    background: #FFFFFF;
+    border: 1px solid #6E71FF;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 0;
+    outline: none;
+
+    .text {
+      padding: 12px 19px 11px 27px;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 17px;
+      color: #6E71FF;
+    }
+
+    .chevron-bold-down {
+      width: 10px;
+      display: flex;
+      margin: 0 13px;
+    }
+
+    .separator {
+      width: 0px;
+      height: 100%;
+      opacity: 0.5;
+      border: 1px solid #6E71FF;
+    }
+    ngx-icon svg {
+      fill: #6E71FF!important;
+    }
+  }
+}

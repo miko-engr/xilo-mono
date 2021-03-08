@@ -1,0 +1,959 @@
+{
+  "version": 1,
+  "projects": {
+    "form-contracts": {
+      "root": "libs/form-contracts",
+      "sourceRoot": "libs/form-contracts/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/form-contracts/tsconfig.lib.json",
+              "libs/form-contracts/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/form-contracts/**/*"]
+          }
+        },
+        "build": {
+          "options": {
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "libs/theme/assets/",
+                "output": "./assets/"
+              }
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/form-contracts/jest.config.js",
+            "tsConfig": "libs/form-contracts/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "form-backend": {
+      "root": "apps/form-backend",
+      "sourceRoot": "apps/form-backend/src",
+      "projectType": "application",
+      "prefix": "form-backend",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/form-backend",
+            "main": "apps/form-backend/src/main.ts",
+            "tsConfig": "apps/form-backend/tsconfig.app.json",
+            "assets": ["apps/form-backend/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/form-backend/src/environments/environment.ts",
+                  "with": "apps/form-backend/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "form-backend:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "apps/form-backend/tsconfig.app.json",
+              "apps/form-backend/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/form-backend/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/form-backend/jest.config.js",
+            "tsConfig": "apps/form-backend/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "entities": {
+      "root": "libs/entities",
+      "sourceRoot": "libs/entities/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/entities/tsconfig.lib.json",
+              "libs/entities/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/entities/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/entities/jest.config.js",
+            "tsConfig": "libs/entities/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "dashboard": {
+      "projectType": "application",
+      "schematics": {
+        "style": "scss",
+        "enableIvy": false
+      },
+      "root": "apps/dashboard",
+      "sourceRoot": "apps/dashboard/src",
+      "prefix": "xilo-mono",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/dashboard",
+            "index": "apps/dashboard/src/index.html",
+            "main": "apps/dashboard/src/main.ts",
+            "polyfills": "apps/dashboard/src/polyfills.ts",
+            "tsConfig": "apps/dashboard/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "libs/theme/assets/",
+                "output": "./assets/"
+              },
+              "apps/dashboard/src/favicon.ico",
+              "apps/dashboard/src/assets",
+              "apps/dashboard/src/manifest.webmanifest"
+            ],
+            "styles": ["apps/dashboard/src/styles.scss"],
+            "scripts": ["node_modules/moment/min/moment.min.js"]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/dashboard/src/environments/environment.ts",
+                  "with": "apps/dashboard/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "20mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "1mb",
+                  "maximumError": "1mb"
+                }
+              ]
+            },
+            "es5": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "tsConfig": "./tsconfig.es5.json"
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "dashboard:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "dashboard:build:production"
+            },
+            "es5": {
+              "browserTarget": "xilo-dashboard:build:es5"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "dashboard:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/dashboard/tsconfig.app.json",
+              "apps/dashboard/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/dashboard/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/dashboard/jest.config.js",
+            "tsConfig": "apps/dashboard/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/dashboard/test-setup.ts"
+          }
+        }
+      }
+    },
+    "dashboard-e2e": {
+      "root": "apps/dashboard-e2e",
+      "sourceRoot": "apps/dashboard-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/dashboard-e2e/cypress.json",
+            "tsConfig": "apps/dashboard-e2e/tsconfig.e2e.json",
+            "devServerTarget": "dashboard:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "dashboard:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/dashboard-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/dashboard-e2e/**/*"]
+          }
+        }
+      }
+    },
+    "customer-form": {
+      "projectType": "application",
+      "schematics": {
+        "style": "scss",
+        "enableIvy": false
+      },
+      "root": "apps/customer-form",
+      "sourceRoot": "apps/customer-form/src",
+      "prefix": "xilo-mono",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/customer-form",
+            "index": "apps/customer-form/src/index.html",
+            "main": "apps/customer-form/src/main.ts",
+            "polyfills": "apps/customer-form/src/polyfills.ts",
+            "tsConfig": "apps/customer-form/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "apps/customer-form/src/favicon.ico",
+              "apps/customer-form/src/assets",
+              "apps/customer-form/src/manifest.webmanifest"
+            ],
+            "styles": ["apps/customer-form/src/custom-theme.scss"],
+            "scripts": ["node_modules/moment/min/moment.min.js"]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/customer-form/src/environments/environment.ts",
+                  "with": "apps/customer-form/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "20mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "1mb",
+                  "maximumError": "1mb"
+                }
+              ]
+            },
+            "es5": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "tsConfig": "./tsconfig.es5.json"
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "customer-form:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "customer-form:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "customer-form:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/customer-form/tsconfig.app.json",
+              "apps/customer-form/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/customer-form/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/customer-form/jest.config.js",
+            "tsConfig": "apps/customer-form/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/customer-form/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "customer-form-e2e": {
+      "root": "apps/customer-form-e2e",
+      "sourceRoot": "apps/customer-form-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/customer-form-e2e/cypress.json",
+            "tsConfig": "apps/customer-form-e2e/tsconfig.e2e.json",
+            "devServerTarget": "customer-form:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "customer-form:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/customer-form-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/customer-form-e2e/**/*"]
+          }
+        }
+      }
+    },
+    "form-viewer": {
+      "projectType": "library",
+      "root": "libs/form-viewer",
+      "sourceRoot": "libs/form-viewer/src",
+      "prefix": "xilo-mono",
+      "architect": {
+        "build": {
+          "options": {
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "libs/theme/assets/",
+                "output": "./assets/"
+              }
+            ],
+            "styles": ["libs/form-viewer/src/lib/assets/custom-theme.scss"]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/form-viewer/tsconfig.lib.json",
+              "libs/form-viewer/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/form-viewer/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/form-viewer/jest.config.js",
+            "tsConfig": "libs/form-viewer/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/form-viewer/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "integration-contracts": {
+      "projectType": "library",
+      "root": "libs/integration-contracts",
+      "sourceRoot": "libs/integration-contracts/src",
+      "prefix": "xilo-mono",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/integration-contracts/tsconfig.lib.json",
+              "libs/integration-contracts/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/integration-contracts/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/integration-contracts/jest.config.js",
+            "tsConfig": "libs/integration-contracts/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/integration-contracts/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "query-builder": {
+      "projectType": "library",
+      "root": "libs/query-builder",
+      "sourceRoot": "libs/query-builder/src",
+      "prefix": "xilo-mono",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/query-builder/tsconfig.lib.json",
+              "libs/query-builder/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/query-builder/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/query-builder/jest.config.js",
+            "tsConfig": "libs/query-builder/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/query-builder/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "intake-form": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/intake-form",
+      "sourceRoot": "apps/intake-form/src",
+      "prefix": "xilo-mono",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/intake-form",
+            "index": "apps/intake-form/src/index.html",
+            "main": "apps/intake-form/src/main.ts",
+            "polyfills": "apps/intake-form/src/polyfills.ts",
+            "tsConfig": "apps/intake-form/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "libs/theme/assets/",
+                "output": "./assets/"
+              },
+              "apps/intake-form/src/favicon.ico",
+              "apps/intake-form/src/assets"
+            ],
+            "styles": ["apps/intake-form/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/intake-form/src/environments/environment.ts",
+                  "with": "apps/intake-form/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "20mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2mb",
+                  "maximumError": "20mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "intake-form:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "intake-form:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "intake-form:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/intake-form/tsconfig.app.json",
+              "apps/intake-form/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/intake-form/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/intake-form/jest.config.js",
+            "tsConfig": "apps/intake-form/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/intake-form/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "intake-form-e2e": {
+      "root": "apps/intake-form-e2e",
+      "sourceRoot": "apps/intake-form-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/intake-form-e2e/cypress.json",
+            "tsConfig": "apps/intake-form-e2e/tsconfig.e2e.json",
+            "devServerTarget": "intake-form:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "intake-form:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/intake-form-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/intake-form-e2e/**/*"]
+          }
+        }
+      }
+    },
+    "form-helper": {
+      "projectType": "library",
+      "root": "libs/form-helper",
+      "sourceRoot": "libs/form-helper/src",
+      "prefix": "xilo-mono",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/form-helper/tsconfig.lib.json",
+              "libs/form-helper/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/form-helper/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/form-helper/jest.config.js",
+            "tsConfig": "libs/form-helper/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/form-helper/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "theme": {
+      "projectType": "library",
+      "root": "libs/theme",
+      "sourceRoot": "libs/theme/src",
+      "prefix": "xilo-mono",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/theme/tsconfig.lib.json",
+              "libs/theme/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/theme/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/theme/jest.config.js",
+            "tsConfig": "libs/theme/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/theme/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "pdf-mapper": {
+      "projectType": "library",
+      "root": "libs/pdf-mapper",
+      "sourceRoot": "libs/pdf-mapper/src",
+      "prefix": "xilo-mono",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/pdf-mapper/tsconfig.lib.json",
+              "libs/pdf-mapper/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/pdf-mapper/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/pdf-mapper/jest.config.js",
+            "tsConfig": "libs/pdf-mapper/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/pdf-mapper/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "form-tree": {
+      "projectType": "library",
+      "root": "libs/form-tree",
+      "sourceRoot": "libs/form-tree/src",
+      "prefix": "xilo-mono",
+      "architect": {
+        "build": {
+          "options": {
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "libs/theme/assets/",
+                "output": "./assets/"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/form-tree/tsconfig.lib.json",
+              "libs/form-tree/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/form-tree/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/form-tree/jest.config.js",
+            "tsConfig": "libs/form-tree/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/form-tree/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "customer-formly": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/customer-formly",
+      "sourceRoot": "apps/customer-formly/src",
+      "prefix": "xilo-mono",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/customer-formly",
+            "index": "apps/customer-formly/src/index.html",
+            "main": "apps/customer-formly/src/main.ts",
+            "polyfills": "apps/customer-formly/src/polyfills.ts",
+            "tsConfig": "apps/customer-formly/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "libs/theme/assets/",
+                "output": "./assets/"
+              },
+              "apps/customer-formly/src/favicon.ico",
+              "apps/customer-formly/src/assets",
+              "apps/customer-formly/src/manifest.webmanifest"
+            ],
+            "styles": ["apps/customer-formly/src/custom-theme.scss"],
+            "scripts": ["node_modules/moment/min/moment.min.js"]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/customer-formly/src/environments/environment.ts",
+                  "with": "apps/customer-formly/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "20mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2mb",
+                  "maximumError": "20mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "customer-formly:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "customer-formly:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "customer-formly:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/customer-formly/tsconfig.app.json",
+              "apps/customer-formly/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/customer-formly/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/customer-formly/jest.config.js",
+            "tsConfig": "apps/customer-formly/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/customer-formly/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "customer-formly-e2e": {
+      "root": "apps/customer-formly-e2e",
+      "sourceRoot": "apps/customer-formly-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/customer-formly-e2e/cypress.json",
+            "tsConfig": "apps/customer-formly-e2e/tsconfig.e2e.json",
+            "devServerTarget": "customer-formly:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "customer-formly:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/customer-formly-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/customer-formly-e2e/**/*"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/workspace": {
+      "library": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/cypress": {
+      "cypress-project": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/web": {
+      "application": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/node": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/nx-plugin": {
+      "plugin": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/nest": {
+      "application": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/express": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "builder-ui-ng"
+}

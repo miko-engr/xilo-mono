@@ -1,0 +1,103 @@
+<li
+  class="timeline-item"
+  [ngClass]="{
+    'current-item': inProgress,
+    'item-next': !visited,
+    'last-item': isLast
+  }"
+  *ngIf="!summaryItem?.hide"
+>
+  <!-- <div class="timeline-info"></div> -->
+  <div class="timeline-marker"></div>
+  <div class="timeline-content">
+    <ng-container *ngIf="inProgress">
+      <h3 class="timeline-title">{{ getLabel() }}</h3>
+      <h6>You are right here</h6>
+    </ng-container>
+    <ng-container *ngIf="!inProgress">
+      <h6
+        style="cursor: pointer;"
+        (click)="valid && !inProgress && handlePageChange()"
+      >
+        {{ getLabel() }}
+      </h6>
+      <ng-container *ngIf="showAnswers">
+        <ng-container
+          *ngFor="
+            let question of summaryItem?.fieldArray
+              ? summaryItem.fieldArray.fieldGroup
+              : summaryItem.fieldGroup
+          "
+        >
+          <ng-container
+            *ngFor="let answer of question?.fieldGroup; let itemIndex = index"
+          >
+            <h3 class="timeline-title" *ngIf="itemIndex === 0">
+              {{
+                answer?.templateOptions?.type === 'date'
+                  ? (getAnswer(question, answer) | date)
+                  : getAnswer(question, answer)
+              }}
+            </h3>
+            <h6
+              @ShowMoreAnimation
+              class="timeline-subtitle"
+              *ngIf="
+                answer?.formControl?.value &&
+                isShowMoreActivated &&
+                itemIndex !== 0
+              "
+            >
+              {{
+                answer?.templateOptions?.type === 'date'
+                  ? (getAnswer(question, answer) | date)
+                  : getAnswer(question, answer)
+              }}
+            </h6>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+      <p
+        class="summary-link"
+        (click)="resumeProgressClick()"
+        *ngIf="showProgressIndicator"
+      >
+        Pick Up Where You Left Off
+      </p>
+
+      <!-- <p
+                  class="summary-link"
+                  *ngIf="
+                    summaryItem?.valid &&
+                    summaryItem?.answers?.length > 1 &&
+                    !isShowMoreActivated(summaryItem)
+                  "
+                  (click)="toggleShowMore(summaryItem)"
+                >
+                  Show More
+                </p> -->
+      <!-- <p
+                  class="summary-link"
+                  *ngIf="
+                    summaryItem?.answers?.length > 1 &&
+                    isShowMoreActivated(summaryItem)
+                  "
+                  (click)="toggleShowMore()"
+                >
+                  Show Less
+                </p> -->
+    </ng-container>
+  </div>
+  <div class="summary-actions">
+    <img
+      src="/assets/icon/pencil.svg"
+      *ngIf="visited"
+      (click)="handlePageChange()"
+    />
+    <img
+      src="/assets/icon/delete.svg"
+      *ngIf="hasRepeats"
+      (click)="removeItemClick()"
+    />
+  </div>
+</li>

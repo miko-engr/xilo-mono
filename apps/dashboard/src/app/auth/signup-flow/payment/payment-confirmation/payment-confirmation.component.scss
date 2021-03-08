@@ -1,0 +1,58 @@
+@import '../../../../utils/bootsrap.scss';
+mat-card {
+    padding: 30px 40px !important;
+}
+.payment-header p{
+    font-size: 14px;
+}
+
+h6{
+    font-size: 18px !important;
+}
+
+h4 {
+    font-size: 24px !important;
+    line-height: 31px;
+}
+
+.discount-price{
+  color: darkgray;
+}
+
+.discount-amount {
+    color: darkgray;
+    text-decoration: line-through;
+}
+
+.all-services-btn {
+    background-color: #8184ff;
+    color: #fff;
+    min-width: 110px;
+    cursor: pointer;
+}
+
+.nowrap {
+    white-space: nowrap
+}
+label {
+    margin-bottom: 0.1rem;
+    font-size: 14px;
+    font-weight: 500;
+    color: #696863;
+    font-family: Inter;
+    line-height: 17px !important;
+    margin-left: 9px;
+    font-style: normal;
+}
+
+.error {
+    font-size: 12px;
+    color: red;
+}
+
+.form-control{
+    padding: 0.70rem .75rem 0.375rem .75rem !important;
+    background: #FFFFFF;
+    font-family: Inter !important;
+    border: none;
+}  

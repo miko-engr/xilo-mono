@@ -1,0 +1,100 @@
+<!-- <div class="user-container"> -->
+<div class="auto-section main" *ngIf="!clientRetrieved">
+    <h4>Loading ... </h4>
+</div>    
+<form class="auto-section main" *ngIf="clientRetrieved">
+    <div class="client-section auto-container">
+        <div class="company-header">
+            <h3 class="main-header-title">Drivers</h3>
+            <!-- <button class="edit-btn" *ngIf="!editInputs" (click)="onEditInputs()"><span class="icon-edit"></span>Edit</button> -->
+        </div>
+        <div class="driver-section">
+            <div class="header">
+                <div class="tabs-container">
+                    <div class="tab tab-item" id="client-tab" *ngFor="let driver of client.drivers; index as i" (click)="changeDriverIndex(i); createDriverRows(i)">
+                        <h5 class="tab-text" [ngClass]="{'active': +i === +driverIndex}" *ngIf="driver.applicantGivenName || driver.applicantSurname"> 
+                           <ng-container *ngIf="driver.applicantGivenName">{{driver.applicantGivenName}}</ng-container> 
+                           <ng-container *ngIf="driver.applicantSurname"> {{driver.applicantSurname}}</ng-container>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="main header" *ngIf = "client.drivers != undefined">
+                <div class="form-group" *ngFor="let row of returnUniqRows(driverRows)">
+                    <div class="group" *ngIf="!isEncrypted(row.label)">
+                        <div class="info-label-container">
+                            <p class="info-label">{{row.label}}</p>
+                        </div>
+                        <p class="info">{{row.value || 'Not Completed'}}</p>
+                    </div>
+                    <div class="group" *ngIf="isEncrypted(row.label)">
+                        <div class="info-label-container">
+                            <p class="info-label">{{row.label}}</p>
+                        </div>
+                        <p class="info">{{decryptedValue ? decryptedValue : '**********'}} <i class="icon-eye" matTooltip="View" (click)="showEncryption(row.label, client.drivers[driverIndex].id)"></i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="client-section auto-container">
+        <div class="vehicle-section">
+            <div class="company-header">
+                <h3 class="main-header-title">Vehicles</h3>
+            </div>
+            <div class="tabs-container" *ngIf = "client.vehicles != undefined"> 
+                <!-- <pre>{{client.vehicles | json}}</pre> -->
+                <div class="tab tab-item" id="client-tab" *ngFor="let vehicle of client.vehicles; index as j" (click)="changeVehicleIndex(j); createVehicleRows(j)">
+                    <h5 class="tab-text" [ngClass]="{'active': +j === +vehicleIndex}" *ngIf="vehicle.vehicleManufacturer || vehicle.vehicleModel">
+                            <ng-container *ngIf="vehicle.vehicleManufacturer">{{vehicle.vehicleManufacturer}}</ng-container> 
+                            <ng-container *ngIf="vehicle.vehicleModel"> {{vehicle.vehicleModel}}</ng-container>
+                    </h5>
+                </div>
+            </div>
+
+            <div class="main-header" *ngIf = "client.vehicles != undefined">
+                <div class="form-group" *ngFor="let row of returnUniqRows(vehicleRows)">
+                    <div class="group">
+                        <div class="info-label-container">
+                            <p class="info-label">{{row.label}}</p>
+                        </div>
+                        <p class="info">{{row.value || 'Not Completed'}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="client-section auto-container">
+        <div class="vehicle-section">
+            <div class="company-header">
+                <h3 class="main-header-title">Incidents</h3>
+            </div>
+            <div class="tabs-container" *ngIf = "client.incidents !== undefined"> 
+                <div class="tab tab-item" id="client-tab" *ngFor="let incident of client.incidents; index as k" (click)="changeIncidentIndex(k); createIncidentRows(k)">
+                    <h5 class="tab-text" [ngClass]="{'active': +k === +incidentIndex}" *ngIf="incident.type || incident.description">
+                            <ng-container *ngIf="incident.type">{{incident.type}}</ng-container> 
+                            <ng-container *ngIf="incident.description"> {{incident.description}}</ng-container>
+                    </h5>
+                </div>
+            </div>
+
+            <div class="main-header" *ngIf = "client.incidents !== undefined">
+                <div class="form-group" *ngFor="let row of returnUniqRows(incidentRows)">
+                    <div class="group">
+                        <div class="info-label-container">
+                            <p class="info-label">{{row.label}}</p>
+                        </div>
+                        <p class="info">{{row.value || 'Not Completed'}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- </div> -->
+<div class="save-btn-overlay" *ngIf="editInputs === true">
+    <button class="btn" (click)="updateDriverAndVehicle()">Save All</button>
+    <button class="exit-btn btn" (click)="onEditInputs()">Exit</button>
+</div>
+
+<ngx-loading [show]="loading || !driverRowsCreated || !vehicleRowsCreated" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

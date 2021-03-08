@@ -1,0 +1,46 @@
+@import '../../../../../custom-theme.scss';
+
+.error-message {
+  width: 94%;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 2px solid;
+  margin-bottom: 10px;
+  .alert-icon {
+    padding: 0px 25px;
+  }
+  span {
+    font-size: $font16;
+    font-weight: bold;
+    font-family: $font-family-Inter-Regular;
+    line-height: 19px;
+  }
+  &.error {
+    background: linear-gradient(
+        0deg,
+        rgba(255, 110, 110, 0.2),
+        rgba(255, 110, 110, 0.2)
+      ),
+      #ffffff;
+    color: #ff6e6e;
+  }
+  &.warning {
+    background: linear-gradient(
+        0deg,
+        rgba(254, 192, 89, 0.15),
+        rgba(254, 192, 89, 0.15)
+      ),
+      #ffffff;
+    color: #fec059;
+  }  
+}
+
+@media screen and (max-width: 767px) {
+  .error-message {
+    width: 100% ;
+    height: auto;
+  }
+}

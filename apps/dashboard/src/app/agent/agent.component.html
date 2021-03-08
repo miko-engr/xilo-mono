@@ -1,0 +1,134 @@
+<div class="main-header">
+    <div class="main-header-logo">
+        <ul class="menu-left">
+            <li>
+                <button (click)="toggelLeftPanel()" class="menu-hover-btn">
+                    <img src="../../assets/menu-btn.png" alt="xilo Logo">
+                </button>
+            </li>
+            <li><span class="menu-divider"></span></li>
+            <li>
+                <img class="logo-img" src="../../assets/xilo_icon_only.png" alt="xilo Logo">
+            </li>
+        </ul>
+    </div>
+    <div class="header-title">
+        {{returnPage()}}
+    </div>
+    <div class="menu-right">
+        <div class="tabs-container" (click)="hitActionMenu('toggle')"
+            *ngIf="company && (company.hasTasks || company.hasSalesAutomation)">
+            <div class="tab create-button">
+                <p>+ Action</p>
+            </div>
+        </div>
+        <div class="action-menu" [ngStyle]="styleActionMenu()" (mouseleave)="inMenu = false"
+            (mouseenter)="inMenu = true">
+            <div class="triangle"></div>
+            <div class="action-menu-header">Action Menu</div>
+            <div class="action-menu-body">
+                <div class="action-menu-body-tab" *ngIf="company && company.hasTasks" (click)="openTaskDialog()">
+                    <div class="action-menu-body-tab-container">
+                        <div class="action-menu-body-tab-icon">
+                            <span class="icon-checkmark2"></span>
+                        </div>
+                        <p class="action-menu-body-tab-text">Task</p>
+                    </div>
+                </div>
+                <div class="action-menu-body-tab" *ngIf="company && company.hasSalesAutomation"
+                    (click)="openMessagesDialog('email')">
+                    <div class="action-menu-body-tab-container">
+                        <div class="action-menu-body-tab-icon">
+                            <span class="icon-message"></span>
+                        </div>
+                        <p class="action-menu-body-tab-text">Email</p>
+                    </div>
+                </div>
+                <div class="action-menu-body-tab" *ngIf="company && company.hasSalesAutomation"
+                    (click)="openMessagesDialog('text')">
+                    <div class="action-menu-body-tab-container">
+                        <div class="action-menu-body-tab-icon">
+                            <span class="icon-bubble2"></span>
+                        </div>
+                        <p class="action-menu-body-tab-text">Text</p>
+                    </div>
+                </div>
+            </div>
+            <div class="action-menu-footer"></div>
+        </div>
+        <div class="tabs-container hover-style" style="border-bottom: 1px solid #ccc" (click)="logout()">
+            Logout of {{agent.firstName}}
+        </div>
+        <!-- <div class="dropdown">
+                <button class="dropbtn"><span class="profule-sm-img">
+                    <img class="logo-img" src="../../assets/sm-profile-img.png" alt="xilo Logo">
+                    </span>{{agent.email}} <img class="down-caret" src="../../assets/down-caret.png" alt="">
+    
+                </button>
+                <div class="dropdown-content">
+                    <a (click)="logout()" *ngIf="isLoggedIn()">Logout</a>
+                </div>
+            </div> -->
+    </div>
+</div>
+
+<div class="menu-overlay" (click)="toggelLeftPanel()" [ngClass]="menuActive?'open-menu-overlay':''"></div>
+<div class="side-bar" [ngClass]="menuActive?'toggel-sidebar':''">
+    <ul class="fa-ul button-list">
+
+        <!-- <li class="logo"></li> -->
+        <li class="list-item">
+            <div class="item" [routerLink]="['./clients-table']" [routerLinkActive]="['']"
+                (click)="toggelLeftPanelFromTab()" #rla2="routerLinkActive" [class.item]="!rla2.isActive"
+                [class.item-clicked]="rla2.isActive">
+                <span class="icon-telemarketer" [class.icon]="!rla2.isActive"
+                    [class.icon-clicked]="rla2.isActive"></span>
+                <!--  <img class="icon" [class.icon]="!rla2.isActive"
+                         [class.icon-clicked]="rla2.isActive" src="../../assets/Clients.svg"> -->
+                <span class="caption">Prospects</span>
+            </div>
+        </li>
+        <li class="list-item">
+            <div class="item" [routerLink]="['./forms']" [routerLinkActive]="['']" (click)="toggelLeftPanelFromTab()"
+                #rla6="routerLinkActive" [class.item]="!rla6.isActive" [class.item-clicked]="rla6.isActive">
+                <span class="icon-web-design" [class.icon]="!rla6.isActive" [class.icon-clicked]="rla6.isActive"></span>
+                <span class="caption">Forms</span>
+            </div>
+        </li>
+        <li class="list-item" *ngIf="company && company.hasSalesAutomation">
+            <div class="item" [routerLink]="['./messages']" [routerLinkActive]="['']" (click)="toggelLeftPanelFromTab()"
+                #rla3="routerLinkActive" [class.item]="!rla3.isActive" [class.item-clicked]="rla3.isActive">
+                <span class="icon-drawer" [class.icon]="!rla3.isActive" [class.icon-clicked]="rla3.isActive"></span>
+                <span class="caption">Messages</span>
+            </div>
+        </li>
+        <li class="list-item" *ngIf="company && company.hasTasks">
+            <div class="item" [routerLink]="['./tasks']" [routerLinkActive]="['']" (click)="toggelLeftPanelFromTab()"
+                #rla7="routerLinkActive" [class.item]="!rla7.isActive" [class.item-clicked]="rla7.isActive">
+                <span class="icon-checkmark2" [class.icon]="!rla7.isActive" [class.icon-clicked]="rla7.isActive"></span>
+                <span class="caption">Tasks</span>
+            </div>
+        </li>
+        <li class="list-item">
+            <div class="item" [routerLink]="['./business']" [routerLinkActive]="['']" (click)="toggelLeftPanelFromTab()"
+                #rla1="routerLinkActive" [class.item]="!rla1.isActive" [class.item-clicked]="rla1.isActive">
+                <span class="icon-avatar" [class.icon]="!rla1.isActive" [class.icon-clicked]="rla1.isActive"></span>
+                <span class="caption">Settings</span>
+            </div>
+        </li>
+        <li class="list-item">
+            <div class="item" (click)="externalRouteTo('https://xilo-support.zendesk.com/hc/en-us')">
+                <span class="icon">
+                    <img src="../../assets/svgs/help.svg" alt="Help icon">
+                </span>
+                <span class="caption">Help</span>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="dashboard">
+    <router-outlet></router-outlet>
+</div>
+<footer class="profile-footer">
+    <p>All Rights Reserved by <a href="#" target="_blank">XILO.io</a></p>
+</footer>

@@ -1,0 +1,15 @@
+<div class="container">
+    <h1 class="title-text" *ngIf="loading">Validating ...</h1>
+    <h1 class="title-text" *ngIf="reportPassed">{{data.reportType === 'form' ? 'Form' : 'Client'}} is Valid!</h1>
+    <h1 class="title-text" *ngIf="reportFailed">{{data.reportType === 'form' ? 'Form' : 'Client'}} Needs Work!</h1>
+    <div class="animation">
+        <img src="../../../../assets/rocket.gif" alt="Loading" *ngIf="loading">
+        <img src="../../../../assets/check.svg" class="animation_icon" alt="Done" *ngIf="reportPassed">
+        <img src="../../../../assets/cross.svg" class="animation_icon" alt="Error" *ngIf="reportFailed">
+    </div>
+    <div class="settings-save-button-container">
+        <button class="settings-btn primary" *ngIf="reportFailed" (click)="closeDialog()">Download Report</button>
+        <button class="settings-btn primary" *ngIf="reportPassed" (click)="closeDialog()">Close</button>
+        <button class="settings-btn secondary" *ngIf="loading" (click)="closeDialog()">Cancel</button>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<main
+  class="thank-you-page"
+  [ngClass]="{ centerAlign: !pageData?.hasOtherOffers }"
+  *ngIf="loaded"
+  @PageAnimation
+>
+  <section class="thank-you-section">
+    <div
+      *ngIf="!selectedForm?.thankyouPageLogo"      
+      class="hero-img"
+      [innerHTML]="pageData?.banner?.image | safe: 'html'"
+    ></div>
+    <div class="hero-img image-width" *ngIf="selectedForm.thankyouPageLogo">
+        <img [src]="selectedForm.thankyouPageLogo" />
+    </div>
+    <div class="thank-you-details">
+      <div class="thank-you-details-header"><h1>{{ selectedForm?.thankYouPageText }}</h1></div>
+      <div class="thank-you-details-header" [innerHTML]="pageData?.banner?.title | safe: 'html'" *ngIf="!selectedForm?.thankYouPageText"></div>
+      <div
+        *ngIf="queryParams.hasReturnToFormSelectionPage === 'true'"
+        (click)="handleClick()"
+        [innerHTML]="pageData?.banner?.link | safe: 'html'"
+      ></div>
+    </div>
+  </section>
+  <section class="offer-section" *ngIf="pageData?.hasOtherOffers">
+    <div class="offers">
+      <div [innerHTML]="pageData?.otherOffersTitle | safe: 'html'"></div>
+    </div>
+    <div class="insurance">
+      <div class="insurance-item" *ngFor="let form of forms">
+        <div class="form-image" [innerHTML]="form?.logo | safe: 'html'"></div>
+        <div
+          class="insurance-content"
+          [innerHTML]="form?.title | safe: 'html'"
+        ></div>
+      </div>
+    </div>
+  </section>
+</main>

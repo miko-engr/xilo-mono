@@ -1,0 +1,6 @@
+<div 
+    *ngFor="let fg of field.fieldGroup; let index = index;">
+    <formly-field *ngIf="formState.subIndex === index" [field]="fg"></formly-field>
+</div>
+  
+  

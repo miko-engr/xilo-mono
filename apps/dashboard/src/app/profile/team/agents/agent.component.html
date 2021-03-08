@@ -1,0 +1,390 @@
+<form class="company-section">
+   <div class="user-container">
+      <div class="main-header">
+         <h3 class="main-header-title" *ngIf="!editAgent && !addAgent">Agents</h3>
+         <div class="custom-divider" *ngIf="!editAgent && !addAgent"></div>
+         <div class="form-group" *ngIf="!editAgent && !addAgent">
+            <div class="team-table-container">
+               <mat-table [dataSource]=dataSource class="team-table custom-table">
+                  <ng-container matColumnDef="name">
+                     <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                     <mat-cell *matCellDef="let agent">
+                        <span>{{(agent.firstName + ' ' + agent.lastName) || 'Not Complete'}}</span>
+                     </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="email">
+                     <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+                     <mat-cell *matCellDef="let agent">{{agent.email}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="primary">
+                     <mat-header-cell *matHeaderCellDef>Alert</mat-header-cell>
+                     <mat-cell *matCellDef="let agent">
+                        <span>{{agent.isPrimaryAgent ? 'Yes' : 'No'}}</span>
+                     </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="view">
+                     <mat-header-cell *matHeaderCellDef>View All</mat-header-cell>
+                     <mat-cell *matCellDef="let agent">
+                        <span>{{agent.canSeeAllClients ? 'Yes' : 'No'}}</span>
+                     </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="viewTags">
+                     <mat-header-cell *matHeaderCellDef>View By Tag</mat-header-cell>
+                     <mat-cell *matCellDef="let agent">
+                        <span>{{agent.canSeeTagsOnly ? 'Yes' : 'No'}}</span>
+                     </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="action">
+                     <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                     <mat-cell *matCellDef="let agent">
+                        <button class="mat-btn" (click)="getAgentById(agent)"><span class="icon-edit1"></span></button>
+                        <!-- <button class="mat-btn" (click)="deleteAgent(agent)"><span class="icon-rubbish-bin"></span></button> -->
+                     </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="isActive">
+                     <mat-header-cell *matHeaderCellDef>Active</mat-header-cell>
+                     <mat-cell *matCellDef="let agent">
+                        <mat-slide-toggle [checked]="agent.isActive" (change)="updateAgent(agent)"></mat-slide-toggle>
+                     </mat-cell>
+                  </ng-container>
+                  <mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true" class="table-header custom-table-header"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: columnsToDisplay;" class="custom-table-header"></mat-row>
+               </mat-table>
+               <!--<mat-paginator #paginator [pageSize]="5" [length]="agents.length" class="team-table"></mat-paginator>-->
+            </div>
+         </div>
+         <div class="custom-divider" *ngIf="!editAgent && !addAgent"></div>
+         <div *ngIf="!editAgent && !addAgent" style="width: 100%; text-align: center; padding: 10px;">
+            <mat-icon style="cursor: pointer;" (click)="addAgent = true; editAgent = false">add</mat-icon>
+         </div>
+         <div *ngIf="editAgent && agent">
+            <div>
+               <aside class="left-aside">
+                  <div class="form-container">
+                     <div class="input-wraper">
+                        <div class="form-group">
+                           <div class="group">
+                              <div class="info-label-container">
+                                 <p class="info-label">Email</p>
+                              </div>
+                              <input matInput required name="email" class="custom-input" type="email" [placeholder]="agent.email" id="agent-email" [(ngModel)]="agent.email">
+                           </div>
+                        </div>
+                     </div>
+                     <div class="input-wraper">
+                        <div class="form-group">
+                           <div class="group">
+                              <div class="info-label-container">
+                                 <p class="info-label">First Name</p>
+                              </div>
+                              <input matInput required name="firstName" type="text" placeholder="First Name" id="agent-first-name" class="custom-input" [(ngModel)]="agent.firstName">
+                           </div>
+                        </div>
+                     </div>
+                     <div class="input-wraper">
+                        <div class="form-group">
+                           <div class="group">
+                              <div class="info-label-container">
+                                 <p class="info-label">Last Name</p>
+                              </div>
+                              <input matInput required name="lastName" type="text" placeholder="Last Name" id="agent-lastName" class="custom-input" [(ngModel)]="agent.lastName">
+                           </div>
+                        </div>
+                     </div>
+                     <div class="input-wraper">
+                        <div class="form-group">
+                           <div class="group">
+                              <div class="info-label-container">
+                                 <p class="info-label">Phone</p>
+                              </div>
+                              <input matInput required name="phone" type="number" placeholder="Phone" id="agent-phone" class="custom-input" [(ngModel)]="agent.phone">
+                           </div>
+                        </div>
+                     </div>
+                     <div class="input-wraper">
+                        <div class="form-group">
+                           <div class="group">
+                              <div class="info-label-container">
+                                 <p class="info-label">Password</p>
+                              </div>
+                              <input matInput name="password" type="password" placeholder="Enter Password" id="password" class="custom-input" [(ngModel)]="agent.password">
+                           </div>
+                        </div>
+                     </div>
+                     <div class="input-wraper">
+                        <div class="form-group">
+                           <div class="group">
+                              <div class="info-label-container">
+                                 <p class="info-label">Confirm Password</p>
+                              </div>
+                              <input matInput name="confirmPassword" type="text" placeholder="Enter Your Password" id="confirmPassword" class="custom-input" [(ngModel)]="passwordConfirmation">
+                           </div>
+                        </div>
+                     </div>
+                     <div class="input-wraper" *ngIf="company.hasBetterAgency">
+                        <div class="form-group">
+                           <div class="group">
+                              <div class="info-label-container">
+                                 <p class="info-label">Better Agency Username</p>
+                              </div>
+                              <input matInput name="betterAgencyUsername" type="text" placeholder="Enter Username" id="betterAgencyUsername" class="custom-input" [(ngModel)]="agent.betterAgencyUsername">
+                           </div>
+                        </div>
+                     </div>
+                     <div class="input-wraper">
+                        <div class="form-group">
+                           <div class="group">
+                              <div class="info-label-container">
+                                 <p class="info-label">Alert On New Lead</p>
+                              </div>
+                              <label class="custom-check modified-check">
+                                 <input type="checkbox" name="primaryAgent" [(ngModel)]="agent.isPrimaryAgent" />
+                                 <span class="check-mark">
+                                 </span>
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="input-wraper">
+                        <div class="form-group">
+                           <div class="group">
+                              <div class="info-label-container">
+                                 <p class="info-label">Can View All Leads</p>
+                              </div>
+                              <label class="custom-check modified-check">
+                                 <input type="checkbox" name="seeAllLeads" [(ngModel)]="agent.canSeeAllClients" />
+                                 <span class="check-mark">
+                                 </span>
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="input-wraper">
+                        <div class="form-group">
+                           <div class="group">
+                              <div class="info-label-container">
+                                 <p class="info-label">Can View Agents Leads</p>
+                              </div>
+                              <label class="custom-check modified-check">
+                                 <input type="checkbox" name="canSeeAgentsOnly" [(ngModel)]="agent.canSeeAgentsOnly" />
+                                 <span class="check-mark">
+                                 </span>
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="input-wraper" *ngIf="agent.canSeeAgentsOnly && companyRetrieved">
+                        <div class="form-group">
+                           <div class="group last-group">
+                              <div class="info-label-container">
+                                 <p class="info-label">Agents</p>
+                              </div>
+                              <mat-chip-list #chipList aria-label="Agents">
+                                 <mat-chip *ngFor="let id of agent.agentIds" [removable]="true" (removed)="removeAgentId(id)">
+                                    {{returnAgent(id)}}
+                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                 </mat-chip>
+                              </mat-chip-list>
+                              <mat-form-field>
+                                 <mat-select [(ngModel)]="selectedAgentId" (ngModelChange)="addAgentId($event)" name="agentSelection" id="agentSelection">
+                                    <mat-option *ngFor="let ag of company.agents" [value]="ag.id">{{ag.firstName + ' ' + ag.lastName}}</mat-option>
+                                 </mat-select>
+                              </mat-form-field>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="input-wraper">
+                        <div class="form-group">
+                           <div class="group">
+                              <div class="info-label-container">
+                                 <p class="info-label">Can View Only Tagged Leads</p>
+                              </div>
+                              <label class="custom-check modified-check">
+                                 <input type="checkbox" name="seeTaggedLeads" [(ngModel)]="agent.canSeeTagsOnly" />
+                                 <span class="check-mark">
+                                 </span>
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="input-wraper" *ngIf="agent.canSeeTagsOnly && companyRetrieved">
+                        <div class="form-group">
+                           <div class="group last-group">
+                              <div class="info-label-container">
+                                 <p class="info-label">Tags</p>
+                              </div>
+                              <mat-chip-list #chipList aria-label="Tags">
+                                 <mat-chip *ngFor="let tag of agent.tags" [removable]="true" (removed)="remove(tag)">
+                                    {{tag}}
+                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                 </mat-chip>
+                              </mat-chip-list>
+                              <mat-form-field>
+                                 <mat-select [(ngModel)]="selectedTag" (ngModelChange)="addTag($event)" name="tagSelection" id="tagSelection">
+                                    <mat-option *ngFor="let tag of company.tags" [value]="tag">{{tag}}</mat-option>
+                                 </mat-select>
+                              </mat-form-field>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </aside>
+               <aside class="right-aside">
+                  <div class="input-wrapper">
+                     <div class="form-group" *ngIf="company.hasCarrierIntegrations">
+                        <div class="group">
+                           <div class="info-label-container">
+                              <p class="info-label">Carrier Credentials</p>
+                           </div>
+                           <a class="external-link" (click)="openDialog('RATER')">Add Carrier Credentials</a>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="input-wrapper">
+                     <div class="form-group" *ngIf="company.hasEzlynxIntegration">
+                        <div class="group">
+                           <div class="info-label-container">
+                              <p class="info-label">EZLynx Username</p>
+                           </div>
+                           <a class="external-link" (click)="openDialog('EZLYNX')">Add EZLynx Username</a>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="input-wrapper">
+                     <div class="form-group" *ngIf="company.hasAMS360Integration && amsDetailsLoaded">
+                        <div class="group">
+                           <div class="info-label-container">
+                              <p class="info-label">Account Executives</p>
+                           </div>
+                           <select name="execs-select" class="custom-input" [(ngModel)]="agent.executiveCode">
+                             <option [value]="null">-- Add account executive --</option>
+                             <option [value]="exec.code" *ngFor="let exec of amsSettings?.executives">{{exec.name}}</option>
+                           </select>
+                        </div>    
+                        <br>
+                        <div class="group">
+                           <div class="info-label-container">
+                              <p class="info-label">Account Reps</p>
+                           </div>  
+                           <select name="reps-select" class="custom-input" [(ngModel)]="agent.producerCode">
+                             <option [value]="null">-- Add account rep --</option>
+                             <option [value]="rep.code" *ngFor="let rep of amsSettings?.reps">{{rep.name}}</option>
+                           </select>
+                        </div>  
+                     </div>
+                  </div>
+                  <div class="input-wrapper">
+                     <div class="form-group" *ngIf="company.hasQuoteRushIntegration">
+                        <div class="group">
+                           <div class="info-label-container">
+                              <p class="info-label">Quote Rush Credentials</p>
+                           </div>
+                           <br>
+                           <a class="external-link" (click)="openDialog('QUOTERUSH')">Add Quote Rush Credentials</a>
+                        </div>
+                     </div>
+                  </div>
+               </aside>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div *ngIf="addAgent" class="user-container">
+      <!--  <hr class="line" id="second-line"> -->
+      <h3 class="main-header-title" id="companyInfo">Add New Agent</h3>
+      <div class="custom-divider"></div>
+      <div class="form-container">
+         <div class="input-wraper">
+            <div class="form-group">
+               <div class="group">
+                  <div class="info-label-container">
+                     <p class="info-label">Email</p>
+                  </div>
+                  <!--   <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                  <input matInput type="email" name="email" placeholder="Enter Email" class="custom-input" id="email" [(ngModel)]="newAgent.email">
+                  <!--  </mat-form-field> -->
+               </div>
+            </div>
+         </div>
+         <div class="input-wraper">
+            <div class="form-group">
+               <div class="group">
+                  <div class="info-label-container">
+                     <p class="info-label">First Name</p>
+                  </div>
+                  <!--   <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                  <input matInput type="text" name="firstName" placeholder="Enter First Name" class="custom-input" id="firstName" [(ngModel)]="newAgent.firstName">
+                  <!-- </mat-form-field> -->
+               </div>
+            </div>
+         </div>
+         <div class="input-wraper">
+            <div class="form-group">
+               <div class="group">
+                  <div class="info-label-container">
+                     <p class="info-label">Last Name</p>
+                  </div>
+                  <!--   <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                  <input matInput type="text" name="lastName" placeholder="Enter Last Name" class="custom-input" id="lastName" [(ngModel)]="newAgent.lastName">
+                  <!-- </mat-form-field> -->
+               </div>
+            </div>
+         </div>
+         <div class="input-wraper">
+            <div class="form-group">
+               <div class="group">
+                  <div class="info-label-container">
+                     <p class="info-label">Phone</p>
+                  </div>
+                  <!--   <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                  <input matInput type="number" name="phone" placeholder="Enter Phone" class="custom-input" id="phone" [(ngModel)]="newAgent.phone">
+                  <!-- </mat-form-field> -->
+               </div>
+            </div>
+         </div>
+         <div class="input-wraper">
+            <div class="form-group">
+               <div class="group">
+                  <div class="info-label-container">
+                     <p class="info-label">Password</p>
+                  </div>
+                  <!--  <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                  <input matInput name="password" type="password" placeholder="Enter Password" id="password" class="custom-input" [(ngModel)]="newAgent.password">
+                  <!--  </mat-form-field> -->
+               </div>
+            </div>
+         </div>
+         <div class="input-wraper">
+            <div class="form-group">
+               <div class="group last-group">
+                  <div class="info-label-container">
+                     <p class="info-label">Confirm Password</p>
+                  </div>
+                  <!--  <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                  <input matInput type="password" name="confirmPassword" placeholder="Confirmation Password" id="confirmPassword" class="custom-input" [(ngModel)]="passwordConfirmation">
+                  <!--  </mat-form-field> -->
+               </div>
+            </div>
+         </div>
+         <div class="input-wraper" *ngIf="company.hasBetterAgency">
+            <div class="form-group">
+               <div class="group last-group">
+                  <div class="info-label-container">
+                     <p class="info-label">Better Agency Username</p>
+                  </div>
+                  <!--  <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                  <input matInput type="text" name="betterAgencyUsername" placeholder="Enter Username" id="betterAgencyUsername" class="custom-input" [(ngModel)]="newAgent.betterAgencyUsername">
+                  <!--  </mat-form-field> -->
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</form>
+<div class="save-btn-overlay" *ngIf="addAgent || editAgent">
+   <button class="exit-btn btn" (click)="resetAgents()">Cancel</button>
+   <button class="save-btn btn" (click)="updateAgent()">Save</button>
+   <!-- <button class="delete-btn btn" (click)="deleteAgent()" *ngIf="agent.id !== null">Delete Agent</button> -->
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

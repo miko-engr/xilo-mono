@@ -1,0 +1,20 @@
+<div class="lifecycle-chart-box">
+    <table class="chart-header">
+        <tr>
+            <td class="chart-title"><span>{{getChartTitle(attribute)}}</span></td>
+            <td>
+                <div class="btn-group">
+                    <button class="day" (click)="fetchLifecycleChartDataSectionWise(attribute, 'days')" [ngClass]="sectionPressed === 'days' ? 'active' : ''">Day</button>
+                    <button (click)="fetchLifecycleChartDataSectionWise(attribute, 'weeks')" [ngClass]="sectionPressed === 'weeks' ? 'active' : ''">Week</button>
+                    <button (click)="fetchLifecycleChartDataSectionWise(attribute, 'months')" [ngClass]="sectionPressed === 'months' ? 'active' : ''">Month</button>
+                    <button class="year" (click)="fetchLifecycleChartDataSectionWise(attribute, 'years')" [ngClass]="sectionPressed === 'years' ? 'active' : ''">Year</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <google-chart *ngIf="load && !noData" [data]="lifecycleChart"></google-chart>
+    <div *ngIf="noData" class="nodata"> No data Available </div>
+    <div class="footer-btn-group" *ngIf="attribute === 'agent'">
+        <button *ngFor="let item of btnList" (click)="fetchLifecycleChartDataPeriodWise(attribute, sectionPressed, item)" [ngClass]="periodPressed === item.name ? 'active' : ''">{{item.name}}</button>
+    </div>
+</div>

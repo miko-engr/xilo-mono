@@ -1,0 +1,18 @@
+<div class="content-area">
+    <div class="main">
+        <app-heatmap [period]=period></app-heatmap>
+        <app-form-analytics></app-form-analytics>
+        <div class="analytics-campany-container" *ngFor="let item of companyAttributes">
+           <app-lifecycle-chart [attribute]=item [period]=period></app-lifecycle-chart>
+        </div>
+        <div class="analytics-contant-container" *ngFor="let item of clientAttributes">
+            <app-client-chart [attribute]=item [period]=period></app-client-chart>
+        </div>
+    </div>
+  <!-- <hr class="line"> -->
+  <!-- <div class="main">
+      <div>
+          <router-outlet></router-outlet>
+      </div>
+  </div> -->
+</div>

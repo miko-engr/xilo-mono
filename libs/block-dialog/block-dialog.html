@@ -1,0 +1,83 @@
+<div class="add-question-row" *ngIf="selectedQuestion.type">
+  <div
+    class="btn-group add-question-btngroup"
+    dropdown
+    #dropdown="bs-dropdown"
+  >
+    <button
+      class="add-question-button"
+      dropdownToggle
+      type="button"
+      id="add-question-button"
+      (click)="onAddQuestion(selectedQuestion)"
+    >
+      <ngx-icon svgSrc="plus" class="plus-icon"> </ngx-icon>
+      <span>Add question</span>
+    </button>
+    <!-- <button
+      class="add-question-button group"
+      dropdownToggle
+      type="button"
+      id="add-question-button"
+      (click)="onAddQuestionGroup(node)"
+      *ngIf="node.parent && node.data.id === node.parent.data.children[node.parent.data.children.length - 1].id"
+    >
+      <ngx-icon svgSrc="plus" class="plus-icon"> </ngx-icon>
+      <span>Add question's group</span>
+    </button> -->
+    <div
+      id="add-question-dropdown"
+      *dropdownMenu
+      class="dropdown-menu"
+      aria-labelledby="add-question-button"
+    >
+      <div class="tab-wrapper">
+        <div class="title-row">
+          <h2>Add block</h2>
+          <button
+            class="dropdown-close-button"
+            (click)="dropdown.toggle(true)"
+          >
+            <ngx-icon svgSrc="close" class="close-icon"> </ngx-icon>
+          </button>
+        </div>
+        <div>
+          <tabset>
+            <tab
+              *ngFor="let tab of tabs; let i = index"
+              [active]="i === activeTab"
+            >
+              <ng-template tabHeading>
+                <span class="tabHeading">{{tab.title}}</span>
+              </ng-template>
+              <button
+                class="create-button"
+                *ngIf="i === 0"
+                (click)="onTabItemClicked({}, tabs[0])"
+              >
+                Create blank section
+              </button>
+              <!-- <button
+                class="create-button"
+                *ngIf="i === 1"
+                (click)="onTabItemClicked({}, tabs[1])"
+              >
+                Create blank question group
+              </button> -->
+              <div class="tab-items">
+                <button
+                  class="item"
+                  *ngFor="let item of tab.items"
+                  (click)="onTabItemClicked(item, tab)"
+                >
+                  <ngx-icon [svgSrc]="item.icon" class="icon"> </ngx-icon>
+                  <div class="title">{{item.label}}</div>
+                </button>
+              </div>
+            </tab>
+          </tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

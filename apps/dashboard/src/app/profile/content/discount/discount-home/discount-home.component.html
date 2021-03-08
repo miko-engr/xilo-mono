@@ -1,0 +1,19 @@
+<div class="auto-complete-content-area">
+  <ul class="item-listing" cdkDropList id="pageList" (cdkDropListDropped)="dropItDiscounts($event)" [cdkDropListData]="discounts">
+      <li *ngFor="let discount of discounts; let i = index" cdkDragLockAxis="y" style="padding: 15px 5px; border-radius: 8px;list-style-type: none" cdkDrag>
+              {{discount.title}}
+          <span class="action-container-side">
+              <i class="icon-edit_pencile" [routerLink]="['../edit', i]"></i>
+              <i class="icon-rubbish-bin" (click)="deleteDiscount(i)"></i>
+          </span>
+      </li>
+      <li class="box" style="justify-content: center">
+          <button mat-icon-button routerLink="../add" [routerLinkActive]="['']">
+              <mat-icon>add</mat-icon>
+          </button>
+      </li>
+      <li class="flex-cenetr" style="margin-top: 10px" *ngIf="editingDiscountPosition">
+          <button class="custom-save-btn" (click)="updateDiscounts()"><mat-icon>save</mat-icon>Save</button>
+      </li>
+  </ul>
+</div>

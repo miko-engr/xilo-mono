@@ -1,0 +1,91 @@
+<div class="content container-fluid" role="main">
+    <div class="row">
+      <div class='col-4 left'>
+        <h1>PDF Mapping</h1>
+      </div>
+      <div class='col-8 right' style='text-align:right; padding: 24px 34px 24px 24px'>
+        <button type='button' class='replace-btn replace-button' (click)='openPDFMenu("replace")' [disabled]='loading || !pdfs.length'>Replace Current PDF</button>
+      </div>
+    </div>
+    <div class="row" style="padding-left: 24px;">
+      <ng-container *ngIf="pdfs.length > 0">
+        <div class="tab" (click)="changeActivePDF(pdf, i)" [ngClass]="{'active': activePdfIndex == i}" *ngFor="let pdf of pdfs; index as i">
+          {{ pdf.formName }} 
+          <span (click)="deletePDF(pdf, i); $event.stopPropagation()">
+              <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g opacity="0.2" clip-path="url(#clip0)">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M2.81821 3.31802C2.99783 3.1384 3.28905 3.1384 3.46867 3.31802L6.00019 5.84954L8.53171 3.31802C8.71133 3.1384 9.00255 3.1384 9.18217 3.31802C9.36179 3.49764 9.36179 3.78886 9.18217 3.96848L6.65065 6.5L9.18217 9.03152C9.36179 9.21114 9.36179 9.50236 9.18217 9.68198C9.00255 9.8616 8.71133 9.8616 8.53171 9.68198L6.00019 7.15046L3.46867 9.68198C3.28905 9.8616 2.99783 9.8616 2.81821 9.68198C2.63859 9.50236 2.63859 9.21114 2.81821 9.03152L5.34973 6.5L2.81821 3.96848C2.63859 3.78886 2.63859 3.49764 2.81821 3.31802Z" fill="#111111"/>
+                  </g>
+                  <defs>
+                  <clipPath id="clip0">
+                  <rect width="12" height="12" fill="white" transform="translate(0 0.5)"/>
+                  </clipPath>
+                  </defs>
+              </svg>
+          </span>
+        </div>
+      </ng-container>
+      <div class="tab" style="color: #7c7fff">
+        <span (click)="openPDFMenu('create')">+ Add new PDF</span>
+        <div class='pdf-menu' *ngIf='uploadPDF' [ngClass]="{ 'pdf-menu-create':uploadPDF.mode === 'create', 'pdf-menu-replace':uploadPDF.mode === 'replace' }">
+          <div class='menu-item'>
+            <h2>{{getPdfUploadTitleText()}}</h2>
+            <span (click)='closePDFMenu(); $event.stopPropagation()'>x</span>
+          </div>
+          <div class='menu-item'>
+            <input type='text' placeholder='Enter PDF title' [(ngModel)]='uploadPDF.formName'>
+          </div>
+          <div class='menu-item'>
+            <input type='text' placeholder='Enter export values' [(ngModel)]='uploadPDF.exportValues'>
+          </div>
+          <div class='menu-item'>
+            <div class='input-file-upload'>
+              <button class='file-upload' type='button' (click)='fileInput.click(); $event.stopPropagation()' style='float:left'>Choose File</button>
+              <input hidden (change)='onFileSelected()' #fileInput type='file' id='file' accept='application/pdf'>
+              <p *ngIf='uploadPDF.fileName' class='p-file-name'>{{uploadPDF.fileName.name}}</p>
+            </div>
+          </div>
+          <div class='menu-item'>
+            <span *ngIf='loading'>...Loading</span>
+            <button type='button' *ngIf='!loading' [disabled]='!uploadPDF || !uploadPDF.fileName' (click)='uploadPdf(); $event.stopPropagation()' class='save-btn'>{{getPdfUploadButtonText()}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="left">
+        <div class="questions-list">
+          <h2>
+            Questions List
+          </h2>
+          <div class="text">
+            Drag & Drop question to desirable field
+          </div>
+          <div>
+            <app-form-builder-component-pdf-question-search-box>
+            </app-form-builder-component-pdf-question-search-box>
+          </div>
+          <!-- <div class="dropdown-row">
+            <app-form-builder-component-pdf-question-dropdown>
+            </app-form-builder-component-pdf-question-dropdown>
+          </div> -->
+        </div>
+        <app-form-builder-component-pdf-question-tree>
+        </app-form-builder-component-pdf-question-tree>
+      </div>
+      <div class="right" style="width: 50%">
+        <!-- <div class="integrations-wrapper">
+          <div class="dropdown-row">
+            <app-form-builder-component-pdf-question-dropdown>
+            </app-form-builder-component-pdf-question-dropdown>
+          </div>
+        </div> -->
+        <app-form-builder-component-pdf-company-info
+          #pdfChildComponent
+          [pdf]="activePdf"
+          *ngIf="pdfs.length > 0"
+        >
+        </app-form-builder-component-pdf-company-info>
+      </div>
+    </div>
+  </div>

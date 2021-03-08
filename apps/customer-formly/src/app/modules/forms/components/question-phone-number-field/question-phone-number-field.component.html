@@ -1,0 +1,19 @@
+<form [formGroup]="currentForm">
+  <div class="form-item" [ngClass]="isInvalid ? 'error' : ''">
+    <label>
+      {{ properties.placeholderText }}{{ properties?.isRequired ? '*' : '' }}
+    </label>
+
+    <input
+      class="xilo-input"
+      type="text"
+      maxlength="16"
+      [formControlName]="properties?.id"
+      mask="(000) 000-0000"
+      placeholder="{{
+        properties?.secondaryPlaceholderText || '(___) ___-____'
+      }}"
+    />
+    <label *ngIf="isInvalid"> {{ properties?.errorText }} </label>
+  </div>
+</form>

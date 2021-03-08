@@ -1,0 +1,194 @@
+<div class="create-flow-container">
+    <div class="row">
+         <div class="col-sm-4 col-md-3">
+               <div class="email-template-container full-height">
+                     <div class="form-group">
+                           <label class="bold-lbel">Add New Task</label>
+                           <ul class="flex-input new-input" cdkDropList [cdkDropListData]="taskTemplates" [cdkDropListConnectedTo]="['templateList']">
+                              <li class="box" id="task" cdkDrag>
+                                 <div class="icon-div">
+                                       <i class="icon-checkmark2" aria-hidden="true"></i>
+                                 </div>
+                                 <h4 class="new-input-text">Task</h4>
+                              </li>
+                           </ul>
+                     </div>
+                  <div class="form-group">
+                        <label class="bold-lbel">Add New Message</label>
+                        <ul class="flex-input new-input" cdkDropList [cdkDropListData]="emailTemplates" [cdkDropListConnectedTo]="['templateList']">
+                           <li class="box" id="emailTemplate" cdkDrag>
+                              <div class="icon-div">
+                                    <i class="icon-message" aria-hidden="true"></i>
+                              </div>
+                              <h4 class="new-input-text">Email Template</h4>
+                           </li>
+                        </ul>
+                  </div>
+
+                  <div class="form-group">
+                     <label class="bold-lbel">Add New Text</label>
+                     <ul class="flex-input new-input" cdkDropList [cdkDropListData]="textTemplates" [cdkDropListConnectedTo]="['templateList']">
+                        <li class="box" id="textTemplates" cdkDrag>
+                           <div class="icon-div">
+                                 <i class="icon-organize" aria-hidden="true"></i>
+                           </div>
+                           <h4 class="new-input-text">Text Template</h4>
+                        </li>
+                     </ul>
+                  </div>
+
+                  <div class="form-group">
+                        <label class="bold-lbel">Time Delay</label>
+                        <ul class="flex-input new-input" cdkDropList [cdkDropListData]="timeDelays" [cdkDropListConnectedTo]="['templateList']">
+                           <li class="box" id="timeDelay" cdkDrag>
+                              <div class="icon-div">
+                                    <i class="icon-clock-circular-outline" aria-hidden="true"></i>
+                              </div>
+                              <h4 class="new-input-text">Time Delay</h4>
+                           </li>
+                        </ul>
+                  </div>
+                  <div class="form-group">
+                     <label class="bold-lbel">Settings</label>
+                     <br>
+                     <br>
+                     <div class="settings-checkbox">
+                        <label class="custom-check" style="margin-left: 15px; text-align: left">
+                           <input name="inputTypeCheck" [(ngModel)]="flow.isEnabled" type="checkbox"/>
+                           <span class="check-mark">
+
+                           </span>
+                           <span>Enabled</span>
+                        </label>
+                     </div>
+                     <div class="settings-checkbox">
+                        <label class="custom-check" style="margin-left: 15px; text-align: left">
+                           <input name="inputTypeCheck" [(ngModel)]="flow.isNewClientFlow" type="checkbox" [disabled]="isNewClientFlow" />
+                           <span class="check-mark">
+
+                           </span>
+                           <span>New Lead Flow</span>
+                        </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+       <div class="col-sm-8 col-md-9">
+          <div class="email-template-container full-height">
+                <h1 class="inner-heading mb-4">Create new flow</h1>
+             <div class="row">
+                  <div class="col-sm-6 col-md-7" cdkDropList [cdkDropListData]="flow.sequence" (cdkDropListDropped)="drop($event)" id="templateList">
+                     <div class="timeline-container">
+                        <div class="timeline-div grey-bg">
+                           <div class="top-header">
+                              <div class="icon-holder">
+                                 <i class="icon-flash" aria-hidden="true"></i>
+                              </div>
+                              <div class="text-holder">
+                                 <p class="small-text">Trigger</p>
+                                 <p>When someone subscribes to Newsletter</p>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="timeline-div" *ngFor="let sequence of flow.sequence ; let i = index" cdkDrag>
+                              <span class="day-count">Day {{calculateDelay(flow.sequence, i) | number: '2.0-0'}}</span>
+                              <button type="button" class="more-option">
+                                 <i class="icon-horizontal-aligned-dots" aria-hidden="true" (click)="changeStatus(i)"></i>
+                                 <div class="menu-list" *ngIf="listing == true && selectedSequence.position === sequence.position">
+                                    <button class="edit-btn" (click)="editFlow(i)"><i class="icon-edit_pencile"></i>&nbsp;Edit</button>
+                                    <button class="delete-btn" (click)="deleteOneFlow(i)"><i class="icon-rubbish-bin"></i>&nbsp;Delete</button>
+                                 </div>
+                              </button>
+                              <div class="top-header" *ngIf="sequence.isTimeDelay">
+                                 <div class="icon-holder">
+                                    <i class="icon-clock-circular-outline" aria-hidden="true"></i>
+                                 </div>
+                                 <div class="text-holder">
+                                    <p class="small-text">Wait For:</p>
+                                    <p>{{sequence.daysDelay}} Day(s): {{sequence.hoursDelay}} Hour(s) : {{sequence.minutesDelay}} Minute(s) :: {{sequence.secondsDelay}} Seconds </p>
+                                    <div class="mtt-2" *ngIf="editflow == true && selectedSequence.position === sequence.position">
+                                       <input type="number" class="form-control" [(ngModel)]="sequence.daysDelay" placeholder="Enter day" />
+                                       <input type="number" class="form-control" [(ngModel)]="sequence.hoursDelay" placeholder="Enter hour" />
+                                       <input type="number" class="form-control" [(ngModel)]="sequence.minutesDelay" placeholder="Enter minutes" />
+                                       <input type="number" class="form-control" [(ngModel)]="sequence.secondsDelay" placeholder="Enter second" />
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="top-header" *ngIf="sequence.isEmail">
+                                 <div class="icon-holder">
+                                    <i class="icon-message" aria-hidden="true"></i>
+                                 </div>
+                              </div>
+                              <div class="top-header" *ngIf="sequence.isText">
+                                 <div class="icon-holder">
+                                    <i class="icon-organize" aria-hidden="true"></i>
+                                 </div>
+                              </div>
+                              <div class="top-header" *ngIf="sequence.isTask">
+                                    <div class="icon-holder">
+                                       <i class="icon-checkmark2" aria-hidden="true"></i>
+                                    </div>
+                                 </div>
+                              <div class="text-holder" *ngIf="sequence.isText || sequence.isEmail">
+                                 <p class="small-text" *ngIf="!selectedSequence || editflow == false">{{truncString(sequence.title)}}</p>
+                                 <div class="mtt-2" *ngIf="editflow == true && selectedSequence.position === sequence.position && sequence.isEmail">
+                                    <input type="text" class="form-control" [(ngModel)]="sequence.title" placeholder="Enter title." />
+                                 </div>
+                                 <p *ngIf="!selectedSequence || editflow == false">{{truncString(sequence.body)}}</p>
+                                 <div class="mtt-2" *ngIf="editflow == true && selectedSequence.position === sequence.position">
+                                    <textarea type="text" class="form-control" [(ngModel)]="sequence.body" placeholder="Enter body"></textarea>
+                                 </div>
+                              </div>
+                              <div class="text-holder" *ngIf="sequence.isTask">
+                                    <p class="small-text" *ngIf="!selectedSequence || editflow == false">{{truncString(sequence.type)}}</p>
+                                    <div class="mtt-2" *ngIf="editflow == true && selectedSequence.position === sequence.position && sequence.isTask">
+                                       <select name="type" [(ngModel)]="sequence.type" class="form-control">
+                                          <option hidden value="" disabled selected>Choose Type</option>
+                                          <option value="Call">Call</option>
+                                          <option value="Email">Email</option>
+                                          <option value="Text">Text</option>
+                                          <option value="Work">Work</option>
+                                          <option value="Other">Other</option>
+                                      </select>
+                                    </div>
+                                    <p *ngIf="!selectedSequence || editflow == false">{{truncString(sequence.description)}}</p>
+                                    <div class="mtt-2" *ngIf="editflow == true && selectedSequence.position === sequence.position && sequence.isTask">
+                                       <input type="text" class="form-control" [(ngModel)]="sequence.description" placeholder="Enter description" />
+                                    </div>
+                                    <p *ngIf="!selectedSequence || editflow == false">{{truncString(sequence.priority)}}</p>
+                                    <div class="mtt-2" *ngIf="editflow == true && selectedSequence.position === sequence.position && sequence.isTask">
+                                       <select name="priority" [(ngModel)]="sequence.priority" class="form-control">
+                                          <option hidden value="" disabled selected>Choose task priority</option>
+                                          <option value="Low">Low</option>
+                                          <option value="Medium">Medium</option>
+                                          <option value="High">High</option>
+                                      </select>                      
+                                    </div>
+                                 </div>
+                              <div class="text-right" *ngIf="editflow == true && selectedSequence.position === sequence.position">
+                                 <button class="time-line-save-btn" (click)="flowSave(i)">Save</button>
+                              </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-sm-6 col-md-5">
+                     <h1 class="inner-heading mb-4 mt-0">Choose A Template</h1>
+                     <ul class="template-listing" cdkDropList [cdkDropListData]="templates" [cdkDropListConnectedTo]="['templateList']">
+                        <li class="box" *ngFor="let template of templates" cdkDrag>
+                           <h3>{{template.title}}</h3>
+                           <p>Create on {{template.createdAt | date}}</p>
+                        </li>
+                     </ul>
+                  </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+
+ <div class="save-btn-overlay">
+    <button class="exit-btn btn" routerLink="/profile/automation/flows">Cancel</button>
+    <button class="save-btn btn" (click)="updateFlow()">Save</button>
+<!--    <button class="delete-btn btn" (click)="deleteFlow()">Delete Flow</button>-->
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

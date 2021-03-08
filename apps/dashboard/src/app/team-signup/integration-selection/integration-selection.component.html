@@ -1,0 +1,30 @@
+<div class="team_main_block">
+    <div class="stepper_main_block">
+      <form 
+        #integrationsForm="ngForm"
+        (ngSubmit)="onNext()" 
+        *ngIf="selectedApis"
+      >
+        <div class="custom-form-group">
+          <ng-select
+            name="integrations"
+            class="custom-form-input"
+            #integrations="ngModel"
+            [(ngModel)]="selectedApis"
+            placeholder="Select Integrations"
+            bindLabel="name"
+            bindValue="key"
+            [items]="apiList"
+            [multiple]="true"
+            [clearable]="true"
+            (change)="onChange($event)"
+          >
+          </ng-select>
+          <span *ngIf="integrations?.invalid" class="custom-form-error">
+                <p *ngIf="integrations.errors.required">Integrations are required</p>
+            </span>
+        </div>
+        <button type="submit" class="primary-btn mt-3">Next</button>
+      </form>
+    </div>
+</div>

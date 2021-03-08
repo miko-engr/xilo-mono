@@ -1,0 +1,32 @@
+@import '../../../../../custom-theme.scss';
+select {
+  @include sm {
+    display: block !important;
+  }
+  @include md {
+    display: none !important;
+  }
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  font-family: $font-family-Inter-bold;
+  font-size: $font14;
+  color: $black-light;
+  height: 56px;
+  background-color: $white;
+  border: 1px solid #b4b4bb;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background: url('/assets/icon/keyboard_arrow_up_24px-1.svg') no-repeat center
+    right $white;
+  background-position-x: 98%;
+  padding-left: 24px;
+  margin-top: 5px;
+  &::-ms-expand {
+    display: none;
+  }
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+// all styles on ng-select are overridden in the input-groups css file

@@ -1,0 +1,2988 @@
+﻿{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "EZHOME": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Applicant": {
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/ApplicantType"
+                    }
+                },
+                "AltDwelling": {
+                    "$ref": "#/definitions/AltDwellingType"
+                },
+                "PriorPolicyInfo": {
+                    "$ref": "#/definitions/PriorPolicyInfoType"
+                },
+                "PolicyInfo": {
+                    "$ref": "#/definitions/PolicyInfoType"
+                },
+                "RatingInfo": {
+                    "$ref": "#/definitions/RatingInfoType"
+                },
+                "ReplacementCost": {
+                    "$ref": "#/definitions/ReplacementCostType"
+                },
+                "Endorsements": {
+                    "$ref": "#/definitions/EndorsementsType"
+                },
+                "LossInfo": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LossInfoType"
+                    }
+                },
+                "GeneralInfo": {
+                    "$ref": "#/definitions/GeneralInfoType"
+                },
+                "ExtendedInfo": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ExtendedInfoType"
+                    }
+                }
+            },
+            "required": [
+                "Applicant"
+            ]
+        }
+    },
+    "required": [
+        "EZHOME"
+    ],
+    "definitions": {
+        "EZHOME": {},
+        "NameType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Prefix": {
+                    "$ref": "#/definitions/NamePrefixType"
+                },
+                "FirstName": {
+                    "$ref": "#/definitions/ProperName"
+                },
+                "MiddleName": {
+                    "$ref": "#/definitions/MiddleInitial"
+                },
+                "LastName": {
+                    "$ref": "#/definitions/ProperName"
+                },
+                "Suffix": {
+                    "$ref": "#/definitions/NameSuffixType"
+                }
+            },
+            "required": [
+                "FirstName",
+                "LastName"
+            ]
+        },
+        "PersonalInfoType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Name": {
+                    "$ref": "#/definitions/NameType"
+                },
+                "DOB": {
+                    "$ref": "#/definitions/DateType"
+                },
+                "SSN": {
+                    "$ref": "#/definitions/SSNType"
+                },
+                "Gender": {
+                    "$ref": "#/definitions/GenderType"
+                },
+                "MaritalStatus": {
+                    "$ref": "#/definitions/MaritalStatusType"
+                },
+                "Relation": {
+                    "$ref": "#/definitions/RelationType"
+                },
+                "Industry": {
+                    "type": "string"
+                },
+                "Occupation": {
+                    "type": "string"
+                },
+                "YearsWithEmployer": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "YearsWithPreviousEmployer": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "Education": {
+                    "$ref": "#/definitions/EducationType"
+                },
+                "MaidenName": {
+                    "type": "string"
+                },
+                "NickName": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "Name"
+            ]
+        },
+        "DetailAddrType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "StreetName": {
+                    "$ref": "#/definitions/C-255_NoBlank"
+                },
+                "StreetNumber": {
+                    "$ref": "#/definitions/C-50"
+                },
+                "UnitNumber": {
+                    "$ref": "#/definitions/C-50"
+                }
+            }
+        },
+        "PhoneType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "PhoneType": {
+                    "$ref": "#/definitions/PhoneTypeType"
+                },
+                "PhoneNumberType": {
+                    "$ref": "#/definitions/PhoneNumberTypeType"
+                },
+                "PhoneNumber": {
+                    "$ref": "#/definitions/PhoneNumberType"
+                },
+                "Extension": {
+                    "$ref": "#/definitions/C-10"
+                }
+            },
+            "required": [
+                "PhoneType",
+                "PhoneNumber"
+            ]
+        },
+        "AddressType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "AddressCode": {
+                    "$ref": "#/definitions/AddressCodeType"
+                },
+                "Addr1": {
+                    "$ref": "#/definitions/DetailAddrType"
+                },
+                "Addr2": {
+                    "$ref": "#/definitions/C-255"
+                },
+                "City": {
+                    "$ref": "#/definitions/C-50_NoBlank"
+                },
+                "StateCode": {
+                    "$ref": "#/definitions/StateCodeType"
+                },
+                "County": {
+                    "$ref": "#/definitions/C-50_NoBlank"
+                },
+                "Zip5": {
+                    "$ref": "#/definitions/Zip5Type"
+                },
+                "Zip4": {
+                    "$ref": "#/definitions/Zip4Type"
+                },
+                "Phone": {
+                    "type": "object",
+                    "items": {
+                        "$ref": "#/definitions/PhoneType"
+                    }
+                },
+                "Email": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+                },
+                "PreferredContactMethod": {
+                    "$ref": "#/definitions/PreferredContactMethodType"
+                },
+                "PreferredContactTime": {
+                    "$ref": "#/definitions/PreferredContactTimeType"
+                },
+                "YearsAtAddress": {
+                    "$ref": "#/definitions/YearsAtAddressType"
+                },
+                "Validation": {
+                    "$ref": "#/definitions/AddressValidationType"
+                }
+            },
+            "required": [
+                "AddressCode",
+                "Addr1",
+                "City",
+                "StateCode",
+                "Zip5"
+            ]
+        },
+        "SimpleAddressType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "AddressCode": {
+                    "$ref": "#/definitions/AddressCodeType"
+                },
+                "Addr1": {
+                    "$ref": "#/definitions/DetailAddrType"
+                },
+                "Addr2": {
+                    "$ref": "#/definitions/C-255"
+                },
+                "City": {
+                    "$ref": "#/definitions/C-50_NoBlank"
+                },
+                "StateCode": {
+                    "$ref": "#/definitions/StateCodeType"
+                },
+                "County": {
+                    "$ref": "#/definitions/C-50_NoBlank"
+                },
+                "Zip5": {
+                    "$ref": "#/definitions/Zip5Type"
+                },
+                "Zip4": {
+                    "$ref": "#/definitions/Zip4Type"
+                },
+                "Validation": {
+                    "$ref": "#/definitions/AddressValidationType"
+                }
+            },
+            "required": [
+                "AddressCode",
+                "Addr1",
+                "City",
+                "StateCode",
+                "Zip5"
+            ]
+        },
+        "ApplicantType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "ApplicantType": {
+                    "$ref": "#/definitions/ApplicantTypeType"
+                },
+                "PersonalInfo": {
+                    "$ref": "#/definitions/PersonalInfoType"
+                },
+                "Address": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AddressType"
+                    }
+                }
+            },
+            "required": [
+                "ApplicantType",
+                "PersonalInfo",
+                "Address"
+            ]
+        },
+        "PriorPolicyInfoType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "PriorCarrier": {
+                    "$ref": "#/definitions/PriorCarrierType"
+                },
+                "Expiration": {
+                    "$ref": "#/definitions/DateType"
+                },
+                "YearsWithPriorCarrier": {
+                    "$ref": "#/definitions/DurationType"
+                },
+                "YearsWithContinuousCoverage": {
+                    "$ref": "#/definitions/DurationType"
+                },
+                "ReasonNoPrior": {
+                    "$ref": "#/definitions/ReasonNoPriorType"
+                },
+                "PriorPolicyPremium": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                }
+            }
+        },
+        "PolicyInfoType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "PolicyTerm": {
+                    "$ref": "#/definitions/PolicyTermType"
+                },
+                "PolicyType": {
+                    "$ref": "#/definitions/PolicyTypeType"
+                },
+                "Package": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "Effective": {
+                    "$ref": "#/definitions/DateType"
+                },
+                "CreditCheckAuth": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            }
+        },
+        "DurationType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Years": {
+                    "$ref": "#/definitions/DurationYearsType"
+                },
+                "Months": {
+                    "$ref": "#/definitions/DurationMonthsType"
+                }
+            },
+            "required": [
+                "Years"
+            ]
+        },
+        "RatingCreditsType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "RetireesCredit": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "MatureDiscount": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "RetirementCommunity": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "LimitedAccessCommunity": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "GatedCommunity": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "Multipolicy": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "NonSmoker": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            }
+        },
+        "RatingInfoType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "PropertyInsCancelledLapsed": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "YearBuilt": {
+                    "type": "integer",
+                    "minimum": 1500
+                },
+                "Dwelling": {
+                    "$ref": "#/definitions/DwellingType"
+                },
+                "DwellingUse": {
+                    "$ref": "#/definitions/UseageType"
+                },
+                "NumberOfFullTimeDomEmps": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "DistanceToFireHydrant": {
+                    "$ref": "#/definitions/HydrantDistanceType"
+                },
+                "WithinCityLimits": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "WithinProtectedSuburb": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "DistanceToFireStation": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                },
+                "WithinFireDistrict": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "ProtectionClass": {
+                    "$ref": "#/definitions/ProtectionClassType"
+                },
+                "NumberOfStories": {
+                    "$ref": "#/definitions/NumberOfStoriesType"
+                },
+                "Construction": {
+                    "$ref": "#/definitions/ConstructionType"
+                },
+                "Structure": {
+                    "$ref": "#/definitions/StructureType"
+                },
+                "Roof": {
+                    "$ref": "#/definitions/RoofType"
+                },
+                "RoofULClass": {
+                    "$ref": "#/definitions/RoofULClassType"
+                },
+                "DistanceToBrush": {
+                    "$ref": "#/definitions/DistanceToBrushType"
+                },
+                "DistanceToTidalWater": {
+                    "$ref": "#/definitions/DistanceToTidalWaterType"
+                },
+                "SwimmingPool": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "SwimmingPoolFenced": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "SwimmingPoolType": {
+                    "$ref": "#/definitions/SwimmingPoolTypeType"
+                },
+                "DogOnPremises": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "HeatingType": {
+                    "$ref": "#/definitions/HomeHeatingType"
+                },
+                "WoodBurningStove": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "NumberOfWoodBurningStoves": {
+                    "$ref": "#/definitions/PositiveInteger20EnumType"
+                },
+                "RoofingUpdate": {
+                    "$ref": "#/definitions/HomeSystemUpdateType"
+                },
+                "RoofingUpdateYear": {
+                    "type": "string"
+                },
+                "ElectricalUpdate": {
+                    "$ref": "#/definitions/HomeSystemUpdateType"
+                },
+                "ElectricalUpdateYear": {
+                    "type": "string"
+                },
+                "PlumbingUpdate": {
+                    "$ref": "#/definitions/HomeSystemUpdateType"
+                },
+                "PlumbingUpdateYear": {
+                    "type": "string"
+                },
+                "HeatingUpdate": {
+                    "$ref": "#/definitions/HomeSystemUpdateType"
+                },
+                "HeatingUpdateYear": {
+                    "type": "string"
+                },
+                "ElectricCircuitBreaker": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "UnderConstruction": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "SquareFootage": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                },
+                "NumberOfApartments": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                },
+                "PurchaseDate": {
+                    "$ref": "#/definitions/DateType"
+                },
+                "PurchasePrice": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "Trampoline": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "SecondaryHeatingSource": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "SecondaryHeatingSourceType": {
+                    "$ref": "#/definitions/SecondaryHeatingSourceTypeType"
+                },
+                "BusinessOnPremises": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "FirstMortgagee": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "SecondMortgagee": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "ThirdMortgagee": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "EquityLineOfCredit": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "CoSigner": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "NumberOfOtherInterests": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "ReplacementCostExtended": {
+                    "$ref": "#/definitions/ReplacementCostExtendedType"
+                },
+                "RoofShape": {
+                    "$ref": "#/definitions/RoofShapeType"
+                },
+                "WindSpeed": {
+                    "$ref": "#/definitions/WindSpeedType"
+                },
+                "Foundation": {
+                    "$ref": "#/definitions/FoundationType"
+                }
+            }
+        },
+        "ReplacementCostExtendedType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "ShapeOfDwelling": {
+                    "$ref": "#/definitions/ShapeOfDwellingType"
+                },
+                "ConstructionMethod": {
+                    "$ref": "#/definitions/ConstructionMethodType"
+                },
+                "Foundations": {
+                    "$ref": "#/definitions/FoundationsType"
+                },
+                "PartitionWalls": {
+                    "type": "array",
+                    "maxItems": 3,
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/PartitionWallsType"
+                    }
+                },
+                "WallFinish": {
+                    "type": "array",
+                    "maxItems": 3,
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/WallFinishType"
+                    }
+                },
+                "CeilingFinish": {
+                    "type": "array",
+                    "maxItems": 3,
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/CeilingFinishType"
+                    }
+                },
+                "FloorFinish": {
+                    "type": "array",
+                    "maxItems": 3,
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/FloorFinishType"
+                    }
+                },
+                "LandUnderFoundation": {
+                    "$ref": "#/definitions/LandUnderFoundationType"
+                },
+                "DetachedStructures": {
+                    "type": "array",
+                    "maxItems": 2,
+                    "items": {
+                        "$ref": "#/definitions/DetachedStructuresType"
+                    }
+                },
+                "Kitchens": {
+                    "$ref": "#/definitions/KitchensType"
+                },
+                "HeatingAndCooling": {
+                    "$ref": "#/definitions/HeatingAndCoolingType"
+                },
+                "GaragesAndCarports": {
+                    "$ref": "#/definitions/GaragesAndCarportsType"
+                },
+                "Porch": {
+                    "type": "array",
+                    "maxItems": 2,
+                    "items": {
+                        "$ref": "#/definitions/PorchType"
+                    }
+                },
+                "RoofPitch": {
+                    "$ref": "#/definitions/RoofPitchType"
+                },
+                "NumberOfRoofOverlays": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "Balconies": {
+                    "$ref": "#/definitions/BalconiesType"
+                },
+                "Baths": {
+                    "$ref": "#/definitions/BathsType"
+                }
+            }
+        },
+        "PartitionWallsType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "PartitionWallsMaterial": {
+                    "$ref": "#/definitions/PartitionWallsMaterialType"
+                },
+                "MaterialPercentage": {
+                    "$ref": "#/definitions/int100Type"
+                }
+            }
+        },
+        "WallFinishType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "WallFinishMaterial": {
+                    "$ref": "#/definitions/WallFinishMaterialType"
+                },
+                "MaterialPercentage": {
+                    "$ref": "#/definitions/int100Type"
+                }
+            }
+        },
+        "CeilingFinishType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "CeilingFinishMaterial": {
+                    "$ref": "#/definitions/CeilingFinishMaterialType"
+                },
+                "MaterialPercentage": {
+                    "$ref": "#/definitions/int100Type"
+                }
+            }
+        },
+        "FloorFinishType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "FloorFinishMaterial": {
+                    "$ref": "#/definitions/FloorFinishMaterialType"
+                },
+                "MaterialPercentage": {
+                    "$ref": "#/definitions/int100Type"
+                }
+            }
+        },
+        "DetachedStructuresType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "DetachedStructure": {
+                    "$ref": "#/definitions/DetachedStructuresTypeType"
+                },
+                "Number": {
+                    "$ref": "#/definitions/int20EnumType"
+                }
+            }
+        },
+        "FoundationsType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Slab": {
+                    "$ref": "#/definitions/int100Type"
+                },
+                "CrawlSpace": {
+                    "$ref": "#/definitions/int100Type"
+                },
+                "Basement": {
+                    "$ref": "#/definitions/int100Type"
+                },
+                "PiersOrPile": {
+                    "$ref": "#/definitions/int100Type"
+                },
+                "SuspendedOverHillside": {
+                    "$ref": "#/definitions/int100Type"
+                },
+                "BasementInformation": {
+                    "$ref": "#/definitions/BasementInformationType"
+                }
+            }
+        },
+        "BasementInformationType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "BasementType": {
+                    "$ref": "#/definitions/BasementTypeInfo"
+                },
+                "BasementFinished": {
+                    "$ref": "#/definitions/int100Type"
+                },
+                "BasementFinishedType": {
+                    "$ref": "#/definitions/BasementFinishedTypeInfo"
+                }
+            }
+        },
+        "KitchensType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Basic": {
+                    "$ref": "#/definitions/int20EnumType"
+                },
+                "BuildersGrade": {
+                    "$ref": "#/definitions/int20EnumType"
+                },
+                "SemiCustom": {
+                    "$ref": "#/definitions/int20EnumType"
+                },
+                "Custom": {
+                    "$ref": "#/definitions/int20EnumType"
+                },
+                "Designer": {
+                    "$ref": "#/definitions/int20EnumType"
+                }
+            }
+        },
+        "BathsType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "FullBaths": {
+                    "$ref": "#/definitions/BathsTypeInfo"
+                },
+                "HalfBaths": {
+                    "$ref": "#/definitions/BathsTypeInfo"
+                },
+                "ThreeQuarterBaths": {
+                    "$ref": "#/definitions/BathsTypeInfo"
+                }
+            },
+            "required": [
+                "FullBaths"
+            ]
+        },
+        "BathsTypeInfo": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Basic": {
+                    "$ref": "#/definitions/int20EnumType"
+                },
+                "BuildersGrade": {
+                    "$ref": "#/definitions/int20EnumType"
+                },
+                "SemiCustom": {
+                    "$ref": "#/definitions/int20EnumType"
+                },
+                "Custom": {
+                    "$ref": "#/definitions/int20EnumType"
+                },
+                "Designer": {
+                    "$ref": "#/definitions/int20EnumType"
+                }
+            }
+        },
+        "HeatingAndCoolingType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "AirConditioning": {
+                    "$ref": "#/definitions/AirConditioningType"
+                },
+                "FirePlace": {
+                    "$ref": "#/definitions/FirePlaceType"
+                }
+            }
+        },
+        "FirePlaceType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "FirePlace": {
+                    "$ref": "#/definitions/FirePlaceTypeType"
+                },
+                "NumberOfFirePlaces": {
+                    "$ref": "#/definitions/PositiveInteger20EnumType"
+                }
+            },
+            "required": [
+                "FirePlace"
+            ]
+        },
+        "GaragesAndCarportsType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "GaragesAndCarports": {
+                    "$ref": "#/definitions/GaragesAndCarportsTypeInfo"
+                },
+                "NumberOfCars": {
+                    "$ref": "#/definitions/PositiveInteger20EnumType"
+                }
+            },
+            "required": [
+                "GaragesAndCarports"
+            ]
+        },
+        "BalconiesType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "NumberOfBalconies": {
+                    "$ref": "#/definitions/int20EnumType"
+                },
+                "SquareFootageOfBalconies": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                }
+            }
+        },
+        "PorchType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "PorchType": {
+                    "$ref": "#/definitions/PorchTypeInfo"
+                },
+                "PorchSquareFootage": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                }
+            }
+        },
+        "DeductibeInfoType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Deductible": {
+                    "$ref": "#/definitions/DeductibeType"
+                },
+                "TheftDeductible": {
+                    "$ref": "#/definitions/TheftDeductibleType"
+                },
+                "WindDeductible": {
+                    "$ref": "#/definitions/WindDeductibleType"
+                },
+                "HurricaneDeductible": {
+                    "$ref": "#/definitions/HurricaneDeductibleType"
+                }
+            },
+            "required": [
+                "Deductible"
+            ]
+        },
+        "ReplacementCostType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "ReplacementCost": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "Dwelling": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "OtherStructures": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "LossOfUse": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "PersonalProperty": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "PersonalLiability": {
+                    "$ref": "#/definitions/PersonalLiabilityType"
+                },
+                "MedicalPayments": {
+                    "$ref": "#/definitions/MedicalPaymentsType"
+                },
+                "NumberOfFamilies": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "DeductibeInfo": {
+                    "$ref": "#/definitions/DeductibeInfoType"
+                },
+                "RatingCredits": {
+                    "$ref": "#/definitions/RatingCreditsType"
+                }
+            }
+        },
+        "CreditCardLimitType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "CreditCardLimit": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "Amount": {
+                    "$ref": "#/definitions/CreditCardLimitAmountType"
+                }
+            },
+            "required": [
+                "CreditCardLimit",
+                "Amount"
+            ]
+        },
+        "SmokeDetectorType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "BaseProtectionDevice": {
+                    "$ref": "#/definitions/BaseProtectionDeviceType"
+                },
+                "FireExtinguisher": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            }
+        },
+        "BurglarAlarmType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "BaseProtectionDevice": {
+                    "$ref": "#/definitions/BaseProtectionDeviceType"
+                },
+                "DeadBolt": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "VisibleToNeighbor": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "MannedSecurity": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            }
+        },
+        "ProtectiveDevicesType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "SmokeDetector": {
+                    "$ref": "#/definitions/SmokeDetectorType"
+                },
+                "Fire": {
+                    "$ref": "#/definitions/BaseProtectionDeviceType"
+                },
+                "TemperatureControl": {
+                    "$ref": "#/definitions/BaseProtectionDeviceType"
+                },
+                "BurglarAlarm": {
+                    "$ref": "#/definitions/BurglarAlarmType"
+                },
+                "Sprinkler": {
+                    "$ref": "#/definitions/SprinklerType"
+                }
+            }
+        },
+        "IdentityTheftType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "IdentityTheft": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            },
+            "required": [
+                "IdentityTheft"
+            ]
+        },
+        "IncreasedMoldType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "IncreasedMold": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "PropertyDamage": {
+                    "$ref": "#/definitions/MoldPropertyDamageType"
+                },
+                "IncreaseLiability": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            },
+            "required": [
+                "IncreasedMold",
+                "PropertyDamage",
+                "IncreaseLiability"
+            ]
+        },
+        "LossAssessmentType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "LossAssessment": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "Amount": {
+                    "$ref": "#/definitions/LossAssessmentAmountType"
+                }
+            },
+            "required": [
+                "LossAssessment",
+                "Amount"
+            ]
+        },
+        "OrdinanceOrLawType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "OrdinanceOrLaw": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "Percent": {
+                    "$ref": "#/definitions/OrdinanceOrLawPercentIncreaseType"
+                }
+            },
+            "required": [
+                "OrdinanceOrLaw"
+            ]
+        },
+        "PersonalInjuryType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "PersonalInjury": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            },
+            "required": [
+                "PersonalInjury"
+            ]
+        },
+        "ScheduledPersonalPropertyTypeType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Amount": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "Breakage": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            },
+            "required": [
+                "Amount"
+            ]
+        },
+        "ScheduledPersonalPropertyType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "ScheduledPersonalProperty": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "Coins": {
+                    "$ref": "#/definitions/ScheduledPersonalPropertyTypeType"
+                },
+                "Furs": {
+                    "$ref": "#/definitions/ScheduledPersonalPropertyTypeType"
+                },
+                "FineArts": {
+                    "$ref": "#/definitions/ScheduledPersonalPropertyTypeType"
+                },
+                "Guns": {
+                    "$ref": "#/definitions/ScheduledPersonalPropertyTypeType"
+                },
+                "Jewelry": {
+                    "$ref": "#/definitions/ScheduledPersonalPropertyTypeType"
+                },
+                "Music": {
+                    "$ref": "#/definitions/ScheduledPersonalPropertyTypeType"
+                },
+                "Silverware": {
+                    "$ref": "#/definitions/ScheduledPersonalPropertyTypeType"
+                }
+            },
+            "required": [
+                "ScheduledPersonalProperty"
+            ]
+        },
+        "WaterBackupType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "WaterBackup": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "Amount": {
+                    "$ref": "#/definitions/WaterBackupAmountType"
+                }
+            },
+            "required": [
+                "Amount"
+            ]
+        },
+        "ReplacementCostDwellingType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "ReplacementCostDwelling": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "Amount": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "ReplacementCostDwellingPercentage": {
+                    "$ref": "#/definitions/ReplacementCostDwellingPercentageType"
+                }
+            },
+            "required": [
+                "ReplacementCostDwellingPercentage"
+            ]
+        },
+        "ReplacementCostContentType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "ReplacementCostContent": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "Amount": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                }
+            },
+            "required": [
+                "ReplacementCostContent"
+            ]
+        },
+        "EarthquakeTypeType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Zone": {
+                    "$ref": "#/definitions/EarthquakeZoneType"
+                },
+                "ExcludeMasonryVeneer": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "Deductible": {
+                    "$ref": "#/definitions/EarthquakeDeductibleType"
+                },
+                "PercentVeneer": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                }
+            },
+            "required": [
+                "Zone",
+                "ExcludeMasonryVeneer",
+                "Deductible"
+            ]
+        },
+        "EarthquakeType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Earthquake": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "Coverage": {
+                    "$ref": "#/definitions/EarthquakeTypeType"
+                }
+            },
+            "required": [
+                "Earthquake",
+                "Coverage"
+            ]
+        },
+        "JewelryWatchesFursType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "JewelryWatchesFurs": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "Amount": {
+                    "$ref": "#/definitions/JewelryWatchesFursAmountType"
+                }
+            },
+            "required": [
+                "JewelryWatchesFurs",
+                "Amount"
+            ]
+        },
+        "BusinessPursuitsTypeType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Name": {
+                    "$ref": "#/definitions/C-50_NoBlank"
+                },
+                "IsBusinessIncidental": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "Class": {
+                    "$ref": "#/definitions/BusinessClassType"
+                }
+            },
+            "required": [
+                "Name",
+                "IsBusinessIncidental",
+                "Class"
+            ]
+        },
+        "BusinessPursuitsType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "BusinessPursuits": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "BusinessInformation": {
+                    "$ref": "#/definitions/BusinessPursuitsTypeType"
+                }
+            },
+            "required": [
+                "BusinessPursuits",
+                "BusinessInformation"
+            ]
+        },
+        "AL-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "WindHailExclusion": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            }
+        },
+        "GA-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "WindHailExclusion": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            }
+        },
+        "IL-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "MineSubsidence": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            }
+        },
+        "IN-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "MineSubsidence": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            }
+        },
+        "KY-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "MineSubsidence": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            }
+        },
+        "NC-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "WindHailExclusion": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            }
+        },
+        "NV-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "WindHailExclusion": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            }
+        },
+        "NY-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "OffPremTheftExcl": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "PermittedIncidentalBusinessOcc": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            }
+        },
+        "OH-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "MineSubsidence": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            }
+        },
+        "PA-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "SinkholeCollapse": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            }
+        },
+        "TX-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "ResidenceGlass": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "WindHailExclusion": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "FoundationCoverage": {
+                    "$ref": "#/definitions/TX-FoundationCoverageType"
+                },
+                "WaterDamage": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            }
+        },
+        "TX-FoundationCoverageType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "FoundationCoverage": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "ExistingFoundation": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            },
+            "required": [
+                "FoundationCoverage",
+                "ExistingFoundation"
+            ]
+        },
+        "TN-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "SinkholeCollapse": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "SinkholeCollapseAmount": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                }
+            }
+        },
+        "WV-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "MineSubsidence": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            }
+        },
+        "StateSpecificEndorsementsType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "AL-Endorsements": {
+                    "$ref": "#/definitions/AL-StateSpecific"
+                },
+                "GA-Endorsements": {
+                    "$ref": "#/definitions/GA-StateSpecific"
+                },
+                "IL-Endorsements": {
+                    "$ref": "#/definitions/IL-StateSpecific"
+                },
+                "IN-Endorsements": {
+                    "$ref": "#/definitions/IN-StateSpecific"
+                },
+                "KY-Endorsements": {
+                    "$ref": "#/definitions/KY-StateSpecific"
+                },
+                "NC-Endorsements": {
+                    "$ref": "#/definitions/NC-StateSpecific"
+                },
+                "NV-Endorsements": {
+                    "$ref": "#/definitions/NV-StateSpecific"
+                },
+                "NY-Endorsements": {
+                    "$ref": "#/definitions/NY-StateSpecific"
+                },
+                "OH-Endorsements": {
+                    "$ref": "#/definitions/OH-StateSpecific"
+                },
+                "PA-Endorsements": {
+                    "$ref": "#/definitions/PA-StateSpecific"
+                },
+                "TN-Endorsements": {
+                    "$ref": "#/definitions/TN-StateSpecific"
+                },
+                "TX-Endorsements": {
+                    "$ref": "#/definitions/TX-StateSpecific"
+                },
+                "WV-Endorsements": {
+                    "$ref": "#/definitions/WV-StateSpecific"
+                }
+            }
+        },
+        "EndorsementsType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "BuildingAddAlt": {
+                    "$ref": "#/definitions/BooleanType"
+                },
+                "BuildingAddAltAmount": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                },
+                "BusinessPursuits": {
+                    "$ref": "#/definitions/BusinessPursuitsType"
+                },
+                "CreditCardLimit": {
+                    "$ref": "#/definitions/CreditCardLimitType"
+                },
+                "Earthquake": {
+                    "$ref": "#/definitions/EarthquakeType"
+                },
+                "IdentityTheft": {
+                    "$ref": "#/definitions/IdentityTheftType"
+                },
+                "IncreasedMold": {
+                    "$ref": "#/definitions/IncreasedMoldType"
+                },
+                "LossAssessment": {
+                    "$ref": "#/definitions/LossAssessmentType"
+                },
+                "OrdinanceOrLaw": {
+                    "$ref": "#/definitions/OrdinanceOrLawType"
+                },
+                "ProtectiveDevices": {
+                    "$ref": "#/definitions/ProtectiveDevicesType"
+                },
+                "PersonalInjury": {
+                    "$ref": "#/definitions/PersonalInjuryType"
+                },
+                "ScheduledPersonalProperty": {
+                    "$ref": "#/definitions/ScheduledPersonalPropertyType"
+                },
+                "ReplacementCostDwelling": {
+                    "$ref": "#/definitions/ReplacementCostDwellingType"
+                },
+                "ReplacementCostContent": {
+                    "$ref": "#/definitions/ReplacementCostContentType"
+                },
+                "IncreasedJewelryWatchesFurs": {
+                    "$ref": "#/definitions/JewelryWatchesFursType"
+                },
+                "WaterBackup": {
+                    "$ref": "#/definitions/WaterBackupType"
+                },
+                "StateSpecificEndorsements": {
+                    "$ref": "#/definitions/StateSpecificEndorsementsType"
+                }
+            }
+        },
+        "LossInfoType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                },
+                "DateOfIncident": {
+                    "$ref": "#/definitions/DateType"
+                },
+                "Description": {
+                    "$ref": "#/definitions/LossDescriptionType"
+                },
+                "Amount": {
+                    "type": "number"
+                },
+                "CATLoss": {
+                    "$ref": "#/definitions/BooleanType"
+                }
+            },
+            "required": [
+                "DateOfIncident",
+                "Description"
+            ]
+        },
+        "AltDwellingType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Address": {
+                    "$ref": "#/definitions/SimpleAddressType"
+                }
+            },
+            "required": [
+                "Address"
+            ]
+        },
+        "GeneralInfoType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "RatingStateCode": {
+                    "$ref": "#/definitions/StateCodeType"
+                },
+                "Comments": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "RatingStateCode"
+            ]
+        },
+        "NVPair": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "value"
+            ]
+        },
+        "ExtendedInfoType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "typename": {
+                    "type": "string"
+                },
+                "valuepair": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/NVPair"
+                    }
+                }
+            }
+        },
+        "NamePrefixType": {
+            "type": "string",
+            "enum": [
+                "MR",
+                "MRS",
+                "MISS",
+                "MS",
+                "DR"
+            ]
+        },
+        "NameSuffixType": {
+            "type": "string",
+            "enum": [
+                "JR",
+                "SR",
+                "I",
+                "II",
+                "III"
+            ]
+        },
+        "SSNType": {
+            "type": "string",
+            "pattern": "\\d{9}"
+        },
+        "Zip5Type": {
+            "type": "string",
+            "pattern": "\\d{5}"
+        },
+        "Zip4Type": {
+            "type": "string",
+            "pattern": "\\d{4}"
+        },
+        "int100Type": {
+            "type": "integer",
+            "maximum": 100,
+            "minimum": 0,
+            "exclusiveMinimum": false,
+            "exclusiveMaximum": false
+        },
+        "int20EnumType": {
+            "type": "string",
+            "enum": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17",
+                "18",
+                "19",
+                "20"
+            ]
+        },
+        "PositiveInteger20EnumType": {
+            "type": "string",
+            "enum": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17",
+                "18",
+                "19",
+                "20"
+            ]
+        },
+        "DateType": {
+            "type": "string"
+        },
+        "BooleanType": {
+            "type": "string",
+            "enum": [
+                "Yes",
+                "No"
+            ]
+        },
+        "MaritalStatusType": {
+            "type": "string",
+            "enum": [
+                "Single",
+                "Married",
+                "Domestic Partner",
+                "Widowed",
+                "Separated",
+                "Divorced"
+            ]
+        },
+        "OccupationType": {
+            "type": "string",
+            "enum": [
+                "Self-Employed",
+                "Employed",
+                "Unemployed",
+                "Homemaker",
+                "Retired",
+                "Student"
+            ]
+        },
+        "GenderType": {
+            "type": "string",
+            "enum": [
+                "Male",
+                "Female",
+                "X - Not Specified"
+            ]
+        },
+        "RelationType": {
+            "type": "string",
+            "enum": [
+                "Child",
+                "Domestic Partner",
+                "Employee",
+                "Insured",
+                "Other",
+                "Parent",
+                "Relative",
+                "Spouse"
+            ]
+        },
+        "EducationType": {
+            "type": "string",
+            "enum": [
+                "No High School Diploma",
+                "High School Diploma",
+                "Some College - No Degree",
+                "Vocational/Technical Degree",
+                "Associates Degree",
+                "Bachelors",
+                "Masters",
+                "Phd",
+                "Medical Degree",
+                "Law Degree"
+            ]
+        },
+        "AddressCodeType": {
+            "type": "string",
+            "enum": [
+                "BillingAddress",
+                "InsuredsAddress",
+                "LegalAddr",
+                "MailingAddress",
+                "PhysicalRisk",
+                "PreviousAddress",
+                "StreetAddress"
+            ]
+        },
+        "C-10": {
+            "type": "string",
+            "maxLength": 10
+        },
+        "C-10_NoBlank": {
+            "type": "string",
+            "maxLength": 10,
+            "minLength": 1
+        },
+        "C-50": {
+            "type": "string",
+            "maxLength": 50
+        },
+        "C-50_NoBlank": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1
+        },
+        "C-255": {
+            "type": "string",
+            "maxLength": 255
+        },
+        "C-255_NoBlank": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1
+        },
+        "ProperName": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z]{1}[\\-' A-Za-z]*$"
+        },
+        "MiddleInitial": {
+            "type": "string",
+            "pattern": "^[A-Za-z]?$"
+        },
+        "StateCodeType": {
+            "type": "string",
+            "enum": [
+                "AK",
+                "AL",
+                "AR",
+                "AZ",
+                "CA",
+                "CO",
+                "CT",
+                "DC",
+                "DE",
+                "FL",
+                "GA",
+                "HI",
+                "IA",
+                "ID",
+                "IL",
+                "IN",
+                "KS",
+                "KY",
+                "LA",
+                "MA",
+                "MD",
+                "ME",
+                "MI",
+                "MN",
+                "MO",
+                "MS",
+                "MT",
+                "NC",
+                "ND",
+                "NE",
+                "NH",
+                "NJ",
+                "NM",
+                "NV",
+                "NY",
+                "OH",
+                "OK",
+                "OR",
+                "PA",
+                "RI",
+                "SC",
+                "SD",
+                "TN",
+                "TX",
+                "UT",
+                "VA",
+                "VT",
+                "WA",
+                "WI",
+                "WV",
+                "WY"
+            ]
+        },
+        "PhoneTypeType": {
+            "type": "string",
+            "enum": [
+                "Home",
+                "Work",
+                "Mobile"
+            ]
+        },
+        "PhoneNumberTypeType": {
+            "type": "string",
+            "enum": [
+                "Cell",
+                "Fax",
+                "Marine",
+                "Pager",
+                "Phone",
+                "TTY"
+            ]
+        },
+        "PhoneNumberType": {
+            "type": "string",
+            "maxLength": 50
+        },
+        "YearsAtAddressType": {
+            "type": "string",
+            "enum": [
+                "6 months or less",
+                "6-12 months",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "More than 10"
+            ]
+        },
+        "PreferredContactMethodType": {
+            "type": "string",
+            "enum": [
+                "Phone (Home)",
+                "Phone (Work)",
+                "Phone (Mobile)",
+                "Email"
+            ]
+        },
+        "PreferredContactTimeType": {
+            "type": "string",
+            "enum": [
+                "Morning",
+                "Afternoon",
+                "Evening",
+                "Anytime"
+            ]
+        },
+        "AddressValidationType": {
+            "type": "string",
+            "enum": [
+                "None",
+                "Valid",
+                "Invalid",
+                "NonDeliverable",
+                "MultipleMatches",
+                "Disabled"
+            ]
+        },
+        "ApplicantTypeType": {
+            "type": "string",
+            "enum": [
+                "Applicant",
+                "CoApplicant"
+            ]
+        },
+        "PolicyTypeType": {
+            "type": "string",
+            "enum": [
+                "HO3",
+                "HO4",
+                "HO5",
+                "HO6"
+            ]
+        },
+        "PolicyTermType": {
+            "type": "string",
+            "enum": [
+                "12 Month"
+            ]
+        },
+        "ReasonNoPriorType": {
+            "type": "string",
+            "enum": [
+                "First Time Homeowner",
+                "Has Been Renting",
+                "Prior Ins Through Parent/Spouse/Other",
+                "Could Not Obtain Prior Insurance",
+                "Did Not Insure (Self-Insured)"
+            ]
+        },
+        "PriorCarrierType": {
+            "type": "string",
+            "enum": [
+                "Other Standard",
+                "Other Non-Standard",
+                "No Prior Insurance",
+                "21st Century",
+                "AAA",
+                "AAANCNU",
+                "AARP",
+                "Acuity",
+                "Adirondack Ins Exchange",
+                "Aegis",
+                "AIG",
+                "Alfa Alliance",
+                "Allianz of America",
+                "Allianz of America-Jefferson",
+                "Allied",
+                "Allied Trust",
+                "Allmerica",
+                "Allstate",
+                "America First",
+                "American Commerce",
+                "American Family",
+                "American Freedom Insurance Company",
+                "American Traditions",
+                "Amica",
+                "Anchor Insurance",
+                "ASI Lloyds",
+                "Atlantic Mutual",
+                "Atlas General Agency",
+                "Austin Mutual",
+                "Auto-Owners",
+                "Badger Mutual",
+                "Balboa",
+                "Bankers",
+                "Beacon National",
+                "Bear River Mutual",
+                "Bunker Hill",
+                "California Casualty",
+                "Capital Insurance Group",
+                "Capitol Preferred",
+                "Central Mutual of OH",
+                "Celina",
+                "Centauri",
+                "Chubb",
+                "Cincinnati",
+                "Citizens",
+                "CNA",
+                "Colorado Casualty",
+                "CSE",
+                "Cumberland",
+                "Cypress",
+                "Dairyland",
+                "Delta Lloyds Insurance Company",
+                "Donegal",
+                "Electric",
+                "EMC",
+                "Encompass",
+                "Erie",
+                "Esurance",
+                "Excelsior Insurance Company",
+                "Fair Plan",
+                "Farm Bureau",
+                "Farmers",
+                "Flagship Insurance",
+                "Fidelity",
+                "Firemans Fund",
+                "First American",
+                "Florida Family",
+                "Florida Peninsula",
+                "Geico",
+                "General Casualty",
+                "Germantown Mutual",
+                "GMAC",
+                "Goodville Mutual",
+                "Grange",
+                "Great American",
+                "GRE/Go America",
+                "Grinnell",
+                "Guide One",
+                "GulfStream",
+                "Hallmark Insurance Company",
+                "Hanover",
+                "Harleysville",
+                "Hartford",
+                "Hartford OMNI",
+                "Hawkeye Security",
+                "Heritage P/C",
+                "Homeowners of America",
+                "Horace Mann",
+                "Houston General",
+                "Integon",
+                "Indiana",
+                "Indiana Farmers",
+                "Integrity",
+                "Kemper",
+                "Liberty Mutual",
+                "Liberty Northwest",
+                "LightHouse",
+                "Lloyds",
+                "Main Street America",
+                "Merchants Group",
+                "Mercury",
+                "MetLife",
+                "Midwestern Indemnity",
+                "Modern USA",
+                "Montgomery",
+                "Motorists Mutual",
+                "MSA",
+                "Mutual Benefit",
+                "Mutual of Enumclaw",
+                "National Lloyds Insurance Company",
+                "Nationwide",
+                "Nationwide-Scottsdale",
+                "New York Central Mutual",
+                "NJ Skylands",
+                "Northstar",
+                "Ohio Casualty",
+                "Omaha P/C",
+                "One Beacon",
+                "Oregon Mutual",
+                "Peerless/Montgomery",
+                "Pekin",
+                "Penn National",
+                "Plymouth Rock",
+                "Preferred Mutual",
+                "Progressive",
+                "Prudential",
+                "Republic",
+                "Royal and Sun Alliance",
+                "Safeco",
+                "SECURA",
+                "Selective",
+                "Shelter Insurance",
+                "Southern Fidelity",
+                "Southern Fidelity P/C",
+                "Southern Mutual",
+                "Southern Trust",
+                "St. Johns",
+                "St. Paul/Travelers",
+                "Standard Mutual",
+                "State Auto",
+                "State Farm",
+                "Titan",
+                "Tower",
+                "Towerhill",
+                "Travelers",
+                "TWFG",
+                "Unigard",
+                "United Fire and Casualty",
+                "Unitrin",
+                "Universal",
+                "UPCIC",
+                "USAA",
+                "Utica National",
+                "Vermont Mutual",
+                "Wellington Select",
+                "Wellington Standard",
+                "West Bend",
+                "Western National",
+                "Western Reserve Group",
+                "Westfield",
+                "White Mountains",
+                "Wilson Mutual",
+                "Windsor",
+                "Zurich"
+            ]
+        },
+        "DurationYearsType": {
+            "type": "string",
+            "enum": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "More than 15"
+            ]
+        },
+        "DurationMonthsType": {
+            "type": "string",
+            "enum": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11"
+            ]
+        },
+        "OccupiedByType": {
+            "type": "string",
+            "enum": [
+                "Owner",
+                "Tenant"
+            ]
+        },
+        "DistanceType": {
+            "type": "integer",
+            "minimum": 0,
+            "exclusiveMinimum": true
+        },
+        "HydrantDistanceType": {
+            "type": "string",
+            "enum": [
+                "1-500",
+                "501-600",
+                "601-1000",
+                "1001 and Greater",
+                "1001-1100",
+                "1101-1200",
+                "1201-1300",
+                "1301-1400",
+                "1401-1500",
+                "1501 and Greater",
+                "None in Area"
+            ]
+        },
+        "ConstructionType": {
+            "type": "string",
+            "enum": [
+                "Adobe",
+                "Aluminum/Vinyl",
+                "Barn Plank",
+                "Brick",
+                "Brick on Block",
+                "Brick on Block, Custom",
+                "Brick Veneer",
+                "Brick Veneer, Custom",
+                "Cement Fiber Shingles",
+                "Clapboard",
+                "Concrete Decorative Block, Painted",
+                "Exterior Insulation and Finish System (EIFS)",
+                "Fire Resistant",
+                "Frame",
+                "Logs",
+                "Poured Concrete",
+                "Siding, Aluminum",
+                "Siding, Hardboard",
+                "Siding, Plywood",
+                "Siding, Steel",
+                "Siding, T-111",
+                "Siding, Vinyl",
+                "Siding, Wood",
+                "Slump Block",
+                "Solid Brick",
+                "Solid Brick, Custom",
+                "Solid Brownstone",
+                "Solid Stone",
+                "Solid Stone, Custom",
+                "Stone on Block",
+                "Stone on Block, Custom Stone",
+                "Stone Veneer",
+                "Stone Veneer, Custom",
+                "Stucco",
+                "Stucco on Block",
+                "Stucco on Frame",
+                "Victorian Scalloped Shakes",
+                "Window Wall",
+                "Wood Shakes"
+            ]
+        },
+        "StructureType": {
+            "type": "string",
+            "enum": [
+                "Apartment",
+                "Backsplit",
+                "Bi-Level",
+                "Bi-Level/Row Center",
+                "Bi-Level/Row End",
+                "Bungalow",
+                "Cape Cod",
+                "Colonial",
+                "Condo",
+                "Coop",
+                "Contemporary",
+                "Cottage",
+                "Dwelling",
+                "Federal Colonial",
+                "Mediterranean",
+                "Ornate Victorian",
+                "Queen Anne",
+                "Raised Ranch",
+                "Rambler",
+                "Ranch",
+                "Rowhouse",
+                "Rowhouse Center",
+                "Rowhouse End",
+                "Southwest Adobe",
+                "Split Foyer",
+                "Split Level",
+                "Substandard",
+                "Townhouse",
+                "Townhouse Center",
+                "Townhouse End",
+                "Tri-Level",
+                "Tri-Level Center",
+                "Victorian"
+            ]
+        },
+        "UseageType": {
+            "type": "string",
+            "enum": [
+                "Primary",
+                "Secondary",
+                "Seasonal",
+                "Farm",
+                "Unoccupied",
+                "Vacant",
+                "COC"
+            ]
+        },
+        "RoofType": {
+            "type": "string",
+            "enum": [
+                "ARCHITECTURAL SHINGLES",
+                "ASBESTOS",
+                "ASPHALT SHINGLES",
+                "COMPOSITION",
+                "COPPER(FLAT)",
+                "COPPER(PITCHED)",
+                "CORRUGATED STEEL(FLAT)",
+                "CORRUGATED STEEL(PITCHED)",
+                "FIBERGLASS",
+                "FOAM",
+                "GRAVEL",
+                "METAL(FLAT)",
+                "METAL(PITCHED)",
+                "MINERAL FIBER SHAKE",
+                "OTHER",
+                "PLASTIC(FLAT)",
+                "PLASTIC(PITCHED)",
+                "ROCK",
+                "ROLLED PAPER(FLAT)",
+                "ROLLED PAPER(PITCHED)",
+                "RUBBER FLAT",
+                "RUBBER(PITCHED)",
+                "SLATE",
+                "TAR",
+                "TAR and GRAVEL",
+                "TILE(CLAY)",
+                "TILE(CONCRETE)",
+                "TILE(SPANISH)",
+                "TIN(FLAT)",
+                "TIN(PITCHED)",
+                "WOOD FIBERGLASS SHINGLES",
+                "WOOD SHAKE",
+                "WOOD SHINGLES"
+            ]
+        },
+        "DwellingType": {
+            "type": "string",
+            "enum": [
+                "One Family",
+                "Two Family",
+                "Three Family",
+                "Four Family"
+            ]
+        },
+        "DistanceToBrushType": {
+            "type": "string",
+            "enum": [
+                "0-.5",
+                ".5-1",
+                "more than 1"
+            ]
+        },
+        "DistanceToTidalWaterType": {
+            "type": "string",
+            "enum": [
+                "0-.5",
+                ".5-1",
+                "1-2",
+                "2-5",
+                "more than 5"
+            ]
+        },
+        "HomeHeatingType": {
+            "type": "string",
+            "enum": [
+                "Electric",
+                "Gas",
+                "Gas - Forced Air",
+                "Gas - Hot Water",
+                "Oil",
+                "Oil - Forced Air",
+                "Oil - Hot Water",
+                "Other",
+                "Solid Fuel"
+            ]
+        },
+        "HomeSystemUpdateType": {
+            "type": "string",
+            "enum": [
+                "NOT UPDATED",
+                "PARTIAL UPDATE",
+                "COMPLETE UPDATE"
+            ]
+        },
+        "ProtectionClassType": {
+            "type": "string",
+            "enum": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10"
+            ]
+        },
+        "NumberOfStoriesType": {
+            "type": "string",
+            "enum": [
+                "1",
+                "1.5",
+                "2",
+                "2.5",
+                "3",
+                "3.5",
+                "4",
+                "Bi-Level",
+                "Tri-Level"
+            ]
+        },
+        "RoofShapeType": {
+            "type": "string",
+            "enum": [
+                "Flat",
+                "Gable",
+                "Gambrel",
+                "Hip",
+                "Mansard",
+                "Shed",
+                "Butterfly",
+                "Other"
+            ]
+        },
+        "WindSpeedType": {
+            "type": "string",
+            "enum": [
+                "Not Applicable",
+                "100",
+                "110",
+                "Equal Greater 120"
+            ]
+        },
+        "FoundationType": {
+            "type": "string",
+            "enum": [
+                "Basement",
+                "Closed",
+                "Concrete Slab",
+                "Concrete Stilts/Pilings",
+                "Crawlspace",
+                "Crawlspace/Foundations and Piers > 6' elevations",
+                "Crawlspace/Enclosed Piers up to 6' elevations",
+                "Deep Pilings",
+                "Elevated Post/Pier&Beam",
+                "Open",
+                "Open-Enclosed with Lattice",
+                "Open Foundations/Open Piers > 6' elevations",
+                "Open Foundations/Open Piers up to 6' elevations",
+                "Pier&Grade Beam",
+                "Pilings-Other",
+                "Pilings-Wood",
+                "Pilings/Stilts of Reinforced Masonry Construction",
+                "Shallow Basement",
+                "Slab",
+                "Stilts/Pilings 8'-10' elevations",
+                "Stilts/Pilings other",
+                "Stilts with Sweep Away Walls",
+                "Wood Stilts/Pilings"
+            ]
+        },
+        "ShapeOfDwellingType": {
+            "type": "string",
+            "enum": [
+                "Very Simple (4 Corners)",
+                "Simple (6 Corners)",
+                "More Complex (8 Corners)",
+                "Very Complex (10 Corners)"
+            ]
+        },
+        "ConstructionMethodType": {
+            "type": "string",
+            "enum": [
+                "Site Built",
+                "Modular",
+                "Manufactured/Mobile",
+                "Unknown"
+            ]
+        },
+        "BasementTypeInfo": {
+            "type": "string",
+            "enum": [
+                "Daylight/Walkout",
+                "Below Grade"
+            ]
+        },
+        "BasementFinishedTypeInfo": {
+            "type": "string",
+            "enum": [
+                "Custom",
+                "Standard"
+            ]
+        },
+        "PartitionWallsMaterialType": {
+            "type": "string",
+            "enum": [
+                "Adobe",
+                "Block",
+                "Brick and Block",
+                "Drywall",
+                "Drywall Textured",
+                "Glass Block",
+                "Plaster",
+                "Plaster Horsehair",
+                "Plaster Textured",
+                "Plywood Only",
+                "Solid Brick",
+                "Solid Stone",
+                "Stone and Block",
+                "Studs Only"
+            ]
+        },
+        "WallFinishMaterialType": {
+            "type": "string",
+            "enum": [
+                "Brick",
+                "Cabinetry Built-in",
+                "Carpet",
+                "Millwork",
+                "Mirrors",
+                "Paint",
+                "Paneling, Knotty Pine",
+                "Paneling, Sheet",
+                "Paneling, Solid Wood",
+                "Paneling, Tongue and Groove",
+                "Sponge Coat",
+                "Stone",
+                "Terrazzo",
+                "Tile - Ceramic",
+                "Tile - Ceramic, Imported",
+                "Tile - Marble",
+                "Wallpaper - Foil",
+                "Wallpaper - Grass Cloth",
+                "Wallpaper - Vinyl"
+            ]
+        },
+        "CeilingFinishMaterialType": {
+            "type": "string",
+            "enum": [
+                "Drywall",
+                "Drywall - Textured",
+                "Marble",
+                "Metal",
+                "Millwork",
+                "Mirrors",
+                "Plaster",
+                "Plaster, Textured",
+                "Recessed Lighting",
+                "Tile Acoustical",
+                "Tin",
+                "Tongue And Grove",
+                "Wood"
+            ]
+        },
+        "FloorFinishMaterialType": {
+            "type": "string",
+            "enum": [
+                "Brick",
+                "Carpet over Hardwood - Acrylic/Nylon",
+                "Carpet over Hardwood - Wool/Berber",
+                "Carpet - Acrylic/Nylon",
+                "Carpet - Wool/Berber",
+                "Concrete, Stamped/Textured",
+                "Flagstone",
+                "Granite",
+                "Hardwood",
+                "Laminated Wood Flooring",
+                "Parquet",
+                "Plank",
+                "Rubber",
+                "Slate",
+                "Stone",
+                "Tile - Ceramic",
+                "Tile - Ceramic, Imported",
+                "Tile - Marble",
+                "Tile - Terrazzo",
+                "Vinyl"
+            ]
+        },
+        "LandUnderFoundationType": {
+            "type": "string",
+            "enum": [
+                "Flat to Slight Slope",
+                "Moderate Slope",
+                "Steep Slope"
+            ]
+        },
+        "DetachedStructuresTypeType": {
+            "type": "string",
+            "enum": [
+                "Hot Tub/Jacuzzi",
+                "Shed, Small",
+                "Shed, Medium",
+                "Shed, Large"
+            ]
+        },
+        "AirConditioningType": {
+            "type": "string",
+            "enum": [
+                "Whole House Fan",
+                "Evaporative Cooler",
+                "Central AC - Same Ducts",
+                "Central AC - Separate Ducts",
+                "None"
+            ]
+        },
+        "FirePlaceTypeType": {
+            "type": "string",
+            "enum": [
+                "Direct",
+                "Zero Clearence, Pre-Fab",
+                "Single",
+                "Double",
+                "Triple",
+                "Gas",
+                "None"
+            ]
+        },
+        "GaragesAndCarportsTypeInfo": {
+            "type": "string",
+            "enum": [
+                "Attached Garage",
+                "Detached Garage",
+                "Built - In Garage",
+                "Basement Garage",
+                "Carport",
+                "None"
+            ]
+        },
+        "RoofPitchType": {
+            "type": "string",
+            "enum": [
+                "Flat",
+                "Moderate",
+                "Slight",
+                "Steep"
+            ]
+        },
+        "PorchTypeInfo": {
+            "type": "string",
+            "enum": [
+                "Enclosed Breezeways",
+                "Enclosed Porch",
+                "Open Breezeways",
+                "Open Porch",
+                "Redwood Deck",
+                "Screened Breezeways",
+                "Screened Porch",
+                "Wood Deck"
+            ]
+        },
+        "SwimmingPoolTypeType": {
+            "type": "string",
+            "enum": [
+                "Above Ground with Slide",
+                "Above Ground without Slide",
+                "In Ground with Slide",
+                "In Ground without Slide"
+            ]
+        },
+        "RoofULClassType": {
+            "type": "string",
+            "enum": [
+                "Class 1",
+                "Class 2",
+                "Class 3",
+                "Class 4"
+            ]
+        },
+        "SecondaryHeatingSourceTypeType": {
+            "type": "string",
+            "enum": [
+                "Coal Non-Professionally Installed",
+                "Coal Professionally Installed",
+                "Electric Portable Heater",
+                "Electric",
+                "Kerosene Portable Heater",
+                "Kerosene",
+                "Liquid Propane Portable Heater",
+                "Liquid Propane",
+                "Natural Gas",
+                "Oil",
+                "Other",
+                "Solar Non-Professionally Installed",
+                "Solar Professionally Installed",
+                "Wood Non-Professionally Installed",
+                "Wood Professionally Installed"
+            ]
+        },
+        "PersonalLiabilityType": {
+            "type": "string",
+            "enum": [
+                "25000",
+                "50000",
+                "100000",
+                "200000",
+                "300000",
+                "400000",
+                "500000",
+                "1000000"
+            ]
+        },
+        "MedicalPaymentsType": {
+            "type": "string",
+            "enum": [
+                "1000",
+                "2000",
+                "3000",
+                "4000",
+                "5000"
+            ]
+        },
+        "DeductibeType": {
+            "type": "string",
+            "enum": [
+                "1/2%",
+                "1%",
+                "100",
+                "250",
+                "500",
+                "750",
+                "1000",
+                "1500",
+                "2000",
+                "2500",
+                "3000",
+                "4000",
+                "5000",
+                "10000"
+            ]
+        },
+        "WindDeductibleType": {
+            "type": "string",
+            "enum": [
+                "100",
+                "250",
+                "500",
+                "1000",
+                "1500",
+                "2000",
+                "2500",
+                "5000",
+                "10000",
+                "1%",
+                "2%",
+                "3%",
+                "4%",
+                "5%"
+            ]
+        },
+        "HurricaneDeductibleType": {
+            "type": "string",
+            "enum": [
+                "500",
+                "1000",
+                "2500",
+                "2%",
+                "3%",
+                "4%",
+                "5%",
+                "10%",
+                "Exclude Wind",
+                "Excluded"
+            ]
+        },
+        "TheftDeductibleType": {
+            "type": "string",
+            "enum": [
+                "500",
+                "1500"
+            ]
+        },
+        "LossDescriptionType": {
+            "type": "string",
+            "enum": [
+                "ALL OTHER",
+                "CONTAMINATION",
+                "CREDIT CARD",
+                "DAMAGE TO PROPERTY OF OTHERS",
+                "DOG BITE (LIABILITY)",
+                "EARTH MOVEMENT",
+                "EARTHQUAKE",
+                "EXTENDED COVERAGE PERILS",
+                "FIRE",
+                "FLOOD",
+                "FREEZING WATER (INCLUDING BURST PIPES)",
+                "HAIL",
+                "LIABILITY (ALL OTHER)",
+                "LIGHTNING",
+                "MEDICAL PAYMENTS",
+                "MYSTERIOUS DISAPPEARANCE",
+                "MYSTERIOUS DISAPPEARANCE - SCHEDULED PROPERTY",
+                "PHYSICAL DAMAGE (ALL OTHER)",
+                "SLIP/FALL (LIABILITY)",
+                "SMOKE",
+                "THEFT SCHEDULED PROPERTY",
+                "THEFT/BURGLARY",
+                "VANDALISM/MALICIOUS MISCHIEF",
+                "WATER DAMAGE",
+                "WATERCRAFT",
+                "WIND",
+                "WORKER'S COMPENSATION"
+            ]
+        },
+        "CreditCardLimitAmountType": {
+            "type": "string",
+            "enum": [
+                "1,000",
+                "2,500",
+                "5,000",
+                "7,500",
+                "10,000"
+            ]
+        },
+        "OrdianceOrLawType": {
+            "type": "string",
+            "enum": [
+                "25%",
+                "50%",
+                "75%",
+                "100%"
+            ]
+        },
+        "SprinklerType": {
+            "type": "string",
+            "enum": [
+                "Partial",
+                "Full"
+            ]
+        },
+        "BaseProtectionDeviceType": {
+            "type": "string",
+            "enum": [
+                "Central",
+                "Direct",
+                "Local"
+            ]
+        },
+        "MoldPropertyDamageType": {
+            "type": "string",
+            "enum": [
+                "25000",
+                "50000",
+                "75000",
+                "100000"
+            ]
+        },
+        "LossAssessmentAmountType": {
+            "type": "string",
+            "enum": [
+                "5000",
+                "10000",
+                "25000",
+                "50000",
+                "75000",
+                "100000"
+            ]
+        },
+        "OrdinanceOrLawPercentIncreaseType": {
+            "type": "string",
+            "enum": [
+                "25",
+                "50",
+                "75",
+                "100"
+            ]
+        },
+        "WaterBackupAmountType": {
+            "type": "string",
+            "enum": [
+                "Full",
+                "1000",
+                "2000",
+                "3000",
+                "4000",
+                "5000",
+                "6000",
+                "7000",
+                "8000",
+                "9000",
+                "10000",
+                "15000",
+                "20000",
+                "25000",
+                "50000"
+            ]
+        },
+        "ReplacementCostDwellingPercentageType": {
+            "type": "string",
+            "enum": [
+                "25",
+                "50",
+                "100"
+            ]
+        },
+        "EarthquakeZoneType": {
+            "type": "string",
+            "enum": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9"
+            ]
+        },
+        "EarthquakeDeductibleType": {
+            "type": "string",
+            "enum": [
+                "5%",
+                "10%",
+                "15%",
+                "20%",
+                "25%"
+            ]
+        },
+        "JewelryWatchesFursAmountType": {
+            "type": "string",
+            "enum": [
+                "2500",
+                "3000",
+                "4000",
+                "5000"
+            ]
+        },
+        "BusinessClassType": {
+            "type": "string",
+            "enum": [
+                "Accounting/Bookkeeping/Tax Preparer",
+                "Adult Care/Child Care/Daycare",
+                "Animal Boarding/Grooming/Breeding/Riding/Veterinarian",
+                "Attorney",
+                "Auto/Vehicle Repair",
+                "Clerical",
+                "Consultant",
+                "Contractor/Artisan/Landscaper",
+                "Electronic/Machine Repair",
+                "Farming/Ranching",
+                "Financial Planner/Insurance Agent",
+                "Food Service",
+                "Hair Stylist/Beautician/Nail Salon",
+                "Massage Therapist",
+                "Photographer",
+                "Physician/Dentist/Ophthalmologist/Optometrist",
+                "Real Estate Agent/Appraiser",
+                "Sales w/Demo",
+                "Sales No Demo",
+                "Teacher - Athletic",
+                "Teacher - Other",
+                "Other"
+            ]
+        }
+    }
+}

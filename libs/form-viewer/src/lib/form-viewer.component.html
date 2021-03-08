@@ -1,0 +1,15 @@
+<!-- <h1 *ngIf="loading$ | async as loading">{{loading}}</h1>
+<h1 *ngIf="error$ | async as error">{{error}}</h1> -->
+<form [formGroup]="form">
+  <!-- <button (click)="form.reset()">Reset</button> -->
+  <formly-form
+    [model]="model"
+    [fields]="fields"
+    [options]="options"
+    [form]="form"
+  >
+  </formly-form>
+</form>
+<!-- <div style="position: absolute; top: 80px; left: 0; max-width: 195px;">
+  <p>{{ model | json }}</p>
+</div> -->

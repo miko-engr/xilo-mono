@@ -1,0 +1,73 @@
+{
+  "posts": [{ "id": 1, "title": "json-server", "author": "typicode" }],
+  "comments": [{ "id": 1, "body": "some comment", "postId": 1 }],
+  "profile": { "name": "typicode" },
+  "templateGroups": [
+    {
+      "id": 1,
+      "title": "Recommended",
+      "templates": [
+        {
+          "id": 1,
+          "title": "Auto",
+          "formPurpose": "lob",
+          "imageUrl": "assets/graphical/Auto.svg"
+        },
+        {
+          "id": 2,
+          "title": "Auto & Home Insurance",
+          "formPurpose": "lob",
+          "imageUrl": "assets/graphical/Home-Car.svg"
+        },
+        {
+          "id": 3,
+          "title": "Business",
+          "formPurpose": "lob",
+          "imageUrl": "assets/graphical/Business.svg"
+        },
+        {
+          "id": 4,
+          "title": "Home Liability",
+          "formPurpose": "lob",
+          "imageUrl": "assets/graphical/Home.svg"
+        },
+        {
+          "id": 5,
+          "title": "Commercial Liability",
+          "formPurpose": "lob",
+          "imageUrl": "assets/graphical/commercial-property.svg"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Personal Property",
+      "templates": [
+        {
+          "id": 1,
+          "title": "Auto",
+          "formPurpose": "lob",
+          "imageUrl": "assets/graphical/Auto.svg"
+        },
+        {
+          "id": 4,
+          "title": "Home Liability",
+          "formPurpose": "lob",
+          "imageUrl": "assets/graphical/Home.svg"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Commercial Property",
+      "templates": [
+        {
+          "id": 5,
+          "title": "Commercial Liability",
+          "formPurpose": "lob",
+          "imageUrl": "assets/graphical/commercial-property.svg"
+        }
+      ]
+    }
+  ]
+}

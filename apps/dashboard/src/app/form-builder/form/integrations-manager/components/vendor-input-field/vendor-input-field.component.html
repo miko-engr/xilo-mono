@@ -1,0 +1,128 @@
+<div class="label" [ngClass]="{ highlighted: highlighted }">
+  <div [style.color]="hasError ? 'red' : hasWarning ? 'gold' : '#696863'">
+    {{ fieldName}}
+    <span style="color: red;">{{ field.isRequired ? '*' : '' }}</span> <br>
+    <small style="font-style: italic;">  [{{returnType()}}]</small>
+  </div>
+  <ngx-icon
+    (click)="showDebugData = !showDebugData"
+    svgSrc="info-icon"
+    class="info-icon"
+  >
+  </ngx-icon>
+</div>
+<pre *ngIf="showDebugData">
+  Path: {{ fieldParentKey + '.' + fieldKey }}
+  Data: {{ field | json }}
+</pre>
+<div class="btn-group input-container" dropdown>
+  <div
+    class="input-field"
+    (mouseup)="onDropVendorField()"
+    (mouseenter)="onDragOver()"
+    (mouseleave)="onDragLeave()"
+    (contextmenu)="onContextMenu($event)"
+    [ngClass]="{
+      highlighted: highlighted,
+      'input-error': hasError,
+      'input-warning': hasWarning
+    }"
+    id="btn btn-group input-field-buton"
+  >
+    <div class="content">
+      <span class="text-balloon" *ngIf="value">
+        {{ '{' + value + '}' }}
+        <ngx-icon
+          svgSrc="close"
+          class="remove-mapping close-icon"
+          (click)="removeItem()"
+        ></ngx-icon>
+      </span>
+    </div>
+    <mat-form-field
+      class="mat-field"
+      [hidden]="value"
+      (click)="$event.stopPropagation()"
+      floatLabel="never"
+      appearance="outline"
+      *ngIf="isHardCode && !field.enum"
+    >
+      <input
+        type="text"
+        class="integration-key mat-field"
+        matInput
+        placeholder="Enter value"
+        (blur)="onFormTreeQuestionClick($event)"
+        disableRipple
+      />
+    </mat-form-field>
+    <select
+      class="select-field"
+      name="enumDropdown"
+      *ngIf="isHardCode && field.enum"
+      (change)="onFormTreeQuestionClick($event)"
+    >
+      <option [value]="null" selected>Choose value</option>
+      <option *ngFor="let option of field.enum" [value]="option">{{
+        option
+      }}</option>
+    </select>
+
+    <!-- TODO: toggle state of chevron up/down -->
+    <ngx-icon
+      *ngIf="dropDownEnabled"
+      dropdownToggle
+      svgSrc="chevron-bold-down"
+      class="toggle-vendor-field-dropdown chevron-bold-down"
+    >
+    </ngx-icon>
+  </div>
+
+  <ng-container *ngIf="dropDownEnabled">
+    <div
+      id="input-field-basic"
+      *dropdownMenu
+      class="dropdown-menu"
+      aria-labelledby="input-field-button"
+    >
+      <div class="dropdown-content">
+        <xilo-mono-form-tree
+          [form]="form"
+          [isOnlyQuestionsDraggable]="true"
+          (questionClicked)="onFormTreeQuestionClick($event)"
+          *ngIf="form && form.components"
+          mode="json-only"
+        ></xilo-mono-form-tree>
+      </div>
+    </div>
+  </ng-container>
+</div>
+<div class="error" *ngIf="hasError">
+  {{ error }}
+</div>
+<div class="warning" *ngIf="hasWarning">
+  {{ warning }}
+</div>
+<div
+  style="visibility: hidden; position: fixed;"
+  #rightClickMenu
+  [style.left]="contextMenuPosition.x"
+  [style.top]="contextMenuPosition.y"
+  [matMenuTriggerFor]="contextMenu"
+></div>
+<mat-menu #contextMenu="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item *ngIf="!isHardCode" (click)="isHardCode = true">
+      Set Defaut Value
+    </button>
+    <button mat-menu-item *ngIf="isHardCode" (click)="isHardCode = false">
+      Set Form Field
+    </button>
+    <!-- <button mat-menu-item *ngIf="!isHardCode" (click)="openConditionalValueDialog()">
+      Set Conditional Value
+    </button> -->
+    <button mat-menu-item *ngIf="value" (click)="openSettingsDialog()">
+      Field Settings
+    </button>
+  </ng-template>
+</mat-menu>

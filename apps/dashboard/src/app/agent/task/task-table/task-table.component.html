@@ -1,0 +1,104 @@
+<div class="content-area">
+    <div class="clients-container">
+        <div class="table-responsive">
+            <div class="table-analytics">
+                <div class="table-analytics-container">
+                    <div class="table-analytics-box">
+                        <h4 class="table-analytics-header">{{returnAnalytics('completedToday')}}</h4>
+                        <p class="table-analytics-sub-header">Completed <br> Today</p>
+                    </div>
+                    <div class="table-analytics-box">
+                        <h4 class="table-analytics-header">{{returnAnalytics('completedMonth')}}</h4>
+                        <p class="table-analytics-sub-header">Completed <br> Month</p>
+                    </div>
+                    <div class="table-analytics-box">
+                        <h4 class="table-analytics-header">{{returnAnalytics('total')}}</h4>
+                        <p class="table-analytics-sub-header">Total Due</p>
+                    </div>
+                    <div class="table-analytics-box">
+                        <h4 class="table-analytics-header">{{returnAnalytics('today')}}</h4>
+                        <p class="table-analytics-sub-header">Due Today</p>
+                    </div>
+                    <div class="table-analytics-box" *ngFor="let type of types">
+                        <h4 class="table-analytics-header">{{returnAnalytics('type', type)}}</h4>
+                        <p class="table-analytics-sub-header">{{type}}s</p>
+                    </div>
+                </div>
+            </div>
+            <table id="customers" class="client-table">
+                <tr>
+                    <td *ngIf="!selection || selection.length === 0" style="text-align: center; width: 3%"></td>
+                    <td style="text-align: center; width: 3%" *ngIf="selection && selection.length > 0">
+                        <button class="task-delete-button" (click)="deleteTasks()">Delete Tasks</button>
+                    </td>
+                    <td>
+                        <input type="text" class="table-input" placeholder="Search prospects" [(ngModel)]="search" />
+                    </td>
+                    <td class="text-center">
+                        <select class="table-input" [(ngModel)]="type" (ngModelChange)="filter('type', $event)">
+                            <option [value]="null">Filter By Type</option>
+                            <option [value]="type" *ngFor="let type of types">{{type}}</option>
+                        </select>
+                    </td>
+                    <td class="text-center">
+                        <select class="table-input" [(ngModel)]="date" (ngModelChange)="filter('date', $event)">                            
+                            <option [value]="null">Filter By Date</option>
+                            <option value="1">Today</option>
+                            <option value="7">Past 7 days</option>
+                            <option value="30">Past 30 days</option>
+                            <option value="90">Past 90 days</option>
+                            <option value="365">Past 365 days</option>
+                            <option value="allTime">All time</option>
+                        </select>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr class="task-row" *ngFor="let task of tasks |  filter: search | paginate: { id: 'taskPagination', itemsPerPage: 10, currentPage: pageIndex, totalItems: totalCount }; index as i">
+                    <td style="width: 3%; text-align: center">
+                        <mat-checkbox
+                            (click)="$event.stopPropagation()"
+                            (change)="$event ? selectRow(task.id) : null"
+                            [checked]="isSelected(task.id)"
+                            [aria-label]="checkboxLabel(i)"
+                        ></mat-checkbox>
+                    </td>
+                    <td>
+                        <span class="small-text">
+                            {{returnName(task.client)}}
+                        </span>
+                        <a *ngIf="task.client.email" class="task-icon-link" [href]="'mailto:' + task.client.email"><span class="task-icon icon-message"></span></a>
+                        <a *ngIf="task.client.phone" class="task-icon-link" [href]="'tel:' + task.client.phone"><span class="task-icon icon-phone"></span></a>
+                    </td>
+                    <td style="min-width: 18rem;">
+                        <span class="task-type-column">
+                            <span class="task-priority" [ngStyle]="stylePriority(task.priority)">{{task.priority}}</span>
+                            <span class="task-type">{{task.type}} - <span class="task-description" [matTooltip]="task.description">{{truncatedText(task.description)}}</span></span>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="task-due-date" [ngStyle]="styleDueDate(returnDueDays(task.scheduledDate))">
+                            {{returnDueDays(task.scheduledDate)}}
+                        </span>
+                    </td>   
+                    <td style="text-align: center;">
+                        <button class="task-completed-button" (click)="completeTask(task)">Complete Task</button>
+                    </td>
+                </tr>
+                <tr style="width: 100%" *ngIf="tasksRetrieved && (!tasks || tasks.length === 0)">
+                    <td colspan="9">
+                        <h3 style="width: 100%;font-weight: 500">No Tasks</h3>
+                    </td>
+                </tr>
+                <tr style="width: 100%" *ngIf="!tasksRetrieved">
+                    <td colspan="9">
+                        <h3 style="width: 100%;font-weight: 500">Retrieving tasks ...</h3>
+                    </td>
+                </tr>
+            </table>
+            <div class="pagination-div">
+                <pagination-controls (pageChange)="pageChange($event)"  id="taskPagination"></pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

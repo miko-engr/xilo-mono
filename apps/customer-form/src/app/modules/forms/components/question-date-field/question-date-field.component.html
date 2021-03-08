@@ -1,0 +1,41 @@
+<form [formGroup]="currentForm">
+  <div class="form-item form-date" [ngClass]="isInvalid ? 'error' : ''">
+    <label
+      >{{ properties.placeholderText
+      }}{{ properties?.isRequired ? '*' : '' }}</label
+    >
+
+    <div class="date-time-input">
+      <input
+        tabindex="-1"
+        class="shadow-input"
+        name="date_time"
+        [owlDateTime]="dt1"
+        [(ngModel)]="owlDateValue"
+        (ngModelChange)="handleDateChange($event)"
+        [ngModelOptions]="{ standalone: true }"
+        [min]="min"
+        [max]="max"
+      />
+      <input
+        class="xilo-input"
+        (change)="handleDateChange($event?.target?.value)"
+        placeholder="{{ properties?.secondaryPlaceholderText || '__/__/____' }}"
+        [value]="owlDateValue | date: 'MM/dd/yyyy'"
+        mask="00/00/0000"
+      />
+      <span class="trigger calander-icon" [owlDateTimeTrigger]="dt1"> </span>
+    </div>
+    <owl-date-time
+      [startView]="
+        properties?.dateStartView === 'multi-year'
+          ? 'multi-years'
+          : properties?.dateStartView
+      "
+      pickerType="calendar"
+      #dt1
+    ></owl-date-time>
+
+    <label *ngIf="isInvalid">{{ properties?.errorText }} </label>
+  </div>
+</form>

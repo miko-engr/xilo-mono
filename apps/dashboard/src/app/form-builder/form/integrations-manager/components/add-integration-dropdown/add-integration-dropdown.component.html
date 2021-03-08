@@ -1,0 +1,25 @@
+<div class="btn-group">
+  <button
+    id="button-basic"
+    type="button"
+    [matMenuTriggerFor]="vendorSchemaMenu"
+    class="btn add-integration-dropdown"
+    aria-controls="dropdown-basic"
+  >
+    <span class="text">Add integration</span>
+    <div class="separator"></div>
+    <ngx-icon svgSrc="chevron-bold-down" class="chevron-bold-down"> </ngx-icon>
+  </button>
+</div>
+
+<mat-menu #vendorSchemaMenu="matMenu">
+  <ng-template matMenuContent>
+    <button
+      mat-menu-item
+      *ngFor="let vendor of vendors$ | async"
+      (click)="addVendor(vendor)"
+    >
+      {{ vendor.name }}
+    </button>
+  </ng-template>
+</mat-menu>

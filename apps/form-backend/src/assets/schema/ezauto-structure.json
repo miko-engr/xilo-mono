@@ -1,0 +1,3663 @@
+﻿{
+    "properties": {
+        "EZAUTO": {
+            "property": "EZAUTOType"
+        }
+    },
+    "required": [
+        "EZAUTO"
+    ],
+    "definitions": {
+        "EZAUTO": {},
+        "NameType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Prefix": {
+                    "property": "NamePrefixType"
+                },
+                "FirstName": {
+                    "property": "ProperName"
+                },
+                "MiddleName": {
+                    "property": "MiddleInitial"
+                },
+                "LastName": {
+                    "property": "ProperName"
+                },
+                "Suffix": {
+                    "property": "NameSuffixType"
+                }
+            },
+            "required": [
+                "FirstName",
+                "LastName"
+            ]
+        },
+        "PersonalInfoType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Name": {
+                    "property": "NameType"
+                },
+                "DOB": {
+                    "property": "DateType"
+                },
+                "SSN": {
+                    "property": "SSNType"
+                },
+                "Gender": {
+                    "property": "GenderType"
+                },
+                "MaritalStatus": {
+                    "property": "MaritalStatusType"
+                },
+                "Industry": {
+                    "type": "string"
+                },
+                "Occupation": {
+                    "type": "string"
+                },
+                "YearsWithEmployer": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "YearsWithPreviousEmployer": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "Education": {
+                    "property": "EducationType"
+                },
+                "LicensedToDrive": {
+                    "property": "BooleanType"
+                },
+                "Relation": {
+                    "property": "RelationType"
+                },
+                "MaidenName": {
+                    "type": "string"
+                },
+                "NickName": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "Name"
+            ]
+        },
+        "DetailAddrType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "StreetName": {
+                    "property": "C-255"
+                },
+                "StreetNumber": {
+                    "property": "C-50"
+                },
+                "UnitNumber": {
+                    "property": "C-50"
+                }
+            },
+            "required": [
+                "StreetName",
+                "StreetNumber"
+            ]
+        },
+        "PhoneType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "PhoneType": {
+                    "property": "PhoneTypeType"
+                },
+                "PhoneNumberType": {
+                    "property": "PhoneNumberTypeType"
+                },
+                "PhoneNumber": {
+                    "property": "PhoneNumberType"
+                },
+                "Extension": {
+                    "property": "C-10"
+                }
+            },
+            "required": [
+                "PhoneType",
+                "PhoneNumber"
+            ]
+        },
+        "AddressType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "AddressCode": {
+                    "property": "AddressCodeType"
+                },
+                "Addr1": {
+                    "property": "DetailAddrType"
+                },
+                "Addr2": {
+                    "property": "C-255"
+                },
+                "City": {
+                    "property": "C-50"
+                },
+                "StateCode": {
+                    "property": "StateCodeType"
+                },
+                "County": {
+                    "property": "C-50"
+                },
+                "Zip5": {
+                    "property": "Zip5Type"
+                },
+                "Zip4": {
+                    "property": "Zip4Type"
+                },
+                "Phone": {
+                    "type": "array",
+                    "maxItems": 5,
+                    "minItems": 1,
+                    "items": {
+                        "property": "PhoneType"
+                    }
+                },
+                "Email": {
+                    "type": "array",
+                    "maxItems": 2,
+                    "items": {
+                        "property": "EmailType"
+                    }
+                },
+                "PreferredContactMethod": {
+                    "property": "PreferredContactMethodType"
+                },
+                "PreferredContactTime": {
+                    "property": "PreferredContactTimeType"
+                },
+                "Validation": {
+                    "property": "AddressValidationType"
+                }
+            },
+            "required": [
+                "AddressCode",
+                "Addr1",
+                "City",
+                "State",
+                "Zip5"
+            ]
+        },
+        "SimpleAddressType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "AddressCode": {
+                    "property": "AddressCodeType"
+                },
+                "Addr1": {
+                    "property": "DetailAddrType"
+                },
+                "Addr2": {
+                    "property": "C-255"
+                },
+                "City": {
+                    "property": "C-50"
+                },
+                "StateCode": {
+                    "property": "StateCodeType"
+                },
+                "County": {
+                    "property": "C-50"
+                },
+                "Zip5": {
+                    "property": "Zip5Type"
+                },
+                "Zip4": {
+                    "property": "Zip4Type"
+                },
+                "Validation": {
+                    "property": "AddressValidationType"
+                }
+            },
+            "required": [
+                "AddressCode",
+                "Addr1",
+                "City",
+                "State",
+                "Zip5"
+            ]
+        },
+        "ApplicantType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "ApplicantType": {
+                    "property": "ApplicantTypeType"
+                },
+                "PersonalInfo": {
+                    "property": "PersonalInfoType"
+                },
+                "Address": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "property": "AddressType"
+                    }
+                }
+            },
+            "required": [
+                "ApplicantType",
+                "PersonalInfo"
+            ]
+        },
+        "PriorPolicyInfoType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "PriorCarrier": {
+                    "property": "PriorCarrierType"
+                },
+                "Expiration": {
+                    "property": "DateType"
+                },
+                "YearsWithPriorCarrier": {
+                    "property": "DurationType"
+                },
+                "YearsWithContinuousCoverage": {
+                    "property": "DurationType"
+                },
+                "PriorLiabilityLimit": {
+                    "property": "PriorLiabilityLimitType"
+                },
+                "ReasonForLapse": {
+                    "property": "ReasonForLapseType"
+                },
+                "ReasonNoPrior": {
+                    "property": "ReasonNoPriorType"
+                },
+                "PriorPolicyPremium": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "PriorPolicyTerm": {
+                    "property": "PolicyTermType"
+                }
+            }
+        },
+        "PolicyInfoType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "PolicyTerm": {
+                    "property": "PolicyTermType"
+                },
+                "Package": {
+                    "property": "BooleanType"
+                },
+                "Effective": {
+                    "property": "DateType"
+                },
+                "CreditCheckAuth": {
+                    "property": "BooleanType"
+                }
+            }
+        },
+        "DurationType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Years": {
+                    "property": "DurationYearsType"
+                },
+                "Months": {
+                    "property": "DurationMonthsType"
+                }
+            },
+            "required": [
+                "Years"
+            ]
+        },
+        "CurrentAddressType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "YearsAtCurrent": {
+                    "property": "DurationType"
+                },
+                "Ownership": {
+                    "property": "HomeOwnershipType"
+                }
+            }
+        },
+        "PreviousAddressType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "YearsAtPrevious": {
+                    "property": "DurationType"
+                },
+                "Address": {
+                    "property": "SimpleAddressType"
+                }
+            }
+        },
+        "GarageAddressType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Address": {
+                    "property": "SimpleAddressType"
+                }
+            }
+        },
+        "ResidenceInfoType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "CurrentAddress": {
+                    "property": "CurrentAddressType"
+                },
+                "PreviousAddress": {
+                    "property": "PreviousAddressType"
+                },
+                "GarageLocation": {
+                    "property": "GarageAddressType"
+                }
+            },
+            "required": [
+                "CurrentAddress"
+            ]
+        },
+        "DriverTypeType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                },
+                "Name": {
+                    "property": "NameType"
+                },
+                "Gender": {
+                    "property": "GenderType"
+                },
+                "DOB": {
+                    "property": "DateType"
+                },
+                "SSN": {
+                    "property": "SSNType"
+                },
+                "DLNumber": {
+                    "property": "C-50"
+                },
+                "SDIPPoint": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": false
+                },
+                "DLState": {
+                    "property": "DLStateCodeType"
+                },
+                "DateLicensed": {
+                    "property": "DateType"
+                },
+                "DLStatus": {
+                    "property": "DLStatusType"
+                },
+                "AgeLicensed": {
+                    "property": "int100"
+                },
+                "AccPrev": {
+                    "property": "DateType"
+                },
+                "MaritalStatus": {
+                    "property": "MaritalStatusType"
+                },
+                "Relation": {
+                    "property": "RelationType"
+                },
+                "Industry": {
+                    "type": "string"
+                },
+                "Occupation": {
+                    "type": "string"
+                },
+                "GoodStudent": {
+                    "property": "BooleanType"
+                },
+                "Student100": {
+                    "property": "BooleanType"
+                },
+                "DriverTraining": {
+                    "property": "BooleanType"
+                },
+                "GoodDriver": {
+                    "property": "BooleanType"
+                },
+                "MATDriver": {
+                    "property": "BooleanType"
+                },
+                "PrincipalVehicle": {
+                    "property": "int10"
+                },
+                "Accident": {
+                    "type": "array",
+                    "items": {
+                        "property": "AccidentType"
+                    }
+                },
+                "Violation": {
+                    "type": "array",
+                    "items": {
+                        "property": "ViolationType"
+                    }
+                },
+                "CompLoss": {
+                    "type": "array",
+                    "items": {
+                        "property": "CompLossType"
+                    }
+                },
+                "Rated": {
+                    "property": "RatedDriverType"
+                },
+                "SR22": {
+                    "property": "BooleanType"
+                },
+                "FR44": {
+                    "property": "BooleanType"
+                },
+                "LicenseRevokedSuspended": {
+                    "property": "BooleanType"
+                }
+            },
+            "required": [
+                "Name"
+            ]
+        },
+        "DriversType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Driver": {
+                    "type": "array",
+                    "maxItems": 6,
+                    "minItems": 1,
+                    "items": {
+                        "property": "DriverTypeType"
+                    }
+                }
+            }
+        },
+        "VehicleTypeType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                },
+                "UseVinLookup": {
+                    "property": "BooleanType"
+                },
+                "UseVehicleLookupService": {
+                    "property": "BooleanType"
+                },
+                "Year": {
+                    "property": "YearType"
+                },
+                "Vin": {
+                    "property": "VINType"
+                },
+                "Make": {
+                    "property": "C-50_NoBlank"
+                },
+                "Model": {
+                    "property": "C-50"
+                },
+                "Sub-Model": {
+                    "property": "C-255"
+                },
+                "Anti-Theft": {
+                    "property": "AntiTheftType"
+                },
+                "PassiveRestraints": {
+                    "property": "PassiveRestraintsType"
+                },
+                "AntiLockBrake": {
+                    "property": "BooleanType"
+                },
+                "DaytimeRunningLights": {
+                    "property": "BooleanType"
+                },
+                "VehicleInspection": {
+                    "property": "VehicleInspectionType"
+                }
+            },
+            "required": [
+                "UseVinLookup",
+                "Year",
+                "Make",
+                "Model",
+                "Vin",
+                "Sub-Model"
+            ]
+        },
+        "VehiclesType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Vehicle": {
+                    "type": "array",
+                    "maxItems": 6,
+                    "minItems": 1,
+                    "items": {
+                        "property": "VehicleTypeType"
+                    }
+                }
+            }
+        },
+        "VehicleUseType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                },
+                "Useage": {
+                    "property": "UseageType"
+                },
+                "OneWayMiles": {
+                    "property": "int999"
+                },
+                "DaysPerWeek": {
+                    "property": "DaysPerWeekType"
+                },
+                "WeeksPerMonth": {
+                    "property": "WeeksPerMonthType"
+                },
+                "AnnualMiles": {
+                    "property": "int100000"
+                },
+                "Ownership": {
+                    "property": "AutoOwnershipType"
+                },
+                "Carpool": {
+                    "property": "BooleanType"
+                },
+                "Odometer": {
+                    "property": "int999999"
+                },
+                "Performance": {
+                    "property": "PerformanceType"
+                },
+                "NewVehicle": {
+                    "property": "BooleanType"
+                },
+                "AdditionalModificationValue": {
+                    "property": "int100000"
+                },
+                "AlternateGarage": {
+                    "property": "BooleanType"
+                },
+                "PrincipalOperator": {
+                    "property": "int10"
+                },
+                "CostNew": {
+                    "property": "int999999"
+                },
+                "UsedForDelivery": {
+                    "property": "BooleanType"
+                },
+                "PriorDamagePresent": {
+                    "property": "BooleanType"
+                },
+                "SnowPlow": {
+                    "property": "BooleanType"
+                }
+            }
+        },
+        "VehiclesUseType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "VehicleUse": {
+                    "type": "array",
+                    "maxItems": 6,
+                    "minItems": 1,
+                    "items": {
+                        "property": "VehicleUseType"
+                    }
+                }
+            }
+        },
+        "AccidentType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                },
+                "Date": {
+                    "property": "DateType"
+                },
+                "Description": {
+                    "property": "AccidentDescType"
+                },
+                "PD": {
+                    "property": "int999999"
+                },
+                "BI": {
+                    "property": "int999999"
+                },
+                "Collision": {
+                    "property": "int999999"
+                },
+                "MP": {
+                    "property": "int999999"
+                },
+                "VehicleInvolved": {
+                    "type": "string"
+                }
+            }
+        },
+        "ViolationType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                },
+                "Date": {
+                    "property": "DateType"
+                },
+                "Description": {
+                    "property": "ViolationDescType"
+                }
+            }
+        },
+        "CompLossType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                },
+                "Date": {
+                    "property": "DateType"
+                },
+                "Description": {
+                    "property": "CompLossDescType"
+                },
+                "Value": {
+                    "property": "int999999"
+                },
+                "VehicleInvolved": {
+                    "type": "string"
+                }
+            }
+        },
+        "GeneralCoverageType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "BI": {
+                    "property": "BIType"
+                },
+                "PD": {
+                    "property": "PDType"
+                },
+                "MP": {
+                    "property": "MPType"
+                },
+                "UM": {
+                    "property": "UMType"
+                },
+                "UIM": {
+                    "property": "UIMType"
+                },
+                "Multipolicy": {
+                    "property": "BooleanType"
+                },
+                "RetirementCommunity": {
+                    "property": "BooleanType"
+                },
+                "AAADiscount": {
+                    "property": "BooleanType"
+                },
+                "Multicar": {
+                    "property": "BooleanType"
+                }
+            }
+        },
+        "FL-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "FL-PIPDeductible": {
+                    "property": "FL-PIPDeductibleType"
+                },
+                "FL-PIPApplies": {
+                    "property": "PIPAppliesType"
+                },
+                "FL-WageLoss": {
+                    "property": "FL-WageLossType"
+                },
+                "FL-PIPOptions": {
+                    "property": "FL-PIPOptionsType"
+                },
+                "FL-StackedUM": {
+                    "property": "BooleanType"
+                }
+            }
+        },
+        "CT-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "CT-BRB": {
+                    "property": "CT-BRBType"
+                },
+                "CT-WageLoss": {
+                    "property": "CT-WageLossType"
+                },
+                "CT-UMUIMConversion": {
+                    "property": "BooleanType"
+                }
+            }
+        },
+        "KY-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "KY-PIP": {
+                    "property": "KY-PIPType"
+                },
+                "KY-APIP": {
+                    "property": "KY-APIPType"
+                },
+                "KY-PIPDeductible": {
+                    "property": "KY-PIPDeductibleType"
+                },
+                "KY-TortLimitation": {
+                    "property": "KY-TortLimitationType"
+                }
+            }
+        },
+        "TX-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "TX-PIP": {
+                    "property": "TX-PIPType"
+                },
+                "TX-AutoDeathIndemnity": {
+                    "property": "TX-AutoDeathIndemnityType"
+                },
+                "TX-UMPD": {
+                    "property": "UMPDType"
+                }
+            }
+        },
+        "WA-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "WA-PIP": {
+                    "property": "WA-PIPType"
+                },
+                "WA-UMPD": {
+                    "property": "UMPDType"
+                },
+                "WA-APIP": {
+                    "property": "BooleanType"
+                }
+            }
+        },
+        "CA-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "CA-UMPD": {
+                    "property": "CA-UMPDType"
+                }
+            }
+        },
+        "CO-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "CO-UMPD": {
+                    "property": "CO-UMPDType"
+                }
+            }
+        },
+        "GA-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "GA-UMPD": {
+                    "property": "GA-UMPDType"
+                },
+                "GA-UM-OPTION": {
+                    "property": "GA-UM-OPTIONType"
+                }
+            }
+        },
+        "IL-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "IL-UMPD": {
+                    "property": "IL-UMPDType"
+                }
+            }
+        },
+        "OH-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "OH-UMPD": {
+                    "property": "OH-UMPDType"
+                }
+            }
+        },
+        "OR-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "OR-PIP": {
+                    "property": "OR-PIPType"
+                },
+                "OR-PIPDeductible": {
+                    "property": "OR-PIPDeductibleType"
+                },
+                "OR-PIPAppliesTo": {
+                    "property": "PIPAppliesType"
+                },
+                "OR-UMPD": {
+                    "property": "UMPDType"
+                }
+            }
+        },
+        "UT-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "UT-PIP": {
+                    "property": "UT-PIPType"
+                },
+                "UT-WorkLoss": {
+                    "property": "UT-WorkLossType"
+                },
+                "UT-UMPD": {
+                    "property": "UT-UMPDType"
+                },
+                "UT-APIP": {
+                    "property": "UT-APIPType"
+                }
+            }
+        },
+        "PA-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "PA-AccidentalDeath": {
+                    "property": "PA-ADBType"
+                },
+                "PA-StackedUM": {
+                    "property": "BooleanType"
+                },
+                "PA-StackedUIM": {
+                    "property": "BooleanType"
+                },
+                "PA-FuneralExpense": {
+                    "property": "PA-FuneralExpType"
+                },
+                "PA-WorkLoss": {
+                    "property": "PA-WorkLossType"
+                },
+                "PA-TortLimitation": {
+                    "property": "PA-TortLimitationType"
+                },
+                "PA-CombinationFirstParty": {
+                    "property": "PA-CFPType"
+                },
+                "PA-FirstParty": {
+                    "property": "PA-FirstPartyType"
+                },
+                "PA-ExtraMedicalExp": {
+                    "property": "PA-ExtraMedicalExpType"
+                }
+            }
+        },
+        "NM-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "NM-UMPD": {
+                    "property": "UMPDType"
+                }
+            }
+        },
+        "IN-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "IN-UMPD": {
+                    "property": "UMPDType"
+                }
+            }
+        },
+        "AR-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "AR-PIP": {
+                    "property": "AR-PIPType"
+                },
+                "AR-WorkLoss": {
+                    "property": "WorkLossType"
+                },
+                "AR-UMPD": {
+                    "property": "AR-UMPDType"
+                },
+                "AR-AccidentalDeath": {
+                    "property": "AR-AccidentalDeathType"
+                }
+            }
+        },
+        "KS-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "KS-PIP": {
+                    "property": "KS-PIPType"
+                }
+            }
+        },
+        "MN-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "MN-PIPOptions": {
+                    "property": "MN-PIPOptionsType"
+                },
+                "MN-PIPStacking": {
+                    "property": "BooleanType"
+                },
+                "MN-WorkLoss": {
+                    "property": "WorkLossType"
+                },
+                "MN-PIPDeductible": {
+                    "property": "MN-PIPDeductibleType"
+                }
+            }
+        },
+        "MS-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "MS-UMPD": {
+                    "property": "MS-UMPDType"
+                }
+            }
+        },
+        "NC-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "NC-UMPD": {
+                    "property": "NC-UMPDType"
+                }
+            }
+        },
+        "NY-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "NY-OBEL": {
+                    "property": "BooleanType"
+                },
+                "NY-PIPDeductible": {
+                    "property": "NY-PIPDeductibleType"
+                },
+                "NY-PIPOptions": {
+                    "property": "NY-PIPOptionsType"
+                },
+                "NY-Supplemental": {
+                    "property": "NY-SupplementalType"
+                },
+                "NY-APIP": {
+                    "property": "NY-APIPType"
+                },
+                "NY-WorkLoss": {
+                    "property": "WorkLossType"
+                },
+                "NY-AdditionalDeath": {
+                    "property": "BooleanType"
+                },
+                "NY-MedicalExpenseExclusion": {
+                    "property": "NY-MedicalExpenseExclusionType"
+                },
+                "NY-SupplementalSpousalLiability": {
+                    "property": "BooleanType"
+                }
+            }
+        },
+        "MD-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "MD-UMPD": {
+                    "property": "MD-UMPDType"
+                },
+                "MD-PIP": {
+                    "property": "MD-PIPType"
+                },
+                "MD-EUIM": {
+                    "property": "BooleanType"
+                }
+            }
+        },
+        "TN-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "TN-UMPD": {
+                    "property": "TN-UMPDType"
+                }
+            }
+        },
+        "VA-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "VA-UMPD": {
+                    "property": "VA-UMPDType"
+                },
+                "VA-INCOMELOSS": {
+                    "property": "VA-INCOMELOSSType"
+                }
+            }
+        },
+        "NJ-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "NJ-HEALTHCARE": {
+                    "property": "NJ-HEALTHCAREType"
+                },
+                "NJ-PIP": {
+                    "property": "NJ-PIPType"
+                },
+                "NJ-PIPDEDUCTIBLE": {
+                    "property": "NJ-PIPDEDUCTIBLEType"
+                },
+                "NJ-APIP": {
+                    "property": "NJ-APIPType"
+                },
+                "NJ-THRESHOLD": {
+                    "property": "NJ-THRESHOLD"
+                },
+                "NJ-UMPD": {
+                    "property": "NJ-UMPDType"
+                },
+                "NJ-EXTENDEDMEDICAL": {
+                    "property": "NJ-EXTENDEDMEDICALType"
+                }
+            }
+        },
+        "WV-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "WV-UMPD": {
+                    "property": "WV-UMPDType"
+                },
+                "WV-UIMPD": {
+                    "property": "WV-UIMPDType"
+                }
+            }
+        },
+        "MI-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "MI-PropertyProtectionInsurance": {
+                    "property": "MI-PropertyProtectionInsuranceType"
+                },
+                "MI-PIP": {
+                    "property": "MI-PIPType"
+                },
+                "MI-PIPDeductible": {
+                    "property": "MI-PIPDeductible"
+                },
+                "MI-PIPWorkLossWaiver": {
+                    "property": "BooleanType"
+                },
+                "MI-UMPD": {
+                    "property": "BooleanType"
+                }
+            }
+        },
+        "DC-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "DC-UMPD": {
+                    "property": "DC-UMPDType"
+                },
+                "DC-MedicalExpense": {
+                    "property": "DC-MedicalExpenseType"
+                },
+                "DC-WorkLoss": {
+                    "property": "DC-WorkLossType"
+                },
+                "DC-FuneralExpense": {
+                    "property": "DC-FuneralExpenseType"
+                }
+            }
+        },
+        "DE-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "DE-PIP": {
+                    "property": "DE-PIPType"
+                },
+                "DE-PIPDeductible": {
+                    "property": "DE-PIPDeductibleType"
+                },
+                "DE-PIPAppliesTo": {
+                    "property": "DE-PIPAppliesToType"
+                },
+                "DE-APIP": {
+                    "property": "DE-APIPType"
+                }
+            }
+        },
+        "SC-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "SC-UMPD": {
+                    "property": "SC-UMPDType"
+                }
+            }
+        },
+        "RI-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "RI-UMPD": {
+                    "property": "RI-UMPDType"
+                }
+            }
+        },
+        "MA-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "MA-VehicleCoverages": {
+                    "type": "array",
+                    "maxItems": 6,
+                    "minItems": 1,
+                    "items": {
+                        "property": "MA-VehicleCoveragesType"
+                    }
+                },
+                "MA-ApplySameCoverageLimits": {
+                    "property": "BooleanType"
+                }
+            }
+        },
+        "MA-VehicleCoveragesType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                },
+                "MA-BI": {
+                    "property": "BIType"
+                },
+                "MA-PD": {
+                    "property": "PDType"
+                },
+                "MA-UM": {
+                    "property": "UMType"
+                },
+                "MA-UIM": {
+                    "property": "UIMType"
+                },
+                "MA-MP": {
+                    "property": "MPType"
+                },
+                "MA-OPTBI": {
+                    "property": "MA-OPTBIType"
+                },
+                "MA-PIPDED": {
+                    "property": "MA-PIPDEDType"
+                },
+                "MA-LIMCOLLDED": {
+                    "property": "MA-LIMCOLLDEDType"
+                },
+                "MA-WAIVECOLLDED": {
+                    "property": "BooleanType"
+                }
+            }
+        },
+        "ND-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "ND-PIP": {
+                    "property": "ND-PIPType"
+                }
+            }
+        },
+        "MT-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "MT-UMPD": {
+                    "property": "MT-UMPDType"
+                }
+            }
+        },
+        "ID-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "ID-UMPD": {
+                    "property": "ID-UMPDType"
+                }
+            }
+        },
+        "LA-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "LA-UMPD": {
+                    "property": "LA-UMPDType"
+                }
+            }
+        },
+        "VT-StateSpecific": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "VT-UMPD": {
+                    "property": "VT-UMPDType"
+                }
+            }
+        },
+        "StateSpecificCoverageType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "AR-Coverages": {
+                    "property": "AR-StateSpecific"
+                },
+                "CA-Coverages": {
+                    "property": "CA-StateSpecific"
+                },
+                "CO-Coverages": {
+                    "property": "CO-StateSpecific"
+                },
+                "CT-Coverages": {
+                    "property": "CT-StateSpecific"
+                },
+                "DC-Coverages": {
+                    "property": "DC-StateSpecific"
+                },
+                "DE-Coverages": {
+                    "property": "DE-StateSpecific"
+                },
+                "GA-Coverages": {
+                    "property": "GA-StateSpecific"
+                },
+                "FL-Coverages": {
+                    "property": "FL-StateSpecific"
+                },
+                "IL-Coverages": {
+                    "property": "IL-StateSpecific"
+                },
+                "IN-Coverages": {
+                    "property": "IN-StateSpecific"
+                },
+                "KY-Coverages": {
+                    "property": "KY-StateSpecific"
+                },
+                "KS-Coverages": {
+                    "property": "KS-StateSpecific"
+                },
+                "MA-Coverages": {
+                    "property": "MA-StateSpecific"
+                },
+                "MD-Coverages": {
+                    "property": "MD-StateSpecific"
+                },
+                "MI-Coverages": {
+                    "property": "MI-StateSpecific"
+                },
+                "MN-Coverages": {
+                    "property": "MN-StateSpecific"
+                },
+                "MS-Coverages": {
+                    "property": "MS-StateSpecific"
+                },
+                "MT-Coverages": {
+                    "property": "MT-StateSpecific"
+                },
+                "NC-Coverages": {
+                    "property": "NC-StateSpecific"
+                },
+                "ND-Coverages": {
+                    "property": "ND-StateSpecific"
+                },
+                "NJ-Coverages": {
+                    "property": "NJ-StateSpecific"
+                },
+                "NM-Coverages": {
+                    "property": "NM-StateSpecific"
+                },
+                "NY-Coverages": {
+                    "property": "NY-StateSpecific"
+                },
+                "OH-Coverages": {
+                    "property": "OH-StateSpecific"
+                },
+                "OR-Coverages": {
+                    "property": "OR-StateSpecific"
+                },
+                "PA-Coverages": {
+                    "property": "PA-StateSpecific"
+                },
+                "RI-Coverages": {
+                    "property": "RI-StateSpecific"
+                },
+                "SC-Coverages": {
+                    "property": "SC-StateSpecific"
+                },
+                "TN-Coverages": {
+                    "property": "TN-StateSpecific"
+                },
+                "TX-Coverages": {
+                    "property": "TX-StateSpecific"
+                },
+                "UT-Coverages": {
+                    "property": "UT-StateSpecific"
+                },
+                "VA-Coverages": {
+                    "property": "VA-StateSpecific"
+                },
+                "WA-Coverages": {
+                    "property": "WA-StateSpecific"
+                },
+                "WV-Coverages": {
+                    "property": "WV-StateSpecific"
+                },
+                "VT-Coverages": {
+                    "property": "VT-StateSpecific"
+                },
+                "ID-Coverages": {
+                    "property": "ID-StateSpecific"
+                },
+                "LA-Coverages": {
+                    "property": "LA-StateSpecific"
+                }
+            }
+        },
+        "VehicleCoverageType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                },
+                "OtherCollisionDeductible": {
+                    "property": "OtherCollisionDeductibleType"
+                },
+                "CollisionDeductible": {
+                    "property": "CollisionDeductibleType"
+                },
+                "FullGlass": {
+                    "property": "BooleanType"
+                },
+                "TowingDeductible": {
+                    "property": "TowingDeductibleType"
+                },
+                "RentalDeductible": {
+                    "property": "RentalDeductibleType"
+                },
+                "LiabilityNotRequired": {
+                    "property": "BooleanType"
+                },
+                "LoanLeaseCoverage": {
+                    "property": "BooleanType"
+                },
+                "StatedAmount": {
+                    "property": "int100000"
+                },
+                "ReplacementCost": {
+                    "property": "BooleanType"
+                },
+                "WaiverCollisionDamage": {
+                    "property": "BooleanType"
+                }
+            }
+        },
+        "CoveragesType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "GeneralCoverage": {
+                    "property": "GeneralCoverageType"
+                },
+                "VehicleCoverage": {
+                    "type": "array",
+                    "maxItems": 6,
+                    "minItems": 1,
+                    "items": {
+                        "property": "VehicleCoverageType"
+                    }
+                },
+                "StateSpecificCoverage": {
+                    "property": "StateSpecificCoverageType"
+                }
+            },
+            "required": [
+                "GeneralCoverage"
+            ]
+        },
+        "DriverAssignmentType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Value": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                }
+            },
+            "required": [
+                "Value"
+            ]
+        },
+        "VehicleAssignmentType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                },
+                "DriverAssignment": {
+                    "type": "array",
+                    "maxItems": 6,
+                    "minItems": 1,
+                    "items": {
+                        "property": "DriverAssignmentType"
+                    }
+                }
+            }
+        },
+        "VehicleAssignmentsType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "VehicleAssignment": {
+                    "type": "array",
+                    "maxItems": 6,
+                    "minItems": 1,
+                    "items": {
+                        "property": "VehicleAssignmentType"
+                    }
+                }
+            }
+        },
+        "GeneralInfoType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "RatingStateCode": {
+                    "property": "StateCodeType"
+                },
+                "Comments": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "RatingStateCode"
+            ]
+        },
+        "NVPair": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "value"
+            ]
+        },
+        "ExtendedInfoType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "typename": {
+                    "type": "string"
+                },
+                "valuepair": {
+                    "type": "array",
+                    "items": {
+                        "property": "NVPair"
+                    }
+                }
+            }
+        },
+        "EZAUTOType": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "Applicant": {
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 1,
+                    "items": {
+                        "property": "ApplicantType"
+                    }
+                },
+                "PriorPolicyInfo": {
+                    "property": "PriorPolicyInfoType"
+                },
+                "PolicyInfo": {
+                    "property": "PolicyInfoType"
+                },
+                "ResidenceInfo": {
+                    "property": "ResidenceInfoType"
+                },
+                "Drivers": {
+                    "property": "DriversType"
+                },
+                "Vehicles": {
+                    "property": "VehiclesType"
+                },
+                "VehiclesUse": {
+                    "property": "VehiclesUseType"
+                },
+                "Coverages": {
+                    "property": "CoveragesType"
+                },
+                "VehicleAssignments": {
+                    "property": "VehicleAssignmentsType"
+                },
+                "GeneralInfo": {
+                    "property": "GeneralInfoType"
+                },
+                "ExtendedInfo": {
+                    "type": "array",
+                    "items": {
+                        "property": "ExtendedInfoType"
+                    }
+                }
+            }
+        },
+        "int10": {
+            "type": "integer",
+            "maximum": 10,
+            "minimum": 0,
+            "exclusiveMinimum": false,
+            "exclusiveMaximum": false
+        },
+        "int50": {
+            "type": "integer",
+            "maximum": 50,
+            "minimum": 0,
+            "exclusiveMinimum": false,
+            "exclusiveMaximum": false
+        },
+        "int100": {
+            "type": "integer",
+            "maximum": 100,
+            "minimum": 0,
+            "exclusiveMinimum": false,
+            "exclusiveMaximum": false
+        },
+        "int255": {
+            "type": "integer",
+            "maximum": 255,
+            "minimum": 0,
+            "exclusiveMinimum": false,
+            "exclusiveMaximum": false
+        },
+        "int999": {
+            "type": "integer",
+            "maximum": 999,
+            "minimum": 0,
+            "exclusiveMinimum": false,
+            "exclusiveMaximum": false
+        },
+        "int100000": {
+            "type": "integer",
+            "maximum": 100000,
+            "minimum": 0,
+            "exclusiveMinimum": false,
+            "exclusiveMaximum": false
+        },
+        "int999999": {
+            "type": "integer",
+            "maximum": 999999,
+            "minimum": 0,
+            "exclusiveMinimum": false,
+            "exclusiveMaximum": false
+        },
+        "NamePrefixType": {
+            "type": "string",
+            "enum": [
+                "MR",
+                "MRS",
+                "MS",
+                "DR"
+            ]
+        },
+        "NameSuffixType": {
+            "type": "string",
+            "enum": [
+                "JR",
+                "SR",
+                "I",
+                "II",
+                "III"
+            ]
+        },
+        "SSNType": {
+            "type": "string",
+            "pattern": "\\d{9}"
+        },
+        "Zip5Type": {
+            "type": "string",
+            "pattern": "\\d{5}"
+        },
+        "Zip4Type": {
+            "type": "string",
+            "pattern": "\\d{4}"
+        },
+        "DateType": {
+            "type": "string"
+        },
+        "YearType": {
+            "type": "string",
+            "enum": [
+                "2019",
+                "2018",
+                "2017",
+                "2016",
+                "2015",
+                "2014",
+                "2013",
+                "2012",
+                "2011",
+                "2010",
+                "2009",
+                "2008",
+                "2007",
+                "2006",
+                "2005",
+                "2004",
+                "2003",
+                "2002",
+                "2001",
+                "2000",
+                "1999",
+                "1998",
+                "1997",
+                "1996",
+                "1995",
+                "1994",
+                "1993",
+                "1992",
+                "1991",
+                "1990",
+                "1989",
+                "1988",
+                "1987",
+                "1986",
+                "1985",
+                "1984",
+                "1983",
+                "1982",
+                "1981",
+                "1980",
+                "1979",
+                "1978",
+                "1977",
+                "1976",
+                "1975",
+                "1974",
+                "1973",
+                "1972",
+                "1971",
+                "1970",
+                "1969",
+                "1968",
+                "1967",
+                "1966"
+            ]
+        },
+        "BooleanType": {
+            "type": "string",
+            "enum": [
+                "Yes",
+                "No"
+            ]
+        },
+        "MaritalStatusType": {
+            "type": "string",
+            "enum": [
+                "Single",
+                "Married",
+                "Domestic Partner",
+                "Widowed",
+                "Separated",
+                "Divorced"
+            ]
+        },
+        "OccupationType": {
+            "type": "string",
+            "enum": [
+                "Self-Employed",
+                "Employed",
+                "Unemployed",
+                "Homemaker",
+                "Retired",
+                "Student"
+            ]
+        },
+        "EducationType": {
+            "type": "string",
+            "enum": [
+                "No High School Diploma",
+                "High School Diploma",
+                "Some College - No Degree",
+                "Vocational/Technical Degree",
+                "Associates Degree",
+                "Bachelors",
+                "Masters",
+                "Phd",
+                "Medical Degree",
+                "Law Degree"
+            ]
+        },
+        "AddressCodeType": {
+            "type": "string",
+            "enum": [
+                "BillingAddress",
+                "InsuredsAddress",
+                "LegalAddr",
+                "MailingAddress",
+                "PhysicalRisk",
+                "PreviousAddress",
+                "StreetAddress"
+            ]
+        },
+        "C-10": {
+            "type": "string",
+            "maxLength": 10
+        },
+        "C-10_NoBlank": {
+            "type": "string",
+            "maxLength": 10,
+            "minLength": 1
+        },
+        "C-50": {
+            "type": "string",
+            "maxLength": 50
+        },
+        "C-50_NoBlank": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1
+        },
+        "C-255": {
+            "type": "string",
+            "maxLength": 255
+        },
+        "C-255_NoBlank": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1
+        },
+        "ProperName": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z]{1}[\\-' A-Za-z]*$"
+        },
+        "MiddleInitial": {
+            "type": "string",
+            "pattern": "^[A-Za-z]?$"
+        },
+        "PhoneTypeType": {
+            "type": "string",
+            "enum": [
+                "Home",
+                "Work",
+                "Mobile"
+            ]
+        },
+        "PhoneNumberTypeType": {
+            "type": "string",
+            "enum": [
+                "Cell",
+                "Fax",
+                "Marine",
+                "Pager",
+                "Phone",
+                "TTY"
+            ]
+        },
+        "PhoneNumberType": {
+            "type": "string",
+            "maxLength": 50
+        },
+        "VINType": {
+            "type": "string",
+            "maxLength": 17,
+            "minLength": 3
+        },
+        "EmailType": {
+            "type": "string",
+            "maxLength": 100,
+            "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+        },
+        "PreferredContactMethodType": {
+            "type": "string",
+            "enum": [
+                "Phone (Home)",
+                "Phone (Work)",
+                "Phone (Mobile)",
+                "Email"
+            ]
+        },
+        "PreferredContactTimeType": {
+            "type": "string",
+            "enum": [
+                "Morning",
+                "Afternoon",
+                "Evening",
+                "Anytime"
+            ]
+        },
+        "AddressValidationType": {
+            "type": "string",
+            "enum": [
+                "None",
+                "Valid",
+                "Invalid",
+                "NonDeliverable",
+                "MultipleMatches",
+                "Disabled"
+            ]
+        },
+        "ApplicantTypeType": {
+            "type": "string",
+            "enum": [
+                "Applicant",
+                "CoApplicant"
+            ]
+        },
+        "PriorLiabilityLimitType": {
+            "type": "string",
+            "enum": [
+                "State Minimum",
+                "10/20",
+                "12/25",
+                "12.5/25",
+                "15/30",
+                "20/40",
+                "20/50",
+                "25/25",
+                "25/50",
+                "25/60",
+                "25/65",
+                "30/60",
+                "35/80",
+                "50/50",
+                "50/100",
+                "100/100",
+                "100/200",
+                "100/300",
+                "200/400",
+                "200/600",
+                "250/500",
+                "250/1000",
+                "300/300",
+                "300/500",
+                "500/500",
+                "500/1000",
+                "1000/1000",
+                "55CSL",
+                "100CSL",
+                "115CSL",
+                "300CSL",
+                "500CSL",
+                "1000CSL",
+                "None"
+            ]
+        },
+        "PolicyTermType": {
+            "type": "string",
+            "enum": [
+                "6 Month",
+                "12 Month"
+            ]
+        },
+        "ReasonForLapseType": {
+            "type": "string",
+            "enum": [
+                "Active Military Duty",
+                "Driving A Company Car",
+                "Driving A Car Owned By A Relative",
+                "Has Not Owned Or Operated A Vehicle",
+                "Owned Veh Parked/Stored Off Road/Not Driven",
+                "Other",
+                "Non-Payment"
+            ]
+        },
+        "ReasonNoPriorType": {
+            "type": "string",
+            "enum": [
+                "Active Military Duty",
+                "Driving A Company Car",
+                "Driving A Car Owned By A Relative",
+                "Has Not Owned Or Operated A Vehicle",
+                "Owned Veh Parked/Stored Off Road/Not Driven",
+                "Other",
+                "Non-Payment"
+            ]
+        },
+        "PriorCarrierType": {
+            "type": "string",
+            "enum": [
+                "Other Standard",
+                "Other Non-Standard",
+                "No Prior Insurance",
+                "21st Century",
+                "A.Central",
+                "AAA",
+                "AARP",
+                "Acadia",
+                "Access General",
+                "Ace",
+                "Acuity",
+                "Adirondack Ins Exchange",
+                "Aegis",
+                "Affirmative",
+                "AIC",
+                "AIG",
+                "Alfa Alliance",
+                "Allied",
+                "Allstate",
+                "America First",
+                "American Commerce",
+                "American Family",
+                "American Freedom Insurance Company",
+                "American National",
+                "Amerisure",
+                "Amica",
+                "Anchor General",
+                "Arrowhead",
+                "ASI Lloyds",
+                "Atlantic Mutual",
+                "Austin Mutual",
+                "Autoone",
+                "Auto-Owners",
+                "AutoTex",
+                "Badger Mutual",
+                "Balboa",
+                "Bankers",
+                "Beacon National",
+                "Bear River Mutual",
+                "Brethern Mutual",
+                "Bristol West",
+                "Buckeye",
+                "California Casualty",
+                "Cameron Mutual",
+                "Capital Insurance Group",
+                "Celina",
+                "Centennial",
+                "Central Mutual of OH",
+                "Charter",
+                "Chubb",
+                "Cincinnati",
+                "Citizens",
+                "CNA",
+                "Colonial Penn",
+                "Colorado Casualty",
+                "Columbia",
+                "Commerce West",
+                "Constitutional Casualty",
+                "Consumers",
+                "Cornerstone",
+                "Countrywide",
+                "Country Insurance",
+                "CSE",
+                "Cumberland",
+                "Dairyland",
+                "Deerbrook",
+                "Delta Lloyds Insurance Company",
+                "Depositors",
+                "Direct",
+                "Direct General",
+                "Discovery",
+                "Donegal",
+                "Drive",
+                "Electric",
+                "EMC",
+                "Encompass",
+                "Erie",
+                "Esurance",
+                "Eveready",
+                "Explorer",
+                "Farm Bureau",
+                "Farmers",
+                "Federated",
+                "Fidelity",
+                "Financial Indemnity",
+                "Firemans Fund",
+                "First Acceptance",
+                "First American",
+                "First Auto",
+                "First Chicago",
+                "First Connect",
+                "Flagship Insurance",
+                "Foremost",
+                "Founders",
+                "Frankenmuth",
+                "Fred Loya",
+                "Gateway",
+                "Geico",
+                "General Casualty",
+                "Germantown Mutual",
+                "GMAC",
+                "Grange",
+                "Great American",
+                "GRE/Go America",
+                "Grinnell",
+                "Guide One",
+                "Hallmark Insurance Company",
+                "Hanover",
+                "Harbor",
+                "Harleysville",
+                "Hartford OMNI",
+                "Hartford",
+                "Hastings Mutual",
+                "Hawkeye Security",
+                "HDI",
+                "Horace Mann",
+                "Houston General",
+                "IFA",
+                "Imperial Casualty",
+                "IMT Ins",
+                "Indiana Farmers",
+                "Indiana",
+                "Infinity",
+                "Insuremax",
+                "Insurequest",
+                "Integon",
+                "Integrity",
+                "Kemper",
+                "Kingsway",
+                "Liberty Mutual",
+                "Liberty Northwest",
+                "MAIF",
+                "Main Street America",
+                "Mapfre",
+                "Markel",
+                "Maryland Auto Insurance",
+                "Mendakota",
+                "Mendota",
+                "Merchants Group",
+                "Mercury",
+                "MetLife",
+                "Metropolitan",
+                "Mid-Continent",
+                "Midwestern Indemnity",
+                "Montgomery",
+                "Motorists Mutual",
+                "MSA",
+                "Mt. Washington",
+                "Mutual Benefit",
+                "Mutual of Enumclaw",
+                "National Lloyds Insurance Company",
+                "Nationwide",
+                "National General",
+                "New York Central Mutual",
+                "NJ Manufacturers",
+                "NJ Skylands",
+                "Nodak Mutual",
+                "Northstar",
+                "NYAIP",
+                "Occidental",
+                "Ocean Harbor",
+                "Ohio Casualty",
+                "Omaha P/C",
+                "Omni Insurance Co",
+                "One Beacon",
+                "Oregon Mutual",
+                "Palisades",
+                "Patriot",
+                "Patrons Oxford",
+                "Peerless/Montgomery",
+                "Pekin",
+                "Pemco",
+                "Penn National",
+                "Phoenix Indemnity",
+                "Plymouth Rock",
+                "Preferred Mutual",
+                "Proformance",
+                "Progressive",
+                "Prudential",
+                "Republic",
+                "Response",
+                "Rockford Mutual",
+                "Royal and Sun Alliance",
+                "Safeco",
+                "Safe Auto",
+                "Safeway",
+                "Sagamore",
+                "SECURA",
+                "Selective",
+                "Sentry Ins",
+                "Shelter Insurance",
+                "Southern County",
+                "Southern Mutual",
+                "Southern Trust",
+                "St. Paul/Travelers",
+                "Standard Mutual",
+                "Star Casualty",
+                "State Auto",
+                "State Farm",
+                "StillWater",
+                "Stonegate",
+                "Titan",
+                "Topa",
+                "Tower",
+                "Travelers",
+                "TWFG",
+                "Unigard",
+                "United Automobile",
+                "United Fire and Casualty",
+                "Unitrin",
+                "Universal",
+                "USAA",
+                "Utica National",
+                "Victoria",
+                "West Bend",
+                "Western National",
+                "Western Reserve Group",
+                "Westfield",
+                "White Mountains",
+                "Wilshire",
+                "Wilson Mutual",
+                "Wisconsin Mutual",
+                "Windsor",
+                "Wind Haven",
+                "Zurich"
+            ]
+        },
+        "HomeOwnershipType": {
+            "type": "string",
+            "enum": [
+                "Home (owned)",
+                "Condo (owned)",
+                "Apartment",
+                "Rental Home/Condo",
+                "Mobile Home",
+                "Live With Parents",
+                "Other"
+            ]
+        },
+        "AutoOwnershipType": {
+            "type": "string",
+            "enum": [
+                "Owned",
+                "Leased",
+                "Lien"
+            ]
+        },
+        "DurationYearsType": {
+            "type": "string",
+            "enum": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "More than 15"
+            ]
+        },
+        "DurationMonthsType": {
+            "type": "string",
+            "enum": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11"
+            ]
+        },
+        "GenderType": {
+            "type": "string",
+            "enum": [
+                "Male",
+                "Female",
+                "X - Not Specified"
+            ]
+        },
+        "RelationType": {
+            "type": "string",
+            "enum": [
+                "Child",
+                "Domestic Partner",
+                "Employee",
+                "Insured",
+                "Other",
+                "Parent",
+                "Relative",
+                "Spouse"
+            ]
+        },
+        "StateCodeType": {
+            "type": "string",
+            "enum": [
+                "AK",
+                "AL",
+                "AR",
+                "AZ",
+                "CA",
+                "CO",
+                "CT",
+                "DC",
+                "DE",
+                "FL",
+                "GA",
+                "HI",
+                "IA",
+                "ID",
+                "IL",
+                "IN",
+                "KS",
+                "KY",
+                "LA",
+                "MA",
+                "MD",
+                "ME",
+                "MI",
+                "MN",
+                "MO",
+                "MS",
+                "MT",
+                "NC",
+                "ND",
+                "NE",
+                "NH",
+                "NJ",
+                "NM",
+                "NV",
+                "NY",
+                "OH",
+                "OK",
+                "OR",
+                "PA",
+                "RI",
+                "SC",
+                "SD",
+                "TN",
+                "TX",
+                "UT",
+                "VA",
+                "VT",
+                "WA",
+                "WI",
+                "WV",
+                "WY"
+            ]
+        },
+        "DLStateCodeType": {
+            "type": "string",
+            "enum": [
+                "AK",
+                "AL",
+                "AR",
+                "AZ",
+                "CA",
+                "CO",
+                "CT",
+                "DC",
+                "DE",
+                "FL",
+                "GA",
+                "HI",
+                "IA",
+                "ID",
+                "IL",
+                "IN",
+                "KS",
+                "KY",
+                "LA",
+                "MA",
+                "MD",
+                "ME",
+                "MI",
+                "MN",
+                "MO",
+                "MS",
+                "MT",
+                "NC",
+                "ND",
+                "NE",
+                "NH",
+                "NJ",
+                "NM",
+                "NV",
+                "NY",
+                "OH",
+                "OK",
+                "OR",
+                "PA",
+                "RI",
+                "SC",
+                "SD",
+                "TN",
+                "TX",
+                "UT",
+                "VA",
+                "VT",
+                "WA",
+                "WI",
+                "WV",
+                "WY",
+                "Canada",
+                "Mexico",
+                "International"
+            ]
+        },
+        "ChildCustodyType": {
+            "type": "string",
+            "enum": [
+                "Male",
+                "Female"
+            ]
+        },
+        "RatedDriverType": {
+            "type": "string",
+            "enum": [
+                "Rated",
+                "Excluded",
+                "Non Rated",
+                "Never Licensed"
+            ]
+        },
+        "DLStatusType": {
+            "type": "string",
+            "enum": [
+                "Valid",
+                "Permit",
+                "Expired",
+                "Suspended",
+                "Cancelled",
+                "Not Licensed",
+                "Permanently Revoked"
+            ]
+        },
+        "AntiTheftType": {
+            "type": "string",
+            "enum": [
+                "None",
+                "Active",
+                "Alarm Only",
+                "Passive",
+                "Vehicle Recovery System",
+                "Both Active and Passive",
+                "VIN# Etching"
+            ]
+        },
+        "PassiveRestraintsType": {
+            "type": "string",
+            "enum": [
+                "None",
+                "Automatic Seatbelts",
+                "Airbag (Drvr Side)",
+                "Auto Stbelts/Drvr Airbag",
+                "Airbag Both Sides",
+                "Auto Stbelts/Airbag Both"
+            ]
+        },
+        "VehicleInspectionType": {
+            "type": "string",
+            "enum": [
+                "Inspection Completed: No Damage",
+                "Inspection Completed: Damaged",
+                "No Inspection Needed",
+                "No Acknowledgement Form Attached",
+                "Acknowledgement Form Attached",
+                "Bill of Sale For New Vehicle"
+            ]
+        },
+        "UseageType": {
+            "type": "string",
+            "enum": [
+                "Business",
+                "Farming",
+                "Pleasure",
+                "To/From Work",
+                "To/From School"
+            ]
+        },
+        "PerformanceType": {
+            "type": "string",
+            "enum": [
+                "Standard",
+                "Sports",
+                "Intermediate",
+                "High Performance"
+            ]
+        },
+        "DaysPerWeekType": {
+            "type": "string",
+            "enum": [
+                "7",
+                "6",
+                "5",
+                "4",
+                "3",
+                "2",
+                "1"
+            ]
+        },
+        "WeeksPerMonthType": {
+            "type": "string",
+            "enum": [
+                "4",
+                "3",
+                "2",
+                "1"
+            ]
+        },
+        "AccidentDescType": {
+            "type": "string",
+            "enum": [
+                "At Fault With Injury",
+                "At Fault With No Injury",
+                "Not At Fault"
+            ]
+        },
+        "ViolationDescType": {
+            "type": "string",
+            "enum": [
+                "Careless Driving",
+                "Cell Phone",
+                "Child Safety Restraint",
+                "Defective Equipment",
+                "Divided Highways",
+                "Double Lines",
+                "Driving Left of Center",
+                "Driving on Sus. License",
+                "Driving too slow",
+                "Driving without lights",
+                "DUI",
+                "Eluding Police",
+                "Failure to Obey Signal",
+                "Failure to Stop",
+                "Failure to Yield",
+                "Failure To Observe A Safety Zone",
+                "Failure to show documents",
+                "False Reporting",
+                "Felony",
+                "Following too Closely",
+                "Homicide",
+                "Illegal Turn",
+                "Improper Parking",
+                "Improper Passing",
+                "Improper Loads",
+                "Leaving scene of an Accident/Hit and Run",
+                "Motorcycle Violation",
+                "Other Major",
+                "Other Minor",
+                "Open Container",
+                "Operating Vehicle without Permission",
+                "Out of State",
+                "Passing School Bus",
+                "Racing/Drag Racing",
+                "Recreational Vehicle",
+                "Refusal to submit to chemical test",
+                "Speeding 1-5",
+                "Speeding 6-10",
+                "Speeding 11-15",
+                "Speeding 16-20",
+                "Speeding 21+",
+                "Speed over 100mph",
+                "Speeding Violation-Major",
+                "Speeding Violation-Minor",
+                "Seat Belt",
+                "Suspension",
+                "Ticket Violation Not Listed",
+                "Towing",
+                "Transportation of Hazardous Materials",
+                "Unsafe Operation of a Motor Vehicle",
+                "Vehicle Theft",
+                "Wrong Way/Wrong Lane"
+            ]
+        },
+        "CompLossDescType": {
+            "type": "string",
+            "enum": [
+                "FIRE",
+                "HIT ANIMAL",
+                "THEFT",
+                "TOWING",
+                "VANDALISM",
+                "GLASS",
+                "TORNADO/HURRICANE",
+                "FLOOD",
+                "WIND/HAIL",
+                "ALL OTHER"
+            ]
+        },
+        "BIType": {
+            "type": "string",
+            "enum": [
+                "State Minimum",
+                "10/20",
+                "12/25",
+                "12.5/25",
+                "15/30",
+                "20/40",
+                "20/50",
+                "25/25",
+                "25/50",
+                "25/65",
+                "30/60",
+                "50/50",
+                "50/100",
+                "100/100",
+                "100/300",
+                "200/600",
+                "250/500",
+                "300/300",
+                "500/500",
+                "500/1000",
+                "1000/1000",
+                "35 CSL",
+                "50 CSL",
+                "55 CSL",
+                "100 CSL",
+                "115 CSL",
+                "300 CSL",
+                "500 CSL",
+                "1000 CSL"
+            ]
+        },
+        "PDType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "State Minimum",
+                "5000",
+                "7500",
+                "10000",
+                "15000",
+                "20000",
+                "25000",
+                "35000",
+                "50000",
+                "100000",
+                "250000",
+                "300000",
+                "500000"
+            ]
+        },
+        "UMPDType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "State Minimum",
+                "10000",
+                "15000",
+                "20000",
+                "25000",
+                "50000",
+                "100000"
+            ]
+        },
+        "MPType": {
+            "type": "string",
+            "enum": [
+                "None",
+                "500",
+                "1000",
+                "2000",
+                "2500",
+                "5000",
+                "10000",
+                "15000",
+                "25000",
+                "50000",
+                "100000"
+            ]
+        },
+        "UMType": {
+            "type": "string",
+            "enum": [
+                "Reject",
+                "State Minimum",
+                "10/20",
+                "12/25",
+                "12.5/25",
+                "15/30",
+                "20/40",
+                "20/50",
+                "25/25",
+                "25/50",
+                "25/60",
+                "25/65",
+                "30/60",
+                "35/80",
+                "50/50",
+                "50/100",
+                "100/100",
+                "100/200",
+                "100/300",
+                "200/400",
+                "200/600",
+                "250/500",
+                "250/1000",
+                "300/300",
+                "300/500",
+                "500/500",
+                "500/1000",
+                "1000/1000",
+                "35 CSL",
+                "50 CSL",
+                "55 CSL",
+                "100 CSL",
+                "300 CSL",
+                "500 CSL",
+                "600 CSL",
+                "1000 CSL"
+            ]
+        },
+        "UIMType": {
+            "type": "string",
+            "enum": [
+                "Reject",
+                "State Minimum",
+                "10/20",
+                "12/25",
+                "12.5/25",
+                "15/30",
+                "20/40",
+                "20/50",
+                "25/25",
+                "25/50",
+                "25/60",
+                "25/65",
+                "30/60",
+                "35/80",
+                "50/50",
+                "50/100",
+                "100/100",
+                "100/200",
+                "100/300",
+                "200/400",
+                "200/600",
+                "250/500",
+                "250/1000",
+                "300/300",
+                "300/500",
+                "500/500",
+                "500/1000",
+                "1000/1000",
+                "35 CSL",
+                "50 CSL",
+                "55 CSL",
+                "100 CSL",
+                "300 CSL",
+                "500 CSL",
+                "600 CSL",
+                "1000 CSL"
+            ]
+        },
+        "PIPType": {
+            "type": "string",
+            "enum": [
+                "Accept",
+                "Reject"
+            ]
+        },
+        "OtherCollisionDeductibleType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "0",
+                "50",
+                "100",
+                "200",
+                "250",
+                "300",
+                "500",
+                "750",
+                "1000",
+                "1500",
+                "2000",
+                "2500"
+            ]
+        },
+        "CollisionDeductibleType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "0",
+                "50",
+                "100",
+                "200",
+                "250",
+                "300",
+                "500",
+                "750",
+                "1000",
+                "1500",
+                "2000",
+                "2500"
+            ]
+        },
+        "TowingDeductibleType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "25",
+                "40",
+                "50",
+                "75",
+                "80",
+                "100",
+                "120",
+                "200",
+                "Unlimited"
+            ]
+        },
+        "RentalDeductibleType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "15/450",
+                "20/600",
+                "25/750",
+                "30/900",
+                "35/1050",
+                "40/1200",
+                "45/1350",
+                "50/1500",
+                "75/2250",
+                "100/3000"
+            ]
+        },
+        "PIPAppliesType": {
+            "type": "string",
+            "enum": [
+                "Named Insured",
+                "Named Insured + Relatives"
+            ]
+        },
+        "WorkLossType": {
+            "type": "string",
+            "enum": [
+                "Included",
+                "Excluded"
+            ]
+        },
+        "FL-PIPDeductibleType": {
+            "type": "string",
+            "enum": [
+                "0",
+                "250",
+                "500",
+                "1000"
+            ]
+        },
+        "FL-WageLossType": {
+            "type": "string",
+            "enum": [
+                "Included",
+                "Excluded"
+            ]
+        },
+        "FL-PIPOptionsType": {
+            "type": "string",
+            "enum": [
+                "Basic",
+                "Extended"
+            ]
+        },
+        "CT-BRBType": {
+            "type": "string",
+            "enum": [
+                "None",
+                "Basic",
+                "Basic + 5000",
+                "Basic + 10000",
+                "Basic + 15000",
+                "Basic + 25000",
+                "Basic + 50000",
+                "Basic + 100000"
+            ]
+        },
+        "CT-WageLossType": {
+            "type": "string",
+            "enum": [
+                "200",
+                "300",
+                "400",
+                "500"
+            ]
+        },
+        "KY-PIPType": {
+            "type": "string",
+            "enum": [
+                "Reject",
+                "Basic-10000",
+                "20000",
+                "30000",
+                "40000",
+                "50000",
+                "75000",
+                "100000"
+            ]
+        },
+        "KY-PIPDeductibleType": {
+            "type": "string",
+            "enum": [
+                "None",
+                "250",
+                "500",
+                "1000"
+            ]
+        },
+        "KY-APIPType": {
+            "type": "string",
+            "enum": [
+                "1000",
+                "2000",
+                "3000",
+                "4000"
+            ]
+        },
+        "KY-TortLimitationType": {
+            "type": "string",
+            "enum": [
+                "Tort Limitation Not Rejected",
+                "Rejected By All Family Members",
+                "Rejected By Some Family Members"
+            ]
+        },
+        "TX-PIPType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "2500",
+                "5000",
+                "10000",
+                "25000",
+                "50000",
+                "100000"
+            ]
+        },
+        "TX-AutoDeathIndemnityType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "5000",
+                "10000"
+            ]
+        },
+        "WA-PIPType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "10000",
+                "35000"
+            ]
+        },
+        "CA-UMPDType": {
+            "type": "string",
+            "enum": [
+                "Reject",
+                "3500"
+            ]
+        },
+        "CO-UMPDType": {
+            "type": "string",
+            "enum": [
+                "Reject",
+                "100",
+                "200",
+                "250",
+                "500",
+                "1000",
+                "2500"
+            ]
+        },
+        "GA-UMPDType": {
+            "type": "string",
+            "enum": [
+                "Reject",
+                "25/250 Ded",
+                "50/250 Ded",
+                "75/250 Ded",
+                "100/250 Ded",
+                "25/500 Ded",
+                "50/500 Ded",
+                "75/500 Ded",
+                "100/500 Ded",
+                "25/1000 Ded",
+                "50/1000 Ded",
+                "75/1000 Ded",
+                "100/1000 Ded"
+            ]
+        },
+        "GA-UM-OPTIONType": {
+            "type": "string",
+            "enum": [
+                "Add-On",
+                "Reduced"
+            ]
+        },
+        "IL-UMPDType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "15000",
+                "20000",
+                "25000",
+                "50000",
+                "100000"
+            ]
+        },
+        "OH-UMPDType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "7500",
+                "10000",
+                "25000"
+            ]
+        },
+        "OR-PIPType": {
+            "type": "string",
+            "enum": [
+                "15000 BASIC",
+                "25000",
+                "50000",
+                "100000"
+            ]
+        },
+        "OR-PIPDeductibleType": {
+            "type": "string",
+            "enum": [
+                "0",
+                "100",
+                "250"
+            ]
+        },
+        "UT-PIPType": {
+            "type": "string",
+            "enum": [
+                "3000",
+                "5000",
+                "10000",
+                "25000"
+            ]
+        },
+        "UT-WorkLossType": {
+            "type": "string",
+            "enum": [
+                "Accept",
+                "Reject"
+            ]
+        },
+        "UT-UMPDType": {
+            "type": "string",
+            "enum": [
+                "None",
+                "3500"
+            ]
+        },
+        "UT-APIPType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "5000",
+                "10000"
+            ]
+        },
+        "PA-ADBType": {
+            "type": "string",
+            "enum": [
+                "None",
+                "5000",
+                "10000",
+                "15000",
+                "25000"
+            ]
+        },
+        "PA-FuneralExpType": {
+            "type": "string",
+            "enum": [
+                "None",
+                "1500",
+                "2500"
+            ]
+        },
+        "PA-WorkLossType": {
+            "type": "string",
+            "enum": [
+                "None",
+                "1000/5000",
+                "1000/15000",
+                "1500/25000",
+                "2500/50000"
+            ]
+        },
+        "PA-TortLimitationType": {
+            "type": "string",
+            "enum": [
+                "Full",
+                "Limited"
+            ]
+        },
+        "PA-CFPType": {
+            "type": "string",
+            "enum": [
+                "None",
+                "Addl First Party Benefits",
+                "Combo First Party Benefits - 50000",
+                "Combo First Party Benefits - 100000",
+                "Combo First Party Benefits - 177500"
+            ]
+        },
+        "PA-FirstPartyType": {
+            "type": "string",
+            "enum": [
+                "5000",
+                "10000",
+                "25000",
+                "50000",
+                "100000"
+            ]
+        },
+        "PA-ExtraMedicalExpType": {
+            "type": "string",
+            "enum": [
+                "100000",
+                "300000",
+                "500000",
+                "1000000"
+            ]
+        },
+        "AR-PIPType": {
+            "type": "string",
+            "enum": [
+                "Reject",
+                "500",
+                "1000",
+                "2000",
+                "5000",
+                "10000",
+                "25000"
+            ]
+        },
+        "AR-UMPDType": {
+            "type": "string",
+            "enum": [
+                "Reject",
+                "25000",
+                "50000",
+                "100000",
+                "300000"
+            ]
+        },
+        "AR-AccidentalDeathType": {
+            "type": "string",
+            "enum": [
+                "Reject",
+                "5000",
+                "10000",
+                "15000",
+                "20000"
+            ]
+        },
+        "KS-PIPType": {
+            "type": "string",
+            "enum": [
+                "Basic - 4500",
+                "12500",
+                "27500"
+            ]
+        },
+        "MN-PIPOptionsType": {
+            "type": "string",
+            "enum": [
+                "BASIC",
+                "BASIC+10K MED EXP",
+                "BASIC+20K MED EXP",
+                "BASIC+30K MED EXP",
+                "BASIC+30K MED EXP/15K WL",
+                "BASIC+55K MED EXP/15K WL",
+                "BASIC+80K MED EXP/40K WL"
+            ]
+        },
+        "MN-PIPDeductibleType": {
+            "type": "string",
+            "enum": [
+                "0",
+                "100 MED/200WL",
+                "100 MED"
+            ]
+        },
+        "MS-UMPDType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "25000",
+                "50000",
+                "100000",
+                "250000",
+                "300000",
+                "500000"
+            ]
+        },
+        "NC-UMPDType": {
+            "type": "string",
+            "enum": [
+                "Reject",
+                "25000",
+                "50000",
+                "100000",
+                "250000",
+                "500000"
+            ]
+        },
+        "NY-PIPDeductibleType": {
+            "type": "string",
+            "enum": [
+                "0",
+                "100",
+                "200",
+                "250"
+            ]
+        },
+        "NY-PIPOptionsType": {
+            "type": "string",
+            "enum": [
+                "Basic",
+                "Basic+25000",
+                "Basic+50000",
+                "Basic+100000"
+            ]
+        },
+        "NY-SupplementalType": {
+            "type": "string",
+            "enum": [
+                "Basic",
+                "25/50",
+                "50/100",
+                "100/300",
+                "250/500",
+                "100/100",
+                "300/300",
+                "500/500"
+            ]
+        },
+        "NY-APIPType": {
+            "type": "string",
+            "enum": [
+                "25000",
+                "50000",
+                "100000"
+            ]
+        },
+        "NY-MedicalExpenseExclusionType": {
+            "type": "string",
+            "enum": [
+                "None",
+                "Named Insured Only",
+                "Named Insured + Relatives"
+            ]
+        },
+        "MD-UMPDType": {
+            "type": "string",
+            "enum": [
+                "15000",
+                "25000",
+                "50000",
+                "100000",
+                "250000",
+                "300000",
+                "500000"
+            ]
+        },
+        "MD-PIPType": {
+            "type": "string",
+            "enum": [
+                "Waived",
+                "2500 Full Coverage",
+                "2500 Excluding Family",
+                "5000 Full Coverage",
+                "5000 Excluding Family",
+                "10000 Full Coverage",
+                "10000 Excluding Family"
+            ]
+        },
+        "TN-UMPDType": {
+            "type": "string",
+            "enum": [
+                "Reject",
+                "10000",
+                "15000",
+                "25000",
+                "50000",
+                "100000",
+                "200000",
+                "300000",
+                "500000"
+            ]
+        },
+        "VA-UMPDType": {
+            "type": "string",
+            "enum": [
+                "20000",
+                "25000",
+                "50000",
+                "100000",
+                "250000",
+                "300000",
+                "500000"
+            ]
+        },
+        "VA-INCOMELOSSType": {
+            "type": "string",
+            "enum": [
+                "ACCEPT",
+                "REJECT"
+            ]
+        },
+        "NJ-HEALTHCAREType": {
+            "type": "string",
+            "enum": [
+                "Primary",
+                "Secondary"
+            ]
+        },
+        "NJ-PIPType": {
+            "type": "string",
+            "enum": [
+                "15000",
+                "50000",
+                "75000",
+                "150000",
+                "250000"
+            ]
+        },
+        "NJ-PIPDEDUCTIBLEType": {
+            "type": "string",
+            "enum": [
+                "250",
+                "500",
+                "1000",
+                "2000",
+                "2500"
+            ]
+        },
+        "NJ-APIPType": {
+            "type": "string",
+            "enum": [
+                "100 - 10400/ LIMITED",
+                "125 - 13000/ LIMITED",
+                "175 - 18200/ LIMITED",
+                "250 - 26000/ LIMITED",
+                "400 - 41600/ LIMITED",
+                "500 - 52000/ LIMITED",
+                "600 - 62400/ LIMITED",
+                "700 - 72800/ LIMITED",
+                "100/ UNLIMITED",
+                "125/ UNLIMITED",
+                "175/ UNLIMITED",
+                "250/ UNLIMITED",
+                "400/ UNLIMITED",
+                "500/ UNLIMITED",
+                "600/ UNLIMITED",
+                "700/ UNLIMITED"
+            ]
+        },
+        "NJ-THRESHOLD": {
+            "type": "string",
+            "enum": [
+                "Verbal Threshold",
+                "Zero Threshold"
+            ]
+        },
+        "NJ-UMPDType": {
+            "type": "string",
+            "enum": [
+                "5000",
+                "10000",
+                "25000",
+                "35000",
+                "50000",
+                "100000",
+                "200000",
+                "250000",
+                "300000",
+                "500000"
+            ]
+        },
+        "NJ-EXTENDEDMEDICALType": {
+            "type": "string",
+            "enum": [
+                "1000",
+                "10000"
+            ]
+        },
+        "WV-UMPDType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "10000",
+                "25000",
+                "50000",
+                "100000"
+            ]
+        },
+        "WV-UIMPDType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "10000",
+                "25000",
+                "50000",
+                "100000"
+            ]
+        },
+        "MI-PropertyProtectionInsuranceType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "1000000"
+            ]
+        },
+        "MI-PIPType": {
+            "type": "string",
+            "enum": [
+                "Full Medical/Full Wage",
+                "Medical Excess",
+                "Wage Excess",
+                "Excess Medical/Excess Wage"
+            ]
+        },
+        "MI-PIPDeductible": {
+            "type": "string",
+            "enum": [
+                "No Ded",
+                "100",
+                "200",
+                "300",
+                "500"
+            ]
+        },
+        "DC-UMPDType": {
+            "type": "string",
+            "enum": [
+                "5000",
+                "10000",
+                "25000",
+                "50000",
+                "75000",
+                "100000"
+            ]
+        },
+        "DC-MedicalExpenseType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "50000",
+                "100000"
+            ]
+        },
+        "DC-WorkLossType": {
+            "type": "string",
+            "enum": [
+                "None",
+                "12000",
+                "24000"
+            ]
+        },
+        "DC-FuneralExpenseType": {
+            "type": "string",
+            "enum": [
+                "None",
+                "4000"
+            ]
+        },
+        "DE-PIPType": {
+            "type": "string",
+            "enum": [
+                "15/30"
+            ]
+        },
+        "DE-PIPDeductibleType": {
+            "type": "string",
+            "enum": [
+                "0",
+                "250",
+                "500",
+                "1000",
+                "10000"
+            ]
+        },
+        "DE-PIPAppliesToType": {
+            "type": "string",
+            "enum": [
+                "Named Insured",
+                "Named Insured and Relative(S)"
+            ]
+        },
+        "DE-APIPType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "20 Per Person",
+                "35 Per Person",
+                "50 Per Person",
+                "100 Per Person",
+                "300 Per Person",
+                "10 Per Person/20 Per Acc",
+                "20 Per Person/40 Per Acc",
+                "25 Per Person/50 Per Acc",
+                "50 Per Person/100 Per Acc",
+                "100 Per Person/300 Per Acc"
+            ]
+        },
+        "SC-UMPDType": {
+            "type": "string",
+            "enum": [
+                "Reject",
+                "25000",
+                "50000",
+                "100000",
+                "200000"
+            ]
+        },
+        "RI-UMPDType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "25000",
+                "50000",
+                "100000",
+                "250000",
+                "300000",
+                "500000"
+            ]
+        },
+        "MA-OPTBIType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "20/40",
+                "20/50",
+                "25/50",
+                "25/60",
+                "35/80",
+                "50/100",
+                "100/100",
+                "100/200",
+                "100/300",
+                "200/400",
+                "250/500",
+                "250/1000",
+                "300/500",
+                "500/500",
+                "500/1000"
+            ]
+        },
+        "MA-PIPDEDType": {
+            "type": "string",
+            "enum": [
+                "FC/0 Ded",
+                "100 Insured",
+                "250 Insured",
+                "500 Insured",
+                "1000 Insured",
+                "2000 Insured",
+                "4000 Insured",
+                "8000 Insured",
+                "100 Insured And Household Members",
+                "250 Insured And Household Members",
+                "500 Insured And Household Members",
+                "1000 Insured And Household Members",
+                "2000 Insured And Household Members",
+                "4000 Insured And Household Members",
+                "8000 Insured And Household Members"
+            ]
+        },
+        "MA-LIMCOLLDEDType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "FC/0 Ded",
+                "300",
+                "500",
+                "1000",
+                "2000"
+            ]
+        },
+        "ND-PIPType": {
+            "type": "string",
+            "enum": [
+                "30000",
+                "40000",
+                "50000",
+                "80000",
+                "100000",
+                "110000"
+            ]
+        },
+        "MT-UMPDType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "25000",
+                "50000"
+            ]
+        },
+        "ID-UMPDType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "25000",
+                "50000"
+            ]
+        },
+        "LA-UMPDType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "25000"
+            ]
+        },
+        "VT-UMPDType": {
+            "type": "string",
+            "enum": [
+                "No Coverage",
+                "10000"
+            ]
+        }
+    }
+}

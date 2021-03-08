@@ -1,0 +1,62 @@
+<div class="container-body">
+        <div class="login-container">
+            <img class="logo-img" src="/../../assets/logo.png" alt="xilo Logo">
+            <div class="welcome">
+                <h1>Welcome to <span>XILO</span></h1>
+               <!--  <div>Welcome to</div>
+                <div class="text-style-1">XILO</div> -->
+            </div>
+            <div class="description">Please enter in your email and password below to login as an agent</div>
+            <form class="login-form">
+                <div class="log-in-form-group">
+                <label for="email">Agent Email Address</label>
+                <input id="email" type="email" name="email" placeholder=" agent@email.com" [(ngModel)]="user.username" class="input">
+                    <span class="left-focus-border"></span>
+            </div>
+             <div class="log-in-form-group bt-0">
+                <div class="pwd-label"><label for="password">Password</label></div>
+                <div class="pwd" [style.border] = change_border()>
+                   
+                    <input type="password" name="password" placeholder="*********" [(ngModel)]="user.password" class="input" id="password" (focus)="pwd_clicked = true;" (focusout)="pwd_clicked = false;">
+                   <!--  <a class=forgotLink routerLink="/auth/reset-password">Forgot?</a> -->
+                    <span class="left-focus-border"></span>
+                </div>
+            </div>
+    
+            <div class="check-box-container">
+                    <div class="right-aside">
+                            <label class="checkbox-wraper">
+                                 <a class=forgotLink routerLink="/auth/reset-agent-password">Forget Password?</a>   
+                            </label>
+                    </div>
+            </div>
+            <div class="agent-wraper">
+                <div class="agent_login" routerLink="/auth/login">Switch To Administrator Login Page</div>
+            </div>
+                <!-- <br>
+                <label class="isPlatformManager_label" for="isPlatformManager">
+                    Login as platform manager
+                    <input id="isPlatformManager" name="isPlatformManager" type="checkbox" [(ngModel)]="isPlatformManager">
+                    <span class="checkmark"></span>
+                </label> -->
+                <div class="btn-tuple">
+                    <button class="button btn-1" style="width: 135px" (click)="login()" type="submit" [disabled]="disableLogin">Login As Agent</button>
+                    <!-- <button class="button btn-2" routerLink="/auth/signup">Sign up</button> -->
+                </div>
+                <div class="terms">
+                    By signing in, you agree to Xilo’s<br> <a href="https://www.xilo.io/terms-conditions/" target="_blank">Terms and Conditions</a> & <a>Privacy Policy</a>.
+                </div>
+            </form>
+        </div>
+        
+        <!--<div class="right-side-container">-->
+            <!--<div class="top-nav">-->
+                <!--<p routerLink="/home">About</p>-->
+                <!--<p>Career</p>-->
+                <!--<p>Contact</p>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+    
+    
+    

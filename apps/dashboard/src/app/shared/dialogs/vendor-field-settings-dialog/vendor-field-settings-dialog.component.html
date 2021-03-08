@@ -1,0 +1,29 @@
+<div class="container">
+  <h1 class="title-text">Field Settings</h1>
+  <mat-card class="settings-card">
+    <form class="condition-form">
+      <div class="input-group">
+        <span class="input-label">Repeat Index</span>
+        <select
+          name="repeatIndex"
+          [(ngModel)]="vendorMapping.staticArrayIndex"
+          class="condition-input"
+        >
+          <option selected [value]="null" disabled
+            >--- Choose repeat index ---
+          </option>
+          <option [value]="0">1</option>
+          <option [value]="1">2</option>
+        </select>
+      </div>
+    </form>
+  </mat-card>
+  <div class="settings-save-button-container">
+    <button class="settings-btn primary" (click)="saveSettings()">
+      Save Changes
+    </button>
+    <button class="settings-btn secondary" (click)="dialogRef.close()">
+      Exit
+    </button>
+  </div>
+</div>

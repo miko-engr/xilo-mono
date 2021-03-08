@@ -1,0 +1,78 @@
+@import '../../../../../custom-theme.scss';
+
+header {
+  @include sm {
+    height: 40px;
+    padding-top: 10px;
+  }
+  @include md {
+    height: 70px;
+    padding-top: 0px;
+  }
+  .logo-section {
+    @include sm {
+      padding-top: 0px;
+    }
+    @include md {
+      padding-top: 16px;
+    }
+
+    img {
+      height: 30px;
+      @include md-max {
+        height: 40px!important;
+      }
+    }
+  }
+  .address-section {
+    @include sm {
+      justify-content: flex-end;
+      padding-top: 0px;
+    }
+    @include md {
+      justify-content: flex-start;
+      width: auto;
+    }
+    text-align: right;
+    display: flex;
+    ul {
+      list-style: none;
+      display: flex;
+      @include sm {
+        justify-content: center;
+        align-items: center;
+      }
+      @include md {
+        padding-top: 24px;
+        align-items: baseline;
+      }
+      li {
+        display: inline;
+        line-height: 17px;
+        font-weight: bold;
+        font-family: $font-family-base;
+        padding-left: 15px;
+        &:first-child {
+          padding-left: 0px;
+          @include sm {
+            display: none;
+          }
+          @include md {
+            display: inline-block;
+          }
+        }
+        img {
+          height: 18px;
+          vertical-align: middle;
+          text-align: center;
+          margin-top: -7px;
+        }
+        span {
+          color: $header-subtext;
+          font-size: $font14;
+          padding-left: 5px;
+        }
+      }
+    }
+  }
+}

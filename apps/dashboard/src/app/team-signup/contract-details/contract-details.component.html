@@ -1,0 +1,164 @@
+<div class="team_main_block">
+    <div class="stepper_main_block">
+        <form 
+          #contractForm="ngForm" 
+          (ngSubmit)="onNext()" 
+          *ngIf="contract"
+          >
+            <label>Contract Information</label>
+            <mat-form-field>
+              <mat-label>Owner First Name</mat-label>
+              <input 
+                    matInput
+                    name="customerFirstName"
+                    (change)="updateCustomerName()"
+                    [(ngModel)]="contract.customerFirstName"
+                    #firstName="ngModel"
+                    placeholder="Customer First name"
+                    required
+                    pattern="(\s*[^\s]+\s*)+"
+              />
+              <mat-error *ngIf="firstName?.invalid">
+                <div *ngIf="firstName?.errors?.required">First name is required</div>
+                <div *ngIf="firstName?.errors?.pattern">Please add proper first name</div>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Owner Last Name</mat-label>
+              <input
+                matInput
+                name="customerLastName"
+                (change)="updateCustomerName()"
+                [(ngModel)]="contract.customerLastName"
+                #lastName="ngModel"
+                placeholder="Customer Last name"
+                required
+                pattern="(\s*[^\s]+\s*)+"
+              />
+              <mat-error *ngIf="lastName?.invalid">
+                <div *ngIf="lastName.errors.required">Last name is required</div>
+                <div *ngIf="lastName?.errors?.pattern">Please add proper last name</div>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="email-block">
+                <mat-label>Owner Email</mat-label>
+                <input
+                    matInput
+                    #email="ngModel"
+                    name="username"
+                    [(ngModel)]="contract.username"
+                    placeholder="Email"
+                    required
+                    pattern="(\s*[^\s]+\s*)+"
+                />
+                <mat-error *ngIf="email?.invalid">
+                  <div *ngIf="email.errors.required">Email is required</div>
+                  <div *ngIf="email.errors.pattern">Please add proper email</div>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+            <mat-label>Owner Title</mat-label>
+                <input
+                    matInput
+                    name="customerTitle"
+                    #customerTitle="ngModel"
+                    [(ngModel)]="contract.customerTitle"
+                    placeholder="Title"
+                    required
+                />
+                <mat-error *ngIf="customerTitle?.invalid">
+                    <div *ngIf="customerTitle.errors.required">Customer title is required</div>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+            <mat-label>Owner Full Name</mat-label>
+                <input
+                    matInput
+                    name="customerfullName"
+                    #customerfullName="ngModel"
+                    [(ngModel)]="contract.customerFullName"
+                    placeholder="Full Name"
+                    required
+                    disabled
+                />
+                <mat-error *ngIf="customerfullName?.invalid">
+                    <div *ngIf="customerfullName.errors.required">Customer full name is required</div>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Description of Services</mat-label>
+              <textarea
+                matInput
+                name="servicesDesc"
+                [(ngModel)]="contract.servicesDesc"
+                placeholder="Description of services"
+                #servicesDesc="ngModel"
+                required
+                pattern="(\s*[^\s]+\s*)+">
+              </textarea>
+              <mat-error *ngIf="servicesDesc?.invalid">
+                <div *ngIf="servicesDesc.errors.required">Description of services is required</div>
+                <div *ngIf="servicesDesc.errors.pattern">Please add proper services description</div>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Max Users Permitted</mat-label>
+              <mat-select
+                #users="ngModel"
+                name="user"
+                [(ngModel)]="contract.users"
+                required
+               >
+                <mat-option value="No Max">No Max</mat-option>
+                <mat-option *ngFor="let i of arrayList(1, 20)" [value]="i">{{i}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="users?.invalid">
+                <div *ngIf="users.errors.required">Max users is required</div>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Additional Price Per User</mat-label>
+              <mat-select
+                name="ppu"
+                #ppu="ngModel"
+                [(ngModel)]="contract.ppu"
+                required
+               >
+                <mat-option *ngFor="let i of arrayList(5, 8, 5)" [value]="i">{{i}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="ppu?.invalid">
+                <div *ngIf="ppu.errors.required">Additional price per user is required</div>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>XILO Signer</mat-label>
+              <mat-select
+                name="xiloReps"
+                [(ngModel)]="contract.xiloReps"
+                (selectionChange)="onRepChange($event)"
+                required
+               >
+                <mat-option *ngFor="let rep of xiloReps" [value]="rep.name">
+                    {{ rep.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Title of Signer</mat-label>
+              <input
+                matInput
+                name="xiloRepTitle"
+                #xiloRepTitle="ngModel"
+                [(ngModel)]="contract.xiloRepTitle"
+                placeholder="Title" 
+                required 
+                disabled 
+               />
+              <mat-error *ngIf="xiloRepTitle?.invalid">
+                <div *ngIf="xiloRepTitle.errors.required">Title is required</div>
+              </mat-error>
+            </mat-form-field>
+            <button type="submit" [disabled]="!contractForm.form.valid" class="primary-btn mt-3">Next</button>
+        </form>
+    </div>
+</div>

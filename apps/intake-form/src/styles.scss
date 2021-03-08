@@ -1,0 +1,62 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~ag-grid-community/dist/styles/ag-grid.css';
+@import '~ag-grid-community/dist/styles/ag-theme-balham.css';
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/material.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+
+.ag-theme-balham .ag-ltr .ag-cell {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+
+  .cdk-overlay-container:empty {
+    display: none;
+  }
+  .cdk-overlay-container {
+    display: flex;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    right: 0;
+
+    .mat-snack-bar-container {
+      background: lightgreen;
+    }
+  }
+
+  .ngx-datatable {
+    .datatable-header {
+      border-bottom: 1px solid #b4b4bb;
+      margin: 0;
+      padding: 0;
+      .datatable-header-inner {
+        .datatable-header-cell {
+          text-align: center;
+          border-right: 1px solid #b4b4bb;
+          height: auto !important;
+          padding: 5px 0 5px 0;
+        }
+      }
+    }
+
+    .datatable-body-cell,
+    .ngx-datatable .datatable-header-cell {
+      margin: auto !important;
+      text-align: center !important;
+    }
+
+    .datatable-body .datatable-body-row > div {
+      border-bottom: 1px solid #b4b4bb;
+    }
+
+    .datatable-footer {
+      display: none !important;
+    }
+  }
+}

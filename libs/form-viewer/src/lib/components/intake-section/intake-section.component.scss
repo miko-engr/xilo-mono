@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  .form-section {
+    flex: 0 1 45%;
+    margin-bottom: 20px;
+    align-self: center;
+
+    ::ng-deep .invalid-feedback {
+      display: block;
+      width: 100%;
+      margin-top: 0.25rem;
+      font-size: 80%;
+      color: #dc3545;
+    }
+  }
+
+  .form-section-single-column {
+    flex: 0 1 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    align-self: center;
+  }
+
+  .form-section-table {
+    flex: 0 1 100% !important;
+    border: 1px solid #b4b4bb;
+    box-sizing: border-box;
+    border-radius: 8px;
+    margin: auto !important;
+    .ngx-datatable .datatable-footer .datatable-footer-inner {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 799px) {
+  .container {
+    .form-section {
+      flex: 0 0 100%;
+      box-sizing: border-box;
+      margin-right: 0;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+}

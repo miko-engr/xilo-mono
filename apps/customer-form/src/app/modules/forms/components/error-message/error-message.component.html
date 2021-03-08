@@ -1,0 +1,10 @@
+<div
+  *ngIf="errorMessage"
+  class="error-message"
+  [ngClass]="type === 'error' ? 'error' : 'warning'"
+>
+  <app-alert-icon class="alert-icon" [typeOfAlert]="type"> </app-alert-icon>
+  <span>
+    {{ errorMessage }}
+  </span>
+</div>

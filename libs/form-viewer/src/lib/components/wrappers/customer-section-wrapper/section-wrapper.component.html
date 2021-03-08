@@ -1,0 +1,54 @@
+<section
+  class="header-section"
+  #header
+  [ngClass]="{ 'closed-section': isClosed || !to.hasRepeatButtons }"
+>
+  <div class="page-header">
+    <h3 class="page-title">
+      {{ to?.label }}
+    </h3>
+    <div class="progress-bar-section">
+      <div class="progress-bar-wrapper">
+        <p *ngIf="!questionHovered?.flag" class="question-number">
+          Question: {{ +questionIndex + 1 || 1 }}/{{ questionCount }}
+        </p>
+        <p *ngIf="questionHovered?.flag" class="question-number">
+          {{ questionHovered?.questionToBeDisplayed }}
+        </p>
+        <div class="progress-bar-items">
+          <span
+            *ngFor="let question of visibleQuestions; let questionIndex = index"
+            (mouseover)="progressBarHover(question.key, questionIndex)"
+            (mouseout)="progressBarHoverOut()"
+            (click)="progressBarClick(questionIndex, question.key)"
+            class="bar"
+            [ngClass]="{
+              progress: ishighlightedProgressItem(questionIndex, question?.key),
+              attended: isAttended(questionIndex, question?.key),
+              error: isError(questionIndex, question?.key)
+            }"
+          ></span>
+        </div>
+      </div>
+      <div class="progress-buttons">
+        <span
+          [ngClass]="previousEnabled ? 'prevIcon-enable' : ''"
+          (click)="previousQuestion()"
+        >
+        </span>
+        <span
+          [ngClass]="nextEnabled ? 'nextIcon-enable' : ''"
+          (click)="nextQuestion()"
+        ></span>
+      </div>
+    </div>
+  </div>
+</section>
+<section
+  class="form-section"
+  [@QuestionAnimation]="questionAnimationState"
+  (@QuestionAnimation.start)="animationStart()"
+  (@QuestionAnimation.done)="animationDone()"
+>
+  <ng-container #fieldComponent></ng-container>
+</section>

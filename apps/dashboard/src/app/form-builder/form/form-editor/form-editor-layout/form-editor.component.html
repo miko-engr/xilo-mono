@@ -1,0 +1,62 @@
+<div class="content container-fluid" role="main">
+  <div class="left" [ngClass]="{ shrinked: isSettingVisible }">
+    <app-form-builder-component-form-tree
+      [isSettingOpened]="isSettingVisible"
+      [isConditionOpened]="isConditionVisible"
+      [form]="form"
+      (switchCondition)="onSwitchCondition($event)"
+      (switchSetting)="onSwitchSetting($event)"
+      (selectQuestion)="onSelectQuestion($event)"
+      (selectSection)="onSelectSection($event)"
+      *ngIf="formType"
+    >
+    </app-form-builder-component-form-tree>
+  </div>
+
+  <app-form-builder-component-question-setting
+    *ngIf="isSettingVisible && company$ | async as company"
+    [company]="company"
+    (closeSettings)="onSettingClose()"
+    (refreshPreview)="onRefreshPreview()"
+    [selectedField]="selectedField"
+  >
+  </app-form-builder-component-question-setting>
+
+  <app-form-builder-component-condition-setting
+    *ngIf="isConditionVisible"
+    [form]="form"
+    (refreshPreview)="onRefreshPreview()"
+    [selectedField]="selectedField"
+    (closePanel)="onConditionClose()"
+  ></app-form-builder-component-condition-setting>
+
+  <div class="right">
+    <div class="navigation-row">
+      <button class="inactive">
+        <ngx-icon
+          svgSrc="chevron-bold-down"
+          class="chevron-bold-up"
+          (click)="switchSection(1)"
+        >
+        </ngx-icon>
+      </button>
+      <button>
+        <ngx-icon
+          *ngIf="currentSection !== 0"
+          svgSrc="chevron-bold-down"
+          (click)="switchSection(-1)"
+        >
+        </ngx-icon>
+      </button>
+    </div>
+    <ng-container *ngIf="formType && !loadingPreview">
+      <xilo-mono-form-viewer
+        [fields]="previewFields$ | async"
+        [form]="formGroup"
+        [formView]="form"
+        [options]="formOptions"
+        [preview]="true"
+      ></xilo-mono-form-viewer>
+    </ng-container>
+  </div>
+</div>

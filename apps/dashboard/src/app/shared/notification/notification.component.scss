@@ -1,0 +1,32 @@
+.notification_block {
+    min-width: 320px;
+    position: absolute;
+    right: 0;
+    .alert_block {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        width: 320px;
+        height: 80px;
+        background: rgba(35, 214, 200, 0.2);
+        border: 1px solid #23D6C8;
+        box-sizing: border-box;
+        border-radius: 4px;
+        margin: 18px 0;
+        .icon_block {
+            .mat-icon {
+                color: #23D6C8;
+            }
+        }
+        .content_block {
+            width: 90%;
+            font-family: Inter;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 15px;
+            color: #111111;
+        }
+    }
+}

@@ -1,0 +1,102 @@
+@import '../../../../../custom-theme.scss';
+
+.form-section {
+  .form-field-section {
+    margin-top: 18px;
+    @include scrollbars(8px, rgba(105, 104, 99, 0.6), rgba(255, 255, 255, 0.3));
+    position: relative;
+    scroll-behavior: smooth;
+    @include sm {
+      height: auto;
+      overflow-y: unset;
+    }
+    @include md-max {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    // 992px window width and more
+    @include md {
+      // height: calc(100vh - 438px);
+      // overflow-y: scroll;
+    }
+    &.take-all-space {
+      @include md {
+        // height: calc(100vh - 367px);
+      }
+    }
+  }
+  .form-header {
+    padding-top: 42px;
+    padding-bottom: 30px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    .header-img {
+      width: 80px;
+      padding-right: 15px;
+      .svg-img {
+        @include md-max {
+          height: 68px;
+          width: 68px;
+        }
+        height: 80px;
+        width: 80px;
+      }
+      .svg-img-start {
+        height: auto;
+      }
+      @include sm-max {
+        display: none;
+      }
+    }
+    .header-content {
+      padding-left: 15px;
+      @include md-max {
+        padding-left: 0;
+      }
+      &.no-padding {
+        padding-left: 0;
+      }
+      .question-subtitle {
+        @extend .headline2SubTitle;
+        font-weight: 500;
+        line-height: 17px;
+        color: $black;
+      }
+      .question-title {
+        font-style: normal;
+        display: flex;
+        align-items: flex-end;
+        color: $black-light;
+        @extend .headline2;
+      }
+    }
+  }
+}
+
+.form-section.form-section-start {
+  .form-header {
+    padding-top: 0px;
+  }
+
+  .form-row.start-page-specific {
+    display: flex;
+    app-question-textbox {
+      max-width: 232px;
+      margin-right: 15px;
+    }
+
+    .form-item {
+      width: 100% !important;
+    }
+
+    button {
+      @include sm {
+        margin-top: 18px;
+      }
+      @include md {
+        margin-top: 25px;
+      }
+    }
+  }
+}

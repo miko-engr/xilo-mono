@@ -1,0 +1,201 @@
+@import './assets/stylesheets/reset';
+@import './assets/stylesheets/variables';
+@import './assets/stylesheets/grid';
+@import './assets/stylesheets/input-groups';
+@import './assets/stylesheets/navbar';
+@import '~@danielmoncada/angular-datetime-picker/assets/style/picker.min.css';
+@import '~@ng-select/ng-select/themes/default.theme.css';
+
+.headline1 {
+  font-family: $font-family-Inter-bold;
+  @include sm {
+    font-size: $font15;
+  }
+  @include md {
+    font-size: $font32;
+  }
+  line-height: $Line-height130;
+}
+.headline2 {
+  font-family: $font-family-Inter-bold;
+  @include sm {
+    font-size: $font19;
+  }
+  @include md {
+    font-size: $font24;
+  }
+
+  line-height: $Line-height130;
+}
+.headline2SubTitle {
+  font-family: $font-family-Inter-medium;
+  @include sm {
+    font-size: $font13;
+  }
+  @include md {
+    font-size: $font14;
+  }
+}
+.button_link {
+  font-family: $font-family-Inter-bold;
+  @include sm {
+    font-size: $font14;
+  }
+  @include md {
+    font-size: $font16;
+  }
+  line-height: auto;
+}
+.title {
+  font-family: $font-family-Inter-semi-bold;
+  @include sm {
+    font-size: $font15;
+  }
+  @include md {
+    font-size: $font18;
+  }
+  line-height: auto;
+}
+.summary-subtitle {
+  font-family: $font-family-Inter-medium;
+  color: $summary-type;
+  @include sm {
+    font-size: $font12;
+    line-height: 17px;
+  }
+  @include md {
+    font-size: $font14;
+    line-height: 15px;
+  }
+}
+.inputValue {
+  font-family: $font-family-Inter-medium;
+  @include sm {
+    font-size: $font14;
+  }
+  @include md {
+    font-size: $font18;
+  }
+  line-height: $Line-height130;
+}
+.button_secondary {
+  @include sm {
+    font-family: $font-family-Inter-semi-bold;
+    font-size: $font12;
+  }
+  @include md {
+    font-family: $font-family-Inter-bold;
+    font-size: $font14;
+  }
+  line-height: auto;
+}
+
+.input_label_body {
+  @include sm {
+    font-size: $font12;
+  }
+  @include md {
+    font-size: $font14;
+  }
+  font-family: $font-family-Inter-medium;
+  line-height: $Line-height130;
+}
+
+html {
+  height: auto;
+  body {
+    @extend .input_label_body;
+    height: 100%;
+    margin: 0;
+    font-weight: 400;
+    color: $text-color-base;
+    text-align: left;
+    overflow-y: auto;
+    background-color: $body-bg-base;
+    // @include md {
+    //   overflow: hidden;
+    // }
+
+    .cdk-overlay-container {
+      .owl-dt-popup {
+        @include sm-max {
+          // top: 0 !important;
+          // left: 0 !important;
+          width: 94%;
+          // height: 100%;
+        }
+      }
+      .owl-dt-container {
+        box-shadow: none;
+        border: 2px solid $brand;
+        box-sizing: border-box;
+        border-radius: 8px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+
+        @include sm-max {
+          font-size: 1.4rem;
+        }
+        .owl-dt-control-button-arrow {
+          display: none;
+        }
+        .owl-dt-calendar-control {
+          padding-bottom: 10px;
+          border-bottom: 1px solid #b4b4bb;
+        }
+        .owl-dt-calendar-main {
+          .owl-dt-calendar-view {
+            .owl-dt-calendar-table {
+              @include sm-max {
+                height: 100%;
+              }
+              .owl-dt-calendar-cell-today:not(.owl-dt-calendar-cell-selected) {
+                border-top: transparent;
+                border-right: transparent;
+                border-left: transparent;
+              }
+              .owl-dt-calendar-cell-content {
+                border-radius: 0px;
+              }
+
+              .owl-dt-calendar-cell-selected {
+                color: $brand;
+                border-bottom: solid thin $brand;
+                background-color: transparent;
+              }
+              margin-top: 10px;
+              .owl-dt-calendar-header {
+                text-align: center;
+                .owl-dt-calendar-table-divider {
+                  &:after {
+                    background: none;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .text-center {
+      text-align: center;
+    }
+  }
+}
+.mt-2 {
+  margin-top: 20px;
+}
+.thank-you-page {
+  @include sm-max {
+    .hero-img {
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      svg {
+        width: 80px;
+        height: 80px;
+      }
+    }
+  }
+}

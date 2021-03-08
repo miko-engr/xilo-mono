@@ -1,0 +1,52 @@
+@import '../../../../../custom-theme.scss';
+.thank-you-page {
+  flex-direction: column;
+  &.centerAlign {
+    height: 86vh;
+    justify-content: center;
+    align-items: center;
+  }
+  .thank-you-section {
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    @include sm {
+      width: 100%;
+    }
+
+    @include md-max {
+      .thank-you-details-header,
+      .hero-img {
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+    }
+
+    .image-width {
+      width: 20%;
+      img {
+        height: 100px;
+        width: 100px;
+      }
+    }
+
+    // 992px window width and more
+    @include md {
+      width: 80%;
+      display: flex;
+    }
+    .thank-you-details {
+      font-family: $font-family-Inter-bold;
+      font-style: normal;
+      font-weight: bold;
+      font-size: $font24;
+      display: flex;
+      line-height: 130%;
+      align-items: center;
+      color: $black-light;
+      flex-direction: column;
+      justify-content: center;
+      padding-left: 32px;
+    }
+  }
+}

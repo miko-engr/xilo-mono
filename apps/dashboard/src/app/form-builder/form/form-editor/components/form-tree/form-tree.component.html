@@ -1,0 +1,11 @@
+<xilo-mono-form-tree
+  [form]="form"
+  [isSettingOpened]="settingOpened"
+  [isConditionOpened]="conditionOpened"
+  (switchSetting)="onSwitchSetting($event)"
+  (switchCondition)="onSwitchCondition($event)"
+  (selectQuestion)="onSelectQuestion($event)"
+  (selectSection)="onSelectSection($event)"
+  mode="form-editor"
+  *ngIf="form && form.components"
+></xilo-mono-form-tree>

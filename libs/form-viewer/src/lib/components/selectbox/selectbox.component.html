@@ -1,0 +1,58 @@
+<div class="form-row">
+  <div class="form-item">
+    <!-- <div class="input-search" *ngIf="to?.hasLabeledSelectOptionsSearch">
+        <input
+          class="xilo-input"
+          type="text"
+          placeholder="Search by {{
+            to?.label?.toLowerCase()
+          }} type"
+          (input)="handleInputChange($event?.target)"
+        />
+        <div class="search-icon">
+          <img src="/assets/icon/search-icon.svg" />
+        </div>
+      </div> -->
+    <div class="text-center" *ngIf="!to?.options?.length">
+      No matching {{ to?.label }} found
+    </div>
+    <div
+      [ngClass]="
+        item?.value === getValue() || isSelectedOption(item.value)
+          ? 'input-container selected'
+          : 'input-container '
+      "
+      *ngFor="let item of to.options"
+      (click)="handleOptionSelect(item)"
+    >
+      <span
+        class="checkbox"
+        [ngClass]="isSelectedOption(item.value) ? 'checked' : ''"
+        *ngIf="isMultipleSelect"
+      ></span>
+      <div class="label-container">
+        <span class="input-text" *ngIf="item?.label">
+          {{ item?.label }}
+        </span>
+        <div>
+          <img
+            [style.display]="
+              !isMultipleSelect && isSelectedOption(item.value)
+                ? 'block'
+                : 'none'
+            "
+            src="../../assets/icon/check_24px.png"
+          />
+
+          <img
+            src="../../assets/icon/info_24px.svg"
+            class="tooltip"
+            *ngIf="item?.tooltip"
+            [tooltip]="item?.tooltip"
+            (click)="handleTooltipClick($event)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

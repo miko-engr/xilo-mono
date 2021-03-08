@@ -1,0 +1,91 @@
+<div class="container">
+    <h1 class="title-text">Update Conditions</h1>
+    <mat-accordion>
+        <mat-expansion-panel *ngFor="let condition of conditions; let i = index" style="margin: 24px">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{returnLabel(condition.key, condition.object)}}
+                </mat-panel-title>
+                <mat-panel-description>
+                    {{returnOperatorTitle(condition.operator)}} {{condition.value}}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <hr style="opacity: .48">
+            <form class="condition-form">
+                <!-- <div class="input-group">
+                    <span class="input-label">Title of condition <mat-icon class="info-icon" matTooltip="The title helps you find a condition to update it" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="title" type="text" placeholder="Enter title" [(ngModel)]="condition.title" class="condition-input">
+                </div> -->
+                <div class="input-group">
+                    <span class="input-label">Type of field <mat-icon class="info-icon" matTooltip="The field type lets us know where the field is stored (i.e. Prospect or Drivers)" matTooltipPosition="right">info</mat-icon></span>
+                    <select name="object" [(ngModel)]="condition.object" class="condition-input">
+                        <option [value]="null" disabled>--- Choose field type --- </option>
+                        <option value="client">Prospect</option>
+                        <option value="drivers">Driver</option>
+                        <option value="vehicles">Vehicle</option>
+                        <option value="homes">Home</option>
+                        <option value="business">Commercial</option>
+                        <option value="locations">Location</option>
+                        <option value="incidents">Incident</option>
+                        <option value="recreationalVehicles">Recreational Vehicle</option>
+                        <option value="policies">Policy</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Condition field 
+                        <mat-icon class="info-icon" matTooltip="The field is where the data is stored. This helps us determine if a condition is true (i.e. Gender)" matTooltipPosition="right">info</mat-icon>
+                        <mat-chip-list style="margin-left: 24px" *ngIf="condition.key && condition.object">
+                            <mat-chip>{{returnLabel(condition.key, condition.object)}}</mat-chip>
+                        </mat-chip-list>
+                    </span>
+                    <p *ngIf="!condition.object">You must select a field type above to choose a field ... </p>
+                    <mat-form-field style="font-size: 8px; width: 50%" (click)="$event.stopPropagation();" *ngIf="condition.object" floatLabel="never" appearance="outline">
+                        <input type="text" style="font-size: 14px;padding-left: 8px;" placeholder="Search for key" aria-label="Key" name="key" matInput [ngModel]="searchValue" (ngModelChange)="condition.key=$event; searchValue=$event" disableRipple [matAutocomplete]="auto">
+                        <mat-icon style="font-size: 16px" matSuffix>search</mat-icon>
+                        <mat-autocomplete (optionSelected)="searchValue = ''; getAnswerOptions(condition.key, condition.object)" #auto="matAutocomplete">
+                            <mat-option *ngFor="let key of returnObject(condition.object) | filter:searchValue" [value]="key.key">
+                                {{key.value}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <!-- <input name="key" type="text" [(ngModel)]="condition.key" class="condition-input"> -->
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Operator of condition <mat-icon class="info-icon" matTooltip="The operator determines how we'll compare two data points (i.e. Equals or Does Not Equal)" matTooltipPosition="right">info</mat-icon></span>
+                    <select name="operator" [(ngModel)]="condition.operator" class="condition-input">
+                        <option [value]="null" disabled>--- Choose operator --- </option>
+                        <option value="=">Equals</option>
+                        <option value="!=">Does Not Equal</option>
+                        <option value=">">Is Greater Than</option>
+                        <option value="<">Is Less Than</option>
+                        <option value="+">Contains</option>
+                        <option value="!+">Does Not Contain</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Value of field <mat-icon class="info-icon" matTooltip="The field value lets us know what value will trigger the condition. (i.e. Male, Female)" matTooltipPosition="right">info</mat-icon></span>
+                    <select name="operator" *ngIf="options" [(ngModel)]="condition.value" class="condition-input">
+                        <option [value]="null" disabled>--- Choose value --- </option>
+                        <option *ngFor="let opt of options" [value]="opt">{{opt}}</option>
+                    </select>
+                    <input name="value" type="text" placeholder="Enter value" *ngIf="!options" [(ngModel)]="condition.value" class="condition-input">
+                </div>
+            </form>
+            <mat-action-row>
+                <button mat-raised-button color="warn" (click)="deleteCondition(condition, i)"><mat-icon>delete</mat-icon></button>
+            </mat-action-row>
+        </mat-expansion-panel>
+    </mat-accordion>    
+    <mat-card class="condition-card add-card">
+        <div class="condition-card-container" (click)="addCondition()">
+            <mat-icon>add</mat-icon> Add Condition
+        </div>
+        <div class="condition-card-container" (click)="reuseLastCondition(data.lastCondition)" *ngIf="data.lastCondition">
+            <mat-icon>replay</mat-icon> Reuse Last Condition
+        </div>
+    </mat-card>
+    <div class="settings-save-button-container">
+        <button class="settings-btn primary" (click)="saveConditions()">Save Changes</button>
+        <button class="settings-btn secondary" (click)="dialogRef.close()">Exit</button>
+    </div>
+</div>

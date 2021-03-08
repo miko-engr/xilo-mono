@@ -1,0 +1,48 @@
+<!-- <div class="center" *ngIf="tagsRetrieved">
+    <mat-card class="basic-info">
+        <mat-card-title class="main-header-title">Add or Edit Tags</mat-card-title>
+        <div class="tag-list">
+            <mat-card class="tag-box" *ngFor="let tag of company.tags; let i = index">
+                <ng-container *ngIf="selectedIndex !== i">
+                    <i class="icon-edit_pencile" (click)="selectedIndex = i; editingTag = true;"></i>
+                    <mat-card-subtitle class="box-head">
+                        <div class="info-label">
+                        {{tag}}
+                        </div>
+                    </mat-card-subtitle>
+                </ng-container>
+                <ng-container *ngIf="selectedIndex == i && editingTag">
+                        <mat-card-title >
+                        <mat-form-field class="edit-input" floatLabel="always">
+                            <input matInput placeholder="Tag Name" [(ngModel)]="tag">
+                        </mat-form-field>
+                        </mat-card-title>
+                </ng-container>
+            </mat-card>
+            <mat-card class="tag-box add" >
+                <ng-container *ngIf="!addingTag">
+                    <mat-card-title class="box-head">
+                        <button mat-button (click)="addingTag = true">
+                        +
+                        </button>
+                    </mat-card-title>
+                </ng-container>
+                <ng-container *ngIf="addingTag">
+                        <mat-card-title>
+                            <mat-form-field class="edit-input">
+                                <input matInput placeholder="Tag Name" [(ngModel)]="newTag">
+                            </mat-form-field>
+                        </mat-card-title>
+                </ng-container>
+            </mat-card>
+            </div>
+    </mat-card>
+</div>
+<div class="save-btn-overlay" *ngIf="addingTag || editingTag">
+    <button class="exit-btn btn" (click)="resetTags(null)">Cancel</button> 
+    <button class="save-btn btn" *ngIf="editingTag" (click)="upsertTag('Updated')">Save</button> 
+    <button class="save-btn btn" *ngIf="addingTag" (click)="upsertTag('Created')">Add Tag</button> 
+    <button class="delete-btn btn" (click)="deleteTag()" *ngIf="editingTag">Delete Tag</button> 
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading> -->

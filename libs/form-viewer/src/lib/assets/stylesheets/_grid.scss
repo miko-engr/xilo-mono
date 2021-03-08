@@ -1,0 +1,16 @@
+@import './mixins';
+header,
+main {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-top: 13px;
+  max-width: 1100px;
+  @include sm {
+    width: 95%;
+  }
+  // 992px window width and more
+  @include lg {
+    width: 80%;
+  }
+}

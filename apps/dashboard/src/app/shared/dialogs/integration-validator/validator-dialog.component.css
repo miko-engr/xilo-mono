@@ -1,0 +1,47 @@
+.container {
+    text-align: center;
+    background-color: #FAFBFD;
+    display: flex;
+    flex-flow: column;
+}
+
+.settings-card {
+    margin: 0 auto 24px auto;
+}
+
+.section-title {
+    width: 100%;
+    text-align: left;
+}
+
+.settings-btn {
+    height: 48px;
+    width: 160px;
+    background: transparent;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 8px 24px;
+}
+
+.settings-btn:hover {
+    opacity: .92;
+}
+
+.primary {
+    background-color: #7c7fff;
+    color: #fff;
+    border: none;
+}
+
+.secondary {
+    background-color: #fff;
+    color: #000;
+    border: 1px #ccc solid;
+}
+
+.animation_icon {
+    height: 8rem;
+}

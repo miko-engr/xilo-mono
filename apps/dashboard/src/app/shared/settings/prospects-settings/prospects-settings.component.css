@@ -1,0 +1,73 @@
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+     background-color: #7c7fff;
+ }
+ 
+ ::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+     background-color: #7c7fff;
+ }
+ 
+ .prospects-settings-block {
+     font-family: Lato;
+     padding: 24px;
+ }
+ .prospects-settings-block .prospects-hearder-block {
+     height: 45px;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+ }
+ 
+ .prospects-settings-block span {
+     font-size: 16px;
+ }
+
+ .save-button {
+     background-color: #8184ff;
+     color: #fff;
+     border-radius: 8px;
+     font-size: 15px;
+     line-height: inherit;
+     border: none;
+     padding: 10px;
+     min-width: 115px;
+     cursor: pointer;
+ }
+ 
+ .discard-button {
+     margin-right: 20px;
+     background-color: #f5f5ff;;
+     color: #333333;
+     border-radius: 8px;
+     font-size: 15px;
+     line-height: inherit;
+     border: none;
+     padding: 10px 20px;
+     min-width: 115px;
+     cursor: pointer;
+ }
+ 
+ .content-block {
+     margin-top: 30px;
+ }
+
+ .edit-actions-btn span {
+    margin-right: 20px;
+ }
+
+ @media only screen and (max-width:600px) {
+    .prospects-hearder-block {
+         display: contents !important;
+    }
+    .edit-actions-btn {
+        text-align: center;
+    }
+
+    .discard-button {
+       margin: 0px;
+    }
+
+    button {
+        margin: 10px 0;
+    }
+
+}

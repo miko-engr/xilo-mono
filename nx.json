@@ -1,0 +1,81 @@
+{
+  "npmScope": "xilo-mono",
+  "implicitDependencies": {
+    "workspace.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
+  },
+  "projects": {
+    "form-contracts": {
+      "tags": []
+    },
+    "form-backend": {
+      "tags": []
+    },
+    "entities": {
+      "tags": []
+    },
+    "dashboard": {
+      "tags": []
+    },
+    "dashboard-e2e": {
+      "tags": [],
+      "implicitDependencies": ["dashboard"]
+    },
+    "customer-form": {
+      "tags": []
+    },
+    "customer-form-e2e": {
+      "tags": [],
+      "implicitDependencies": ["customer-form"]
+    },
+    "form-viewer": {
+      "tags": []
+    },
+    "integration-contracts": {
+      "tags": []
+    },
+    "query-builder": {
+      "tags": []
+    },
+    "intake-form": {
+      "tags": []
+    },
+    "intake-form-e2e": {
+      "tags": [],
+      "implicitDependencies": ["intake-form"]
+    },
+    "form-helper": {
+      "tags": []
+    },
+    "theme": {
+      "tags": []
+    },
+    "pdf-mapper": {
+      "tags": []
+    },
+    "form-tree": {
+      "tags": []
+    },
+    "customer-formly": {
+      "tags": []
+    },
+    "customer-formly-e2e": {
+      "tags": [],
+      "implicitDependencies": ["customer-formly"]
+    }
+  }
+}

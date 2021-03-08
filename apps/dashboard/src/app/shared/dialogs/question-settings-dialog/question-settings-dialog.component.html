@@ -1,0 +1,35 @@
+<div class="container">
+    <h1 class="title-text">Update Question</h1>
+    <mat-card class="settings-card">
+        <form class="condition-form">
+            <div class="section-title">
+                <hr class="section-line-break">
+                <h3>Question Content *</h3>
+            </div>
+            <div class="input-group">
+                <span class="input-label">Question header <mat-icon class="info-icon" matTooltip="The question header is the large text shown in the center of the question" matTooltipPosition="right">info</mat-icon></span>
+                <input name="headerText" type="text" placeholder="Enter question header" [(ngModel)]="question.headerText" class="condition-input">
+            </div>
+            <div class="input-group">
+                <span class="input-label">Question sub-header <mat-icon class="info-icon" matTooltip="The question sub-header is the smaller text shown in the center of the question" matTooltipPosition="right">info</mat-icon></span>
+                <input name="subHeaderText" type="text" placeholder="Enter sub-question header" [(ngModel)]="question.subHeaderText" class="condition-input">
+            </div>
+            <div class="section-title">
+                <hr class="section-line-break">
+                <h3>Question Style</h3>
+            </div>
+            <div class="input-group">
+                <span class="input-label">Change question icon <mat-icon class="info-icon" matTooltip="The question icon appears over the question. This helps the insured further understand the question" matTooltipPosition="right">info</mat-icon></span>
+                <button mat-raised-button color="secondary" style="color: #000;" class="action-button" (click)="openImagePickerDialog()"><mat-icon class="action-button-icon" matTooltip="Change Icon">add_photo_alternate</mat-icon></button>
+            </div>
+            <div class="input-group">
+                <span class="input-label">Question scroll buffer <mat-icon class="info-icon" matTooltip="This can increase or decrease the scroll amount when a prospect clicks next. The measurement is in pixels" matTooltipPosition="right">info</mat-icon></span>
+                <input name="scrollBuffer" type="number" placeholder="Enter scroll buffer" [(ngModel)]="question.scrollBuffer" class="condition-input">
+            </div>
+        </form>
+    </mat-card>
+    <div class="settings-save-button-container">
+        <button class="settings-btn primary" (click)="saveSettings()">Save Changes</button>
+        <button class="settings-btn secondary" (click)="dialogRef.close()">Exit</button>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+<div class="submissions-section main" *ngIf="loading">
+  <h4>Loading ... </h4>
+</div>
+<form class="submissions-section main">
+  <div class="client-section submissions-container">
+    <div class="submissions-header">
+      <h3 class="main-header-title">Submissions</h3>
+
+    </div>
+
+    <div class="submissions-section">
+      <div class="header">
+        <div class="tabs-container">
+          <div class="tab tab-item" id="submissions-tab" *ngFor="let submission of parsedSubmissions; index as i">
+            <h5 class="tab-text" (click)="setSubmissionActive(i)"
+                [ngClass]="{'active': i === activeSubmissionIndex}">
+              {{ submission.formTitle }}
+            </h5>
+          </div>
+        </div>
+      </div>
+
+      <div class="main header" *ngIf="parsedSubmissions.length > 0">
+        <!-- <pre>{{xmlOutput}}</pre>
+        <hr>
+        <button class="send-submission-btn" (click)="sendSubmission()">Submit
+        </button> -->
+        <div *ngFor="let submission of parsedSubmissions; index as j">
+          <div *ngIf="isSubmissionActive(j)">
+            <ng-container style="margin-bottom: 20px;" *ngFor="let section of submission.sections">
+              <div class="submission-section-header" style="margin: 20px 0">
+                <ng-container *ngIf="section && section.title">
+                  <h3 class="main-header-title">{{section.title}}</h3>
+                </ng-container>
+              </div>
+
+              <div class="main-header" *ngIf="!section.isMultiple">
+                <div class="form-group" *ngFor="let question of section.questions">
+                  <div class="group">
+                    <div class="info-label-container">
+                      <p class="info-label">{{ question.questionText }}</p>
+                    </div>
+                    <p class="info">{{ question.answerText || 'Not Completed'}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <ng-container *ngIf="section.isMultiple">
+                <div class="main-header">
+                  <div class="tabs-container">
+                    <div class="tab tab-item"
+                         *ngFor="let questionGroup of section.questionGroups; let i = index">
+                      <h5 class="tab-text"
+                          [ngClass]="{'active': section.selectedQuestionGroupIndex === i}"
+                          (click)="section.selectedQuestionGroupIndex = i">{{ i + 1 }}</h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="main-header"
+                     *ngFor="let questionGroup of section.questionGroups; let i = index;">
+                  <ng-container *ngIf="section.selectedQuestionGroupIndex === i">
+                    <div class="form-group" *ngFor="let question of questionGroup[0]">
+                      <div class="group">
+                        <div class="info-label-container">
+                          <p class="info-label">{{ question.questionText }}</p>
+                        </div>
+                        <p class="info">{{ question.answerText || 'Not Completed'}}</p>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

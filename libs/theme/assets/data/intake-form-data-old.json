@@ -1,0 +1,309 @@
+{
+    "obj": {
+      "title": "Auto Form",
+      "metadata": {},
+      "components": [
+        {
+          "type": "intake-form",
+          "fieldGroup": [
+            {
+              "key": 888287,
+              "type": "intake-section",
+              "wrappers": ["section-panel"],
+              "fieldGroup": [
+                {
+                  "key": "investments",
+                  "type": "table",
+                  "defaultValue": [],
+                  "templateOptions": {
+                    "columns": [
+                      { "name": "Name of Investment", "required": true, "prop": "investmentName" },
+                      { "name": "Date of Investment", "prop": "investmentDate" },
+                      { "name": "Stock Identifier", "prop": "stockIdentifier" }
+                    ]
+                  },
+                  "fieldArray": {
+                    "fieldGroup": [
+                      {
+                        "type": "input",
+                        "key": "investmentName",
+                        "templateOptions": {
+                          "className": "table-input",
+                          "placeholder": "Enter Name"
+                        }
+                      },
+                      {
+                        "type": "input",
+                        "key": "investmentDate",
+                        "templateOptions": {
+                          "type": "date",
+                          "className": "table-input",
+                          "placeholder": "Enter Date"
+                        }
+                      },
+                      {
+                        "type": "input",
+                        "key": "stockIdentifier",
+                        "templateOptions": {
+                          "className": "table-input",
+                          "placeholder": "Enter ID"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "templateOptions": {
+                "label": "Houses",
+                "isTable": true
+              }
+            },
+            {
+              "key": 8882879999,
+              "type": "intake-section",
+              "wrappers": ["section-panel"],
+              "fieldGroup": [
+                {
+                  "key": 807328,
+                  "type": "address",
+                  "templateOptions": {
+                    "label": "Address",
+                    "placeholder": "Address",
+                    "className": "intake-input"
+                  }
+                },
+                {
+                  "key": 8073284412,
+                  "type": "checkbox",
+                  "templateOptions": {
+                    "className": "intake-input",
+                    "label": "Check",
+                    "text": "Had policy in the past?"
+                  }
+                },
+                {
+                  "key": 8073284412,
+                  "type": "radio",
+                  "templateOptions": {
+                    "className": "intake-radio",
+                    "label": "Gender",
+                    "placeholder": "Gender",
+                    "options": [
+                      { "value": "Male", "label": "Male" },
+                      { "value": "Female", "label": "Female" }
+                    ]
+                  }
+                },
+                {
+                  "key": 8073284421,
+                  "type": "input",
+                  "templateOptions": {
+                    "className": "intake-input",
+                    "type": "date",
+                    "label": "Policy Date",
+                    "placeholder": "Policy Type"
+                  }
+                },
+                {
+                  "key": 8073284421,
+                  "type": "input",
+                  "templateOptions": {
+                    "className": "intake-input",
+                    "type": "number",
+                    "label": "Number of Dogs",
+                    "placeholder": "Number of Dogs"
+                  }
+                },
+                {
+                  "key": 807328442111,
+                  "type": "input",
+                  "templateOptions": {
+                    "className": "intake-input",
+                    "type": "number",
+                    "label": "Number of Pets",
+                    "placeholder": "Number of Pets"
+                  }
+                }
+              ],
+              "templateOptions": {
+                "label": "Insured"
+              }
+            },
+            {
+              "key": 8882870,
+              "type": "intake-section",
+              "wrappers": ["section-panel"],
+              "fieldGroup": [
+                {
+                  "key": 8073280,
+                  "type": "phonenumber",
+                  "templateOptions": {
+                    "className": "intake-input",
+                    "label": "Phone",
+                    "placeholder": "Phone"
+                  }
+                },
+                {
+                  "key": 807328440,
+                  "type": "input",
+                  "templateOptions": {
+                    "type": "email",
+                    "className": "intake-input",
+                    "label": "Email",
+                    "placeholder": "Email",
+                    "required": true
+                  }
+                },
+                {
+                  "key": 80732844011,
+                  "type": "input",
+                  "templateOptions": {
+                    "type": "password",
+                    "className": "intake-input",
+                    "label": "Social Security",
+                    "placeholder": "Social Security",
+                    "required": true
+                  }
+                },
+                {
+                  "key": 807328440112,
+                  "type": "textarea",
+                  "templateOptions": {
+                    "className": "intake-input",
+                    "label": "More Details",
+                    "placeholder": "More Details"
+                  }
+                }
+              ],
+              "templateOptions": {
+                "label": "Contact"
+              }
+            },
+            {
+              "key": 557322,
+              "type": "intake-repeat",
+              "templateOptions": {
+                "label": "Driver",
+                "subIndex": 0
+              },
+              "fieldArray": {
+                "type": "intake-section",
+                "wrappers": ["section-panel"],
+                "templateOptions": {
+                  "label": "Driver",
+                  "hasRepeatButtons": true
+                },
+                "fieldGroup": [
+                  {
+                    "key": 33505,
+                    "type": "input",
+                    "templateOptions": {
+                      "className": "intake-input",
+                      "label": "First Name",
+                      "placeholder": "First Name",
+                      "required": true
+                    }
+                  },
+                  {
+                    "key": 356239,
+                    "type": "input",
+                    "templateOptions": {
+                      "className": "intake-input",
+                      "label": "Last Name",
+                      "placeholder": "Last Name",
+                      "required": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "key": 5573221,
+              "type": "intake-repeat",
+              "templateOptions": {
+                "label": "Vehicle",
+                "subIndex": 0
+              },
+              "fieldArray": {
+                "type": "intake-section",
+                "wrappers": ["section-panel"],
+                "templateOptions": {
+                  "label": "Vehicle",
+                  "hasRepeatButtons": true
+                },
+                "fieldGroup": [
+                  {
+                    "key": 335051,
+                    "type": "select",
+                    "templateOptions": {
+                      "className": "intake-input",
+                      "label": "Year",
+                      "placeholder": "Year",
+                      "tags": {
+                        "vehicleYear": true
+                      },
+                      "options": [
+                        { "label": 2020, "value": 2020 },
+                        { "label": 2019, "value": 2019 },
+                        { "label": 2018, "value": 2018 },
+                        { "label": 2017, "value": 2017 },
+                        { "label": 2016, "value": 2016 },
+                        { "label": 2015, "value": 2015 }
+                      ]
+                    }
+                  },
+                  {
+                    "key": 3562391,
+                    "type": "select",
+                    "templateOptions": {
+                      "className": "intake-input",
+                      "label": "Make",
+                      "placeholder": "Make",
+                      "tags": {
+                        "vehicleMake": true
+                      },
+                      "options": [
+                        { "label": "Jeep", "value": "Jeep" }
+                      ]
+                    }
+                  },
+                  {
+                    "key": 1265691,
+                    "type": "select",
+                    "templateOptions": {
+                      "className": "intake-input",
+                      "label": "Model",
+                      "placeholder": "Model",
+                      "tags": {
+                        "vehicleModel": true
+                      },
+                      "options": [
+                        { "label": "Jeep", "value": "Jeep" }
+                      ]
+                    }
+                  },
+                  {
+                    "key": 3602161,
+                    "type": "select",
+                    "templateOptions": {
+                      "className": "intake-input",
+                      "label": "Body Style",
+                      "tags": {
+                        "vehicleBodyStyle": true
+                      },
+                      "options": [
+                        { "label": "Jeep", "value": "Jeep" }
+                      ],
+                      "placeholder": "Body Style"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "companyFormViewId": 5
+    }
+      
+}

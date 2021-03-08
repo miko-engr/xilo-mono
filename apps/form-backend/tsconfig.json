@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "types": ["node", "jest"],
+    "emitDecoratorMetadata": true,
+    // "target": "es2015",
+    "module": "commonjs",
+    "target": "esnext",
+    "resolveJsonModule": true
+  },
+  "include": ["**/*.ts"]
+}

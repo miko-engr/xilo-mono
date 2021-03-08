@@ -1,0 +1,13 @@
+@import '../../../../../custom-theme.scss';
+.finish-page {
+  .page-title {
+    font-family: $font-family-Inter-Regular;
+    font-size: $font24;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 130%;
+    color: $black-light;
+    margin-top: 24px;
+    margin-bottom: 32px;
+  }
+}

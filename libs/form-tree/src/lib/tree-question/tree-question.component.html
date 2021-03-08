@@ -1,0 +1,51 @@
+<div
+  class="hover-container"
+  (mouseenter)="showAddQuestion = true"
+  (mouseleave)="showAddQuestion = false"
+>
+  <ng-container *ngIf="mode !== 'json-only'">
+    <div class="drag-section-placeholder" *cdkDragPlaceholder></div>
+  </ng-container>
+  <div
+    class="item-wrapper editor-item-wrapper"
+    [ngClass]="{ hidden: question?.hide }"
+  >
+    <div class="node-data">
+      <div class="type">{{ question.type | titlecase }}</div>
+      <div class="text" [class.title]="true">
+        {{ question.templateOptions?.label }}
+      </div>
+    </div>
+    <div class="node-buttons" *ngIf="!isDragging && mode !== 'json-only'">
+      <button (click)="settingClick.emit()">
+        <!-- [ngClass]="{'selected' : selectedNode && selectedNode.data && selectedNode.data.id === node.data.id && isSettingOpened}" -->
+        <img src="../assets/icons/settings.svg" alt="Settings icon" />
+      </button>
+      <button (click)="conditionsClick.emit()">
+        <img src="../assets/icons/condition.svg" alt="Condition icon" />
+      </button>
+      <button (click)="duplicateClick.emit()">
+        <img src="../assets/icons/duplicate.svg" alt="Duplicate icon" />
+      </button>
+      <button (click)="deleteClick.emit()">
+        <img src="../assets/icons/trash-red.svg" alt="Trash icon" />
+      </button>
+    </div>
+  </div>
+  <div
+    class="add-question-row"
+    *ngIf="!isDragging && mode !== 'json-only' && showAddQuestion"
+  >
+    <div class="btn-group add-question-btngroup">
+      <button
+        class="add-question-button"
+        type="button"
+        id="add-question-button"
+        (click)="newQuestionClick.emit()"
+      >
+        <img src="../assets/icons/plus.svg" class="plus-icon" alt="Plus icon" />
+        <span>Add question</span>
+      </button>
+    </div>
+  </div>
+</div>

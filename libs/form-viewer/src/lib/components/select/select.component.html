@@ -1,0 +1,29 @@
+<!-- <div>
+  <ng-select
+    [class]="to.className || 'accordion'"
+    [formControl]="formControl"
+    bindValue="value"
+    [items]="to.options"
+    [clearable]="false"
+  >
+  </ng-select>
+</div> -->
+<div [ngClass]="{ 'form-row': to?.className === 'xilo-input' }">
+  <div [ngClass]="{ 'form-item': to?.className === 'xilo-input' }">
+    <!-- <label>
+        {{ to.placeholder }}{{ to?.required ? '*' : '' }}
+    </label> -->
+    <select
+      [class]="to.className || 'xilo-input'"
+      [formControl]="formControl"
+      [formlyAttributes]="field"
+    >
+      <option value disabled selected>Choose {{ to?.placeholder }}</option>
+      <option
+        *ngFor="let option of to?.options | formlySelectOptions: field | async"
+        [value]="option.value"
+        >{{ option.label }}</option
+      >
+    </select>
+  </div>
+</div>

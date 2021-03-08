@@ -1,0 +1,17 @@
+@import '../../../../../custom-theme.scss';
+app-header {
+  // box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.03);
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  @include sm {
+    background: $white;
+  }
+  @include md {
+    background: $theme-header-bg;
+  }
+  padding-bottom: 0px;
+}

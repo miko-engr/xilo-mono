@@ -1,0 +1,16 @@
+<div [ngClass]="{'form-row': to?.className === 'xilo-input'}">
+  <div [ngClass]="{'form-item': to?.className === 'xilo-input'}">
+    <!-- <label>
+        {{ to.label }}{{ to?.required ? '*' : '' }}
+    </label> -->
+    <textarea
+      [placeholder]="to.placeholder"
+      [class]="to.className || 'xilo-input'"
+      [formControl]="formControl"
+      [formlyAttributes]="field"       
+    ></textarea>
+
+    <!-- errors showing -->
+    <!-- <label *ngIf="showError">{{ getError() }} </label> -->
+  </div>
+</div>

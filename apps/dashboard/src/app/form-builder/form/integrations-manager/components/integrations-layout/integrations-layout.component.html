@@ -1,0 +1,52 @@
+<div class="content container-fluid" role="main">
+  <div class="row">
+    <div>
+      <h1>
+        Data mapping
+      </h1>
+    </div>
+  </div>
+  <div class="row" cdkDropListGroup>
+    <div class="left">
+      <div class="questions-list">
+        <h2>
+          Questions List
+        </h2>
+        <div class="text">
+          Drag & Drop question to desirable field
+        </div>
+        <div>
+          <app-form-builder-component-question-search-box>
+          </app-form-builder-component-question-search-box>
+        </div>
+        <div class="dropdown-row">
+          <app-form-builder-component-question-dropdown>
+          </app-form-builder-component-question-dropdown>
+        </div>
+      </div>
+      <xilo-mono-form-tree
+        [form]="form"
+        (jsonData)="onSendJson($event)"
+        *ngIf="form && form.components"
+        mode="json-only"
+      ></xilo-mono-form-tree>
+    </div>
+    <div class="right">
+      <div class="integrations-wrapper">
+        <div class="title-row">
+          <h2>
+            Integrations
+          </h2>
+          <app-form-builder-component-add-integration-dropdown>
+          </app-form-builder-component-add-integration-dropdown>
+        </div>
+        <div class="dropdown-row">
+          <!-- <app-form-builder-component-question-dropdown>
+          </app-form-builder-component-question-dropdown> -->
+        </div>
+      </div>
+      <vendor-integration-mapping-fields [formFields]="formFields" [form]="form">
+      </vendor-integration-mapping-fields>
+    </div>
+  </div>
+</div>

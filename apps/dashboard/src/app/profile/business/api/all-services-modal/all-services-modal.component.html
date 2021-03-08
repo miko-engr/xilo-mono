@@ -1,0 +1,20 @@
+<div class="modal-block">
+  <div mat-dialog-title class="modal-button-pos modal-button-bottom-pos">
+    <div class="custom-search-block">
+      <span>All Services</span>
+      <ng-container class="custom-input-block">
+        <div class="custom-form-responsive all-service-modal-search">
+          <input id="search" type="text" placeholder="Search.." [(ngModel)]="searchText" (keyup)="search(searchText)">
+          <label for="search" class="input-icon"><mat-icon>search</mat-icon></label>
+        </div>
+      </ng-container>
+    </div>
+    <mat-icon (click)="close()">close</mat-icon>
+  </div>
+  <div class="all-service-separator"></div>
+  <div mat-dialog-content>
+    <div *ngFor="let item of apiServiceList">
+      <app-integrations [integrationtype]="integrationtype" [company]="company" [data]="item"></app-integrations>
+    </div>
+  </div>
+</div>

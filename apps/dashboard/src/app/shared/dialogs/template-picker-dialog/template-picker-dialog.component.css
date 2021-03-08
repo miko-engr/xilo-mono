@@ -1,0 +1,14 @@
+.image-container {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.image {
+    flex: 0 1 22%;
+    margin: 0 10px 15px 0;
+    border: 1px solid black;
+}
+
+.image:hover {
+    opacity: .7;
+}

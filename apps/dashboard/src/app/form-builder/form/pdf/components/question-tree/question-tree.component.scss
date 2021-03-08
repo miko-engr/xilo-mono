@@ -1,0 +1,204 @@
+
+::ng-deep {
+  app-form-builder-component-pdf-question-tree {
+    .section-info {
+      padding: 16px 24px;
+      background: #FAFAFA;
+      h3 {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 17px;
+        color: #111111;
+        margin: 0;
+      }
+      .text {
+        font-size: 12px;
+        line-height: 15px;
+      }
+    }
+    span {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 17px;
+      color: #111111;
+    }
+
+    .item-wrapper {
+      display: flex;
+      align-items: center;
+      padding-left: 12.67px;
+      width: 100%;
+      .drag-indicator {
+        margin-right: 12.67px;
+      }
+
+      .bullet-icon {
+        display: flex;
+        align-items: center;
+        width: 16px;
+        height: 16px;
+        flex: 1;
+      }
+
+      .node-bullet {
+        background: #D9D9FE;
+        border-radius: 4px;
+        width: 72px;
+        padding: 4px 16px 4px 4px;
+        display: flex;
+        align-items: center;
+        margin-right: 16px;
+      }
+    }
+
+    .tree-node-level-2 {
+      .item-wrapper {
+        padding-left: 29.33px;
+      }
+      .node-bullet {
+        background: transparent;
+        width: 16px;
+        padding: 4px 0px 4px 4px;
+        .index {
+          display: none;
+        }
+      }
+    }
+
+    .matched-item {
+      margin: 8px 0 0 29.33px;
+      height: 20px;
+      background: #E5E5FB;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      padding: 2px 8px;
+      img {
+        width: 16px;
+      }
+    }
+
+    .tree-children.tree-children-no-padding {
+      padding-left: 0
+    }
+
+    .node-drop-slot {
+      display: block;
+      height: 2px;
+    }
+
+    .node-drop-slot.is-dragging-over {
+      background: #dfe;
+      height: 20px;
+      border: 2px dotted #888
+    }
+
+    .toggle-children {
+      display: none;
+    }
+
+    .toggle-children-placeholder {
+      display: none;
+    }
+
+    .node-content-wrapper {
+      display: inline-block;
+      padding: 16px 0;
+      border-radius: 2px;
+      transition: background-color .15s, box-shadow .15s;
+      width: 100%;
+    }
+
+    .node-wrapper {
+      display: flex;
+      align-items: flex-start
+    }
+
+    .node-content-wrapper-active,
+    .node-content-wrapper-active.node-content-wrapper-focused,
+    .node-content-wrapper.node-content-wrapper-active:hover {
+      width: 100%;
+      background: #beebff
+    }
+
+    .node-content-wrapper-focused {
+      width: 100%;
+      background: rgba(229, 229, 251, 0.4);
+    }
+
+    .node-content-wrapper:hover {
+      background: rgba(229, 229, 251, 0.4);
+      width: 100%;
+    }
+
+    .node-content-wrapper-active,
+    .node-content-wrapper-focused,
+    .node-content-wrapper:hover {
+
+    }
+
+    .node-content-wrapper.is-dragging-over {
+      background: #dfe;
+    }
+
+    .node-content-wrapper.is-dragging-over-disabled {
+      opacity: .5
+    }
+
+    tree-viewport {
+      -webkit-tap-highlight-color: transparent;
+      overflow: auto;
+      display: block
+
+    }
+
+    .tree-children {
+      overflow: hidden;
+    }
+
+    .empty-tree-drop-slot .node-drop-slot {
+      height: 20px;
+      min-width: 100px;
+    }
+
+    .angular-tree-component {
+      width: 100%;
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      background-color: white;
+    }
+
+    tree-node-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    tree-root .angular-tree-component-rtl .tree-children {
+      padding-right: 20px;
+      padding-left: 0
+    }
+
+    tree-node-checkbox {
+      padding: 1px
+    }
+
+    .reverse tree-node-expander {
+      order: 0
+    }
+
+    .reverse tree-node-checkbox {
+      order: 1
+    }
+
+    .reverse .node-content-wrapper {
+      order: 2
+    }
+  }
+}

@@ -1,0 +1,47 @@
+@import '../../../../../custom-theme.scss';
+
+.input-container {
+  padding-left: 24px;
+  margin-top: 6px;
+  display: flex;
+  color: #111111;
+  padding-left: 0px;
+
+  span {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 100px;
+    font-family: $font-family-Inter-Regular;
+    font-style: normal;
+    font-size: $font15;
+    font-weight: bold;
+    height: 40px;
+    cursor: pointer;
+    border: 1px solid #b4b4bb;
+    border-right: 0px;
+    line-height: 130%;
+    background: $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.selected {
+      background-color: #d3f7f4;
+      border: 1px solid #23d6c8;
+      & ~ span {
+        &:nth-child(n) {
+          border-left: 0px;
+          border-right: 1px solid #b4b4bb;
+        }
+      }
+    }
+
+    &:first-child {
+      border-radius: 6px 0px 0px 6px;
+    }
+    &:last-child {
+      border-radius: 0px 6px 6px 0px;
+      border-right: 1px solid #b4b4bb;
+    }
+  }
+}

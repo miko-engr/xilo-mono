@@ -1,0 +1,25 @@
+.question-search-box {
+  background: #FCFCFC;
+  border: 1px solid #D6D6D6;
+  box-sizing: border-box;
+  border-radius: 4px;
+  display: flex;
+  padding: 8px 12px;
+  min-width: 368px;
+  width: 100%;
+
+  .search-icon {
+    margin-right: 12px;
+    width: 14px;
+    display: flex;
+  }
+  .search-input {
+    border: none;
+    flex: 1;
+    outline: none;
+    background-color: transparent;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

@@ -1,0 +1,82 @@
+<div class="team_main_block">
+    <mat-form-field class="email-block mr-3">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        #email="ngModel"
+        name="resendEmail"
+        [(ngModel)]="resendEmail"
+        placeholder="Email"
+        pattern="(\s*[^\s]+\s*)+"
+      />
+    </mat-form-field>
+    <button class="primary-btn" (click)="resendInvitation()" [disabled]="!resendEmail">
+        Resend Invitation
+    </button>
+    <button class="primary-btn" *ngIf="isAddingAgent()" style="border: 1px solid red; background: red; color: #fff" (click)="resetData()">
+        Reset Form
+    </button>
+    <section class="c-error" *ngIf="error$ | async as error">
+      <h1>{{ error }}</h1>
+    </section>
+    <div class="team_block" *ngIf="isLoggedIn()">
+      <mat-horizontal-stepper 
+        class="stepper_main_block" 
+        [linear]="true"
+        #stepper
+        *ngIf="accountDetails$ | async as acctDetails"
+        >
+        <mat-step>
+          <ng-template matStepLabel>Contract details</ng-template>
+          <app-team-signup-contract-details
+            [(contract)]="accountDetails.contract"
+            (next)="onNextStep($event)"
+          ></app-team-signup-contract-details>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Agency details</ng-template>
+            <app-team-signup-company-details
+              [(contract)]="accountDetails.contract"
+              [(company)]="accountDetails.company"
+              (next)="onNextStep($event)"
+            ></app-team-signup-company-details>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Payment details</ng-template>
+          <app-team-signup-payment-details
+            [(payment)]="accountDetails.payment"
+            [(contract)]="accountDetails.contract"
+            (next)="onNextStep($event)"
+          >
+          </app-team-signup-payment-details>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Default forms</ng-template>
+          <app-team-signup-form-selection
+            [selectedForms]="accountDetails.selectedForms"
+            (updateArray)="updateArray('forms', $event)"
+            (next)="onNextStep($event)"
+          >
+          </app-team-signup-form-selection>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Default Integrations</ng-template>
+          <app-team-signup-integration-selection
+            [selectedApis]="accountDetails.selectedApis"
+            (updateArray)="updateArray('apis', $event)"
+            (next)="onNextStep($event)"
+          >
+          </app-team-signup-integration-selection>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Done</ng-template>
+          <p>You have finished adding the agency's details. Click below to send the invite</p>
+          <div>
+            <button class="secondary-btn mt-3" matStepperPrevious>Back</button>
+            <button class="primary-btn mt-3" (click)="sendInvitation()">Send Invitation</button>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+</div>
+

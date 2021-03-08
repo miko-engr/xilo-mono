@@ -1,0 +1,23 @@
+<section class="page-container mt-2">
+  <section class="page-content" *ngIf="loaded" @FadingSection>
+    <div class="page-title-section">
+      <h3 class="page-title">
+        Please choose from the following forms:
+      </h3>
+    </div>
+
+    <div class="list-section">
+      <div
+        (click)="handleFormOptionClick(form)"
+        class="list-item"
+        *ngFor="let form of listOfForms; let i = index"
+      >
+        <div
+          class="list-form-icon"
+          [innerHTML]="form?.icon | safe: 'html'"
+        ></div>
+        <h3>{{ form.title }}</h3>
+      </div>
+    </div>
+  </section>
+</section>

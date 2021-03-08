@@ -1,0 +1,93 @@
+<div class="container">
+  <app-form-wizard-nav></app-form-wizard-nav>
+  <div class="main">
+    <div class="title-bar">
+      <div class="title">
+        <h1 class="header">Create new form</h1>
+        <p class="subheader">
+          Choose the predefined template or create from from scratch
+        </p>
+      </div>
+      <button class="cancel-btn" (click)="routeToFormsList()">Cancel</button>
+    </div>
+    <div class="section">
+      <div class="side-nav">
+        <div class="title-section">
+          <h3 class="header">Template Library</h3>
+          <small class="subheader"
+            >Skip creating a form and start with predefined templates</small
+          >
+        </div>
+        <div class="bars">
+          <div
+            class="bar"
+            [ngClass]="{ active: categoryIsActive(category) }"
+            *ngFor="let category of templateCategories"
+            (click)="filterCategory(category)"
+          >
+            <p>{{ category }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="btn-container">
+          <button
+            class="scratch-btn"
+            [matMenuTriggerFor]="startFromScratchMenu"
+          >
+            Start From Scratch
+          </button>
+          <mat-menu #startFromScratchMenu>
+            <button mat-menu-item (click)="createForm(newCustomerFormTemplate)">
+              Create customer form from scratch
+            </button>
+            <button mat-menu-item (click)="createForm(newIntakeFormTemplate)">
+              Create intake form from scratch
+            </button>
+          </mat-menu>
+        </div>
+        <div class="template-title-bar">
+          <h3>Recommended Templates</h3>
+          <input
+            [(ngModel)]="search"
+            (ngModelChange)="filterTemplate($event)"
+            class="search-input"
+            type="text"
+            placeholder="Search"
+          />
+        </div>
+        <div class="cards">
+          <div
+            class="card"
+            (click)="createForm(template)"
+            *ngFor="let template of templates"
+          >
+            <div class="top-bar">
+              <div
+                class="icon"
+                [innerHTML]="template.icon | safe: 'html'"
+              ></div>
+              <div class="content">
+                <h3>{{ template.title }}</h3>
+                <div class="description">
+                  <div class="description-type">
+                    <small>Form Type</small>
+                    <p>{{ formType(template) }}</p>
+                  </div>
+                  <div class="description-type">
+                    <small>Line of Business</small>
+                    <p>{{ template.metadata.templateLob }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="bottom-bar">
+              <small>Recommended Integrations</small>
+              <p>{{ template.metadata.templateIntegrations }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

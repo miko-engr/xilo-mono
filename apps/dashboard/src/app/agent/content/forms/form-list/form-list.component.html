@@ -1,0 +1,22 @@
+<div class="auto-complete-content-area" *ngIf="companyRetrieved && formsRetrieved">
+    <div class="page-container">
+        <div class="page">
+            <ul class="item-listing">
+                <li *ngFor="let form of forms; let i = index">
+                    <span>
+                        {{form.title || form.type}}
+                    </span>
+                    <span class="action-container-side">
+                        <i class="icon-eye" [matMenuTriggerFor]="viewFormMenu"></i>
+                        <mat-menu #viewFormMenu="matMenu">
+                            <a [href]="returnFormUrl(form, 'start')" mat-menu-item target="_blank" style="text-decoration: none;">View Form</a>
+                            <a (click)="copyLink(form, 'start')" mat-menu-item target="_blank" style="text-decoration: none;">Copy Link</a>
+                        </mat-menu>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

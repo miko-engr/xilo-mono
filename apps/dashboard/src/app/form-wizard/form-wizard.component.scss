@@ -1,0 +1,196 @@
+.container {
+  padding: 0 219px;
+
+  .main {
+    display: flex;
+    flex-flow: column;
+
+    .title-bar {
+      display: flex;
+      flex-flow: row;
+      justify-content: flex-start;
+      margin-bottom: 24px;
+      margin-top: 32px;
+
+      .title {
+        display: flex;
+        flex-flow: column;
+
+        .header {
+          margin: 4px 0;
+          font-size: 24px;
+        }
+
+        .subheader {
+          margin: 0;
+        }
+      }
+      button {
+        margin-left: auto;
+        width: 128px;
+        border-radius: 4px;
+        color: #7c7fff;
+        border: 1px solid #8181fb;
+        box-sizing: border-box;
+        background: #fff;
+        outline: none;
+        height: 40px;
+        cursor: pointer;
+      }
+    }
+
+    .section {
+      display: flex;
+      flex-flow: row nowrap;
+
+      .side-nav {
+        background: #fafafa;
+        width: 232px;
+        display: flex;
+        flex-flow: column;
+        margin-right: 32px;
+
+        .title-section {
+          display: flex;
+          flex-flow: column;
+          padding: 29px 16px;
+          box-sizing: border-box;
+          .header {
+            margin: 0 0 8px 0;
+          }
+          .subheader {
+            margin: 0;
+          }
+        }
+
+        .bars {
+          .bar {
+            height: 48px;
+            padding: 0 16px;
+            display: flex;
+            cursor: pointer;
+            &:hover {
+              background: #d9d9fe;
+            }
+          }
+          .active {
+            background: #d9d9fe;
+          }
+        }
+      }
+
+      .right {
+        display: flex;
+        flex-flow: column;
+        width: 75%;
+
+        .btn-container {
+          .scratch-btn {
+            width: 200px;
+            background: #7c7fff;
+            padding: 12px 20px;
+            color: white;
+            border-radius: 4px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+          }
+        }
+
+        .template-title-bar {
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: space-between;
+          margin-bottom: 16px;
+          align-items: center;
+          h3 {
+            font-size: 18px;
+          }
+
+          input {
+            height: 32px;
+            padding-left: 12px;
+            background: #fcfcfc;
+            border: 1px solid #d6d6d6;
+            box-sizing: border-box;
+            border-radius: 4px;
+          }
+        }
+
+        .cards {
+          display: flex;
+          flex-flow: column;
+
+          .card {
+            height: 191px;
+            border: 1px solid #dadada;
+            border-radius: 4px;
+            width: 100%;
+            padding: 32px;
+            display: flex;
+            flex-flow: column;
+            margin-bottom: 8px;
+            box-sizing: border-box;
+            cursor: pointer;
+            &:hover {
+              background: rgba(217, 217, 254, 0.2);
+              border: 1px solid #6e71ff;
+            }
+
+            .top-bar {
+              display: flex;
+              flex-flow: row nowrap;
+              margin-bottom: 24px;
+              .icon {
+                margin-right: 24px;
+                height: 64px;
+                width: 64px;
+              }
+
+              .title {
+                h3 {
+                  margin: 0;
+                }
+              }
+
+              .content {
+                display: flex;
+                flex-flow: column;
+                width: 260px;
+
+                h3 {
+                  margin: 0;
+                  margin-bottom: 8px;
+                }
+                .description {
+                  display: flex;
+                  flex-flow: row nowrap;
+                  justify-content: space-between;
+
+                  .description-type {
+                    display: flex;
+                    flex-flow: column;
+                    p {
+                      margin: 0;
+                    }
+                  }
+                }
+              }
+            }
+
+            .bottom-bar {
+              display: flex;
+              flex-flow: column;
+
+              p {
+                margin: 0 0 4px 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

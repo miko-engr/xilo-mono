@@ -1,0 +1,42 @@
+#table {
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #DADADA;
+    max-width: 100%;
+    overflow-x: scroll;
+
+    tr {
+        th {
+            background: rgba(217, 217, 254, .4);
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            font-weight: 500;
+            color: #000;
+            font-size: 14px;
+            border: 1px solid #DADADA;
+        }
+    }
+    td, th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    tr {
+        background: #fff;
+    }
+}
+
+.add-btn {
+    margin-top: 8px;
+    border-radius: 4px;
+    width: auto;
+    height: auto;
+    border: none;
+    float: right;
+    outline: none;
+    background: rgba(217, 217, 254, .4);
+    padding: 4px 12px;
+    cursor: pointer;
+}

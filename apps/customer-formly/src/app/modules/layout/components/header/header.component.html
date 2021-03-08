@@ -1,0 +1,30 @@
+<header>
+  <div *ngIf="companyDetails?.logo" class="logo-section">
+    <img
+      [src]="companyDetails?.logo"
+      [ngStyle]="{ height: companyDetails.logoHeight }"
+      alt="company-logo"
+    />
+  </div>
+  <div class="address-section">
+    <ul>
+      <li *ngIf="companyDetails?.mainLocation">
+        <img src="assets/icon/marker.svg" /><span>{{
+          companyDetails?.mainLocation
+        }}</span>
+      </li>
+
+      <li *ngIf="companyDetails?.contactNumber">
+        <img src="assets/icon/phone.svg" /><span>{{
+          companyDetails?.contactNumber
+        }}</span>
+      </li>
+
+      <li *ngIf="companyDetails?.textNumber">
+        <img src="assets/icon/phone.svg" /><span>{{
+          companyDetails?.textNumber
+        }}</span>
+      </li>
+    </ul>
+  </div>
+</header>

@@ -1,0 +1,62 @@
+
+<div class="client-section">
+   <div class="home-section" *ngIf="!clientRetrieved">
+      Loading ...
+   </div>
+   
+   <form class="home-section main" *ngIf="clientRetrieved">
+   <div class="client-section auto-container">
+      <div class="company-header">
+         <h3 class="main-header-title">Home Info</h3>
+      </div>
+      <div class="driver-section">
+         <div class="header">
+            <div class="tabs-container">
+                  <div class="tab tab-item" id="client-tab" *ngFor="let home of client.homes; index as i" (click)="changeHomeIndex(i); createHomeRows(i)">
+                     <h5 class="tab-text" [ngClass]="{'active': +i === +homeIndex}">
+                        {{home.streetAddress}}
+                     </h5>
+                  </div>
+            </div>
+         </div>
+         <div class="main header" *ngIf = "client.homes != undefined">
+            <div class="form-group" *ngFor="let row of returnUniqRows(homeRows)">
+                  <div class="group">
+                     <div class="info-label-container">
+                        <p class="info-label">{{row.label}}</p>
+                     </div>
+                     <p class="info">{{row.value || 'Not Completed'}}</p>
+                  </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="client-section auto-container">
+      <div class="driver-section">
+         <div class="company-header">
+            <h3 class="main-header-title">Locations</h3>
+         </div>
+         <div class="tabs-container">
+            <div class="tab tab-item" id="client-tab" *ngFor="let location of client.locations; index as j" (click)="changeLocationIndex(j); createLocationsRows(j)">
+               <h5 class="tab-text" [ngClass]="{'active': +j === +locationIndex}">
+                  {{location.streetAddress}}
+               </h5>
+            </div>
+         </div>
+         <div class="main header" *ngIf = "client.locations !== undefined">
+            <div class="form-group" *ngFor="let row of returnUniqRows(locationRows)">
+                  <div class="group">
+                     <div class="info-label-container">
+                        <p class="info-label">{{row.label}}</p>
+                     </div>
+                     <p class="info">{{row.value || 'Not Completed'}}</p>
+                  </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   </form>
+</div>
+
+<ngx-loading [show]="loading || !homeRowsCreated" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

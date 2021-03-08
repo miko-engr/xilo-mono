@@ -1,0 +1,137 @@
+<div class="modal-block">
+  <h3 mat-dialog-title class="settings-modal-content">{{data?.name}}</h3>
+  <div class="separator"></div>
+  <div mat-dialog-content>
+    <div *ngIf="data?.key === 'pipedriveIntegration'">
+      <div class="custom-form-responsive-modal">
+        <label>Url</label>
+        <input type="text" name="contactNumber" [(ngModel)]="settings.pipedriveUrl" 
+              (ngModelChange)="trackChanges()" placeholder="Url">
+      </div>
+      <div class="custom-form-responsive-modal">
+        <label>Token</label>
+        <input type="text" name="contactNumber" [(ngModel)]="settings.pipedriveToken" 
+              (ngModelChange)="trackChanges()" placeholder="Token">
+      </div>
+      <div class="custom-form-responsive-modal">
+        <label>Pipeline Name</label>
+        <input type="text" name="contactNumber" [(ngModel)]="settings.pipedrivePipeline" 
+              (ngModelChange)="trackChanges()" placeholder="Pipeline Name">
+      </div>
+      <div class="custom-form-responsive-modal">
+        <label>Stage Name</label>
+        <input type="text" name="contactNumber" [(ngModel)]="settings.pipedriveStage" 
+              (ngModelChange)="trackChanges()" placeholder="Stage Name">
+      </div>
+    </div>
+    <div *ngIf="data?.settings?.fields?.length && !data?.settings?.vendorName">
+      <div *ngFor="let field of data?.settings?.fields">
+        <div class="custom-form-responsive-modal" *ngIf="!field?.isButton">
+          <label>{{field?.label}}</label>
+          <input type="text" [placeholder]="field?.label">
+        </div>
+        <div class="custom-form-responsive-modal" *ngIf="field?.isButton && data?.url">
+          <button mat-button 
+              [class.button-green]="data.isAuthorized && data.isValidToken"
+              [class.button-red]="data.isAuthorized && !data.isValidToken"
+              class="modal-primary-btn" (click)="routeTo(data?.url)">{{field?.label}}</button>
+        </div>
+      </div>
+      <div class="custom-form-responsive-modal">
+        <label>Forms</label>
+        <mat-chip-list style="margin-left: 24px" *ngIf="activeForms && activeForms.length > 0">
+            <mat-chip *ngFor="let form of activeForms">{{form.title}}
+              <mat-icon matChipRemove (click)="removeActiveForm(form)">cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+        <select name="vendor-select" class="vendor-input" [(ngModel)]="selectedFormId" (ngModelChange)="setActiveForm($event)">
+          <option [value]="null">-- Add form --</option>
+          <option [value]="form.id" *ngFor="let form of forms">{{form.title}}</option>
+        </select>
+      </div>
+    </div>
+    <div *ngIf="data?.settings?.vendorName">
+      <div *ngIf="vendor?.vendorName === 'AMS360' && amsDetailsLoaded">
+        <div class="custom-form-responsive-modal">
+          <label>Divisions</label>
+          <select name="divisions-select" class="vendor-input" [(ngModel)]="data?.company.division" (ngModelChange)="updateCompany()">
+            <option [value]="null">-- Add dvision --</option>
+            <option [value]="division.code" *ngFor="let division of amsSettings?.divisions">{{division.name}}</option>
+          </select>        
+          <label>Branches</label>
+          <select name="branches-select" class="vendor-input" [(ngModel)]="data?.company.branch" (ngModelChange)="updateCompany()">
+            <option [value]="null">-- Add branch --</option>
+            <option [value]="branch.code" *ngFor="let branch of amsSettings?.branches">{{branch.name}}</option>
+          </select>        
+          <label>Departments</label>
+          <select name="departments-select" class="vendor-input" [(ngModel)]="data?.company.department" (ngModelChange)="updateCompany()">
+            <option [value]="null">-- Add department --</option>
+            <option [value]="department.code" *ngFor="let department of amsSettings?.departments">{{department.name}}</option>
+          </select>        
+          <label>Groups</label>
+          <select name="groups-select" class="vendor-input" [(ngModel)]="data?.company.group" (ngModelChange)="updateCompany()">
+            <option [value]="null">-- Add group --</option>
+            <option [value]="group.code" *ngFor="let group of amsSettings?.groups">{{group.name}}</option>
+          </select>        
+          <label>Account Executives</label>
+          <select name="execs-select" class="vendor-input" [(ngModel)]="data?.company.mainExecutiveCode" (ngModelChange)="updateCompany()">
+            <option [value]="null">-- Add account executive --</option>
+            <option [value]="exec.code" *ngFor="let exec of amsSettings?.executives">{{exec.name}}</option>
+          </select>        
+          <label>Account Reps</label>
+          <select name="reps-select" class="vendor-input" [(ngModel)]="data?.company.producerNumber" (ngModelChange)="updateCompany()">
+            <option [value]="null">-- Add account rep --</option>
+            <option [value]="rep.code" *ngFor="let rep of amsSettings?.reps">{{rep.name}}</option>
+          </select>       
+        </div>
+      </div>
+      <div class="custom-form-responsive-modal" *ngIf="vendor?.vendorName === 'RATER'">
+        <label>State (2-Letters)</label>
+        <input type="text" max="2" class="vendor-input" placeholder="State (2-Letters)" (ngModelChange)="trackChanges()" [(ngModel)]="vendor.state">
+      </div>
+      <div class="custom-form-responsive-modal" *ngIf="vendor?.vendorName === 'RATER'">
+        <label>Carrier</label>
+        <input type="text" class="vendor-input" placeholder="Carrier" (ngModelChange)="trackChanges()" [(ngModel)]="vendor.carrier">
+      </div>
+      <div class="custom-form-responsive-modal" *ngIf="vendor.vendorName === 'AMS360'">
+        <label>Agency</label>
+        <input type="text" class="vendor-input" placeholder="Agency" (ngModelChange)="trackChanges()" [(ngModel)]="vendor.agency">
+      </div>
+      <div class="custom-form-responsive-modal" *ngIf="!(['WEALTHBOX', 'RICOCHET', 'FACEBOOK', 'PLRATER'].includes(vendor.vendorName))">
+        <label>{{vendor.vendorName !== 'TURBORATER'? 'Username': 'Account number'}}</label>
+        <input type="text" class="vendor-input" [placeholder]="vendor.vendorName !== 'TURBORATER'? 'Username': 'Account number'" (ngModelChange)="trackChanges()" 
+          [(ngModel)]="vendor.username" [(value)]="vendor.username">
+      </div>
+      <div class="custom-form-responsive-modal" *ngIf="!(['EZLYNX','TURBORATER','COMMERCIAL_EZLYNX', 'WEALTHBOX', 'RICOCHET', 'FACEBOOK', 'PLRATER'].includes(vendor.vendorName))">
+        <label>Password</label>
+        <input type="password" class="vendor-input" placeholder="Password" (ngModelChange)="trackChanges()" [(ngModel)]="vendor.password">
+      </div>
+      <div class="custom-form-responsive-modal" *ngIf="(['SF','WEALTHBOX', 'RICOCHET', 'FACEBOOK'].includes(vendor.vendorName))">
+        <label>Token</label>
+        <input type="password" class="vendor-input" placeholder="Token" (ngModelChange)="trackChanges()" [(ngModel)]="vendor.accessToken">
+      </div>
+      <div class="custom-form-responsive-modal">
+        <label>Forms</label>
+        <mat-chip-list style="margin-left: 24px" *ngIf="activeForms && activeForms.length > 0">
+            <mat-chip *ngFor="let form of activeForms">{{form.title}}
+              <mat-icon matChipRemove (click)="removeActiveForm(form)">cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+        <select name="vendor-select" class="vendor-input" [(ngModel)]="selectedFormId" (ngModelChange)="setActiveForm($event)">
+          <option [value]="null">-- Add form --</option>
+          <option [value]="form.id" *ngFor="let form of forms">{{form.title}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="separator"></div>
+  <div mat-dialog-actions class="modal-button-pos">
+    <div>
+      <button mat-button class="modal-secondary-btn" (click)="disconnect()">Disconnect</button>
+    </div>
+    <div>
+      <button mat-button class="modal-primary-btn" (click)="saveApi()">Save</button>
+      <button mat-button (click)="close()" class="modal-secondary-btn">Cancel</button>
+    </div>
+  </div>
+</div>

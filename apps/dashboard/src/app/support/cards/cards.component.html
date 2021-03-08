@@ -1,0 +1,8 @@
+<div class="card">
+    <div class="card-title">
+        <h1>{{ card.preferredPhrase }}</h1>
+    </div>
+    <div class="card-content" [innerHTML]="card.content | safe: 'html'">
+    </div>
+    <button class="card-button" (click)="onBack()">Back to Help</button>
+</div>

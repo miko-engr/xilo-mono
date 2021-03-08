@@ -1,0 +1,87 @@
+<div class="auto-section main" *ngIf="loading">
+  <h4>Loading ... </h4>
+</div>
+
+<form class="auto-section main flow-listing-container" *ngIf="!loading">
+  <div class="client-section auto-container">
+    <div class="company-header">
+      <h3 class="main-header-title">Current Flow</h3>
+    </div>
+    <div *ngIf="!currentFlow.obj">
+      {{currentFlow.title}}
+    </div>
+    <div class="table-container" *ngIf="currentFlow.obj">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Title</th>
+          <th>New Lead Flow</th>
+          <th>Days In Flow</th>
+          <th>Next Step</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="current-flow-title">
+            <p class="flow-info">{{currentFlow.obj.title}}</p>
+            <p class="small m-0"></p>
+          </td>
+          <td class="current-flow-title">
+            <p class="flow-info">{{currentFlow.obj.isNewClientFlow ? 'Yes': 'No'}} </p>
+            <p class="small m-0"></p>
+          </td>
+          <td class="current-flow-title"><p class="flow-info">{{ currentFlow.obj.daysInFlow ? currentFlow.obj.daysInFlow : currentFlow.obj.daysInFlow === 0 ? currentFlow.obj.daysInFlow : 'N/A'}}</p></td>
+          <td class="current-flow-title">
+            <p class="flow-info">{{ !currentFlow.obj.nextStep ?  'N/A': currentFlow.obj.nextStep.type + ' at '}}&nbsp;</p>
+            <p class="flow-info">{{!currentFlow.obj.nextStep ? '': currentFlow.obj.nextStep.scheduleDate | date: 'short'}}</p>
+            <p class="small m-0"></p>
+          </td>
+          <td class="action-align current-flow-title">
+            <div class="company-header">
+              <button class="icon-btn" (click)="removeFromFlow()"><span class="icon-rubbish-bin"></span><span class="flow-info">Remove From Flow</span></button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="client-section auto-container">
+    <div class="company-header">
+      <h3 class="main-header-title">Add to Flow</h3>
+    </div>
+    <div *ngIf="!availableFlows.obj.length">
+      {{availableFlows.title}}
+    </div>
+    <div class="table-container" *ngIf="availableFlows.obj.length">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Title</th>
+          <th>New Lead Flow</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let flow of availableFlows.obj">
+          <td class="flow-title">
+            <p class="m-0 flow-info">{{flow.title}}</p>
+            <p class="small m-0"></p>
+          </td>
+          <td>
+            <p class="flow-info">{{flow.isNewClientFlow ? 'Yes': 'No'}}</p>
+          </td>
+          <td class="action-align">
+            <div class="company-header">
+                <button class="icon-btn custom-addflow" (click)="addToFlow(flow.id)" [disabled]="currentFlow.obj" ><span class="icon-add"></span><span class="flow-info">Add To Flow</span></button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</form>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

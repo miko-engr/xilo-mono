@@ -1,0 +1,40 @@
+@import '../../../../../../../node_modules/bootstrap/scss/bootstrap.scss';
+.signupHeader-block {
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        height: 80px;
+        .account-block {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .username {
+                font-weight: 600;
+                font-size: 14px;
+                line-height: 17px;
+            }
+            .company {
+                font-weight: 500;
+                font-size: 10px;
+                line-height: 12px;
+            }
+        }
+    }
+
+    img, .mat-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 35px;
+    }
+    .main-block {
+        background: #f9f9f9;
+        height: calc(100vh - 80px);
+        overflow-y: auto;
+    }
+
+    .mat-icon {
+        cursor: pointer;
+    }
+}

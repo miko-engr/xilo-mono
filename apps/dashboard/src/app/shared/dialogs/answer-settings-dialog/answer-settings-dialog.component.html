@@ -1,0 +1,387 @@
+<div class="container">
+    <h1 class="title-text">Update Field</h1>
+    <mat-card class="settings-card">
+        <form class="condition-form">
+            <div class="section-title">
+                <h3>Field Storage *</h3>
+            </div>
+            <div class="input-group">
+                <span class="input-label">Type of field <mat-icon class="info-icon" matTooltip="The type of field determines how the prospect will see the field (i.e. Short text, Date picker, Select menu)" matTooltipPosition="right">info</mat-icon></span>
+                <select name="fieldType" [ngModel]="returnType(answer)" (ngModelChange)="setType($event)" class="condition-input">
+                    <option [value]="null" disabled>--- Choose storage field type --- </option>
+                    <option value="isInput">Short Text</option>
+                    <option value="isDatePicker">Date Picker</option>
+                    <option value="isSelect">Select Menu</option>
+                    <option value="isAutocomplete">Autocomplete</option>
+                    <option value="isTextarea">Paragraph</option>
+                    <option value="isButton">Answer Button</option>
+                    <option value="isCheckbox">Checkbox</option>
+                    <option value="isCard">Answer Card</option>
+                    <option value="isSecureDocumentUpload">Document Upload</option>
+                    <option value="isSpacer">Spacer</option>
+                    <option value="isText">Text</option>  
+                    <option value="isAddDriver">Add Driver</option>
+                    <option value="isAddVehicle">Add Vehicle</option>
+                    <option value="isAddHome">Add Home</option>
+                    <option value="isAddLocation">Add Business Location</option>
+                    <option value="isAddIncident">Add Incidents</option>
+                    <option value="isAddRecreationalVehicle">Add Recreational Vehicles</option>
+                    <option value="isAddPolicy">Add Policy</option>
+                    <option value="isURL">Add URL Link</option>
+                </select>
+            </div>
+            <div class="input-group" *ngIf="!conditionsAreTrue('addMultiple')">
+                <span class="input-label">What should we store this field as?
+                    <mat-icon class="info-icon" matTooltip="We use this information to map the field to your integrations" matTooltipPosition="right">info</mat-icon>
+                    <mat-chip-list style="margin-left: 24px" *ngIf="answer.propertyKey && answer.objectName">
+                        <mat-chip>{{returnObjectLabel(answer.objectName)}}</mat-chip>
+                        <mat-chip>{{returnLabel(answer.propertyKey, answer.objectName)}}</mat-chip>
+                    </mat-chip-list>
+                </span>
+                <mat-form-field style="font-size: 8px; width: 50%" (click)="$event.stopPropagation();" floatLabel="never" appearance="outline">
+                    <input type="text" class="form-control" style="font-size: 14px;padding-left: 8px;" placeholder="What is this field?" aria-label="Key" name="key" matInput [ngModel]="searchValue" (ngModelChange)="answer.propertyKey = $event; searchValue=$event" disableRipple [matAutocomplete]="auto">
+                    <!-- <mat-icon style="font-size: 20px;transform: translate(-30px, 6px);" matSuffix>search</mat-icon> -->
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setFields($event)" [displayWith]="displayFn">
+                      <mat-optgroup *ngFor="let group of keyGroups" [label]="group.type">
+                        <mat-option *ngFor="let key of group.keys | filter:searchValue" [value]="{type: group.type, label: key.label, key: key.key}">
+                          {{key.label}}
+                        </mat-option>
+                      </mat-optgroup>
+                    </mat-autocomplete>
+                  </mat-form-field>
+            </div>
+            <div class="input-group" *ngIf="answer.isSelect || answer.isAutocomplete">
+                <span class="input-label">Select menu options <mat-icon class="info-icon" matTooltip="Select menu options are the different options prospects can select from the drop down menu (i.e. Male, Female)" matTooltipPosition="right">info</mat-icon></span>
+                <select name="options" [ngModel]="answer.options" (ngModelChange)="selectedOptionIndex=$event" class="condition-input">
+                    <option [value]="null" disabled>--- Edit option --- </option>
+                    <option *ngFor="let option of answer.options; let i = index" [value]="i">{{option}}</option>
+                </select>
+                <i class="icon-rubbish-bin condition-input-icon" style="left: 52%" (click)="deleteAllOptions(answer)" *ngIf="selectedOptionIndex" matTooltip="Remove All Options"></i>
+            </div>
+            <div class="input-group" *ngIf="answer.isSelect || answer.isAutocomplete">
+                <span class="input-label">{{selectedOptionIndex ? 'Edit' : 'Add'}} option <mat-icon class="info-icon" matTooltip="Use the + button to save the option. Use the arrows to move it up or down in the select menu" matTooltipPosition="right">info</mat-icon></span>
+                <input name="option" type="text" placeholder="Enter option" [ngModel]="selectedOptionIndex ? answer.options[selectedOptionIndex] : newOption" (ngModelChange)="selectedOptionIndex ? answer.options[selectedOptionIndex]=$event : newOption=$event" class="condition-input">
+                <i class="icon-add condition-input-icon" (click)="addOption(selectedOptionIndex ? null : newOption, answer)" *ngIf="newOption || selectedOptionIndex" matTooltip="Save Option"></i>
+                <i class="icon-rubbish-bin condition-input-icon" style="left: 57%" (click)="deleteOption(answer)" *ngIf="selectedOptionIndex" matTooltip="Remove Option"></i>
+                <i class="icon-horizontal-aligned-dots condition-input-icon" style="left: 53%" *ngIf="newOption" [matMenuTriggerFor]="optionMenu" matTooltip="Option Menu"></i>
+                <i class="icon-arrow-up2 condition-input-icon" style="left: 52%" (click)="moveOption(answer, -1)" *ngIf="selectedOptionIndex" matTooltip="Move Up"></i>
+                <i class="icon-arrow-down2 condition-input-icon" style="left: 54%" (click)="moveOption(answer, 1)" *ngIf="selectedOptionIndex" matTooltip="Move Down"></i>
+                <mat-menu #optionMenu="matMenu">
+                    <button class="menu-button" mat-menu-item (click)="addOption(newOption, answer, true)">Add Multiple</button>
+                    <button class="menu-button" mat-menu-item (click)="addOption(newOption, answer, false, true)">Add to Top</button>
+                </mat-menu>
+            </div>
+            <div class="input-group" *ngIf="answer.isButton || answer.isCard || answer.isCheckbox">
+                <span class="input-label">{{answer.isButton ? 'Button' : answer.isCheckbox ? 'Checkbox' : 'Card'}} value <mat-icon class="info-icon" matTooltip="This value determines what is saved when a prospect clicks this object (i.e. Yes or No)" matTooltipPosition="right">info</mat-icon></span>
+                <input name="propertyValue" type="text" placeholder="Enter value" [(ngModel)]="answer.propertyValue" class="condition-input">
+            </div>
+            <div class="input-group" *ngIf="!conditionsAreTrue('addMultiple')">
+                <span class="input-label">Required <mat-icon class="info-icon" matTooltip="Checking this box will make this field required" matTooltipPosition="right">info</mat-icon></span>
+                <input name="isRequired" type="checkbox" [(ngModel)]="answer.isRequired">
+            </div>
+            <div class="section-title">
+                <hr class="section-line-break">
+                <h3>Field Content *</h3>
+            </div>
+            <div class="input-group" *ngIf="answer.isCard">
+                <span class="input-label">Card header <mat-icon class="info-icon" matTooltip="The card header is the large text shown on the card" matTooltipPosition="right">info</mat-icon></span>
+                <input name="headerText" type="text" placeholder="Enter card header" [(ngModel)]="answer.headerText" class="condition-input">
+            </div>
+            <div class="input-group" *ngIf="!answer.isButton && !answer.isTextarea  && !conditionsAreTrue('addMultiple')">
+                <span class="input-label">{{answer.isCard ? 'Card description' : 'Field placeholder'}} <mat-icon class="info-icon" matTooltip="This text helps your prospects know what to fill in a field" matTooltipPosition="right">info</mat-icon></span>
+                <input name="placeholderText" type="text" placeholder="Enter text" [(ngModel)]="answer.placeholderText" class="condition-input">
+            </div>
+            <div class="input-group" *ngIf="answer.isTextarea">
+                <span class="input-label">Field placeholder <mat-icon class="info-icon" matTooltip="This text helps your prospects know what to fill in a field" matTooltipPosition="right">info</mat-icon></span>
+                <input name="secondaryPlaceholderText" type="text" placeholder="Enter text" [(ngModel)]="answer.secondaryPlaceholderText" class="condition-input">
+            </div>
+            <div class="input-group" *ngIf="answer.isButton || conditionsAreTrue('addMultiple')">
+                <span class="input-label">Button text <mat-icon class="info-icon" matTooltip="The button text is the text that shows on the button" matTooltipPosition="right">info</mat-icon></span>
+                <input name="displayValue" type="text" placeholder="Enter button text" [(ngModel)]="answer.displayValue" class="condition-input">
+            </div>
+            <div class="input-group" *ngIf="!conditionsAreTrue('addMultiple')">
+                <span class="input-label">Default value <mat-icon class="info-icon" matTooltip="The default value will automatically be populated when the prospect starts the form" matTooltipPosition="right">info</mat-icon></span>
+                <input name="defaultValue" type="text" placeholder="Enter default value" [(ngModel)]="answer.defaultValue" class="condition-input">
+            </div>
+            <div class="input-group" *ngIf="!conditionsAreTrue('addMultiple')">
+                <span class="input-label">Validation <mat-icon class="info-icon" matTooltip="This allows you to validate the response that is entered into each form (i.e. Raise an error if the answer is not a number)" matTooltipPosition="right">info</mat-icon></span>
+                <select name="validationType" [(ngModel)]="answer.validationType" class="condition-input">
+                    <option selected disabled>--- Choose validation type --- </option>
+                    <option [value]="null">None</option>
+                    <option value="email">Email</option>
+                    <option value="number">Number</option>
+                </select>
+            </div>
+            <!-- <div class="input-group" *ngIf="answer.isRequired && !conditionsAreTrue('addMultiple')">
+                <span class="input-label">Field error message <mat-icon class="info-icon" matTooltip="The error message shows when the prospect tries to skip a required question" matTooltipPosition="right">info</mat-icon></span>
+                <input name="errorText" type="text" placeholder="Enter error message" [(ngModel)]="answer.errorText" class="condition-input">
+            </div> -->
+            <div class="input-group" *ngIf="answer.isButton || answer.isCard">
+                <span class="input-label">Add tooltip <mat-icon class="info-icon" matTooltip="Checking this box will add a little information icon to this object" matTooltipPosition="right">info</mat-icon></span>
+                <input name="hasInformationIcon" type="checkbox" [(ngModel)]="answer.hasInformationIcon">
+            </div>
+            <div class="input-group" *ngIf="answer.hasInformationIcon">
+                <span class="input-label">Tooltip text <mat-icon class="info-icon" matTooltip="This text will appear as a tooltip next to the object. Add extra info here" matTooltipPosition="right">info</mat-icon></span>
+                <input name="informationIconText" type="text" placeholder="Enter tooltip text" [(ngModel)]="answer.informationIconText" class="condition-input">
+            </div>
+            <ng-container *ngIf="answer.isDatePicker">
+                <div class="input-group">
+                    <span class="input-label">Calendar start date <mat-icon class="info-icon" matTooltip="The calendar start date is what date the calendar shows when a prospect first opens it to choose a date" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="startDate" type="date" placeholder="Enter start date" [(ngModel)]="answer.startDate" class="condition-input" *ngIf="answer.startDate !== 'today'">
+                    <span class="input-label"><input name="startToday" type="checkbox" [ngModel]="todayIsChecked()" (ngModelChange)="toggleStartDate($event)" [checked]="todayIsChecked()" > Set to Today</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Calendar start view <mat-icon class="info-icon" matTooltip="The calendar start view will determine what the prospect sees when they open the calendar to select a date (i.e. Years 1990 -2000)" matTooltipPosition="right">info</mat-icon></span>
+                    <select name="startView" [(ngModel)]="answer.dateStartView" class="condition-input">
+                        <option [value]="null" disabled>--- Choose calendar start view --- </option>
+                        <option value="month">Days of the Month</option>
+                        <option value="year">Months of the Year</option>
+                        <option value="multi-year">Years of the Decade</option>
+                    </select>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="answer.isInput">
+                <div class="input-group">
+                    <span class="input-label">Add prefix <mat-icon class="info-icon" matTooltip="The prefix is text that is automatically at the beginning of a field (i.e. the dollar sign $)" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="prefix" type="checkbox" [(ngModel)]="answer.hasPrefix">
+                </div>
+                <div class="input-group" *ngIf="answer.hasPrefix">
+                    <span class="input-label">Field prefix <mat-icon class="info-icon" matTooltip="The prefix is text that is automatically at the beginning of a field (i.e. the dollar sign $)" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="prefixText" type="text" placeholder="Enter prefix" [(ngModel)]="answer.prefixText" class="condition-input">
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Add suffix <mat-icon class="info-icon" matTooltip="The suffix is text that is automatically at the beginning of a field (i.e. the dollar sign $)" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="suffix" type="checkbox" [(ngModel)]="answer.hasSuffix">
+                </div>
+                <div class="input-group" *ngIf="answer.hasSuffix">
+                    <span class="input-label">Field suffix <mat-icon class="info-icon" matTooltip="The suffix is text that is automatically at the end of a field (i.e. Sq. ft. or miles)" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="suffixText" type="text" placeholder="Enter suffix" [(ngModel)]="answer.suffixText" class="condition-input">
+                </div>
+            </ng-container>
+            <div class="input-group" *ngIf="showAdvancedSettings && !conditionsAreTrue('addMultiple')">
+                <span class="input-label">Transform field response <mat-icon class="info-icon" matTooltip="This allows you to transform how the response is entered into different systems (i.e. Capitalize or lowercase the response)" matTooltipPosition="right">info</mat-icon></span>
+                <select name="transformResponse" [(ngModel)]="answer.transformResponse" class="condition-input">
+                    <option [value]="null" disabled>--- Choose transformation type --- </option>
+                    <option value="capitalize">Capitalize</option>
+                    <option value="lowercase">Lowercase</option>
+                </select>
+            </div>
+            <div class="section-title">
+                <hr class="section-line-break">
+                <h3>Field Style</h3>
+            </div>
+            <div class="input-group" *ngIf="!answer.isCard && !answer.isCheckbox && !conditionsAreTrue('addMultiple')">
+                <span class="input-label">Style of field <mat-icon class="info-icon" matTooltip="The field style determines how the field looks (i.e. gives the field a rounded outlined appearance)" matTooltipPosition="right">info</mat-icon></span>
+                <select name="fieldStyle" [(ngModel)]="answer.style" class="condition-input">
+                    <option [value]="null" disabled>--- Choose field style --- </option>
+                    <option value="outline">Outline</option>
+                    <option value="standard">Standard</option>
+                    <option value="fill">Filled</option>
+                </select>
+            </div>
+            <div class="input-group" *ngIf="answer.isCheckbox">
+                <span class="input-label">Text label position <mat-icon class="info-icon" matTooltip="The text label position determins which side of the label the text will show on (i.e. Right of the checkbox or left" matTooltipPosition="right">info</mat-icon></span>
+                <select name="labelPosition" [(ngModel)]="answer.labelPosition" class="condition-input">
+                    <option [value]="null" disabled>--- Choose label position --- </option>
+                    <option value="before">Before</option>
+                    <option value="after">After</option>
+                </select>
+            </div>
+            <div class="input-group" *ngIf="!answer.isCard">
+                <span class="input-label">Size of field <mat-icon class="info-icon" matTooltip="The field size determines the width of the field, ranging from a quarter (small) to a whole line (large)" matTooltipPosition="right">info</mat-icon></span>
+                <select name="fieldSize" [(ngModel)]="answer.width" class="condition-input">
+                    <option [value]="null" disabled>--- Choose field size --- </option>
+                    <option [value]="22">Small</option>
+                    <option [value]="45">Medium</option>
+                    <option [value]="90">Large</option>
+                </select>
+            </div>
+            <div class="input-group" *ngIf="answer.isCard">
+                <span class="input-label">Size of field <mat-icon class="info-icon" matTooltip="The field size determines the width of the field, ranging from a quarter (small) to a whole line (large)" matTooltipPosition="right">info</mat-icon></span>
+                <select name="fieldSize" [(ngModel)]="answer.width" class="condition-input">
+                    <option [value]="null" disabled>--- Choose field size --- </option>
+                    <option [value]="28">Small</option>
+                    <option [value]="38">Medium</option>
+                    <option [value]="90">Large</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <span class="input-label">Show advanced settings</span>
+                <input name="advancedSettings" type="checkbox" [(ngModel)]="showAdvancedSettings">
+            </div>
+            <div class="section-title" *ngIf="!answer.isCard && showAdvancedSettings">
+                <hr class="section-line-break">
+                <h3>Field Events <mat-icon class="info-icon" matTooltip="Events activate specific actions on an input. Use the info icons below to see what each event does" matTooltipPosition="right">info</mat-icon></h3>
+            </div>
+            <ng-container *ngIf="answer.isInput && showAdvancedSettings">
+                <div class="input-group">
+                    <span class="input-label">Autocomplete address <mat-icon class="info-icon" matTooltip="This will help the prospect find their address faster by suggesting addresses as they are typing" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="isAddressSearch" type="checkbox" [(ngModel)]="answer.isAddressSearch">
+                </div>
+                <!-- <div class="input-group" *ngIf="answer.isAddressSearch">
+                    <span class="input-label">Filter by state <mat-icon class="info-icon" matTooltip="Prospects will be filtered to an exit page if they are from the states you choose" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="filters" type="checkbox" [ngModel]="hasFilterByState()" (ngModelChange)="setFilterByState()">
+                     <select name="fieldSize" [(ngModel)]="answer.width" class="condition-input" >
+                        <option [value]="null" disabled>--- Choose field size --- </option>
+                        <option [value]="32">Small</option>
+                        <option [value]="38">Medium</option>
+                        <option [value]="90">Large</option>
+                    </select>
+                </div> -->
+                <div class="input-group">
+                    <span class="input-label">Fire lead email <mat-icon class="info-icon" matTooltip="This will trigger the new lead email alert sent to agents. It will also categorize the propect as a new lead" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="fireNewLead" type="checkbox" [(ngModel)]="answer.fireNewLead">
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Secure field <mat-icon class="info-icon" matTooltip="This will replace what the prospect is typing with astericks **. This is good for passwords and sensitive information" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="isPasswordInput" type="checkbox" [(ngModel)]="answer.isPasswordInput">
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Pull Property data <mat-icon class="info-icon" matTooltip="This will search for the property in our third-party database and pull back data on it. It should only be used on address fields" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="getHomeData" type="checkbox" [(ngModel)]="answer.getHomeData">
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Decode VIN <mat-icon class="info-icon" matTooltip="This will automatically populate the year, make, and model of a vehicle when a prospect enters in their VIN" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="isVehicleVIN" type="checkbox" [(ngModel)]="answer.isVehicleVIN">
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Pull USDOT data <mat-icon class="info-icon" matTooltip="This will search the USDOT website for data given a USDOT number. It should only be used on USDOT fields" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="getUSDotData" type="checkbox" [(ngModel)]="answer.getUSDotData">
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Pull rate data <mat-icon class="info-icon" matTooltip="This is a special event only for certain users. This is still being tested" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="getRate" type="checkbox" [(ngModel)]="answer.getRate">
+                </div>
+            </ng-container>
+            <div class="input-group" *ngIf="showAdvancedSettings && !answer.isSpacer && !answer.isText && !answer.isVehicleMakeModel && !answer.isVehicleYear && !answer.isCard && !answer.isButton && !answer.isSelectObject">
+                <span class="input-label">Hide field <mat-icon class="info-icon" matTooltip="This will hide a field from the form but will still store the data. This is good for automatically filling other systems" matTooltipPosition="right">info</mat-icon></span>
+                <input name="isHiddenInput" type="checkbox" [(ngModel)]="answer.isHiddenInput">
+            </div>
+            <ng-container *ngIf="showAdvancedSettings && answer.isSelect || answer.isAutocomplete|| answer.isVehicleMakeModel || answer.isVehicleYear || answer.isCard">
+                <div class="input-group">
+                    <span class="input-label">Select multiple <mat-icon class="info-icon" matTooltip="By selecting this you're allowing the prospect to select multiple options in the menu" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="isMultipleSelect" type="checkbox" [(ngModel)]="answer.isMultipleSelect">
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Select assignment <mat-icon class="info-icon" matTooltip="Assignments allow your prospect to assign policy information to a driver, vehicle, or agent" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="isSelectObject" type="checkbox" [(ngModel)]="answer.isSelectObject">
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Industries <mat-icon class="info-icon" matTooltip="When a client selects an industry it will retrieve occupations related to that industry" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="isIndustry" type="checkbox" [(ngModel)]="answer.isIndustry">
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Occupations <mat-icon class="info-icon" matTooltip="Occupations will list all occupations related to an industry" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="isOccupation" type="checkbox" [(ngModel)]="answer.isOccupation">
+                </div>
+                <div class="input-group" *ngIf="answer.isSelectObject">
+                    <span class="input-label">Assignment type <mat-icon class="info-icon" matTooltip="You can give your prospects the options to assign information to a driver, vehicle, or agent" matTooltipPosition="right">info</mat-icon></span>
+                    <select name="selectObjectName" [(ngModel)]="answer.selectObjectName" class="condition-input">
+                        <option [value]="null" disabled>--- Choose assignment type --- </option>
+                        <option value="agents">Agent</option>
+                        <option value="drivers">Driver</option>
+                        <option value="vehicles">Vehicle</option>
+                    </select>
+                </div>
+                <ng-container *ngIf="!answer.isCard">
+                    <div class="input-group">
+                        <span class="input-label">Vehicle year <mat-icon class="info-icon" matTooltip="This is a special trigger for vehicle year. Selecting this will pull the latest makes for the year selected" matTooltipPosition="right">info</mat-icon></span>
+                        <input name="isVehicleYear" type="checkbox" [(ngModel)]="answer.isVehicleYear">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-label">Vehicle make <mat-icon class="info-icon" matTooltip="This is a special trigger for vehicle make. Selecting this will pull the latest models for the make selected" matTooltipPosition="right">info</mat-icon></span>
+                        <input name="isVehicleMake" type="checkbox" [(ngModel)]="answer.isVehicleMake">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-label">Vehicle model <mat-icon class="info-icon" matTooltip="This is a special trigger for vehicle model. Selecting this will pull the latest body types for the model selected" matTooltipPosition="right">info</mat-icon></span>
+                        <input name="isVehicleModel" type="checkbox" [(ngModel)]="answer.isVehicleModel">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-label">Vehicle body style <mat-icon class="info-icon" matTooltip="This is a special trigger for vehicle body type" matTooltipPosition="right">info</mat-icon></span>
+                        <input name="isVehicleBodyStyle" type="checkbox" [(ngModel)]="answer.isVehicleBodyStyle">
+                    </div>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="showAdvancedSettings && !answer.isCard">
+                <div class="input-group">
+                    <span class="input-label">Fire V1 conditional logic <mat-icon class="info-icon" matTooltip="V1 conditional logic is built differently than V2. We suggest using V2 by clicking the conditions button but you can edit all V1 logic here" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="isConditional" type="checkbox" [(ngModel)]="answer.isConditional">
+                </div>
+                <div class="input-group" *ngIf="answer.isConditional">
+                    <span class="input-label">Stop transition trigger field <mat-icon class="info-icon" matTooltip="This trigger stops an answer from transitioning if the next answer is conditional" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="isConditionParent" type="checkbox" [(ngModel)]="answer.isConditionParent">
+                </div>
+                <div class="input-group" *ngIf="answer.isConditional">
+                    <span class="input-label">Condition trigger field <mat-icon class="info-icon" matTooltip="The trigger field fires the condition. If you set this to the Gender field, the system will look at Gender to show or hide this field" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="conditionKey" (blur)="setConditionParent($event)" type="text" placeholder="Enter trigger field" [(ngModel)]="answer.conditionKey" class="condition-input">
+                </div>
+                <div class="input-group" *ngIf="answer.isConditional">
+                    <span class="input-label">Condition trigger value <mat-icon class="info-icon" matTooltip="The trigger value determins whether to show or hide this field. If you set this to the Male field, the system will show this new field if Gender is Male" matTooltipPosition="right">info</mat-icon></span>
+                    <input name="conditionValue" type="text" placeholder="Enter trigger value" [(ngModel)]="answer.conditionValue" class="condition-input">
+                </div>
+            </ng-container>
+            <div class="input-group" *ngIf="showAdvancedSettings">
+                <span class="input-label">Is Login With Facebook <mat-icon class="info-icon" matTooltip="" matTooltipPosition="right">info</mat-icon></span>
+                <input name="isLoginWithFacebook" type="checkbox" [(ngModel)]="answer.isLoginWithFacebook">
+            </div>
+            <div class="input-group" *ngIf="showAdvancedSettings">
+                <span class="input-label">Is Login With Google <mat-icon class="info-icon" matTooltip="" matTooltipPosition="right">info</mat-icon></span>
+                <input name="isLoginWithGoogle" type="checkbox" [(ngModel)]="answer.isLoginWithGoogle">
+            </div>
+            <div class="section-title">
+                <hr class="section-line-break">
+                <h3>Map fields <mat-icon class="info-icon" matTooltip="Add field mappings to your systems" matTooltipPosition="right">info</mat-icon></h3>
+            </div>
+            <div class="input-group">
+                <span class="input-label">Add new mapping <mat-icon class="info-icon" matTooltip="Select one of your systems to add a new mapping" matTooltipPosition="right">info</mat-icon></span>
+                <select name="vendors" [(ngModel)]="selectedIntegration" (change)="setIntegrations($event.target.value)" class="condition-input">
+                    <option [value]="null" disabled>--- Choose a vendor --- </option>
+                    <option [value]="vendor" *ngFor="let vendor of data.form.integrations">{{vendor}}</option>
+                </select>
+            </div>
+            <div class="input-group" style="display: flex;flex-flow: row wrap;justify-content: space-between; margin-right: 1rem" *ngFor="let integration of answer.integrations; let i = index">
+                <span *ngIf="integration.group"><p>Map to {{integration.element || integration.parentGroup || 'field'}} on {{integration.vendorName}}</p></span>
+                <ng-container *ngIf="!integration.group">
+                    <span class="input-label" style="flex-basis: 100%">Map to{{( + ' ' + integration.group + ' ') || ''}}{{integration.element || integration.parentGroup || 'field'}} on {{integration.vendorName}}</span>
+                    <select name="parentGroup" style="flex-basis: 25%" [(ngModel)]="integration.parentGroup" class="condition-input">
+                        <option [value]="null" disabled>--- Choose a type --- </option>
+                        <option value="Auto">Auto</option>
+                        <option value="Home">Home</option>
+                    </select>
+
+                    <select name="groupIndex" style="flex-basis: 25%" [(ngModel)]="integration.index" *ngIf="isMultiple(answer.objectName)" class="condition-input">
+                        <option [value]="undefined" disabled>--- Choose which {{answer.objectName}} --- </option>
+                        <option [value]="null">All</option>
+                        <option value="0">1</option>
+                        <option value="1">2</option>
+                        <option value="2">3</option>
+                        <option value="3">4</option>
+                        <option value="4">5</option>
+                        <option value="5">6</option>
+                    </select>
+    
+                    <mat-form-field style="flex-basis: 48%; transform: translateY(-4px);" (click)="$event.stopPropagation();" floatLabel="never" appearance="outline">
+                        <input type="text" class="form-control" style="font-size: 14px;padding-left: 8px;" [placeholder]="'What ' + integration.vendorName + ' field is this?'" aria-label="Key" name="integrationKey" matInput [ngModel]="integrationSearchValue" (ngModelChange)="integration.element = $event; integrationSearchValue=$event" disableRipple [matAutocomplete]="integrationAuto">
+                        <!-- <mat-icon style="font-size: 20px;transform: translate(-30px, 6px);" matSuffix>search</mat-icon> -->
+                        <mat-autocomplete #integrationAuto="matAutocomplete" (optionSelected)="setIntegrationFields($event, i)" [displayWith]="displayFn">
+                          <mat-optgroup *ngFor="let group of ezAutoGroup" [label]="group.type">
+                            <mat-option *ngFor="let key of group.keys | filter:integrationSearchValue" [value]="{type: group.type, label: key.label, key: key.key, subLevel: key.subLevel, processLevel: key.processLevel}">
+                              {{key.label}}
+                            </mat-option>
+                          </mat-optgroup>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </ng-container>
+                <i class="icon-horizontal-aligned-dots condition-input-icon" style="left: 30%;transform: translateY(19px);" *ngIf="integration.group" [matMenuTriggerFor]="integrationMenu" matTooltip="Integration Menu"></i>
+                <mat-menu #integrationMenu="matMenu">
+                    <button class="menu-button" mat-menu-item (click)="integration.group = null; integration.element = null;">Edit</button>
+                    <button class="menu-button" mat-menu-item (click)="removeIntegration(i)">Remove</button>
+                </mat-menu>
+            </div>
+        </form>
+    </mat-card>
+    <div class="settings-save-button-container">
+        <button class="settings-btn primary" (click)="saveSettings()">Save Changes</button>
+        <button class="settings-btn secondary" (click)="dialogRef.close()">Exit</button>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<section class="header-section" #header [ngClass]="{'closed-section': isClosed || !to.hasRepeatButtons}">
+    <div class="left">
+        <h1 class="header">{{to.label}}</h1>
+        <div class="repeat-btns" *ngIf="to.hasRepeatButtons && !isClosed">
+            <button 
+                class="repeat-btn-label" 
+                [ngClass]="{'primary': subIndexIsActive(i), 'disabled': !form.valid}"
+                [disabled]="!form.valid" 
+                *ngFor="let sectionField of field.parent.model; let i = index; let first = first" 
+                (click)="onSwitchSubIndex(i)"
+                >
+                {{to.label}} {{i + 1}} 
+                <img 
+                    class="repeat-delete"
+                    src="assets/icons/trash-grey.svg"
+                    alt="Delete"
+                    *ngIf="
+                        field.parent.model.length && 
+                        field.parent.model.length > 1 &&
+                        subIndexIsActive(i) &&
+                        !first
+                    "
+                    (click)="onRemoveObject(i)"
+                >
+                <img 
+                    class="repeat-delete"
+                    src="assets/icons/trash-black.svg"
+                    alt="Delete"
+                    *ngIf="
+                        field.parent.model.length && 
+                        field.parent.model.length > 1 &&
+                        !subIndexIsActive(i) &&
+                        !first
+                    "
+                    (click)="onRemoveObject(i)"
+                >
+            </button>
+            <button class="repeat-btn-add" [disabled]="!form.valid" (click)="onRepeat()">
+                + New {{to.label}}
+            </button>
+        </div>
+    </div>
+    <div class="right" (click)="iconClicked()">
+        <img class="collapse-icon" src="assets/icons/collapse.svg" *ngIf="isClosed; else elseBlock">
+        <ng-template #elseBlock><img class="expand-icon" src="assets/icons/expand.svg"></ng-template>
+    </div>
+</section>
+<section class="form-section" *ngIf="!isClosed" #mainbody>
+    <ng-container #fieldComponent></ng-container>
+</section>

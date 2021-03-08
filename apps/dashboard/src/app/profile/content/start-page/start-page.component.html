@@ -1,0 +1,185 @@
+<form class="company-section">
+    <div class="user-container">
+       <div class="main-header">
+          <h3 class="main-header-title">Edit Start Page</h3>
+          <div class="custom-divider"></div>
+          <div class="form-group">
+             <div *ngIf="newStartPage.headerText === null" class="team-table-container">
+                <mat-table [dataSource]=dataSource class="team-table custom-table">
+                    <ng-container matColumnDef="id">
+                        <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+                        <mat-cell *matCellDef="let startPage" style="text-decoration: underline"><i (click)="getStartPageById(startPage)" style="cursor: pointer">{{startPage.id || 'Not Complete'}}</i></mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="headerText">
+                        <mat-header-cell *matHeaderCellDef>Header</mat-header-cell>
+                        <mat-cell *matCellDef="let startPage">{{startPage.headerText}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="formType">
+                        <mat-header-cell *matHeaderCellDef>Form</mat-header-cell>
+                        <mat-cell *matCellDef="let startPage">{{startPage.formStartPageId}}</mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true" class="table-header"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+                </mat-table>
+                <!--<mat-paginator #paginator [pageSize]="5" class="team-table"></mat-paginator>-->
+             </div>
+          </div>
+          <div *ngIf="startPage.id !== null">
+              <div class="form-container">
+                <div class="input-wraper">
+                    <div class="form-group">
+                        <div class="group">
+                            <div class="info-label-container">
+                                <p class="info-label">Header</p>
+                            </div>
+                        <!--  <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                            <input class="custom-input" matInput required name="headerText" type="text"  placeholder="Enter Header"
+                            id="startPage-headerText" [(ngModel)]="startPage.headerText">
+                            <!-- </mat-form-field> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-wraper">
+                    <div class="form-group">
+                        <div class="group">
+                            <div class="info-label-container">
+                                <p class="info-label">Sub-header</p>
+                            </div>
+                    <!--  <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                        <input class="custom-input" matInput required name="subHeaderText" type="text"  placeholder="Enter Sub Header"
+                        id="startPage-subHeaderText" [(ngModel)]="startPage.subHeaderText">
+                        <!-- </mat-form-field> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-wraper">
+                    <div class="form-group">
+                        <div class="group">
+                            <div class="info-label-container">
+                                <p class="info-label">Secondary Placeholder</p>
+                            </div>
+                    <!--   <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                            <input class="custom-input" matInput name="secondaryPlaceholderText" type="text" placeholder="Enter Secondary Placeholder"
+                            id="secondaryPlaceholderText"
+                            [(ngModel)]="startPage.secondaryPlaceholderText">
+                    <!--  </mat-form-field> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="input-wraper">
+                    <div class="form-group">
+                        <div class="group">
+                            <div class="info-label-container">
+                                <p class="info-label">Button Text</p>
+                            </div>
+                    <!--   <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                        <input class="custom-input" matInput name="buttonText" type="text" placeholder="Enter Button Text"
+                        id="buttonText" [(ngModel)]="startPage.buttonText">
+                    <!--   </mat-form-field> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="input-wraper">
+                    <div class="form-group">
+                        <div class="group last-group">
+                            <div class="info-label-container">
+                                <p class="info-label">Button Text</p>
+                            </div>
+                            <mat-form-field class="custom-input" floatLabel="always">
+                            <mat-select [(ngModel)]="startPage.formType" name="formType" id="formType">
+                                <mat-option value="Auto">Auto</mat-option>
+                                <mat-option value="Home">Home</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+          <div *ngIf="startPage.id === null">
+              <div class="form-container">
+                <div class="input-wraper">
+                    <div class="form-group">
+                        <div class="group">
+                            <div class="info-label-container">
+                                <p class="info-label">Header</p>
+                            </div>
+                        <!--  <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                            <input class="custom-input" matInput required name="headerText" type="text"  placeholder="Enter Header"
+                            id="newStartPage-headerText" [(ngModel)]="newStartPage.headerText">
+                            <!-- </mat-form-field> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-wraper">
+                    <div class="form-group">
+                        <div class="group">
+                            <div class="info-label-container">
+                                <p class="info-label">Sub-header</p>
+                            </div>
+                    <!--  <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                        <input class="custom-input" matInput required name="subHeaderText" type="text"  placeholder="Enter Sub Header"
+                        id="newStartPage-subHeaderText" [(ngModel)]="newStartPage.subHeaderText">
+                        <!-- </mat-form-field> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-wraper">
+                    <div class="form-group">
+                        <div class="group">
+                            <div class="info-label-container">
+                                <p class="info-label">Secondary Placeholder</p>
+                            </div>
+                    <!--   <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                            <input class="custom-input" matInput name="secondaryPlaceholderText" type="text" placeholder="Enter Secondary Placeholder"
+                            id="secondaryPlaceholderText"
+                            [(ngModel)]="newStartPage.secondaryPlaceholderText">
+                    <!--  </mat-form-field> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="input-wraper">
+                    <div class="form-group">
+                        <div class="group">
+                            <div class="info-label-container">
+                                <p class="info-label">Button Text</p>
+                            </div>
+                    <!--   <mat-form-field class="mat-input-short" floatLabel="always"> -->
+                        <input class="custom-input" matInput name="buttonText" type="text" placeholder="Enter Button Text"
+                        id="buttonText" [(ngModel)]="newStartPage.buttonText">
+                    <!--   </mat-form-field> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="input-wraper">
+                    <div class="form-group">
+                        <div class="group last-group">
+                            <div class="info-label-container">
+                                <p class="info-label">Button Text</p>
+                            </div>
+                            <mat-form-field class="custom-input" floatLabel="always">
+                            <mat-select [(ngModel)]="newStartPage.formType" name="formType" id="formType">
+                                <mat-option value="Auto">Auto</mat-option>
+                                <mat-option value="Home">Home</mat-option>
+                            </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+       </div>
+    </div>
+ </form>
+ <div class="save-btn-overlay" *ngIf="(startPage.id !== null || newStartPage.headerText !== null)">
+    <button class="exit-btn btn" (click)="resetStartPage()">Cancel</button>
+    <button class="save-btn btn" (click)="updateStartPage()">Save</button>
+    <button class="delete-btn btn" (click)="deleteStartPage()" *ngIf="startPage.id !== null">Delete Page</button>
+ </div>

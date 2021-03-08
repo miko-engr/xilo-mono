@@ -1,0 +1,41 @@
+<div class="container h-100">
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="col-md-6">
+        <div class="d-flex justify-content-center align-items-center w-100">
+          <mat-card class="payment-header">
+            <h6>Please confirm the following card and subscription amount
+            </h6>
+            <div class="d-flex justify-content-md-start align-items-center" *ngIf="company?.payment">
+                <h3 class="font-weight-bold mr-2 mb-0" *ngIf="company.payment.subscriptionAmount && company.payment.percent_off">${{company.payment.subscriptionAmount*(100-company.payment.percent_off)/100 | number }}</h3>
+                <p class="font-weight-bold mr-2 mb-0 pt-2 discount-amount" *ngIf="company.payment.subscriptionAmount && company.payment.percent_off">${{company.payment.subscriptionAmount}}</p>
+                <h3 class="font-weight-bold mr-2 mb-0" *ngIf="company.payment.subscriptionAmount && !company.payment.percent_off">${{company.payment.subscriptionAmount | number}}</h3>
+                <p class="m-0 discount-price pt-2" *ngIf="company.payment.percent_off">({{company.payment.percent_off}}% discount, {{company.payment.interval}} plan)</p>
+                <p class="m-0 discount-price pt-2" *ngIf="!company.payment.percent_off">{{company.payment.interval}} plan</p>
+            </div>
+            <form name="form" (ngSubmit)="onSubmit()" novalidate class="mt-3 form-row">
+              <div class="form-group col-10">
+                <label>Card Details</label>
+                <div id="card-number" class="form-control">
+                    <p>**** **** **** {{company?.payment?.last4}}</p>
+                </div>
+              </div>
+              <div class="form-group col-10">
+                <div class="row">
+                  <div class="fomr-group col-6">
+                    <label class="nowrap">Exp. Date</label>
+                    <div id="expDate" class="form-control">
+                        <p>{{company?.payment?.exp_month}}/{{company?.payment?.exp_year}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 fomr-group">
+                <button type="submit" color="primary" class="btn all-services-btn" [disabled]="isLoading">Start Subscription</button>
+              </div>
+            </form>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  

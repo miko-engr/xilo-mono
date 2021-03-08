@@ -1,0 +1,90 @@
+* {
+  box-sizing: border-box;
+}
+
+.nav {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem 3rem;
+  margin-bottom: 0;
+  list-style: none;
+
+  .nav-items-container {
+    box-sizing: border-box;
+    flex-basis: 33%;
+  }
+
+  .nav-right {
+    justify-content: flex-end;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    text-align: center;
+    align-items: center;
+    box-sizing: border-box;
+    height: 100%;
+    margin-bottom: 0;
+    margin-top: 0;
+    .nav-item {
+      padding: 0.5rem;
+      .nav-button {
+        height: 2rem;
+        width: 7rem;
+        background: #fff;
+        border: 1px solid #7c7fff;
+        color: #7c7fff;
+        box-sizing: border-box;
+        border-radius: 0.25rem;
+        .nav-button-text {
+          margin-left: 0.3rem;
+        }
+        .nav-button-icon {
+          margin-left: 0.3rem;
+        }
+      }
+      .primary-button {
+        background: #7c7fff;
+        color: #fff;
+      }
+      #logo-text {
+        margin-top: 0;
+        margin-left: 0.25rem;
+        margin-bottom: 0;
+        font-weight: bold;
+        font-size: 18px;
+        cursor: pointer;
+      }
+      #back-icon {
+        cursor: pointer;
+      }
+      #divider {
+        width: 1px;
+        height: 2rem;
+        border: 1px solid #b4b4bb;
+        margin: 0 1rem;
+      }
+      .nav-button-group {
+        display: flex;
+        justify-content: space-between;
+        flex-flow: row nowrap;
+        margin: 0.5rem;
+      }
+      .nav-icon-container {
+        height: 48px;
+        width: 48px;
+      }
+      .nav-icon {
+        margin: 0 0.5rem;
+      }
+    }
+  }
+}

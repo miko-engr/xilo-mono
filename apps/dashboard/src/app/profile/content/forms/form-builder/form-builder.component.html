@@ -1,0 +1,281 @@
+<!-- <app-notification data=""></app-notification> -->
+<div class="form-builder-header" *ngIf="form">
+  <div class="container d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center justify-content-start" *ngIf="formRetrieved">
+      <mat-icon class="click" (click)="returnToForms()">keyboard_backspace</mat-icon>
+      <img class="ml-2" src="/assets/signup-flow/uploaded_form.svg" *ngIf="!form.icon" />
+      <div *ngIf="form.icon" class="ml-2 form-icon" [innerHTML]="form.icon | safe: 'html'"></div>
+      <p class="font-weight-bold ml-3 mb-0" (click)="this.isEditFormTitle = !this.isEditFormTitle"
+        *ngIf="!isEditFormTitle">{{form.title}}</p>
+      <input type="text" *ngIf="isEditFormTitle" matInput [(ngModel)]="form.title" (change)="editFormTitle()"
+        class="ml-3 form-control" /><br />
+    </div>
+    <div class="d-flex align-items-center justify-content-start">
+      <div class="mr-5 d-flex align-items-center justify-content-start">
+        <div class="arrow mr-3">
+          <!-- <img class="nav-img" src="/assets/signup-flow/form-builder/arrowLeft.svg" /> -->
+        </div>
+        <div class="arrow">
+          <!-- <img class="nav-img" src="/assets/signup-flow/form-builder/arrowRight.svg" /> -->
+        </div>
+      </div>
+      <div class="mr-5">
+        <button class="add-btn" [matMenuTriggerFor]="pageMenu">Add Section +</button>
+        <mat-menu #pageMenu="matMenu">
+          <button class="menu-button" mat-menu-item (click)="addObject('page')">New section</button>
+          <button class="menu-button" mat-menu-item (click)="openTemlatesPickerDialog('Pages')">Section from template</button>
+        </mat-menu>
+      </div>
+      <div class="mr-3" (click)="toggleCollapseFormView()">
+        <img class="nav-img" *ngIf="collapseLevel === 'section'" src="/assets/signup-flow/form-builder/menuIcon.svg" />
+        <img class="nav-img" *ngIf="collapseLevel === 'question'" src="/assets/signup-flow/form-builder/collapse.svg" />
+        <img class="nav-img" *ngIf="collapseLevel === 'answer'" src="/assets/signup-flow/form-builder/collapse.svg" />
+      </div>
+      <div class="feedback">
+        <button class="save-btn" (click)="updateForm()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container form-builder-content h-100" style="margin-top: 4rem;" *ngIf="form">
+  <div class="row h-100">
+    <div class="col-5 pt-3 question-section h-100" [ngClass]="navIsOpen('questions')">
+      <img *ngIf="!questionsNavOpen" class="open-bar" (click)="questionsNavOpen = true" matTooltip="Open Questions" src="/assets/signup-flow/form-builder/barIcon.svg" />
+      <mat-icon class="question-close" (click)="questionsNavOpen = false;" [ngClass]="navIsOpen('questions-text')">close</mat-icon>
+      <div class="row justify-content-start h-100" style="padding-bottom: 4rem;" >
+        <div class="question-content h"
+        [ngClass]="navIsOpen('questions-text')"
+         cdkDropList
+         [cdkDropListData]="form.pages"
+         (cdkDropListDropped)="dropPage($event)">
+          <div class="col-md-11" *ngFor="let onePage of form.pages; let i = index" cdkDropListGroup cdkDragLockAxis="y"
+          (contextmenu)="onContextMenu($event, {type: 'page', obj: onePage, pageIndex: i})"
+          cdkDrag [cdkDragData]="onePage">
+            <div class="panel-placeholder" *cdkDragPlaceholder></div>
+            <div class="section-heading py-2" [class.section-heading-open]="selectedPageIndex === i" (click)="openEditPagePanel(i)">
+              <span style="cursor: pointer;">Section {{ i + 1 }}:</span>
+              <h6 class="m-0 page-title" [class.page-title-open]="selectedPageIndex === i" style="cursor: pointer;" *ngIf="!selectedPageIndex === i">
+                {{ onePage.title }}</h6>
+              <input type="text" *ngIf="selectedPageIndex === i" [(ngModel)]="onePage.title"
+                (change)="editPageTitle(i)" class="m-0" />
+                <mat-icon mat-button [matMenuTriggerFor]="questionMenu" class="add-input-icon" matTooltip="Add Question" *ngIf="selectedPageIndex === i">
+                  add
+                </mat-icon>
+                <mat-menu #questionMenu="matMenu">
+                  <button class="menu-button" mat-menu-item (click)="addObject('question', i, null)">New question</button>
+                  <button class="menu-button" mat-menu-item (click)="openTemlatesPickerDialog('Questions', i, null)">Question from template</button>
+                </mat-menu>
+            </div>
+            <div class="question-container"
+            cdkDropList
+            *ngIf="collapseLevel !== 'section' || selectedPageIndex === i"
+            [id]="onePage.id"
+            [cdkDropListData]="onePage.questions"
+            cdkDragLockAxis="y"
+            (cdkDropListDropped)="dropQuestion($event)">
+              <div #element class="my-3" [class.panel-toggle]="elementIsActive('Question', i + '-' + j)"
+                *ngFor="let oneQuestion of onePage.questions; let j = index" cdkDrag
+                (contextmenu)="onContextMenu($event, {type: 'question', obj: oneQuestion, pageIndex: i, questionIndex: j})"
+                [cdkDragData]="oneQuestion">
+                <div class="panel-placeholder" *cdkDragPlaceholder></div>
+                <div class="question">
+                  <div class="header" [class.panel-active]="elementIsActive('Question', i + '-' + j)">
+                    <div class="title" class="my-2">
+                      <div class="icon-image d-flex align-items-center justify-content-start">
+                        <!-- <img *ngIf="!form.pages[i].questions[j].panelIsOpen" src="/assets/signup-flow/form-builder/menuIcon.svg" />
+                        <img *ngIf="form.pages[i].questions[j].panelIsOpen" src="/assets/signup-flow/form-builder/collapse.svg" /> -->
+                        <img *ngIf="!elementIsActive('Question', i + '-' + j)" (click)="toggleQuestionPanel(i + '-' + j, i); changeQuestionPreview(i, j)" src="/assets/signup-flow/form-builder/barIcon.svg" />
+                        <img *ngIf="elementIsActive('Question', i + '-' + j)" (click)="toggleQuestionPanel(i + '-' + j, i); changeQuestionPreview(i, j)" src="/assets/signup-flow/form-builder/colorIcon.svg" />
+                        <div class="ml-2">
+                          <label class="m-0">Question {{j + 1}}</label>
+                          <h6 class="my-2 font-weight-bold">{{oneQuestion.headerText}}</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="elementIsActive('Question', i + '-' + j)" cdkDropList
+                  [id]="oneQuestion.id"
+                  [cdkDropListData]="oneQuestion.answers"
+                  cdkDragLockAxis="y"
+                  (cdkDropListDropped)="dropQuestion($event)">
+                    <div class="row pl-32" *ngFor="let oneAnswer of oneQuestion.answers; let k = index" cdkDrag  [class.panel-active]="elementIsActive('Answer', i + '-' + j + '-' + k)"
+                    (contextmenu)="onContextMenu($event, {type: 'answer', obj: oneAnswer, pageIndex: i, questionIndex: j, answerIndex: k})"
+                    [cdkDragData]="oneAnswer">
+                      <div class="panel-placeholder" *cdkDragPlaceholder></div>
+                      <div class="col-md-12 form-group">
+                        <label for="firstName">Input field</label>
+                        <p class="m-0" (click)="toggleAnswerPanel(i + '-' + j + '-' + k, i, j)">{{oneAnswer.placeholderText}}</p>
+                        <div class="action-icons" *ngIf="elementIsActive('Answer', i + '-' + j + '-' + k)">
+                          <img class="duplicate" src="../../../../../assets/signup-flow/form-builder/condition.svg" alt="conditions" matTooltip="Condition" (click)="openConditionsDialog('answer', oneAnswer)">
+                          <img class="duplicate" src="/assets/signup-flow/form-builder/duplicate.svg" alt="duplicate" matTooltip="Duplicate" (click)="addObject('answer', i, j, true, oneAnswer)"/>
+                          <img src="/assets/signup-flow/form-builder/remove.svg" alt="remove" matTooltip="Delete" (click)="deleteObject('answer', i, j, k, oneAnswer.id)"/>
+                          <img class="ml-2 icon-validation" src="../../../../../assets/check.svg" alt="delete" matTooltip="Valid" *ngIf="!validationIsFalse('answer', null, oneAnswer)">
+                          <img class="ml-2 icon-validation" src="../../../../../assets/cross.svg" alt="not valid" [matTooltip]="validationMessage(oneAnswer)" *ngIf="validationIsFalse('answer', null, oneAnswer)">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="action-icons" *ngIf="elementIsActive('Question', i + '-' + j)">
+                    <img class="ml-2" src="../../../../../assets/signup-flow/form-builder/condition.svg" alt="conditions" matTooltip="Condition" (click)="openConditionsDialog('question', oneQuestion)">
+                    <img class="duplicate" src="/assets/signup-flow/form-builder/duplicate.svg" alt="duplicate" matTooltip="Duplicate" (click)="addObject('question', i, null, true, oneQuestion)"/>
+                    <img src="/assets/signup-flow/form-builder/remove.svg" alt="remove" matTooltip="Delete" (click)="deleteObject('question', i, j, null, oneQuestion.id)"/>
+                    <img class="ml-2 icon-validation" src="../../../../../assets/check.svg" alt="delete" matTooltip="Valid" *ngIf="!validationIsFalse('question', oneQuestion, null)">
+                    <img class="ml-2 icon-validation" src="../../../../../assets/cross.svg" alt="not valid" matTooltip="Not Valid" *ngIf="validationIsFalse('question', oneQuestion, null)">
+                  </div>
+                  <mat-icon mat-button [matMenuTriggerFor]="answerMenu" class="add-input-icon" matTooltip="Add Field" *ngIf="elementIsActive('Question', i + '-' + j)">
+                    add
+                  </mat-icon>
+                  <mat-menu #answerMenu="matMenu">
+                    <button class="menu-button" mat-menu-item (click)="addObject('answer', i, j)">New field</button>
+                    <button class="menu-button" mat-menu-item (click)="openTemlatesPickerDialog('Answers', i, j)">Field from template</button>
+                  </mat-menu>
+                </div>
+              </div>
+            </div>
+            <div class="action-icons" *ngIf="selectedPageIndex === i">
+              <img class="dulicate" src="../../../../../assets/signup-flow/form-builder/condition.svg" alt="conditions" matTooltip="Condition" (click)="openConditionsDialog('page', onePage)">
+              <img class="duplicate" src="/assets/signup-flow/form-builder/duplicate.svg" alt="duplicate" matTooltip="Duplicate" (click)="addObject('page', null, null, true, onePage)"/>
+              <img src="/assets/signup-flow/form-builder/remove.svg" alt="remove" matTooltip="Delete" (click)="deleteObject('page', i, null, null, onePage.id)"/>
+              <img class="ml-2 icon-validation" src="../../../../../assets/check.svg" alt="delete" matTooltip="Valid" *ngIf="!validationIsFalse('page', null, null, onePage)">
+              <img class="ml-2 icon-validation" src="../../../../../assets/cross.svg" alt="not valid" matTooltip="Not Valid" *ngIf="validationIsFalse('page', null, null, onePage)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 pt-3 ml-5 one-question-section h-100">
+      <div class="col-md-12 justify-content-center field-content h" *ngIf="selectedQuestion">
+        <div class="col-md-12 p-3 m-auto">
+          <mat-icon class="mat-icon-keyboard-arrow mr-3" [class.disabled]="pageIndex === 0 && questionIndex === 0"
+            (click)="!(pageIndex === 0 && questionIndex === 0) ? previous(pageIndex, questionIndex) : null">
+            keyboard_arrow_up
+          </mat-icon>
+          <mat-icon class="mat-icon-keyboard-arrow"
+            [class.disabled]="pageIndex === form.pages.length - 1 && questionIndex === form.pages[pageIndex].questions.length - 1"
+            (click)="(pageIndex === form.pages.length - 1 && questionIndex === form.pages[pageIndex].questions.length - 1) ? null : next(pageIndex, questionIndex)">
+            keyboard_arrow_down</mat-icon>
+        </div>
+        <div class="col-md-12 pt-3 m-auto">
+          <div class="d-flex align-items-center justify-content-center mb-5">
+            <div class="row" style="width: 100%">
+              <img class="col-sm-3 ml-2 icon" (click)="openImagePickerDialog(form.pages[pageIndex].questions[questionIndex], null, 'question', pageIndex, questionIndex)" *ngIf="imageType(form.pages[pageIndex].questions[questionIndex]) === 'new'" src="/assets/signup-flow/uploaded_form.svg" />
+              <div class="col-sm-3 ml-2 icon" *ngIf="imageType(form.pages[pageIndex].questions[questionIndex]) === 'svg'" (click)="openImagePickerDialog(form.pages[pageIndex].questions[questionIndex], null, 'question', pageIndex, questionIndex)" [innerHTML]="form.pages[pageIndex].questions[questionIndex].image | safe: 'html'"></div>
+              <div class="col-sm-3 ml-2 icon" [ngStyle]="styleImage(form.pages[pageIndex].questions[questionIndex])" *ngIf="imageType(form.pages[pageIndex].questions[questionIndex]) === 'image'" (click)="openImagePickerDialog(form.pages[pageIndex].questions[questionIndex], null, 'question', pageIndex, questionIndex)"></div>
+              <div class="col-md-9">
+                <!-- <h5 class="font-weight-bold mb-1" *ngIf="!form.pages[pageIndex].questions[questionIndex].editHeaderIsOpen"
+                  (click)="toggleEditQuestionText('editHeaderIsOpen')">{{ form.pages[pageIndex].questions[questionIndex].headerText }}</h5> -->
+                <textarea class="question-textarea" placeholder="Header text" name="headerText" id="headerText" cols="40" rows="1"
+                [(ngModel)]="form.pages[pageIndex].questions[questionIndex].headerText"></textarea>
+                <!-- <small *ngIf="!form.pages[pageIndex].questions[questionIndex].editSubheaderIsOpen"
+                  (click)="toggleEditQuestionText('editSubheaderIsOpen')">{{ form.pages[pageIndex].questions[questionIndex].subHeaderText }}</small> -->
+                <textarea class="question-textarea" placeholder="Description text" name="subHeaderText" id="subHeaderText" cols="40" rows="1"
+                [(ngModel)]="form.pages[pageIndex].questions[questionIndex].subHeaderText"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div cdkDropList
+        [id]="form.pages[pageIndex].questions[questionIndex].id"
+        [cdkDropListData]="form.pages[pageIndex].questions[questionIndex].answers"
+        cdkDragLockAxis="y"
+        (cdkDropListDropped)="dropQuestion($event)">
+        <div class="row justify-content-center mb-4" *ngFor="let answer of form.pages[pageIndex].questions[questionIndex].answers; let i = index"
+        cdkDrag [cdkDragData]="answer">
+          <div class="panel-placeholder" *cdkDragPlaceholder></div>
+          <div class="col-md-8 form-group">
+            <label class="justify-content-between mb-1 w-100">
+              <span *ngIf="!answer.isCard">{{answer.placeholderText || answer.secondaryPlaceholderText || answer.displayValue}}</span>
+              <span class="field-action-icons">
+                <img src="../../../../../assets/signup-flow/form-builder/edit.svg" alt="edit" matTooltip="Edit"  (click)="openAnswerSettings(answer)">
+                <img class="ml-2" src="../../../../../assets/signup-flow/form-builder/condition.svg" alt="conditions" matTooltip="Condition" (click)="openConditionsDialog('answer', answer)">
+                <img class="ml-2" src="../../../../../assets/signup-flow/form-builder/duplicate.svg" alt="duplicate" matTooltip="Duplicate"  (click)="addObject('answer', pageIndex, questionIndex, true, answer)">
+                <img class="ml-2" src="../../../../../assets/signup-flow/form-builder/remove.svg" alt="delete" matTooltip="Delete" (click)="deleteObject('answer', pageIndex, questionIndex, i, answer.id)">
+                <img class="ml-2 icon-validation" src="../../../../../assets/check.svg" alt="delete" matTooltip="Valid" *ngIf="!validationIsFalse('answer', null, answer)">
+                <img class="ml-2 icon-validation" src="../../../../../assets/cross.svg" alt="not valid" matTooltip="Not Valid" *ngIf="validationIsFalse('answer', null, answer)">
+                <!-- <img class="ml-2" src="../../../../../assets/signup-flow/form-builder/feedback.svg" alt="validate" matTooltip="Validate" *ngIf="hasIntegration('EZLYNX')" [matMenuTriggerFor]="ezValidateAnswerMenu"> -->
+              </span>
+              <mat-menu #ezValidateAnswerMenu="matMenu">
+                <button class="menu-button" mat-menu-item (click)="validateAnswer(answer, 'auto')">EZ Auto</button>
+                <button class="menu-button" mat-menu-item (click)="validateAnswer(answer, 'home')">EZ Home</button>
+              </mat-menu>
+            </label>
+
+            <!-- For Input and datepickers -->
+            <input type="text" *ngIf="answer.isInput || answer.isDatePicker" class="form-control" [placeholder]="answer.placeholderText" [(ngModel)]="answer.placeholderText">
+
+            <!--For cards -->
+            <div class="card-container" *ngIf="answer.isCard">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-icon" [innerHTML]="answer.icon | safe: 'html'"></div>
+                  <div class="card-text">
+                    <h3>{{answer.headerText}}</h3>
+                    <small>{{answer.placeholderText}}</small>
+                  </div>
+                </div>
+                <!-- <div class="card-footer">
+                  <div class="card-info">
+                    <mat-icon *ngIf="answer.hasInformationIcon" class="info-icon">info</mat-icon>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+
+            <!-- For Select -->
+            <select class="form-control" *ngIf="answer.isSelect">
+              <option *ngFor="let option of answer.options" [value]="option">{{option}}</option>
+            </select>
+
+            <!-- Is Textarea -->
+            <textarea class="form-control" rows="3" [placeholder]="answer.secondaryPlaceholderText" *ngIf="answer.isTextarea"></textarea>
+          </div>
+
+        </div>
+        <div class="row justify-content-center mt-5">
+          <button class="add-btn" [matMenuTriggerFor]="fieldMenu">Add Field +</button>
+          <!-- <mat-icon mat-button [matMenuTriggerFor]="fieldMenu" class="add-page-icon" matTooltip="Add Field">
+            add
+          </mat-icon> -->
+          <mat-menu #fieldMenu="matMenu">
+            <button class="menu-button" mat-menu-item (click)="addObject('answer', pageIndex, questionIndex)">New field</button>
+            <button class="menu-button" mat-menu-item (click)="openTemlatesPickerDialog('Answers', pageIndex, questionIndex)">Field from template</button>
+          </mat-menu>
+        </div>
+      </div>
+    </div>
+    <div class="field-settings h-100 pt-3"  [ngClass]="navIsOpen('settings')">
+      <img *ngIf="!settingsNavOpen" class="settings-open-bar" (click)="settingsNavOpen = true" matTooltip="Open Settings" src="/assets/signup-flow/form-builder/settings.svg" />
+      <mat-icon class="question-close" (click)="settingsNavOpen = false;" [ngClass]="navIsOpen('settings-text')">close</mat-icon>
+      <div class="row justify-content-start h-100" >
+        <app-answer-settings
+        [ngClass]="navIsOpen('settings-text')"
+        style="width: 100%"
+        *ngIf="selectedAnswer"
+        [formId]="form.id"
+        [form]="form"
+        [integrations]="integrationsList"
+        [companyId]="company.id"
+        [company]="company"
+        [answer]="selectedAnswer"
+        >
+        </app-answer-settings>
+        <p *ngIf="!selectedAnswer" [ngClass]="navIsOpen('settings-text')">Please select a field to edit</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuPosition.x"
+    [style.top]="contextMenuPosition.y"
+    [matMenuTriggerFor]="contextMenu">
+</div>
+<mat-menu #contextMenu="matMenu">
+	<ng-template matMenuContent let-obj="obj">
+		<button mat-menu-item (click)="copyObject(obj)" *ngIf="!hasCopiedObject">Copy</button>
+		<button mat-menu-item (click)="pasteObject(obj)" *ngIf="hasCopiedObject">Paste</button>
+		<button mat-menu-item (click)="removeCopiedObject()" *ngIf="hasCopiedObject">Clear</button>
+	</ng-template>
+</mat-menu>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

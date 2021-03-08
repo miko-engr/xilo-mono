@@ -1,0 +1,14 @@
+<div class="container">
+  <formly-field
+    *ngFor="let step of field.fieldGroup; let index = index; let last = last"
+    [ngClass]="{
+      'form-section': !step?.templateOptions?.singleColumn,
+      'form-section-single-column': step?.templateOptions?.singleColumn,
+      'form-section-table':
+        to?.isTable ||
+        step?.templateOptions?.isGrid ||
+        step?.templateOptions?.isDatatable
+    }"
+    [field]="step"
+  ></formly-field>
+</div>

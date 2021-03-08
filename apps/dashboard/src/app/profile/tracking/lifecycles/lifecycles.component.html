@@ -1,0 +1,68 @@
+<div class="center" *ngIf="lifecyclesRetrieved">
+    <mat-card class="basic-info">
+        <mat-card-title class="main-header-title">Add or Edit Lifecycles</mat-card-title>
+        <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+            <mat-card class="example-box" *ngFor="let life of lifecycles; let i = index" cdkDrag>
+                <ng-container *ngIf="selectedIndex !== i">
+                    <i class="icon-edit_pencile" (click)="changeEditView(i)"></i>
+                    <mat-card-title>
+                        <div class="circle" [ngStyle]="{'background-color':life.color}"></div>
+                    </mat-card-title>
+                    <mat-card-subtitle class="box-head">
+                        <div class="info-label">
+                        {{life.name}}
+                        </div>
+                    </mat-card-subtitle>
+                </ng-container>
+                <ng-container *ngIf="selectedIndex == i">
+                        <mat-card-title >
+                        <mat-form-field class="edit-input">
+                            <input matInput placeholder="Name" [(ngModel)]="life.name">
+                        </mat-form-field>
+                        <br>
+                        <mat-form-field class="edit-input">
+                            <input matInput placeholder="Color" [(ngModel)]="life.color">
+                        </mat-form-field>
+                        </mat-card-title>
+                        <mat-checkbox [(ngModel)]="life.isEnabled">Enabled</mat-checkbox>
+                        <mat-checkbox [(ngModel)]="life.isNewClient">New Prospect</mat-checkbox>
+                        <mat-checkbox [(ngModel)]="life.isQuoted">Quoted</mat-checkbox>
+                        <mat-checkbox [(ngModel)]="life.isSold">Sold</mat-checkbox>
+                        <div class="life-cycle-btns">
+                            <button class="edit-btn primary" (click)="updateLifecycle(life)">Save</button>
+                            <button class="edit-btn" (click)="resetLifecycles()">Cancel</button>
+                            <button class="edit-btn delete" (click)="deleteLifecycle(life, i)">Delete</button>
+                        </div>
+                </ng-container>
+            </mat-card>
+            <mat-card class="example-box add" >
+                <ng-container *ngIf="!addLifecycle">
+                    <mat-card-title class="box-head">
+                        <button mat-button (click)="changeAdd()">
+                        +
+                        </button>
+                    </mat-card-title>
+                </ng-container>
+                <ng-container *ngIf="addLifecycle">
+                        <mat-card-title>
+                            <mat-form-field class="edit-input">
+                                <input matInput placeholder="Name" [(ngModel)]="newLifecycle.name">
+                            </mat-form-field>
+                            <br>
+                            <mat-form-field class="edit-input">
+                                <input matInput placeholder="Color" [(ngModel)]="newLifecycle.color">
+                            </mat-form-field>
+                        </mat-card-title>
+                        <mat-checkbox [(ngModel)]="newLifecycle.isEnabled">Enabled</mat-checkbox>
+                        <mat-checkbox [(ngModel)]="newLifecycle.isNewClient">New Prospect</mat-checkbox>
+                        <mat-checkbox [(ngModel)]="newLifecycle.isQuoted">Quoted</mat-checkbox>
+                        <mat-checkbox [(ngModel)]="newLifecycle.isSold">Sold</mat-checkbox>
+                        <div class="life-cycle-btns">
+                            <button class="edit-btn primary" (click)="postLifecycle()">Add</button>
+                            <button class="edit-btn" (click)="resetLifecycles()">Cancel</button>
+                        </div>
+                </ng-container>
+            </mat-card>
+        </div>
+    </mat-card>
+</div>

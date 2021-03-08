@@ -1,0 +1,9 @@
+<div class="question-group-container">
+  <div
+    *ngFor="let step of field.fieldGroup; let index = index; let last = last"
+    class="form-section"
+    [ngClass]="{ 'form-section-table': to.isTable }"
+  >
+    <formly-field [field]="step"></formly-field>
+  </div>
+</div>

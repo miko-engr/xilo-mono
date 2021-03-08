@@ -1,0 +1,108 @@
+#add-question-dropdown {
+  width: 595px;
+  height: 642px;
+  left: -45px !important;
+  .tab-wrapper {
+    .title-row {
+      display: flex;
+      align-items: center;
+      margin: 0 0 32px 0;
+      h2 {
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 130%;
+        color: #000000;
+        text-align: left;
+        margin: 0;
+        flex: 1;
+      }
+      .dropdown-close-button {
+        border: none;
+        outline: none;
+        width: 24px;
+        height: 24px;
+        padding: 0px;
+        background-color: unset;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        ngx-icon {
+          width: 100%;
+          height: 100%;
+          svg {
+            fill: transparent;
+          }
+        }
+      }
+    }
+
+    .nav-tabs {
+      border-bottom: none;
+      .nav-link {
+        border: none;
+        padding-left: 0;
+
+        .tabHeading {
+          font-weight: normal;
+          font-size: 16px;
+          line-height: 19px;
+          color: #000000;
+          padding-bottom: 8px;
+        }
+
+        &.active {
+          .tabHeading {
+            font-weight: 600;
+            border-bottom: 4px solid #6e71ff;
+          }
+        }
+      }
+    }
+    .create-button {
+      height: 40px;
+      left: 32px;
+      top: 166px;
+      background: #6e71ff;
+      border-radius: 4px;
+      padding: 10px 40px;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 17px;
+      color: #ffffff;
+      margin-top: 32px;
+      border: none;
+    }
+
+    .tab-items {
+      margin-top: 32px;
+      display: flex;
+      align-items: flex-start;
+      flex-wrap: wrap;
+
+      .item {
+        width: 126px;
+        height: 126px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 16px;
+        border: none;
+        background: transparent;
+
+        .icon {
+          width: 64px;
+          height: 64px;
+        }
+        .title {
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 17px;
+          text-align: center;
+          color: #000000;
+          text-align: center;
+          margin-top: 8px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+<div class="container">
+    <h1 class="title-text">Upload Via CSV</h1>
+    <mat-card class="settings-card">
+        <form class="condition-form">
+            <div class="section-title">
+                <h3>Field Mapping *</h3>
+            </div>
+            <div class="input-group">
+                <input type="file" class="upload" (change)="changeListener($event.target.files)">
+            </div>
+            <div class="input-group" *ngIf="csvIsValid">
+                <!-- <div *ngFor="let row of rows">{{row.csvHeader}}</div> -->
+                <mat-grid-list cols="2" rowHeight="100px">
+                    <ng-container *ngFor="let row of rows; index as i">
+                        <mat-grid-tile>
+                            {{row.csvHeader}}
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <select name="objectName" [(ngModel)]="objectNames[i]" class="condition-input">
+                                <option [value]="null" disabled>--- Choose storage type --- </option>
+                                <option value="client">Prospect</option>
+                                <option value="drivers">Driver</option>
+                                <option value="vehicles">Vehicle</option>
+                                <option value="homes">Home</option>
+                                <option value="business">Commercial</option>
+                                <option value="locations">Location</option>
+                                <option value="incidents">Incident</option>
+                                <option value="recreationalVehicles">Recreational Vehicles</option>
+                                <option value="policies">Policies</option>
+                            </select>
+                            <mat-form-field style="font-size: 8px; width: 50%" (click)="$event.stopPropagation();" *ngIf="objectNames[i]" floatLabel="never" appearance="outline">
+                                <input type="text" style="font-size: 14px;padding-left: 8px;" placeholder="Search for field" aria-label="mapKey" name="mapKey" matInput [ngModel]="searchValues[i]" (ngModelChange)="mapKey=$event; searchValues[i]=$event" disableRipple [matAutocomplete]="auto">
+                                <mat-icon style="font-size: 16px" matSuffix>search</mat-icon>
+                                <mat-autocomplete (optionSelected)="selectKey(i, $event)" #auto="matAutocomplete">
+                                    <mat-option *ngFor="let key of returnObject(objectNames[i]) | filter:searchValues[i]" [value]="key.key">
+                                        {{key.value}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </mat-grid-tile>
+                    </ng-container>
+                  </mat-grid-list>
+            </div>
+        </form>
+    </mat-card>
+    <div class="settings-save-button-container">
+        <button class="settings-btn primary" (click)="saveSettings()">Upload CSV</button>
+        <button class="settings-btn secondary" (click)="dialogRef.close()">Exit</button>
+    </div>
+</div>

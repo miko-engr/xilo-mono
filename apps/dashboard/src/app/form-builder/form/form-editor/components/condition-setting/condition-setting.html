@@ -1,0 +1,81 @@
+<div class="query-builder">
+  <div class="header-section">
+    <div class="title-row">
+      <h3>Conditions</h3>
+      <button (click)="onRefreshPreview()">
+        <ngx-icon svgSrc="refresh" class="close-icon"> </ngx-icon>
+      </button>
+      <button (click)="onClose()">
+        <ngx-icon svgSrc="close" class="close-icon"> </ngx-icon>
+      </button>
+    </div>
+  </div>
+
+  <ng-container *ngIf="showQuery(); else noQuery">
+    <div class="question-section">
+      <svg
+        class="question-icon"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 4C0 1.79086 1.79086 0 4 0H20C22.2091 0 24 1.79086 24 4V20C24 22.2091 22.2091 24 20 24H4C1.79086 24 0 22.2091 0 20V4Z"
+          fill="#6E71FF"
+        />
+        <path
+          d="M3.42969 8.8418H20.2718L21.7154 11.3681H4.39209L3.42969 8.8418Z"
+          fill="white"
+        />
+        <path
+          d="M4.39062 12.6309H15.9142L16.9019 15.1572H5.04911L4.39062 12.6309Z"
+          fill="white"
+        />
+      </svg>
+      <div class="question-content">
+        <!-- <div class="question-id">
+        Question {{selectedNode?.parent?.index + 1}}
+      </div> -->
+        <div class="question">{{selectedNode?.templateOptions?.label}}</div>
+      </div>
+    </div>
+    <div class="option-set">
+      <div class="option-condition-radio">
+        <input
+          type="radio"
+          [(ngModel)]="query.showWhenTrue"
+          name="showHide"
+          [value]="true"
+        />
+        Show when conditions are met
+      </div>
+      <div class="option-condition-radio">
+        <input
+          type="radio"
+          [(ngModel)]="query.showWhenTrue"
+          name="showHide"
+          [value]="false"
+        />
+        Hide when conditions are met
+      </div>
+    </div>
+
+    <div *ngIf="query && config">
+      <xilo-mono-query-builder
+        [query]="query"
+        [config]="config"
+        (changeQuery)="onQueryChange($event)"
+      ></xilo-mono-query-builder>
+    </div>
+  </ng-container>
+  <ng-template #noQuery>
+    <button
+      class="xilo-button primary-button new-query-button"
+      (click)="createQuery()"
+    >
+      Add conditional logic
+    </button>
+  </ng-template>
+</div>

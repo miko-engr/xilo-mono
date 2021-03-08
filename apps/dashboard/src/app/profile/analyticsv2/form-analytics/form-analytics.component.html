@@ -1,0 +1,32 @@
+<div class="form-analytic-box">
+    <table class="chart-header">
+        <tr>
+            <td class="chart-title" style="padding-top:15px;padding-bottom:15px;"><span>Form Analytics</span></td>
+            <td>
+                <div class="btn-group">
+                    <button [ngClass]="sectionPressed === 'day' ? 'active' : ''" (click)="fetchFormAnalyticsData('day')" class="day">Today</button>
+                    <button [ngClass]="sectionPressed === 'week' ? 'active' : ''" (click)="fetchFormAnalyticsData('week')">Week</button>
+                    <button [ngClass]="sectionPressed === 'month' ? 'active' : ''" (click)="fetchFormAnalyticsData('month')">Month</button>
+                    <button [ngClass]="sectionPressed === '30days' ? 'active' : ''" (click)="fetchFormAnalyticsData('30days')">30 Days</button>
+                    <button [ngClass]="sectionPressed === 'year' ? 'active' : ''" (click)="fetchFormAnalyticsData('year')">Year</button>
+                    <button [ngClass]="sectionPressed === 'dateRange' ? 'active' : ''" (click)="sectionPressed = 'dateRange';toDate = null;fromDate=null;" class="year">Date Range</button>
+                </div>
+                <div class="date-range">
+                    <div *ngIf="sectionPressed === 'dateRange'" class="date-rangepicker">
+                        <mat-date-range-input [rangePicker]="picker" class="task-filter-box">
+                            <input matStartDate [(ngModel)]="fromDate" placeholder="From" (ngModelChange)="toDate=null;filterDate('dateRange')">
+                            <input matEndDate [(ngModel)]="toDate" placeholder="To" (ngModelChange)="filterDate('dateRange')">
+                          </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <google-chart *ngIf="!noData" [data]="formChart"></google-chart>
+    <div *ngIf="noData" class="nodata"> No data Available </div>
+    <div class="footer-btn-group" *ngIf="!noData">
+        <button *ngFor="let item of dropDown" (click)="fetchFormAnalyticsData(item.id)" [ngClass]="pressed === item.id ? 'active' : ''">{{item.title}}</button>
+    </div>
+</div>

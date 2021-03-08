@@ -1,0 +1,45 @@
+<mat-card class="company-info-container">
+<div class="company-header">
+    <mat-card-title class="main-header-title" id="companyInfo">Company Info</mat-card-title>
+    <div *ngIf="isUnsaved" class="edit-actions-btn">
+        <span>You have unsaved changes</span>
+        <button class="discard-button" (click)="resetInputs()">Discard changes</button>
+        <button class="save-button" (click)="updateCompany()">Save</button>
+    </div>
+    <button class="edit-btn" *ngIf="!editInputs" (click)="onEditInputs()"><span class="icon-edit"></span>Edit</button>
+</div>
+<!-- new form start-->
+<div class="custom-form-responsive">
+    <label>Company Name</label>
+    <input type="text" name="companyName" (input)="isUnsavedData()" [placeholder]="company.name || 'Company Name'" [(ngModel)]="company.name">
+</div>
+<div class="custom-form-responsive">
+    <label>Contact Email</label>
+    <input type="text" name="contactEmail" (input)="isUnsavedData()" [placeholder]="company.contactEmail || 'Enter Your Contact Email'" [(ngModel)]="company.contactEmail">
+</div>
+<div class="custom-form-responsive">
+    <label>Contact Phone Number</label>
+    <input type="text" name="contactNumber" (input)="isUnsavedData()" [placeholder]="company.contactNumber || 'Enter Your Contact Number'" [(ngModel)]="company.contactNumber">
+</div>
+<div class="custom-form-responsive">
+    <label>Main Producer Name</label>
+    <input type="text" name="mainProducer" (input)="isUnsavedData()" [placeholder]="company.mainProducer || 'Enter Your Main Producer'" [(ngModel)]="company.mainProducer">
+</div>
+<div class="custom-form-responsive">
+    <label>Producer Number</label>
+    <input type="text" name="producerNumber" (input)="isUnsavedData()" [placeholder]="company.producerNumber || 'Enter Your Producer Number'" [(ngModel)]="company.producerNumber">
+</div>
+<div class="custom-form-responsive">
+    <label>Shown Address</label>
+    <input type="text" name="mainLocation" (input)="isUnsavedData()" [placeholder]="company.mainLocation || 'Enter Your Main Location'" [(ngModel)]="company.mainLocation">
+</div>
+<div class="custom-form-responsive">
+    <label>Company Address</label>
+    <input ngx-google-places-autocomplete type="text" name="fullAddress" (input)="isUnsavedData()" [placeholder]="company.fullAddress || 'Enter Address'" [(ngModel)]="company.fullAddress" (onAddressChange)="onAutoCompleteLocation($event)">
+</div>
+
+<div class="main" *ngIf="!userRetrieved">
+    <h3>...</h3>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

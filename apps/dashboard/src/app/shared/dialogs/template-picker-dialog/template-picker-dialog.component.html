@@ -1,0 +1,15 @@
+<mat-card class="template-container">
+    <mat-list role="list">
+        <mat-list-item (click)="storeTemplate(i)" role="listitem" *ngFor="let template of templates;index as i" style="cursor: pointer">{{template.title}} <mat-icon>add</mat-icon></mat-list-item>
+    </mat-list>
+    <br>
+    <mat-checkbox [(ngModel)]="csvUpload">CSV Upload</mat-checkbox>
+    <form *ngIf="csvUpload">
+        <mat-form-field style="width: 100%" appearance="outline" floatLabel="always">
+            <mat-label>CSV String</mat-label>
+            <textarea matInput name="csv" [(ngModel)]="csv"></textarea>
+        </mat-form-field>
+        <br>
+        <button mat-raised-button *ngIf="csv" (click)="uploadCsv()">Upload</button>
+    </form>
+</mat-card>

@@ -1,0 +1,146 @@
+<div class="question-options">
+  <div class="row">
+    <query-builder
+      [(ngModel)]="query"
+      (ngModelChange)="onQueryChange($event)"
+      [config]="config"
+      [allowRuleset]="allowRuleset"
+    >
+      <ng-container *querySwitchGroup="let ruleset">
+        <div class="option-set">
+          <span class="option-condition-radio">
+            <input
+              type="radio"
+              [(ngModel)]="ruleset.condition"
+              name="condition"
+              value="and"
+            />
+            And
+          </span>
+          <span class="option-condition-radio">
+            <input
+              type="radio"
+              [(ngModel)]="ruleset.condition"
+              name="condition"
+              value="or"
+            />
+            Or
+          </span>
+        </div>
+      </ng-container>
+
+      <ng-container *queryButtonGroup="let ruleset; let addRule = addRule">
+        <div class="option-set" (click)="addRule()">
+          <div class="action-add">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="12" cy="12" r="12" fill="#D9D9FE" />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M12 6C12.3387 6 12.6133 6.27457 12.6133 6.61326V11.3867H17.3867C17.7254 11.3867 18 11.6613 18 12C18 12.3387 17.7254 12.6133 17.3867 12.6133H12.6133V17.3867C12.6133 17.7254 12.3387 18 12 18C11.6613 18 11.3867 17.7254 11.3867 17.3867V12.6133H6.61326C6.27457 12.6133 6 12.3387 6 12C6 11.6613 6.27457 11.3867 6.61326 11.3867H11.3867V6.61326C11.3867 6.27457 11.6613 6 12 6Z"
+                fill="#111111"
+              />
+            </svg>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container
+        *queryField="let rule; let fields = fields; let onChange = onChange"
+      >
+        <div class="option-set">
+          <div class="option-head">Field</div>
+          <select
+            class="option"
+            [(ngModel)]="rule.field"
+            (ngModelChange)="onChange($event, rule, onChange)"
+          >
+            <option *ngFor="let field of fields" [value]="field.value">{{
+              field.name
+            }}</option>
+          </select>
+        </div>
+      </ng-container>
+      <ng-container *queryOperator="let rule; let operators = operators">
+        <div class="option-set">
+          <div class="option-head">Rule</div>
+          <select
+            [(ngModel)]="rule.operator"
+            (change)="onChangeOperator($event, rule)"
+            class="option"
+          >
+            <option *ngFor="let value of operators" [value]="value">{{
+              value
+            }}</option>
+          </select>
+        </div>
+      </ng-container>
+
+      <ng-container
+        *queryInput="
+          let rule;
+          let field = field;
+          let onChange = onChange;
+          type: 'string'
+        "
+      >
+        <div class="option-set">
+          <div class="option-head">Value</div>
+          <input
+            class="option option-input"
+            (blur)="onChange($event, rule)"
+            [(ngModel)]="rule.value"
+          />
+        </div>
+      </ng-container>
+      <ng-container
+        *queryInput="
+          let rule;
+          let field = field;
+          let options = options;
+          let onChange = onChange;
+          type: 'category'
+        "
+      >
+        <div class="option-set">
+          <div class="option-head">Value</div>
+          <select
+            class="option"
+            [(ngModel)]="rule.value"
+            (change)="onChange($event, rule)"
+            [attr.placeholder]="field.name"
+          >
+            <option *ngFor="let opt of options" [value]="opt.value">
+              {{ opt.name }}
+            </option>
+          </select>
+        </div>
+      </ng-container>
+      <ng-container *queryRemoveButton="let rule; let removeRule = removeRule">
+        <div class="option-set" (click)="removeRule(rule)">
+          <div class="action-remove">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="12" cy="12" r="12" fill="#D9D9FE" />
+              <path
+                d="M12.4088 11.5918H15.5912C15.817 11.5918 16 11.7748 16 12.0006C16 12.2264 15.817 12.4095 15.5912 12.4095H12.4088H8.40884C8.18304 12.4095 8 12.2264 8 12.0006C8 11.7748 8.18304 11.5918 8.40884 11.5918H12.4088Z"
+                fill="#111111"
+              />
+            </svg>
+          </div>
+        </div>
+      </ng-container>
+    </query-builder>
+  </div>
+</div>

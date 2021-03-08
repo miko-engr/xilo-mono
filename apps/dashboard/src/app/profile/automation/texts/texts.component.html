@@ -1,0 +1,88 @@
+<div class="company-section">
+   <div class="tab-content">
+    <div class="tab-inner" *ngIf="!add && !edit">
+       <div class="clearfix">
+          <button type="button" class="add-btn float-right" (click) = "addText();"><span class="icon-add"> </span>Add
+ 
+          </button>
+          <h3 class="float-left inner-heading">Text Template</h3>
+ 
+ 
+       </div>
+       <div class="table-container">
+ 
+          <table class="table">
+             <thead>
+                <tr>
+                   <th>Template Name</th>
+                   <th>Created</th>
+                   <th>Action</th>
+                </tr>
+             </thead>
+             <tbody>
+                <tr *ngFor = "let template of (templates$ | async)">
+                   <td>{{template.title}}</td>
+                   <td>{{template.createdAt | date}}</td>
+                   <td>
+                      <button class="icon-btn"><span class="icon-edit1" (click)="getTemplate(template)"></span></button>
+                      <button class="icon-btn text-danger "><span class="icon-rubbish-bin" (click)="deleteTemplate(template)"></span></button>
+                   </td>
+                </tr>
+             </tbody>
+          </table>
+       </div>
+ 
+     
+       
+    </div>
+    <div class="tab-inner" class="tab-inner" *ngIf="add || edit">
+         <!-- add part -->
+         <div class="add-template-div">
+            <div>
+               <h3 class="inner-heading" style="border-bottom: 1px solid #dad8d8;padding-bottom:10px;margin-top: 20px;margin-bottom:20px;">Add New Template</h3>
+            </div>
+            <div class="form-div">
+               <div class="row">
+                  <div class="col-sm-7">
+                     <div class="form-group">
+                        <label>Template Name</label>
+                        <input type="text" class="form-control" [(ngModel)] = "template.title" placeholder="Enter Template Name">
+                     </div>
+                     <div class="row d-flex">
+                        <div class="col-sm-12">
+                           <div class="form-group">
+                              <label>Text Body</label>
+                              <textarea class="form-control" rows="7" [(ngModel)] = "template.body"></textarea>
+                           </div>
+                        </div>
+                     </div>                  
+                  </div>
+                  <div class="col-sm-5">
+                     <div class="flex-div">
+                        <div class="inner-right-body">
+                           <ul class="listing">
+                              <li class="clearfix"><span class="float-left"></span> SITE_URL <span class="float-right">Site URL</span></li>
+                              <li class="clearfix"><span class="float-left"></span> SITE_EMAIL <span class="float-right">Site Email</span></li>
+                              <li class="clearfix"><span class="float-left"></span>REG_LINK <span class="float-right">Registration Link</span></li>
+                              <li class="clearfix"><span class="float-left"></span> USER_NAME <span class="float-right">User Name</span></li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+   
+         </div>
+    </div>
+   </div>
+ </div>
+ <div class="save-btn-overlay" *ngIf="add || edit">
+   <button class="exit-btn btn" (click)="resetForm()">Cancel</button>
+   <button class="save-btn btn" (click)="add ? addTemplate(template) : updateTemplate(template)">Save</button>
+   <button class="delete-btn btn" (click)="deleteTemplate(template)" *ngIf="edit">Delete Text</button>
+ </div>
+ <!-- <div class="save-btn-overlay" *ngIf = "addTextData">
+    <button class="exit-btn btn" (click)="resetTemplate()">Cancel</button>
+    <button class="save-btn btn" (click)="updateTemplate()">Save</button>
+    <button class="delete-btn btn" *ngIf="template.id !== null">Delete User</button>
+ </div> -->

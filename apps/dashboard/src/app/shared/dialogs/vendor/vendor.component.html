@@ -1,0 +1,13 @@
+<mat-dialog-content>
+    <div class="vendor-container">
+        <input type="text" max="2" class="vendor-input" placeholder="State (2-Letters)" [(ngModel)]="vendor.state" *ngIf="vendor.vendorName === 'RATER'">
+        <input type="text" class="vendor-input" placeholder="Carrier" [(ngModel)]="vendor.carrier" *ngIf="vendor.vendorName === 'RATER'">
+        <input type="text" class="vendor-input" placeholder="Agency" [(ngModel)]="vendor.agency" *ngIf="vendor.vendorName === 'AMS360'">
+        <input type="text" class="vendor-input" [placeholder]="vendor.vendorName !== 'TURBORATER'? 'Username': 'Account number'" *ngIf="!(['WEALTHBOX', 'RICOCHET'].includes(vendor.vendorName))" 
+            [(ngModel)]="vendor.username" [(value)]="vendor.username">
+        <input type="password" class="vendor-input" placeholder="Password" *ngIf="!(['EZLYNX','TURBORATER','COMMERCIAL_EZLYNX', 'WEALTHBOX', 'RICOCHET'].includes(vendor.vendorName))" [(ngModel)]="vendor.password">
+        <input type="password" class="vendor-input" placeholder="Token" *ngIf="(['SF','WEALTHBOX', 'RICOCHET'].includes(vendor.vendorName))" [(ngModel)]="vendor.accessToken">
+        <button type="submit" class="vendor-submit" (click)="closeDialog()">Add Credentials</button>
+        <mat-icon class="vendor-lock">lock</mat-icon>
+    </div>
+</mat-dialog-content>

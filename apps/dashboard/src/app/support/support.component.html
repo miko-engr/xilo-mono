@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="search-hero">
+        <div class="search-hero-container">
+            <div class="search-hero-header">
+                <h1>Hi. How can we help?</h1>
+            </div>
+            <div class="search-hero-bar">
+                <form 
+                    ngForm="searchForm" 
+                    class="search-hero-form"
+                    (ngSubmit)="searchGuruCards()"
+                >
+                    <button 
+                        type="submit" 
+                        class="search-icon"
+                        [disabled]="searchQuery.length === 0"
+                    ></button>
+                    <input 
+                        type="text"
+                        class="search-hero-input"
+                        #searchInput="ngModel"
+                        name="searchInput"
+                        placeholder="Search for anything"
+                        [(ngModel)]="searchQuery"
+                    >
+                </form>
+            </div>
+            <div class="search-hero-description">
+                <p>Search or select a topic below for related how-to's and answers to common questions</p>
+            </div>
+            <div class="search-hero-return">
+                <button class="return-button" routerLink="/profile">Click Here to Return to Dashboard</button>
+            </div>
+        </div>
+    </div>
+    <ng-container *ngIf="!selectedCard">
+        <div class="cards-container" *ngIf="cards$ | async as cards">
+            <div class="card" *ngFor="let card of cards">
+                <div class="card-title">
+                    <h1>{{ card.preferredPhrase }}</h1>
+                </div>
+                <button class="card-button" (click)="selectedCard = card">Browse Article</button>
+            </div>
+            <p *ngIf="cards.length === 0">
+                Search results for: {{ searchQuery }} had no results! Try a different search
+            </p>
+        </div>
+    </ng-container>
+    <div class="cards-container" *ngIf="selectedCard">
+        <app-support-cards
+            [card]="selectedCard"
+            (back)="selectedCard = null"
+        ></app-support-cards>
+    </div>
+</div>

@@ -1,0 +1,123 @@
+.tab h5 {
+     padding-bottom: 10px;
+     text-align: center;
+     cursor: pointer;
+     position: relative;
+     padding: 0 20px;
+     margin-right: 40px;
+     padding-bottom: 13px;
+     font-family: 'Poppins', sans-serif;
+     font-size: 16px;
+     letter-spacing: 0;
+     color: #5f5c5c;
+     transition: all 0.5s;
+     font-weight: normal;
+ }
+
+ .tab-item h5.active {
+     color: #000;
+     font-size: 16px;
+     font-family: 'Poppins', sans-serif;
+     font-weight: 500;
+ }
+ 
+ .tab-item h5.active:after {
+     content: " ";
+     position: absolute;
+     left: 0;
+     right: 0;
+     bottom: -5px;
+     height: 6px;
+     background-color: #8184ff;
+     border-radius: 10px;
+ }
+ 
+ .tabs-container {
+     display: flex;
+     flex-flow: row nowrap;
+     width: 100%;
+     margin-bottom: 10px;
+     position: relative;
+     border-bottom: 1px solid #e6e6e6;
+     padding: 0 24px;
+     margin-left: -24px;
+     margin-right: -24px;
+ }
+ 
+ .tab-text {
+     margin-bottom: 0;
+     margin-top: 5px;
+     font-size: 13px;
+     letter-spacing: 1px;
+     border-bottom: 2px solid transparent;
+ }
+ 
+ .tab-item {
+     font-family: 'Poppins', sans-serif;
+ }
+
+.desktop-sidenav {
+     width: 19%;
+}
+
+.custom-nav-content {
+     width: 79%;
+     background-color: #ebeff5 !important;
+     padding: 0px !important;
+ }
+ 
+ .desktop-sidenav h5 {
+     width: auto;
+     text-align: left;
+     margin: auto 0;
+     padding: 10px;
+     padding-left: 20px;
+ }
+ 
+ .desktop-sidenav .tab-item h5.active {
+     background: #f7f7ff;
+ }
+ 
+ .desktop-sidenav .tab-item h5:hover, .tab-item h5:active, .tab-item h5:focus {
+     /* border: none !important; */
+     outline: none !important;
+ }
+ 
+ .desktop-sidenav .tab-item h5.active:after {
+     left: 0;
+     right: 0;
+     bottom: 0px;
+     height: 100% !important;
+     width: 6px !important;
+     background-color: #8184ff;
+     border-radius: 0px !important;
+ }
+
+ .content-area {
+     padding: 10px 24px 20px 24px;
+     background-color: #fff;
+     border-radius: 10px;
+     margin-top: 2rem;
+ }
+ 
+.desktop-nav {
+     display: flex;
+     justify-content: space-between;
+}
+ 
+.desktop-nav .desktop-tabs-container {
+     height: calc(100vh);
+     padding: 10px 0px 20px 0px;
+     background-color: #fff;
+     border-radius: 4px;
+     margin-top: 2rem;
+     position: sticky;
+     top: 105px;
+}
+
+
+@media only screen and (max-width:600px) {
+     .content-area {
+          margin-top: 0rem;
+     }
+ }

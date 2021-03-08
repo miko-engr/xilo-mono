@@ -1,0 +1,47 @@
+<mat-card class="prospects-settings-block">
+  <mat-card-title class="prospects-hearder-block">
+    <div>
+      Prospects Settings
+    </div>
+    <div class="edit-actions-btn" *ngIf="isUnsaved">
+      <span>You have unsaved changes</span>
+      <button class="discard-button" (click)="resetInputs()">Discard changes</button>
+      <button class="save-button" (click)="updateProspectsSettings()">Save</button>
+    </div>
+  </mat-card-title>
+  <mat-card-content class="content-block">
+    <div class="custom-form-responsive">
+      <label>Hide If No First Name ?</label>
+      <mat-slide-toggle [(ngModel)]="prospectsSetting.hideOnFirstName" (change)="isUnsavedData()"></mat-slide-toggle>
+    </div>
+    <div class="custom-form-responsive">
+      <label>Hide If No Last Name ?</label>
+      <mat-slide-toggle [(ngModel)]="prospectsSetting.hideOnLastName" (change)="isUnsavedData()"></mat-slide-toggle>
+    </div>
+    <div class="custom-form-responsive">
+      <label>Hide If No Business Name ?</label>
+      <mat-slide-toggle [(ngModel)]="prospectsSetting.hideOnBusinessName" (change)="isUnsavedData()"></mat-slide-toggle>
+    </div>
+    <div class="custom-form-responsive">
+      <label>Hide If No Phone ?</label>
+      <mat-slide-toggle [(ngModel)]="prospectsSetting.hideOnPhone" (change)="isUnsavedData()"></mat-slide-toggle>
+    </div>
+    <div class="custom-form-responsive">
+      <label>Hide If No Email ?</label>
+      <mat-slide-toggle [(ngModel)]="prospectsSetting.hideOnEmail" (change)="isUnsavedData()"></mat-slide-toggle>
+    </div>
+    <div class="custom-form-responsive">
+      <label>Hide If No Address ?</label>
+      <mat-slide-toggle [(ngModel)]="prospectsSetting.hideOnFullAddress" (change)="isUnsavedData()"></mat-slide-toggle>
+    </div>
+    <div class="custom-form-responsive">
+      <label>Show Referral Source</label>
+      <mat-slide-toggle [(ngModel)]="prospectsSetting.showLeadSourceOnTable" (change)="isUnsavedData()"></mat-slide-toggle>
+    </div>
+    <div class="custom-form-responsive">
+      <label>Show New Form Builder</label>
+      <button mat-button [ngStyle]="styleButton('show')" (click)="toggleNewFormBuilder('show')">Show</button>
+      <button mat-button [ngStyle]="styleButton('hide')" (click)="toggleNewFormBuilder('hide')">Hide</button>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+    <div>
+        <p>Hi <%= emailInfo.customerFullName %>.</p>
+        <% if (emailInfo.userType) { %>
+        <p>This email is from xilo. you are invited as <%= emailInfo.userType %></p>
+        <% } %>
+        <% if (emailInfo.userType === 'user') { %>
+        <p>This is Team XILO here. We're excited to get you moving forward on the XILO platform! </p>
+        <p>Below is a link you can use to sign your contract, setup payment, add agency and team information.
+            You will also be able to select the forms and integrations you want and provide change requests on those
+            forms so we can get you up and running as soon as possible. This part is optional but is suggested to make
+            onboarding
+            faster. </p>
+            <a href="<%= emailInfo.createPasswordLink %>"><%= emailInfo.createPasswordLink %></a>
+            <p>Please go through this within 48 hours as the link is set to expire. </p>
+            <p>If you have any questions, please feel free to respond to this email and we'll answer them promptly.</p>
+        <% } %>
+        <% if (emailInfo.userType !== 'user') { %>
+        <p>Welcome to XILO! XILO offers unique quoting experiences (web forms) that your team can use to make quoting
+            easier for the insured and<br>
+            faster for your agency. Below is link you can use to set your password.</p>
+       
+        <a href="<%= emailInfo.createPasswordLink %>"><%= emailInfo.createPasswordLink %></a>
+        <p>With XILO you'll now be able to send forms to prospects that they'll actually fill out. Every question is tailored to your agency<br>
+            and your sales process. Those submissions are then either integrated into your existing systems, making your life easier! You'll be<br> 
+            able to pick up where they left off with XILO Simple Forms and even manage your pipeline coming in with the XILO Dashboard.</p>
+        <p>We look forward to working with you and can't wait for you to start utilizing XILO as a resource for your agency.</p>
+        <small>Note: The web forms do not work well with older versions of IE. 95% of prospects will use Chrome, Safari, Edge so this isn’t an issue.<br>
+            Microsoft gave up support for IE in 2016 and its now become a huge security risk to use the browser. I’d suggest moving to Edge if you use IE<br>
+            to keep your information secure. Here’s a supporting article on it:<br>
+            <a href="https://www.telegraph.co.uk/technology/2019/02/08/stop-using-internet-explorer-warns-microsofts-security-chief/">
+                https://www.telegraph.co.uk/technology/2019/02/08/stop-using-internet-explorer-warns-microsofts-security-chief/
+            </a></small><br>
+            <% } %>
+    </div>
+    <div>
+        <span>Sincerely,</span><br />
+        <span>Team XILO</span><br />
+        <span>XILO - San Diego, CA</span><br />
+        <span>(619) 488-6476</span><br />
+    </div>
+
+</body>
+
+</html>

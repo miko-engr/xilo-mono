@@ -1,0 +1,21 @@
+<form [formGroup]="currentForm">
+  <div class="form-item">
+    <label>
+      {{ properties.placeholderText }}{{ properties?.isRequired ? '*' : '' }}
+    </label>
+
+    <div class="input-container">
+      <span
+        *ngFor="let option of properties?.options"
+        [ngClass]="{
+          selected: isSelectedOpinon(option)
+        }"
+        (click)="handleOptionSelected(option)"
+      >
+        {{ option }}
+      </span>
+    </div>
+
+    <label *ngIf="false"> {{ properties?.errorText }} </label>
+  </div>
+</form>

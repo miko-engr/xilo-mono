@@ -1,0 +1,26 @@
+<div class="client-chart-box">
+    <table class="chart-header">
+        <tr>
+            <td class="chart-title"><span>{{attribute.title || 'Unknown title'}}</span></td>
+            <td>
+                <div class="btn-group">
+                    <button class="day" (click)="fetchClientChartData(attribute, 'days')"
+                        [ngClass]="pressed === 'days' ? 'active' : ''">Day</button>
+                    <button (click)="fetchClientChartData(attribute, 'weeks')"
+                        [ngClass]="pressed === 'weeks' ? 'active' : ''">Week</button>
+                    <button (click)="fetchClientChartData(attribute, 'months')"
+                        [ngClass]="pressed === 'months' ? 'active' : ''">Month</button>
+                    <button class="year" (click)="fetchClientChartData(attribute, 'years')"
+                        [ngClass]="pressed === 'years' ? 'active' : ''">Year</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <google-chart *ngIf="load" [data]="clientChart"></google-chart>
+    <!-- <div class="footer-btn-group">
+        <button>Feb</button>
+        <button>March</button>
+        <button class="active">April</button>
+        <button>May</button>
+    </div> -->
+</div>

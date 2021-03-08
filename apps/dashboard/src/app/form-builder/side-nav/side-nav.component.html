@@ -1,0 +1,42 @@
+<div class="nav">
+  <div class="nav-items-container">
+    <ul class="nav-items nav-top">
+      <li>
+        <a
+          (click)="onOpenBlockDialog()"
+          class="nav-item"
+          ngbTooltip="Add Section"
+          placement="right"
+        >
+          <img src="../../../../assets/icons/svg/add.svg" alt="Add Block">
+        </a>
+      </li>
+    </ul>
+    <hr class="nav-divider">
+  </div>
+  <div class="nav-items-container">
+    <ul class="nav-items">
+      <li
+        *ngFor="let item of filteredNavigationTree"
+        routerLink="{{ item.route }}"
+        [queryParams]="queryParams"
+        routerLinkActive="active"
+        #rla="routerLinkActive"
+        class="nav-item-container"
+      >
+        <a
+          class="nav-item"
+          [ngClass]="{'active': rla.isActive}"
+          [ngbTooltip]="item.name"
+          placement="right"
+        >
+          <img 
+            [src]="active ? item.activeSvg : item.svg" 
+            [alt]="item.name"
+            [ngClass]="{'active': rla.isActive}"
+            >
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

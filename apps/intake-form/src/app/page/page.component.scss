@@ -1,0 +1,58 @@
+.main {
+  display: flex;
+  flex-flow: row;
+  padding: 0 14.2%;
+  position: relative;
+  top: 128px;
+
+  .left {
+    width: 66%;
+    margin-right: 32px;
+  }
+
+  .right {
+    width: 21%;
+    position: fixed;
+    right: 13.2%;
+    max-height: 580px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-bottom: 16px;
+    padding-right: 16px;
+    .divider {
+      width: 100%;
+      margin-top: 16px;
+      border: 1px solid #D9D9FE;
+    }
+  }
+
+    /* width */
+  .right::-webkit-scrollbar {
+    width: 0;
+  }
+
+  /* Track */
+  .right::-webkit-scrollbar-track {
+    background: #fff; 
+  }
+  
+  /* Handle */
+  .right::-webkit-scrollbar-thumb {
+    background: #ccc; 
+  }
+
+}
+
+@media(max-width: 799px) {
+  .main {
+    padding: 0;
+    .left {
+      width: 100%;
+      margin-right: 0;
+    }
+    .right {
+      display: none;
+      width: 0;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<div class="integrations-main-block">
+  <div class="integrations-icon">
+    <img [src]="data?.logo">
+  </div>
+  <div class="integrations-info">
+    <div class="info-label-container">
+      <p class="info-label">{{data?.name}}</p>
+      <p>{{data?.description}}</p>
+    </div>
+  </div>
+  <div class="integrations-action">
+    <div class="integrations-buttons" *ngIf="data?.values === true || data?.values === 'true'">
+            <mat-icon *ngIf="data?.settings?.fields?.length || data?.name == 'Pipedrive'" (click)="openSettings()">settings</mat-icon>
+            <button mat-button class="disconnect-btn" *ngIf="data?.url && !data?.isAuthorized"><a [href]="data?.url">Authorize</a></button>
+            <button mat-button class="disconnect-btn" *ngIf="data?.isAuthorized" (click)="deAuthorized(data)">Disable</button>
+            <button mat-button class="disconnect-btn" (click)="disconnect()">Disconnect</button>
+    </div>
+    <div class="integrations-buttons" *ngIf="!data?.values || data?.values === 'false'">
+      <button mat-button color="primary" (click)="integrate()">Integrate</button>
+    </div>
+  </div>
+</div>

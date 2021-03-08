@@ -1,0 +1,159 @@
+<!-- <app-notification data=""></app-notification> -->
+<div class="form-builder-header">
+  <div class="container d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center justify-content-start" *ngIf="formFieldsRetrieved">
+      <mat-icon class="click" (click)="returnToForms()">keyboard_backspace</mat-icon>
+      <img class="ml-2" src="/assets/signup-flow/uploaded_form.svg"/>
+      <p class="font-weight-bold ml-3 mb-0">{{pdf.title}}</p>
+      <!-- <input type="text" *ngIf="isEditPdfTitle" matInput [(ngModel)]="pdf.title" (change)="editPdfTitle()"
+        class="ml-3 form-control" /><br /> -->
+    </div>
+    <div class="d-flex align-items-center justify-content-start">
+      <div class="feedback">
+        <button class="save-btn" (click)="updatePdf()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container form-builder-content h-100" *ngIf="formFieldsRetrieved">
+  <div class="row h-100">
+    <div class="col-3 pt-3 question-section h-100">
+      <div class="row justify-content-start h-100">
+        <div class="question-content h">
+          <div class="col-md-12" *ngIf="selectedIndex">
+            <div class="col-md-12 form-group">
+              <label class="justify-content-between w-100">
+                <span>Map PDF using {{mappingMethod}}</span>
+              </label>
+              <select class="form-control" placeholder="What mapping method will you use?" [(ngModel)]="mappingMethod" name="mappingMethod">
+                <option value="Form">Form</option>
+                <option value="Fields">XILO Fields</option>
+              </select>
+            </div>
+            <div class="col-md-12 form-group" *ngIf="mappingMethod === 'Form' && forms">
+              <label class="justify-content-between w-100">
+                <span>Map PDF to {{selectedFormTitle || 'this form'}}</span>
+              </label>
+              <select class="form-control" placeholder="What form does this PDf map to?" (change)="getAnswers($event.target.value)" [(ngModel)]="selectedFormIndex" name="selectedFormIndex">
+                <option [value]="null">-- Choose form to map to --</option>
+                <option [value]="form.id" *ngFor="let form of forms">{{form.title}}</option>
+              </select>
+            </div>
+            <div class="col-md-12 form-group" *ngIf="mappingMethod === 'Form' && selectedFormIndex && answers">
+              <label class="justify-content-between w-100">
+                <span>Map to {{truncatedTextVar(formFields[selectedIndex].name, 20)}} on {{formFields[selectedIndex].type}}</span>
+              </label>
+              <select class="form-control" placeholder="What form does this PDf map to?" (change)="setFieldByAnswer($event.target.value)" [(ngModel)]="selectedAnswerIndex" name="selectedAnswerIndex">
+                <option [value]="null">-- Choose form to map to --</option>
+                <option [value]="i" *ngFor="let answer of answers; let i = index">{{answer.placeholderText || answer.secondaryPlaceholderText || answer.displayValue}}</option>
+              </select>
+            </div>
+            <div class="col-md-12 form-group" *ngIf="mappingMethod === 'Fields'">
+              <label class="justify-content-between mb-1 w-100">
+                <span>Map to {{truncatedTextVar(formFields[selectedIndex].name, 15)}} on {{formFields[selectedIndex].type}}</span>
+              </label>
+              <mat-form-field (click)="$event.stopPropagation();" floatLabel="never" appearance="standard">
+                <input type="text" class="form-control" style="font-size: 14px;padding-left: 8px;" placeholder="What XILO field is this from?" aria-label="Key" name="key" matInput [ngModel]="searchNameValue" (ngModelChange)="searchNameValue=$event" disableRipple [matAutocomplete]="auto">
+                <!-- <mat-icon style="font-size: 20px;transform: translate(-30px, 6px);" matSuffix>search</mat-icon> -->
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setFieldName($event)" [displayWith]="displayFn">
+                  <mat-optgroup *ngFor="let group of keyGroups" [label]="group.type">
+                    <mat-option *ngFor="let key of group.keys | filter:searchNameValue" [value]="{type: group.type, label: key.label, key: key.key, formField: selectedIndex}">
+                      {{key.label}}
+                    </mat-option>
+                  </mat-optgroup>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+            <div class="col-md-12 form-group" *ngIf="fieldIsMultiple(formFields[selectedIndex].type) && !formFields[selectedIndex].isWhereFunction">
+              <label class="justify-content-between w-100">
+                <span>Map on {{formFields[selectedIndex].type}} {{fieldIndexNumber || 'by index'}}</span>
+              </label>
+              <select class="form-control" placeholder="What index is this field on?" (ngModelChange)="setIndex($event)" 
+                [(ngModel)]="fieldIndexNumber" name="indexNumber" id="indexNumber" >
+                <option [value]="null">Remove</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+              </select>
+            </div>
+            <div class="col-md-12 form-group" *ngIf="formFields[selectedIndex].name && fieldIsMultiple(formFields[selectedIndex].type) && !fieldIndexNumber">
+              <input type="checkbox" [(ngModel)]="formFields[selectedIndex].isWhereFunction">Look through {{formFields[selectedIndex].type}} for row to map
+            </div>
+            <div class="col-md-12 form-group" *ngIf="formFields[selectedIndex].isWhereFunction">
+              <label class="justify-content-between w-100">
+                <span>Lookup {{formFields[selectedIndex].whereKey || 'field'}} in {{formFields[selectedIndex].type}}</span>
+              </label>
+              <mat-form-field (click)="$event.stopPropagation();" floatLabel="never" appearance="standard">
+                <input type="text" class="form-control" style="font-size: 14px;padding-left: 8px;" placeholder="Which field has the value?" aria-label="Key" name="key" matInput [ngModel]="searchWhereKeyValue" (ngModelChange)="searchWhereKeyValue=$event" disableRipple [matAutocomplete]="autoWhereKey">
+                <!-- <mat-icon style="font-size: 20px;transform: translate(-30px, 6px);" matSuffix>search</mat-icon> -->
+                <mat-autocomplete #autoWhereKey="matAutocomplete" (optionSelected)="setFieldWhereKey($event)" [displayWith]="displayFn">
+                  <mat-optgroup *ngFor="let group of keyGroups" [label]="group.type">
+                    <mat-option *ngFor="let key of group.keys | filter:searchWhereKeyValue" [value]="{type: group.type, label: key.label, key: key.key, formField: selectedIndex}">
+                      {{key.label}}
+                    </mat-option>
+                  </mat-optgroup>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+            <div class="col-md-12 form-group" *ngIf="formFields[selectedIndex].isWhereFunction">
+              <label class="justify-content-between w-100">
+                <span>Exact value on {{formFields[selectedIndex].type}} that pulls row</span>
+              </label>
+              <input type="text" class="form-control" placeholder="What value triggers mapping" [(ngModel)]="formFields[selectedIndex].whereValue">
+            </div>
+
+            <div class="col-md-12 form-group" *ngIf="formFields[selectedIndex].name">
+              <input type="checkbox" [(ngModel)]="formFields[selectedIndex].isCheckbox">PDF field is checkbox
+            </div>
+            <div class="col-md-12 form-group" *ngIf="formFields[selectedIndex].isCheckbox">
+              <label class="justify-content-between w-100">
+                <span>Exact value in {{truncatedTextVar(formFields[selectedIndex].name, 15)}} to check</span>
+              </label>
+              <input type="text" class="form-control" placeholder="What value are you expecting?" [(ngModel)]="formFields[selectedIndex].expectedValue">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-8 pt-3 ml-5 mr-5 h-100" >
+      <div style="display: block" class="pdf-editor-container">
+        <div class="pdf-keys-container">
+            <div class="input-container" [ngStyle]="pdfOverlayStyle" (window:resize)="updateOverlayDimensions()">
+              <div class="inputs" *ngFor="let input of formFields; let i = index" style="cursor: pointer" [matTooltip]="input.name" (click)="setInput(input, i)" [ngStyle]="getInputPosition(input)"
+              (contextmenu)="onContextMenu($event, {index: i})">
+                {{truncatedText(input)}}
+              </div>
+            </div>
+        </div>
+        <pdf-viewer [src]="pdfSrc" [zoom]="pdfZoom" (after-load-complete)="loadComplete($event)" #pdfViewer></pdf-viewer>
+        <div class="pdf-zoom-buttons">
+          <button mat-mini-fab (click)="zoomIn()" class="zoom-btns" style="margin-bottom: 10px; display:block;">+</button>
+          <button mat-mini-fab (click)="zoomOut()" class="zoom-btns" style="display:block;">-</button>
+        </div>
+      </div>
+      <!-- <div class="col-md-12 justify-content-center field-content h">
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<div style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuPosition.x"
+    [style.top]="contextMenuPosition.y"
+    [matMenuTriggerFor]="contextMenu">
+</div>
+<mat-menu #contextMenu="matMenu">
+	<ng-template matMenuContent let-obj="obj">
+		<button mat-menu-item (click)="copyObject(obj)" *ngIf="!hasCopiedObject">Copy</button>
+		<button mat-menu-item (click)="pasteObject(obj)" *ngIf="hasCopiedObject">Paste</button>
+		<button mat-menu-item (click)="removeCopiedObject()" *ngIf="hasCopiedObject">Clear</button>
+	</ng-template>
+</mat-menu>
+
+<!-- <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading> -->

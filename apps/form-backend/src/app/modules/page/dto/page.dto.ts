@@ -1,0 +1,37 @@
+import { IsNumber, IsString, IsBoolean, IsObject, IsOptional } from 'class-validator';
+export class PageDto {
+    @IsOptional() @IsNumber() id: number;
+    @IsOptional() @IsString() title: string;
+    @IsOptional() @IsNumber() position: number;
+    @IsOptional() @IsBoolean() isDriver: boolean | null;
+    @IsOptional() @IsBoolean() isVehicle: boolean | null;
+    @IsOptional() @IsString() createdAt: Date;
+    @IsOptional() @IsString() updatedAt: Date;
+    @IsOptional() @IsNumber() companyPageId: number | null;
+    @IsOptional() @IsBoolean() isHome: boolean | null;
+    @IsOptional() @IsBoolean() isOwner: boolean | null;
+    @IsOptional() @IsBoolean() isStartPage: boolean | null;
+    @IsOptional() @IsBoolean() isDiscountsPage: boolean | null;
+    @IsOptional() @IsBoolean() isResultsPage: boolean | null;
+    @IsOptional() @IsBoolean() isInsurance: boolean | null;
+    //@IsOptional() @IsString() progressButtonText:string | null;
+    @IsOptional() @IsBoolean() isFormCompletedPage: boolean | null;
+    @IsOptional() @IsString() formCompletedPageHeader: string | null;
+    @IsOptional() @IsString() formCompletedPageText: string | null;
+    @IsOptional() @IsString() formCompletedPageIcon: string | null;
+    @IsOptional() @IsBoolean() formCompletedPageHasTimer: boolean | null;
+    @IsOptional() @IsString() routePath: string | null;
+    @IsOptional() @IsString() color: string | null;
+    @IsOptional() @IsString() conditionObject: string | null;
+    @IsOptional() @IsString() conditionKey: string | null;
+    @IsOptional() @IsString() conditionValue: string | null;
+    @IsOptional() @IsString() conditionOperator: string | null;
+    @IsOptional() @IsBoolean() isTemplate: boolean | null;
+    @IsOptional() @IsString() templateCategory: string | null;
+    @IsOptional() @IsString() templateTitle: string | null;
+    @IsOptional() @IsString() otherOffersTitle: string | null;
+    @IsOptional() @IsObject() banner: object | null;
+    @IsOptional() @IsNumber() bundleFormIds: number[] | null;
+    @IsOptional() @IsBoolean() hasOtherOffers: boolean | null;
+    @IsOptional() @IsNumber() formPageId: number | null;
+}

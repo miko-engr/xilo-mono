@@ -1,0 +1,10 @@
+<div class="stripe-container">
+    <ngx-stripe-card
+      containerClass="input-container"
+      [options]="cardOptions"
+      [elementsOptions]="elementsOptions"
+    ></ngx-stripe-card>
+    <button type="button" class="stripe-button" (click)="createToken()">
+      Add Card
+    </button>
+</div>

@@ -1,0 +1,37 @@
+<header>
+  <div *ngIf="companyDetails?.logo" class="logo-section">
+    <img
+      [src]="companyDetails?.logo"
+      [ngStyle]="{ height: companyDetails.logoHeight }"
+      alt="company-logo"
+    />
+  </div>
+  <div class="section">
+    <ul>
+      <!-- <li>
+        <button class="nav-btn">
+          <img src="assets/icons/chat.svg" alt="Chat icon">
+          <span>
+            Chat with Client
+          </span>
+        </button>
+      </li> -->
+<!-- 
+      <li>
+        <button class="nav-btn">
+          <img src="assets/icons/share.svg" alt="Share icon">
+          <span>
+            Share
+          </span>
+        </button>
+      </li> -->
+
+      <li>
+        <button id="submit" (click)="onSubmit()" *ngIf="formViewService.formState | async as formState" [disabled]="!formState.valid" class="nav-btn">
+          Submit Form
+        </button>
+      </li>
+    </ul>
+  </div>
+</header>
+  

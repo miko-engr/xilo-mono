@@ -1,0 +1,110 @@
+<div class="team_main_block">
+    <div class="stepper_main_block">
+        <div class="row">
+            <div class="col-md-5">
+                <form 
+                    class="form-row w-100" 
+                    #paymentDetails="ngForm"
+                    (ngSubmit)="onNext()" 
+                    *ngIf="payment"
+                >
+                    <mat-form-field>
+                        <mat-label>Email</mat-label>
+                        <input 
+                            matInput 
+                            readonly 
+                            disabled 
+                            value="{{ contract?.username }}"
+                            name="subscription" 
+                            placeholder="Email"
+                        >
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Company Name</mat-label>
+                        <input 
+                            matInput 
+                            readonly 
+                            disabled 
+                            value="{{ contract?.company?.name }}"
+                            name="companyName" 
+                            placeholder="Company Name"
+                        >
+                    </mat-form-field>
+                    <div class="custom-form-group" style="width: 400px">
+                        <ng-select
+                            name="plans"
+                            *ngIf="payment?.paymentPlans"
+                            class="custom-input"
+                            #plans="ngModel"
+                            [(ngModel)]="payment.planId"
+                            placeholder="Select plan"
+                            bindLabel="title"
+                            bindValue="id"
+                            [items]="payment?.paymentPlans"
+                            [clearable]="true"
+                            (change)="showSubscriptionAmount($event)"
+                        >
+                        </ng-select>
+                        <span *ngIf="plans?.invalid" class="custom-form-error">
+                            <p *ngIf="plans.errors.required">Plan is required</p>
+                        </span>
+                        <button class="secondary-btn mt-4" style="float: right" (click)="addPlan()">Create New Plan</button>
+                    </div>
+                    <mat-form-field>
+                        <mat-label>Price Per {{payment.interval | titlecase}}</mat-label>
+                        <input 
+                            matInput 
+                            readonly 
+                            disabled 
+                            value="{{ payment.subscriptionAmount | currency }}"
+                            name="subscription" 
+                            placeholder="Subscription"
+                        >
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Discount</mat-label>
+                        <mat-select 
+                            name="discount" 
+                            [(ngModel)]="payment.discountId"
+                            (selectionChange)="showDiscount($event)"
+                        >
+                            <mat-option selected>None</mat-option>
+                            <mat-option 
+                                *ngFor="let discount of payment?.discounts" 
+                                [value]="discount.id"
+                            >
+                                {{ discount.percent_off }}%
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Implementation Fees</mat-label>
+                        <mat-select 
+                            name="implementationFees" 
+                            #implementationFees="ngModel" 
+                            [(ngModel)]="payment.setupFees"
+                            required
+                        >
+                            <mat-option 
+                                *ngFor="let fees of paymentImplementionFees" 
+                                [value]="fees*100"
+                            >
+                            {{ fees | currency }}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="implementationFees?.invalid">
+                            <div *ngIf="implementationFees.errors.required">Implementation fees is required</div>
+                        </mat-error>
+                    </mat-form-field>
+                    <app-stripe-create-token
+                        style="width: 100%"
+                        [email]="contract?.username"
+                        [name]="contract?.company?.name"
+                        (addDetails)="addCardDetails($event)"
+                    >
+                    </app-stripe-create-token>
+                    <button type="submit" class="primary-btn mt-3">Next</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

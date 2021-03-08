@@ -1,0 +1,128 @@
+<div class="content-area">
+    <div class="clients-container">
+        <div class="table-responsive">
+            <div class="table-analytics">
+                <div class="table-analytics-container">
+                    <div class="table-analytics-box">
+                        <h4 class="table-analytics-header">{{returnAnalytics('totalUnread')}}</h4>
+                        <p class="table-analytics-sub-header">Total <br> Unread</p>
+                    </div>
+                    <div class="table-analytics-box">
+                        <h4 class="table-analytics-header">{{returnAnalytics('unreadTexts')}}</h4>
+                        <p class="table-analytics-sub-header">Unread <br> Texts</p>
+                    </div>
+                    <div class="table-analytics-box">
+                        <h4 class="table-analytics-header">{{returnAnalytics('unreadEmails')}}</h4>
+                        <p class="table-analytics-sub-header">Unread <br> Emails</p>
+                    </div>
+                    <div class="table-analytics-box">
+                        <h4 class="table-analytics-header">{{returnAnalytics('totalConversations')}}</h4>
+                        <p class="table-analytics-sub-header">Total <br> Conversations</p>
+                    </div>
+                    <div class="table-analytics-box">
+                        <h4 class="table-analytics-header">{{returnAnalytics('totalSentToday')}}</h4>
+                        <p class="table-analytics-sub-header">Total <br> Sent Today</p>
+                    </div>
+                    <div class="table-analytics-box">
+                        <h4 class="table-analytics-header">{{returnAnalytics('totalSentMonth')}}</h4>
+                        <p class="table-analytics-sub-header">Total <br> Sent Month</p>
+                    </div>
+                </div>
+            </div>
+            <table id="customers" class="client-table">
+                <tr>
+                    <td *ngIf="!selection || selection.length === 0" style="text-align: center; width: 3%"></td>
+                    <td style="text-align: center; width: 3%" *ngIf="selection && selection.length > 0">
+                        <button class="message-delete-button" (click)="deleteConversations()">Delete Conversations</button>
+                    </td>
+                    <td>
+                        <input type="text" class="table-input" [(ngModel)]="name" (ngModelChange)="filter($event)" placeholder="Search prospects"/>
+                    </td>
+                    <td>
+                        <select class="table-input" style="width: 45%; margin-right: 6px" name="statusFilter" [(ngModel)]="statusFilter" (ngModelChange)="setParams('status', $event)">
+                            <option value="all">View all statuses</option>
+                            <option [value]="status" *ngFor="let status of statuses">{{status}}</option>
+                        </select>
+                        <select class="table-input" style="width: 45%" name="typeFilter" [(ngModel)]="typeFilter" (ngModelChange)="setParams('type', $event)">
+                            <option value="all">View all types</option>
+                            <option [value]="type" *ngFor="let type of types">{{type}}</option>
+                        </select>
+                    </td>
+                    <td class="text-center">
+                        <select class="table-input" name="lifecycleFilter" [(ngModel)]="dateFilter" (ngModelChange)="setParams('date', $event)">
+                            <option value="1">Today</option>
+                            <option value="7">Past 7 days</option>
+                            <option value="30">Past 30 days</option>
+                            <option value="90">Past 90 days</option>
+                            <option value="365">Past 365 days</option>
+                            <option value="allTime">All time</option>
+                        </select>
+                    </td>
+                    <td class="text-center">
+                        <select class="table-input" name="lifecycleFilter" [(ngModel)]="lifecycleFilter" (ngModelChange)="setParams('lifecycle', $event)">
+                            <option value="all">All lifecycles</option>
+                            <option [value]="lifecycle.id" *ngFor="let lifecycle of clientLifecycles">{{lifecycle.name}}</option>
+                        </select>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr class="message-row" *ngFor="let client of clients | paginate: { itemsPerPage: 10, currentPage: p }; index as i">
+                    <td style="width: 3%; text-align: center">
+                        <mat-checkbox
+                            (click)="$event.stopPropagation()"
+                            (change)="$event ? selectRow(client.id) : null"
+                            [checked]="isSelected(client.id)"
+                            [aria-label]="checkboxLabel(i)"
+                        ></mat-checkbox>
+                    </td>
+                    <td>
+                        <span class="small-text">
+                            {{returnName(client)}}
+                        </span>
+                        <a *ngIf="client.email" class="message-icon-link" [href]="'mailto:' + client.email"><span class="message-icon icon-message"></span></a>
+                        <a *ngIf="client.phone" class="message-icon-link" [href]="'tel:' + client.phone"><span class="message-icon icon-phone"></span></a>
+                    </td>
+                    <td style="min-width: 18rem;">
+                        <span class="message-type-column">
+                            <span class="message-priority" [ngStyle]="returnLastMessageData(client, 'style-status')">{{returnLastMessageData(client,'status')}}</span>
+                            <span class="message-type">{{returnType(client)}} - <span class="message-description" [matTooltip]="returnLastMessageData(client,'body')">{{truncatedText(returnLastMessageData(client,'body'))}}</span></span>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="message-due-date" *ngIf="lastMessageRetrieved">
+                            {{returnLastMessageData(client, 'sentDate') | date:'short'}}
+                        </span>
+                        <span class="message-due-date" *ngIf="!lastMessageRetrieved">
+                            XX
+                        </span>
+                    </td>
+                    <td>
+                        <span class="message-due-date" *ngIf="lastMessageRetrieved">
+                            {{client.clientLifcycle ? client.clientLifcycle.name : ''}}
+                        </span>
+                        <span class="message-due-date" *ngIf="!lastMessageRetrieved">
+                        
+                        </span>
+                    </td>   
+                    <td style="text-align: center;">
+                        <button class="message-completed-button" (click)="openMessagesDialog(client)">Open Messages</button>
+                    </td>
+                </tr>
+                <tr style="width: 100%" *ngIf="clientsRetrieved && lastMessageRetrieved && (!clients || clients.length === 0)">
+                    <td colspan="9">
+                        <h3 style="width: 100%;font-weight: 500">No Clients</h3>
+                    </td>
+                </tr>
+                <tr style="width: 100%" *ngIf="!clientsRetrieved || !lastMessageRetrieved">
+                    <td colspan="9">
+                        <h3 style="width: 100%;font-weight: 500">Retrieving clients ...</h3>
+                    </td>
+                </tr>
+            </table>
+            <div class="pagination-div">
+                <pagination-controls (pageChange)="p = $event; setParams('page', $event)"></pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

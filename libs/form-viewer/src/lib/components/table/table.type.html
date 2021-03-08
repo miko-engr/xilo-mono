@@ -1,0 +1,15 @@
+<table id="table">
+  <tr>
+
+    <th *ngFor="let col of to.columns">
+      {{col.name}} {{col.required ? '*' : ''}}
+    </th>
+  </tr>
+  <tr *ngFor="let fg of field.fieldGroup; let index = index">
+
+    <td *ngFor="let fd of fg.fieldGroup">
+      <formly-field [field]="fd"></formly-field>
+    </td>
+  </tr>
+</table>
+<button class="add-btn" (click)="add()">Add</button>

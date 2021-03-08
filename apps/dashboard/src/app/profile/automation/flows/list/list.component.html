@@ -1,0 +1,56 @@
+<div class="tab-content flow-listing-container">
+    <div class="tab-inner">
+       <h3 class="inner-heading mb-4">Flows</h3>
+       <div class="row">
+          <div class="col-sm-10">
+             <div class="filter-div">
+                <div class="row">
+                   <div class="col-sm-2">
+                      <div class="form-group">
+                         <input type="text" class="form-control" (keyup)="search($event.target.value)" placeholder="Search with title" />
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+          <div class="col-sm-2 clearfix">
+             <a class="add-btn float-right" routerLink="/profile/automation/flows/add">
+                <span class="icon-add"> </span> Create Flow
+             </a>
+          </div>
+       </div>
+       <div class="table-container">
+          <table class="table">
+             <thead>
+                <tr>
+                   <th>Title</th>
+                   <th>Enabled</th>
+                   <th>New Lead Flow</th>
+                   <th>Created</th>
+                   <th>Action</th>
+                </tr>
+             </thead>
+             <tbody>
+                <tr *ngFor="let flow of flows">
+                   <td>
+                     {{flow.title}}
+                   </td>
+                   <td>
+                     {{flow.isEnabled ? 'Yes': 'No'}}
+                   </td>
+                   <td>
+                     {{flow.isNewClientFlow ? 'Yes': 'No'}}
+                   </td>
+                  <td>
+                    {{flow.createdAt | date: 'short'}}
+                  </td>
+                   <td style="width:150px">
+                      <button class="icon-btn" [routerLink]="'/profile/automation/flows/edit/'+flow.id"><span class="icon-edit1"></span></button>
+                      <button class="icon-btn text-danger "><span class="icon-rubbish-bin" (click)="deleteFlow(flow)"></span></button>
+                   </td>
+                </tr>
+             </tbody>
+          </table>
+       </div>
+    </div>
+ </div>

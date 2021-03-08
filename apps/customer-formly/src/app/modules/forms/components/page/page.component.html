@@ -1,0 +1,106 @@
+<mat-sidenav-container
+  [hasBackdrop]="true"
+  (backdropClick)="toggleMobileSummary()"
+>
+  <section class="page-container" [ngClass]="[pageName]">
+    <div class="page-loader" *ngIf="!isMobile && !loaded">
+      <img src="/assets/icon/loader.svg" alt="" />
+    </div>
+    <div class="page-loader" *ngIf="isMobile && !loaded">
+      <img src="/assets/icon/loader-mobile.svg" alt="" />
+    </div>
+    <main *ngIf="loaded" [ngClass]="currentPageNumber < 0 ? 'page-start' : ''">
+      <section
+        [@PageAnimation]="pageAnimationState"
+        class="page-section"
+        [ngClass]="(animationInProgress$ | async) ? 'no-scroll' : ''"
+        #pageSection
+      >
+        <xilo-mono-form-viewer
+          [fields]="fields"
+          [form]="form"
+          [formView]="formView"
+          [options]="formOptions"
+          [model]="formModel"
+          (showAlert)="onAlert($event)"
+          (formCompleted)="onFormCompleted()"
+        ></xilo-mono-form-viewer>
+      </section>
+      <div class="blurEffect"></div>
+      <!-- [ngClass]="{ pushButtonUp: isNextButtonNeeded() }" -->
+      <button
+        *ngIf="showAddAnother()"
+        [disabled]="!currentSectionValid()"
+        (click)="addRepeatSection()"
+        class="next-button add-another-button"
+      >
+        Add another {{ getRepeatLabel() }}
+      </button>
+      <button
+        *ngIf="showAddAnother() && !isLastQuestion()"
+        [disabled]="!currentSectionValid()"
+        (click)="onNextForm()"
+        class="next-button done-adding-button"
+      >
+        Done adding {{ getRepeatLabel(true) }}
+      </button>
+      <button
+        *ngIf="!showAddAnother() || isLastQuestion()"
+        [disabled]="!nextButtonEnabled()"
+        (click)="onNextForm()"
+        class="next-button"
+        [ngClass]="{
+          'done-adding-button': showAddAnother() && isLastQuestion()
+        }"
+      >
+        {{ isLastQuestion() ? 'Submit' : 'Next' }}
+      </button>
+      <ng-container *ngIf="!isMobile">
+        <ng-template [ngTemplateOutlet]="summaryTemplate"></ng-template>
+      </ng-container>
+    </main>
+  </section>
+  <div
+    class="mobile-summary-toggle closed"
+    *ngIf="isMobile && !mobileSummaryOpened"
+    (click)="toggleMobileSummary()"
+  >
+    <mat-icon>menu</mat-icon>
+  </div>
+  <mat-sidenav
+    class="summary-sidenav"
+    [opened]="mobileSummaryOpened"
+    mode="over"
+    position="end"
+    [autoFocus]="false"
+    [fixedInViewport]="true"
+  >
+    <div class="mobile-summary-header">
+      <div
+        class="mobile-summary-toggle"
+        [ngClass]="mobileSummaryOpened ? 'opened' : 'closed'"
+        *ngIf="isMobile"
+        (click)="toggleMobileSummary()"
+      >
+        <mat-icon>menu</mat-icon>
+      </div>
+      <h3>Summary</h3>
+    </div>
+    <div class="mobile-summary-container">
+      <ng-template [ngTemplateOutlet]="summaryTemplate"></ng-template>
+    </div>
+  </mat-sidenav>
+</mat-sidenav-container>
+
+<ng-template #summaryTemplate>
+  <section class="summary-section" [@SummaryAnimation]="summaryAnimationState">
+    <app-summary
+      *ngIf="formView"
+      [formData]="formView"
+      [currentForm]="form"
+      [isMobile]="isMobile"
+      [mainForm]="form"
+      (deleteMultipleItemTrigger)="handleDeleteMultipleItemTrigger($event)"
+    ></app-summary>
+  </section>
+</ng-template>

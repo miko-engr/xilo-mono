@@ -1,0 +1,541 @@
+<div class="container">
+  <h1 class="title-text">Set Conditional Value</h1>
+  <mat-card class="settings-card">
+    <form class="condition-form">
+      <div class="input-group">
+        <span class="input-label"
+          >Method
+          <mat-icon
+            class="info-icon"
+            matTooltip="How do you want to transorm the response before integrating it into your system?"
+            matTooltipPosition="right"
+            >info</mat-icon
+          ></span
+        >
+        <select
+          name="method"
+          [(ngModel)]="transformation.method"
+          class="condition-input"
+        >
+          <option selected [value]="null" disabled
+            >--- Choose transformation method ---
+          </option>
+          <option value="addif">Calculate if ...</option>
+          <option value="setif">Set to ... if ...</option>
+        </select>
+      </div>
+      <div class="transformation-container">
+        <query-builder
+          [(ngModel)]="query"
+          (ngModelChange)="onQueryChange()"
+          [config]="config"
+          [allowRuleset]="true"
+        >
+          <ng-container
+            *queryField="let rule; let fields = fields; let onChange = onChange"
+          >
+            <div class="option-set">
+              <div class="option-head">Field</div>
+              <select class="option" [(ngModel)]="rule.field">
+                <option *ngFor="let field of fields" [ngValue]="field"
+                  >{{ field.label }} {{ field.sectionLabel }}</option
+                >
+              </select>
+            </div>
+          </ng-container>
+          <!-- <ng-container *queryOperator="let rule; let operators = operators">
+            <div class="option-set">
+              <div class="option-head">Rule</div>
+              <select
+                [(ngModel)]="rule.operator"
+                (change)="onChangeOperator($event, rule)"
+                class="option"
+              >
+                <option *ngFor="let value of operators" [value]="value">{{
+                  value
+                }}</option>
+              </select>
+            </div>
+          </ng-container> -->
+
+          <ng-container
+            *queryInput="
+              let rule;
+              let field = field;
+              let onChange = onChange;
+              type: 'string'
+            "
+          >
+            <div class="option-set">
+              <div class="option-head">Value</div>
+              <input
+                class="option option-input"
+                (blur)="onChange($event, rule)"
+                [(ngModel)]="rule.value"
+              />
+            </div>
+          </ng-container>
+          <ng-container
+            *queryInput="
+              let rule;
+              let field = field;
+              let options = options;
+              let onChange = onChange;
+              type: 'category'
+            "
+          >
+            <div class="option-set">
+              <div class="option-head">Value</div>
+              <select
+                class="option"
+                [(ngModel)]="rule.value"
+                (change)="onChange($event, rule)"
+                [attr.placeholder]="field.name"
+              >
+                <option *ngFor="let opt of options" [value]="opt.value">
+                  {{ opt.name }}
+                </option>
+              </select>
+            </div>
+          </ng-container>
+          <ng-container
+            *queryRemoveButton="let rule; let removeRule = removeRule"
+          >
+            <div class="option-set" (click)="removeRule(rule)">
+              <div class="action-remove">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="12" cy="12" r="12" fill="#D9D9FE" />
+                  <path
+                    d="M12.4088 11.5918H15.5912C15.817 11.5918 16 11.7748 16 12.0006C16 12.2264 15.817 12.4095 15.5912 12.4095H12.4088H8.40884C8.18304 12.4095 8 12.2264 8 12.0006C8 11.7748 8.18304 11.5918 8.40884 11.5918H12.4088Z"
+                    fill="#111111"
+                  />
+                </svg>
+              </div>
+            </div>
+          </ng-container>
+        </query-builder>
+        <ng-container *ngIf="hidden">
+          <div
+            class="transformation-section"
+            id="value-var"
+            *ngIf="transformation.method === 'add'"
+          >
+            <div class="transformation-group">
+              <div class="transformation-text">
+                <p>Set to calculation</p>
+              </div>
+              <div class="transformation-inputs">
+                <div class="input-group">
+                  <span class="input-label">Field</span>
+                  <!-- TODO: Add transformation.formFieldKey dropdown  -->
+                </div>
+
+                <div class="input-group">
+                  <span class="input-label">Operator</span>
+                  <select
+                    name="operator"
+                    [(ngModel)]="transformation.operator"
+                    class="condition-input"
+                    id="operator"
+                  >
+                    <option selected [value]="null" disabled
+                      >--- Choose operator ---
+                    </option>
+                    <option value="+">Plus</option>
+                    <option value="-">Minus</option>
+                    <option value="/">Divded by</option>
+                    <option value="*">Multiplied by</option>
+                    <option value="%">Divded by (remainder)</option>
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <span class="input-label">Value</span>
+                  <input
+                    name="addedValue"
+                    type="number"
+                    placeholder="value"
+                    [(ngModel)]="transformation.addedValue"
+                    class="condition-input"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="transformation-section"
+            id="value-var"
+            *ngIf="transformation.method === 'addif'"
+          >
+            <div class="transformation-group">
+              <div class="transformation-text">
+                <p>If</p>
+              </div>
+              <div class="transformation-inputs">
+                <div class="input-group">
+                  <span class="input-label">Condition Field</span>
+                  <!-- TODO: Add transformation.conditionalFormFieldKey dropdown  -->
+                </div>
+
+                <div class="input-group">
+                  <span class="input-label">Rule</span>
+                  <select
+                    name="conditionalOperator"
+                    [(ngModel)]="transformation.conditionalOperator"
+                    class="condition-input"
+                    id="conditionalOperator"
+                  >
+                    <option selected [value]="null" disabled
+                      >--- Choose operator ---
+                    </option>
+                    <option
+                      *ngFor="let op of conditionalOperators"
+                      [value]="op.sign"
+                      >{{ op.title }}</option
+                    >
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <span class="input-label">Condition Value</span>
+                  <input
+                    name="conditionalValue"
+                    *ngIf="
+                      transformation.conditionalOperator !== '!' &&
+                      transformation.conditionalOperator !== '!!'
+                    "
+                    type="text"
+                    placeholder="value"
+                    [(ngModel)]="transformation.conditionalValue"
+                    class="condition-input"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="transformation-group">
+              <div class="transformation-text">
+                <p>then set to calculation</p>
+              </div>
+              <div class="transformation-inputs">
+                <div class="input-group">
+                  <span class="input-label">Field</span>
+                  <!-- TODO: Add transformation.formFieldKey dropdown  -->
+                </div>
+
+                <div class="input-group">
+                  <span class="input-label">Operator</span>
+                  <select
+                    name="operator"
+                    [(ngModel)]="transformation.operator"
+                    class="condition-input"
+                    id="operator"
+                  >
+                    <option selected [value]="null" disabled
+                      >--- Choose operator ---
+                    </option>
+                    <option value="+">Plus</option>
+                    <option value="-">Minus</option>
+                    <option value="/">Divded by</option>
+                    <option value="*">Multiplied by</option>
+                    <option value="%">Divded by (remainder)</option>
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <span class="input-label">Value</span>
+                  <input
+                    name="addedValue"
+                    type="number"
+                    placeholder="value"
+                    [(ngModel)]="transformation.addedValue"
+                    class="condition-input"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="transformation-section"
+            id="value-var"
+            *ngIf="transformation.method === 'set'"
+          >
+            <div class="transformation-group">
+              <div class="transformation-text">
+                <p>Set to</p>
+              </div>
+              <div class="transformation-inputs">
+                <div class="input-group">
+                  <span class="input-label">Value Rule</span>
+                  <select
+                    name="conditionalValueMethod"
+                    [(ngModel)]="transformation.conditionalValueMethod"
+                    class="condition-input"
+                    id="conditionalValueMethod"
+                  >
+                    <option selected [value]="null" disabled
+                      >--- Choose value rule ---
+                    </option>
+                    <option selected value="field">Field Value</option>
+                    <option selected value="value">Value</option>
+                  </select>
+                </div>
+                <div
+                  class="input-group"
+                  *ngIf="transformation.conditionalValueMethod === 'field'"
+                >
+                  <span class="input-label">Field</span>
+                  <!-- TODO: Add transformation.formFieldKey dropdown  -->
+                </div>
+
+                <div
+                  class="input-group"
+                  *ngIf="
+                    !transformation.conditionalValueMethod ||
+                    transformation.conditionalValueMethod === 'value'
+                  "
+                >
+                  <span class="input-label">Value</span>
+                  <ng-container *ngIf="!viewOptions">
+                    <input
+                      name="newValue"
+                      type="text"
+                      *ngIf="vendorMapping.vendorFieldType === 'string'"
+                      [placeholder]="transformation.newValue || 'Enter value'"
+                      [(ngModel)]="transformation.newValue"
+                      class="condition-input"
+                    />
+                    <input
+                      name="newValue"
+                      type="number"
+                      *ngIf="vendorMapping.vendorFieldType === 'integer'"
+                      [placeholder]="transformation.newValue || 'Enter value'"
+                      [(ngModel)]="transformation.newValue"
+                      class="condition-input"
+                    />
+                  </ng-container>
+                  <select
+                    name="newValue"
+                    [(ngModel)]="transformation.newValue"
+                    class="condition-input"
+                    id="newValue"
+                    *ngIf="viewOptions"
+                  >
+                    <option selected [value]="null" disabled
+                      >--- Choose value ---
+                    </option>
+                    <option
+                      selected
+                      *ngFor="let opt of options"
+                      [value]="opt"
+                      >{{ opt }}</option
+                    >
+                  </select>
+                  <span class="checkbox" *ngIf="options && options.length > 0">
+                    <input
+                      name="viewOptions"
+                      type="checkbox"
+                      [(ngModel)]="viewOptions"
+                    />
+                    View Options
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="transformation-section"
+            id="value-var"
+            *ngIf="transformation.method === 'setif'"
+          >
+            <div class="transformation-group">
+              <div class="transformation-text">
+                <p>If</p>
+              </div>
+              <div class="transformation-inputs">
+                <div class="input-group">
+                  <span class="input-label">Condition Field</span>
+                  <!-- TODO: Add transformation.conditionalFormFieldKey dropdown  -->
+                  <select
+                    name="conditionalFormField"
+                    [(ngModel)]="transformation.conditionalFormField"
+                    class="condition-input"
+                    id="conditionalFormField"
+                  >
+                    <option selected [ngValue]="null" disabled
+                      >--- Choose operator ---
+                    </option>
+                    <option *ngFor="let field of fields" [ngValue]="field"
+                      >{{ field.sectionLabel }} {{ field.label }}</option
+                    >
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <span class="input-label">Rule</span>
+                  <select
+                    name="conditionalOperator"
+                    [(ngModel)]="transformation.conditionalOperator"
+                    class="condition-input"
+                    id="conditionalOperator"
+                  >
+                    <option selected [value]="null" disabled
+                      >--- Choose operator ---
+                    </option>
+                    <option
+                      *ngFor="let op of conditionalOperators"
+                      [value]="op.sign"
+                      >{{ op.title }}</option
+                    >
+                  </select>
+                </div>
+
+                <div
+                  class="input-group"
+                  *ngIf="
+                    transformation.conditionalOperator !== '!' &&
+                    transformation.conditionalOperator !== '!!'
+                  "
+                >
+                  <span class="input-label">Condition Value</span>
+                  <!-- Add select menu for drop downs -->
+                  <input
+                    name="conditionalValue"
+                    type="text"
+                    placeholder="value"
+                    [(ngModel)]="transformation.conditionalValue"
+                    class="condition-input"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="transformation-group">
+              <div class="transformation-text">
+                <p>then set to</p>
+              </div>
+              <div class="transformation-inputs">
+                <div class="input-group">
+                  <span class="input-label">Value Rule</span>
+                  <select
+                    name="conditionalValueMethod"
+                    [(ngModel)]="transformation.conditionalValueMethod"
+                    class="condition-input"
+                    id="conditionalValueMethod"
+                  >
+                    <option selected [value]="null" disabled
+                      >--- Choose value rule ---
+                    </option>
+                    <option selected value="field">Field Value</option>
+                    <option selected value="value">Value</option>
+                  </select>
+                </div>
+                <div
+                  class="input-group"
+                  *ngIf="transformation.conditionalValueMethod === 'field'"
+                >
+                  <span class="input-label">Field</span>
+                  <!-- TODO: Add transformation.formFieldKey dropdown  -->
+                </div>
+
+                <div
+                  class="input-group"
+                  *ngIf="
+                    !transformation.conditionalValueMethod ||
+                    transformation.conditionalValueMethod === 'value'
+                  "
+                >
+                  <span class="input-label">Value</span>
+                  <ng-container *ngIf="!viewOptions">
+                    <input
+                      name="newValue"
+                      type="text"
+                      *ngIf="vendorMapping.vendorFieldType === 'string'"
+                      [placeholder]="transformation.newValue || 'Enter value'"
+                      [(ngModel)]="transformation.newValue"
+                      class="condition-input"
+                    />
+                    <input
+                      name="newValue"
+                      type="number"
+                      *ngIf="vendorMapping.vendorFieldType === 'integer'"
+                      [placeholder]="transformation.newValue || 'Enter value'"
+                      [(ngModel)]="transformation.newValue"
+                      class="condition-input"
+                    />
+                  </ng-container>
+                  <select
+                    name="newValue"
+                    [(ngModel)]="transformation.newValue"
+                    class="condition-input"
+                    id="newValue"
+                    *ngIf="viewOptions"
+                  >
+                    <option selected [value]="null" disabled
+                      >--- Choose value ---
+                    </option>
+                    <option
+                      selected
+                      *ngFor="let opt of options"
+                      [value]="opt"
+                      >{{ opt }}</option
+                    >
+                  </select>
+                  <span class="checkbox" *ngIf="options && options.length > 0">
+                    <input
+                      name="viewOptions"
+                      type="checkbox"
+                      [(ngModel)]="viewOptions"
+                    />
+                    View Options
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="transformation-section"
+            id="value-var"
+            *ngIf="transformation.method === 'change'"
+          >
+            <div class="transformation-group">
+              <div class="transformation-text">
+                <p>Change to</p>
+              </div>
+              <div class="transformation-inputs">
+                <div class="input-group">
+                  <span class="input-label">Transformation</span>
+                  <select
+                    name="type"
+                    [(ngModel)]="transformation.stringTransformType"
+                    class="condition-input"
+                    id="type"
+                  >
+                    <option selected [value]="null" disabled
+                      >--- Choose transformation type ---
+                    </option>
+                    <option value="number">Number</option>
+                    <option value="uppercase">Uppercase Text</option>
+                    <option value="lowercase">Lowercase Text</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </form>
+  </mat-card>
+  <div class="settings-save-button-container">
+    <button class="settings-btn primary" (click)="saveSettings()">
+      Save Changes
+    </button>
+    <button class="settings-btn secondary" (click)="dialogRef.close()">
+      Exit
+    </button>
+  </div>
+</div>

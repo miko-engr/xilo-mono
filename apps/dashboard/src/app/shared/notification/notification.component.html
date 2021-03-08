@@ -1,0 +1,11 @@
+<div class="notification_block" *ngIf="data.type">
+    <div class="alert_block">
+        <div class="icon_block" *ngIf="data.type === 'success'">
+            <mat-icon>check_circle</mat-icon>
+        </div>
+        <div class="icon_block" *ngIf="data.type === 'error'">
+            <mat-icon>error</mat-icon>
+        </div>
+        <div class="content_block">{{data.message}}</div>
+    </div>
+</div>

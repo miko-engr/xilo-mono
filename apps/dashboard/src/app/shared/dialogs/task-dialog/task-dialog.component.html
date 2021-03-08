@@ -1,0 +1,61 @@
+<div class="container">
+    <h1 class="title-text">Update Task</h1>
+    <mat-card class="settings-card">
+        <form class="task-form">
+            <div class="section-title">
+                <h3>Task details *</h3>
+            </div>
+            <div class="input-group">
+                <span class="input-label">Type of task * <mat-icon class="info-icon" matTooltip="The type of task helps you understand what category this task falls under" matTooltipPosition="right">info</mat-icon></span>
+                <select name="type" [(ngModel)]="task.type" class="task-input">
+                    <option [value]="null" selected disabled>--- Choose task type --- </option>
+                    <option value="Call">Call</option>
+                    <option value="Email">Email</option>
+                    <option value="Text">Text</option>
+                    <option value="Work">Work</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <span class="input-label">Task description <mat-icon class="info-icon" matTooltip="The task description providers more details on the task to help you understand it better" matTooltipPosition="right">info</mat-icon></span>
+                <input name="description" type="text" placeholder="Enter description" [(ngModel)]="task.description" class="task-input">
+            </div>
+            <div class="input-group">
+                <span class="input-label">Task priority * <mat-icon class="info-icon" matTooltip="The task priority helps you easily see how important this task is" matTooltipPosition="right">info</mat-icon></span>
+                <select name="priority" [(ngModel)]="task.priority" class="task-input">
+                    <option [value]="null" selected disabled>--- Choose task priority --- </option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <span class="input-label">Due date * <mat-icon class="info-icon" matTooltip="The task due date tells the system when you want to be reminded that a task is due" matTooltipPosition="right">info</mat-icon></span>
+                <input name="scheduledDate" type="datetime-local" placeholder="Enter due date" [(ngModel)]="task.scheduledDate" class="task-input">
+            </div>
+            <div class="input-group">
+                <span class="input-label">Assign prospect * <mat-icon class="info-icon" matTooltip="Assign a prospect to task so you know who this task is about" matTooltipPosition="right">info</mat-icon></span>
+                <div class="autocomplete" *ngIf="!task.clientTaskId">
+                    <div class="autocomplete-inputs">
+                        <input name="prospect" type="text" style="width: 65%" placeholder="Enter prospect name" (ngModelChange)="filter($event)" [(ngModel)]="name" class="task-input">
+                        <select name="dateFilter" style="width:35%" [(ngModel)]="dateFilter" (ngModelChange)="getClients($event)" class="task-input">
+                            <option value="30" selected>Past 30 Days</option>
+                            <option value="90">Past 90 Days</option>
+                            <option value="365">Past Year</option>
+                            <option value="allTime">All Time</option>
+                        </select>
+                    </div>
+                    <div class="autocomplete-menu" [ngStyle]="styleMenu()">
+                        <div class="row" *ngFor="let client of clients" (click)="assignClient(client)">{{returnName(client)}} ({{client.createdAt | date:'shortDate'}})</div>
+                    </div>
+                </div>
+                <span class="input-label" *ngIf="task.clientTaskId">{{returnName(task.client)}} <mat-icon class="task-icon" (click)="removeClient()">close</mat-icon></span>
+            </div>
+        </form>
+    </mat-card>
+    <div class="settings-save-button-container">
+        <button class="settings-btn primary" (click)="saveTask()">Save Changes</button>
+        <button class="settings-btn secondary" (click)="dialogRef.close()">Exit</button>
+    </div>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

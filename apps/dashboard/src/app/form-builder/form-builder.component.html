@@ -1,0 +1,22 @@
+<div class="container-root">
+  <div class="nav-root">
+    <app-form-builder-nav
+      *ngIf="company$ | async as company"
+      [company]="company"
+    ></app-form-builder-nav>
+  </div>
+  <div class="app">
+    <app-form-builder-side-nav></app-form-builder-side-nav>
+    <div class="main">
+      <div class="page">
+        <router-outlet></router-outlet>
+      </div>
+      <ngx-hotkeys></ngx-hotkeys>
+      <!-- <ngx-toolbar [mainTitle]="'Xilo Forms'" class="main-toolbar">
+        <ngx-toolbar-content>
+          
+        </ngx-toolbar-content>
+      </ngx-toolbar> -->
+    </div>
+  </div>
+</div>

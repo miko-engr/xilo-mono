@@ -1,0 +1,28 @@
+<div class="desktop-nav">
+  <div class="desktop-sidenav" *ngIf="!isMobile">
+    <div class="desktop-tabs-container" [routerLinkActive]="'active-link'">
+      <div class="tab tab-item" id="prospects-settings">
+        <h5 routerLink="/agent/business/settings/agents/prospects" [routerLinkActive]="['']"
+          [ngClass]="rla4.isActive?'active':''" #rla4="routerLinkActive" class="tab-text">Prospects Settings</h5>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+  <div class="content-area" [class.custom-nav-content]="!isMobile">
+    <div class="tabs-container" *ngIf="isMobile" [routerLinkActive]="'active-link'">
+      <div class="tab tab-item" id="prospects-settings">
+        <h5 routerLink="/agent/business/settings/agents/prospects" [routerLinkActive]="['']"
+          [ngClass]="rla4.isActive?'active':''" #rla4="routerLinkActive" class="tab-text">Prospects Settings</h5>
+      </div>-
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- <hr class="line"> -->
+    <div class="main">
+      <div>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

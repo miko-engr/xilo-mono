@@ -1,0 +1,237 @@
+<mat-card class="branding-section navbar-container">
+    <div class="branding-section-top-container">
+        <!-- <div class="branding-section-logo-container">
+            <mat-card-title class="branding-title">Logo</mat-card-title>
+            <img [src]="company.logo || '../../../assets/logo.png'" [alt]="company.name +' Logo'"
+                class="branding-section-logo">
+            <input (input)="isUnsavedData()" type="file" multiple class="logo-btn" name="photos" id="logo"
+                accept="image/*" ngf style="display: none" [(files)]="userFiles" />
+            <ngfFormData [files]="userFiles" [(FormData)]="myFormData" postName="photos"></ngfFormData>
+            <div class="btn-div">
+                <label class="logo-btn" for="logo" *ngIf="!userFiles && (company.logo === null)">Add Logo</label>
+                <button type="button" class="logo-btn" *ngIf="userFiles" (click)="postImage(userFiles, 'company')"
+                    [disabled]="disableUploadLogo">Save Logo</button>
+                <label class="logo-btn" for="logo" *ngIf="!userFiles && (company.logo !== null)">Change Logo</label>
+            </div>
+        </div> -->
+        <!-- <div class="branding-section-color-container">
+            <h6 class="branding-title">Brand Color</h6>
+            <div class="branding-section-color-wraper">
+            <input class="branding-section-color" *ngIf="editBrandColor" name="brandColor" [(ngModel)]="company.brandColor" (input)="isUnsavedData()" [ngStyle]="{backgroundColor: company.brandColor}">
+            <div class="branding-section-color" *ngIf="!editBrandColor" [ngStyle]="{backgroundColor: company.brandColor}">
+            </div>
+            <span class="color-code">{{company.brandColor}}</span>
+        </div>
+        <div class="btn-div">
+            <button class="logo-btn" *ngIf="!editBrandColor" (click)="editBrandColor = true">Change Brand Color</button>
+            <button class="logo-btn" *ngIf="editBrandColor" (click)="updateCompany()">Save Brand Color</button>
+        </div>
+        </div> -->
+    </div>
+    <div class="company-header">
+        <mat-card-title class="main-header-title">Branding</mat-card-title>
+        <div *ngIf="isUnsaved && isBrandingUnsaved" class="edit-actions-btn">
+            <span>You have unsaved changes</span>
+            <button class="discard-button" (click)="resetInputs()">Discard changes</button>
+            <button class="save-button" (click)="updateCompany()">Save</button>
+        </div>
+    </div>
+    
+    <!-- <div class="form-group">
+        <div class="group brand-logo">
+            <div class="info-label-container">
+                <p class="info-label">Logo</p>
+            </div>
+            <div class="brand-logo-position">
+                <img [src]="company.logo || '../../../assets/logo.png'" [alt]="company.name +' Logo'" class="branding-section-logo">
+                <input (input)="isUnsavedData()" type="file" multiple class="logo-btn" name="photos" id="logo" accept="image/*" ngf
+                    style="display: none" [(files)]="userFiles" />
+                <ngfFormData [files]="userFiles" [(FormData)]="myFormData" postName="photos"></ngfFormData>
+                <div class="btn-div btn-div-change-logo">
+                    <label class="logo-btn" for="logo" *ngIf="!userFiles && (company.logo === null)">Add Logo</label>
+                    <button type="button" class="logo-btn" *ngIf="userFiles" (click)="postImage(userFiles, 'company')"
+                        [disabled]="disableUploadLogo">Save Logo</button>
+                    <label class="logo-btn" for="logo" *ngIf="!userFiles && (company.logo !== null)">Change Logo</label>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="custom-form-field-data custom-form-field-data-log ">
+        <div class="branding-logo-width">
+            <label>Logo</label>
+        </div>
+        <div class="color-block">
+            <div class="custom-form-responsive">
+                <div class="brand-logo-position">
+                    <img [src]="company.logo || '../../../assets/logo.png'" [alt]="company.name +' Logo'" class="branding-section-logo">
+                    <input (input)="isUnsavedData()" type="file" multiple class="logo-btn" name="photos" id="logo" accept="image/*" ngf
+                        style="display: none" [(files)]="userFiles" />
+                    <ngfFormData [files]="userFiles" [(FormData)]="myFormData" postName="photos"></ngfFormData>
+                    <div class="btn-div btn-div-change-logo">
+                        <label style="margin: 0px !important;" class="logo-btn" for="logo" *ngIf="!userFiles && (company.logo === null)">Add Logo</label>
+                        <button type="button" class="logo-btn" *ngIf="userFiles" (click)="postImage(userFiles, 'company')"
+                            [disabled]="disableUploadLogo">Save Logo</button>
+                        <label style="margin: 0px !important;" class="logo-btn" for="logo" *ngIf="!userFiles && (company.logo !== null)">Change Logo</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="custom-form-field-data">
+        <label>Primary Brand Color</label>
+        <div>
+            <div class="color-block">
+                <div class="custom-form-responsive">
+                    <input type="text" name="brandColor" (input)="isUnsavedData(false)" [placeholder]="company.brandColor || '#111111'" [(ngModel)]="company.brandColor" 
+                    [(colorPicker)]="company.brandColor" (colorPickerChange)="onColorChange($event, 'brandColor')" (change)="setInvalidCode(company.brandColor)">
+                </div>
+                <div class="branding-section-color color-preview"
+                    [ngStyle]="{backgroundColor: company.brandColor || '#111111'}">
+                </div>
+            </div>
+            <label class="error-text" *ngIf="isInvalidCode && !company.brandColor?.startsWith('#')">Code should be starts with #</label>
+        </div>
+    </div>
+    <div class="custom-form-field-data">
+        <label>Secondary Brand Color</label>
+        <div>
+            <div class="color-block">
+                <div class="custom-form-responsive">
+                    <input type="text" name="brandSecondaryColor" (input)="isUnsavedData(false)" [placeholder]="company.brandSecondaryColor || '#111111'" [(ngModel)]="company.brandSecondaryColor" 
+                    [(colorPicker)]="company.brandSecondaryColor" (colorPickerChange)="onColorChange($event, 'brandSecondaryColor')" (change)="setInvalidCode(company.brandSecondaryColor)">
+                </div>
+                <div class="branding-section-color color-preview"
+                    [ngStyle]="{backgroundColor: company.brandSecondaryColor || '#111111'}">
+                </div>
+            </div>
+            <label class="error-text" *ngIf="isInvalidCode && !company.brandSecondaryColor?.startsWith('#')">Code should be starts with #</label>
+        </div>
+    </div>
+    <div class="custom-form-responsive">
+        <label class="m-0">Brand URL</label>
+        <input type="text" name="brandUrl" (input)="isUnsavedData(true)" [placeholder]="company.brandingURL || ''" [(ngModel)]="company.brandingURL">
+    </div>
+    <!-- <div class="form-group">
+        <div class="group">
+            <div class="info-label-container">
+                <p class="info-label">Brand Color</p>
+            </div>
+            <p class="info" *ngIf="!editInputs">{{company.brandColor || 'Add Hex Color'}}</p>
+            <div class="color-block">
+                <div class="custom-form-responsive">
+                    <input type="text" name="brandColor" (input)="isUnsavedData()" [placeholder]="company.brandColor || '#111111'" [(ngModel)]="company.brandColor" 
+                    [(colorPicker)]="company.brandColor" (colorPickerChange)="onColorChange($event, 'brandColor')">
+                </div>
+                <div class="branding-section-color color-preview"
+                    [ngStyle]="{backgroundColor: company.brandColor || '#111111'}">
+                </div>
+            </div>
+        </div>
+    </div> -->
+</mat-card>
+<mat-card class="navbar-container">
+    <div class="company-header">
+        <mat-card-title class="main-header-title">NavBar</mat-card-title>
+        <div *ngIf="isUnsaved && !isBrandingUnsaved" class="edit-actions-btn">
+            <span>You have unsaved changes</span>
+            <button class="discard-button" (click)="resetInputs()">Discard changes</button>
+            <button class="save-button" (click)="updateCompany()" [disabled]="isInvalidCode">Save</button>
+        </div>
+        <button class="edit-btn" id="brandingEditBtn" *ngIf="!editInputs" (click)="onEditInputs()"><span
+                class="icon-edit"></span>Edit</button>
+    </div>
+
+    <!--  -->
+
+    <!-- <div class="form-group">
+        <div class="group">
+            <div class="info-label-container">
+                <p class="info-label">Logo Height</p>
+            </div>
+            <p class="info" *ngIf="!editInputs">{{company.logoHeight || 'Add Logo Height'}}</p>
+            <mat-form-field appearance="outline" *ngIf="editInputs" class="custom-mat-form-field">
+                <input matInput type="text" (input)="isUnsavedData()" name="logoHeight" *ngIf="editInputs"
+                    [placeholder]="company.logoHeight || '#111111'" id="navbarStartColor"
+                    [(ngModel)]="company.logoHeight">
+            </mat-form-field>
+        </div>
+    </div> -->
+    <div class="custom-form-responsive">
+        <label>Logo Height</label>
+        <input type="text" name="logoHeight" (input)="isUnsavedData()" [placeholder]="company.logoHeight || '#111111'" [(ngModel)]="company.logoHeight">
+    </div>
+    <div class="custom-form-field-data">
+        <label>NavBar Start Color</label>
+        <div>
+            <div class="color-block">
+                <div class="custom-form-responsive">
+                    <input type="text" name="navbarStartColor" (input)="isUnsavedData()" [placeholder]="company.navbarBackgroundColorStart || '#911717'" [(ngModel)]="company.navbarBackgroundColorStart" 
+                    [(colorPicker)]="company.navbarBackgroundColorStart" (colorPickerChange)="onColorChange($event, 'navbarBackgroundColorStart')" (change)="setInvalidCode(company.navbarBackgroundColorStart)">
+                </div>
+                <div class="branding-section-color color-preview"
+                    [ngStyle]="{backgroundColor: company.navbarBackgroundColorStart || '#911717'}">
+                </div>
+            </div>
+            <label class="error-text" *ngIf="isInvalidCode && !company.navbarBackgroundColorStart?.startsWith('#')">Code should be starts with #</label>
+        </div>
+    </div>
+    <!-- <div class="form-group">
+        <div class="group">
+            <div class="info-label-container">
+                <p class="info-label">NavBar Start Color</p>
+            </div>
+            <p class="info" *ngIf="!editInputs">{{company.navbarBackgroundColorStart || 'Add Hex Color'}}</p>
+            <div class="color-block">
+                <div class="custom-form-responsive">
+                    <input type="text" name="navbarStartColor" (input)="isUnsavedData()" [placeholder]="company.navbarBackgroundColorStart || '#911717'" [(ngModel)]="company.navbarBackgroundColorStart" 
+                    [(colorPicker)]="company.navbarBackgroundColorStart" (colorPickerChange)="onColorChange($event, 'navbarBackgroundColorStart')">
+                </div>
+                <div class="branding-section-color color-preview"
+                    [ngStyle]="{backgroundColor: company.navbarBackgroundColorStart || '#911717'}">
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="custom-form-field-data">
+        <label>Navbar End Color</label>
+        <div>
+            <div class="color-block">
+                <div class="custom-form-responsive">
+                    <input type="text" name="navbarBackgroundColorEnd" (input)="isUnsavedData()" [placeholder]="company.navbarBackgroundColorEnd || '#232020'" [(ngModel)]="company.navbarBackgroundColorEnd" 
+                    [(colorPicker)]="company.navbarBackgroundColorEnd" (colorPickerChange)="onColorChange($event, 'navbarBackgroundColorEnd')" (change)="setInvalidCode(company.navbarBackgroundColorEnd)">
+                </div>
+                <div class="branding-section-color color-preview"
+                        [ngStyle]="{backgroundColor: company.navbarBackgroundColorEnd || '#232020'}"></div>
+            </div>
+            <label class="error-text" *ngIf="isInvalidCode && !company.navbarBackgroundColorEnd?.startsWith('#')">Code should be starts with #</label>
+        </div>
+    </div>
+    <div class="custom-form-field-data">
+        <label>Navbar Font Color</label>
+        <div>
+            <div class="color-block">
+                <div class="custom-form-responsive">
+                    <input type="text" name="navbarFontColor" (input)="isUnsavedData()" [placeholder]="company.navbarFontColor || '#8f1f1f'" [(ngModel)]="company.navbarFontColor" 
+                    [(colorPicker)]="company.navbarFontColor" (colorPickerChange)="onColorChange($event, 'navbarFontColor')" (change)="setInvalidCode(company.navbarFontColor)">
+                </div>
+                <div class="branding-section-color color-preview"
+                    [ngStyle]="{backgroundColor: company.navbarFontColor || '#8f1f1f'}"></div>
+            </div>
+            <label class="error-text" *ngIf="isInvalidCode && !company.navbarFontColor?.startsWith('#')">Code should be starts with #</label>
+        </div>
+    </div>
+    <div class="custom-form-responsive">
+        <div class="main-label">
+            <label>Navbar Font</label>
+        </div>
+        <select name="navbarFont" (change)="isUnsavedData()" [(ngModel)]="company.navbarFont">
+            <option value="" hidden selected>Select Font</option>
+            <option *ngFor="let data of fontList; inedx as i" [value]="data">{{data}}</option>
+        </select>
+    </div>
+</mat-card>
+
+<div class="main" *ngIf="!userRetrieved">
+    <h3>...</h3>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

@@ -1,0 +1,90 @@
+
+<div class="user-container"> 
+<form>
+   <div class="company-header">
+      <h3 class="main-header-title mat-card-title">Prospect Info</h3>
+   </div>
+   <div class="main header" *ngIf="keysRetrieved">
+      <div class="form-group">
+         <div class="group">
+            <div class="info-label-container">
+               <p class="info-label">Created Date</p>
+            </div>
+            <p class="info" *ngIf="!editInputs">{{(client.createdAt | date: 'short') || 'Add Date
+               Created'}}
+            </p>
+            <input type="date" name="createdAt"
+            placeholder="Enter Clients Creation Date"
+            class="section-input" id="createdAt" *ngIf="editInputs"
+            [(ngModel)]="client.createdAt">
+         </div>
+      </div>
+      <div class="form-group">
+         <div class="group">
+            <div class="info-label-container">
+               <p class="info-label">Tags</p>
+            </div>
+            <mat-chip-list #chipList aria-label="Tags">
+               <mat-chip
+                  *ngFor="let tag of client.tags"
+                  [removable]="true"
+                  (removed)="remove(tag)">
+                  {{tag}}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+               </mat-chip>
+            </mat-chip-list>
+            <mat-form-field>
+               <mat-select [(ngModel)]="selectedTag" (ngModelChange)="addTag($event)" name="tagSelection" id="tagSelection">
+                  <mat-option *ngFor="let tag of company.tags" [value]="tag">{{tag}}</mat-option>
+               </mat-select>
+            </mat-form-field>
+         </div>
+      </div>
+      <div class="form-group" *ngFor="let row of returnUniqRows(clientRows)">
+         <div class="group" *ngIf="!isEncrypted(row.label)">
+            <div class="info-label-container">
+               <p class="info-label">{{row.label}}</p>
+            </div>
+            <p class="info" *ngIf="!editInputs">{{formatText(row.value)}}</p>
+         </div>
+         <div class="group" *ngIf="isEncrypted(row.label)">
+            <div class="info-label-container">
+                <p class="info-label">{{row.label}}</p>
+            </div>
+            <p class="info">{{decryptedValue ? decryptedValue : '**********'}} <i class="icon-eye" matTooltip="View" (click)="showEncryption(row.label, client.id)"></i></p>
+        </div>
+      </div>
+   </div>
+   <div class="client-section auto-container" *ngIf="ratesRetrieved && rates">
+      <div class="header">
+          <h3 class="main-header-title">Estimated Rates</h3>
+      </div>
+      <div class="main-header" *ngIf="ratesRetrieved && rates">
+          <div class="form-group" [ngStyle]="styleGroups()" *ngFor="let rate of returnUniqRows(ratesRows)">
+              <div class="group">
+                  <div class="info-label-container">
+                      <p class="info-label">{{rate.label}}</p>
+                  </div>
+                  <p class="info">{{rate.value}}</p>
+              </div>
+          </div>
+      </div>
+      <div class="main-header" *ngIf="rates.length === 0">
+          <div class="form-group" [ngStyle]="styleGroups()">
+              <div class="group">
+                  <div class="info-label-container">
+                      <p class="info-label">No Rates Found</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</form>
+</div>
+<div class="save-btn-overlay" *ngIf="editInputs === true">
+   <button class="save-btn btn" (click)="updateClient()">Save Prospect</button>
+   <button class="exit-btn btn" (click)="onEditInputs()">Exit</button>
+   <button class="delete-btn btn" (click)="deleteClient()">Delete Prospect</button>
+</div>
+
+<ngx-loading [show]="loading || !clientRowsCreated" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

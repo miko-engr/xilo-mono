@@ -1,0 +1,56 @@
+<div class="container">
+  <h2 class="header">Summary</h2>
+  <div class="validation" *ngIf="formViewService.formState | async as formState">
+    <div class="validation-container" *ngIf="formState.valid">
+      <img src="assets/icons/checkbox-green.svg" class="icon" alt="Checkbox" />
+      <div class="status">Form Valid</div>
+      <!-- <div class="cta">Details</div> -->
+    </div>
+    <div class="validation-container invalid" *ngIf="!formState.valid">
+      <img src="assets/icons/box-warning.svg" class="icon" alt="Checkbox" />
+      <div class="status">Form Not Valid</div>
+      <!-- <div class="cta">Details</div> -->
+    </div>
+  </div>
+  <div class="sections">
+    <div class="section" 
+      [class.primary]="sectionIsActive(first, section.key)" 
+      *ngFor="let section of fields; let i = index; let first = first"
+      (click)="scrollToSection(section.key)"
+      >
+      <div class="section-main-container">
+        <div class="section-main">
+          <div class="header">{{ section.templateOptions.label }}</div>
+          <div class="repeat-section">
+            <!-- <span class="repeats">New {{ section.templateOptions.label }}</span> -->
+            <!-- <span class="add-btn">
+              <img src="assets/icons/add.svg" alt="Add">
+            </span> -->
+          </div>
+        </div>
+        <div class="section-dropdown">
+          <!-- <img 
+            *ngIf="first" 
+            src="assets/icons/caret-down-blue.svg" 
+            alt="Expand" 
+            (click)="sectionDropdownIsActive(section.key) ? deactivateSectionDropdown() : activateSectionDropdown(section.key)"
+            [ngStyle]="styleActiveDropdownCaret(section.key)"
+            >
+          <img 
+            *ngIf="!first" 
+            src="assets/icons/caret-down-grey.svg" 
+            alt="Expand" 
+            (click)="sectionDropdownIsActive(section.key) ? deactivateSectionDropdown() : activateSectionDropdown(section.key)"
+            [ngStyle]="styleActiveDropdownCaret(section.key)"
+            > -->
+        </div>
+      </div>
+      <div class="section-info" [ngStyle]="styleActiveSectionDropdown(section.key)">
+        <div class="section-info-container" *ngIf="sectionDropdownIsActive(section.key)">
+          <p>{{section.templateOptions.label}}</p>
+          <small *ngFor="let resp of sectionQuestions[section.key]">{{resp.templateOptions.label}}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

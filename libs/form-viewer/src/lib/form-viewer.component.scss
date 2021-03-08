@@ -1,0 +1,291 @@
+@import './assets/custom-theme.scss';
+
+formly-form {
+  width: 73%;
+  display: flex;
+  z-index: 1;
+}
+
+.blurEffect {
+  @include sm {
+    display: none;
+  }
+  @include md {
+    display: block;
+  }
+  position: fixed;
+  height: 42px;
+  left: 0px;
+  right: 0px;
+  bottom: 77px;
+
+  background: linear-gradient(
+    0.3deg,
+    #ffffff 10.61%,
+    rgba(250, 250, 250, 0) 91.65%
+  );
+  // &.pushButtonUp {
+  //   bottom: 60px;
+  // }
+}
+.xilo-next-button {
+  position: absolute;
+  bottom: 16px;
+  cursor: pointer;
+  background: $brand;
+  border-radius: 8px;
+
+  @include sm {
+    margin-top: 10px;
+  }
+  @include md {
+    margin-top: 32px;
+  }
+  display: flex;
+  flex-direction: row;
+  padding: 14px 40px;
+  font-weight: bold;
+  height: 56px;
+  align-items: center;
+  border-style: hidden;
+  color: $white;
+  @extend .button_link;
+  &:disabled {
+    opacity: 0.5;
+  }
+  &:focus {
+    outline: none;
+    border: 2px solid $brand;
+  }
+  &:hover {
+  }
+}
+
+.form-row {
+  @include sm {
+    padding-right: 0px;
+  }
+  @include md {
+    padding-right: 30px;
+  }
+  .form-item.error {
+    input {
+      &:focus {
+        outline: none;
+        border: 2px solid #ff6e6e;
+      }
+    }
+  }
+  .form-item {
+    width: 100%;
+
+    @include sm {
+      padding-bottom: 15px;
+    }
+    @include md {
+      padding-bottom: 34px;
+    }
+    .date-time-input {
+      position: relative;
+      span {
+        position: absolute;
+        right: 10px;
+        top: 20px;
+        height: 25px;
+        width: 25px;
+        cursor: pointer;
+      }
+    }
+    label {
+      @extend .input_label_body;
+      text-transform: capitalize;
+      font-style: normal;
+      font-weight: 500;
+      padding-left: 24px;
+      align-items: center;
+      color: $summary-type;
+    }
+    .xilo-input {
+      @extend .inputValue;
+      width: 100%;
+      background: $almost-white;
+      border: 1px solid $strock-divider;
+      box-sizing: border-box;
+      border-radius: 4px;
+      height: 56px;
+      font-style: normal;
+      font-weight: 500;
+      color: $black-light;
+      margin-top: 5px;
+      padding-left: 24px;
+      line-height: 32px;
+      &:focus {
+        outline: none;
+        border: 2px solid $brand;
+      }
+    }
+
+    .accordion {
+      margin-top: 5px;
+      .ng-arrow {
+        background-image: url(/assets/icon/keyboard_arrow_up_24px-1.svg);
+        background-repeat: no-repeat;
+        background-size: 23px 23px;
+        background-position: center;
+        width: 16px;
+        height: 26px;
+        display: flex;
+        top: 1px;
+        border: none;
+        -webkit-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+        padding-right: 15px;
+      }
+      &.ng-select-opened .ng-arrow {
+        background-image: url(/assets/icon/uparrow-blue.svg);
+      }
+      .ng-select-container {
+        cursor: pointer;
+        display: flex;
+        padding-left: 24px;
+        color: $black-light;
+        line-height: 1.5;
+        @include sm {
+          font-size: 14px;
+        }
+        @include md {
+          font-size: 18px;
+        }
+
+        font-family: $font-family-Inter-Regular;
+        position: relative;
+        -webkit-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+        align-items: center;
+        justify-content: space-between;
+        background: $almost-white;
+        border: 1px solid #b4b4bb;
+        border-radius: 4px;
+        height: 56px;
+
+        &:hover {
+          border: 1px solid $brand;
+        }
+        .ng-value-container {
+          padding-left: 0;
+        }
+        input {
+          @extend .inputValue;
+          width: 100%;
+          background: none;
+          border: none;
+          box-sizing: border-box;
+          height: 39px;
+          padding-left: 15px;
+          &:focus {
+            outline: none;
+            border: none;
+          }
+        }
+      }
+
+      // start dropdown css
+      .ng-dropdown-panel {
+        font-family: $font-family-Inter-Regular;
+        background: $white;
+        font-size: 18px;
+        border: 1px solid $brand;
+        box-sizing: border-box;
+        border-radius: 8px;
+        overflow: hidden;
+        .ng-option {
+          display: block;
+          text-decoration: none;
+          color: $gray-100;
+          padding: 12px;
+          padding-left: 24px;
+          -webkit-transition: all 0.25s ease;
+          -o-transition: all 0.25s ease;
+          transition: all 0.25s ease;
+          &:hover,
+          &.ng-option-marked {
+            background: $list-over;
+            cursor: pointer;
+          }
+          &.ng-option-selected {
+            background-color: $brand;
+            color: $white;
+            font-weight: normal;
+            &:hover {
+              background-color: $brand;
+            }
+          }
+        }
+      }
+    }
+
+    // end dropdown css
+    select {
+      @include sm {
+        font-size: $font18;
+      }
+      @include md {
+        font-size: $font14;
+      }
+      position: relative;
+      display: block;
+      width: 100%;
+      margin: 0 auto;
+      font-family: $font-family-Inter-Regular;
+      color: $black-light;
+      height: 56px;
+      background-color: $white;
+      border: 1px solid #b4b4bb;
+      box-sizing: border-box;
+      border-radius: 8px;
+      background: url('/assets/icon/keyboard_arrow_up_24px-1.svg') no-repeat
+        center right;
+      background-position-x: 98%;
+      padding-left: 24px;
+      margin-top: 5px;
+      &::-ms-expand {
+        display: none;
+      }
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .input-search {
+      display: flex;
+      input {
+        border-radius: 4px 0px 0px 4px !important;
+      }
+      .search-icon {
+        background: $brand;
+        border-radius: 0px 8px 8px 0px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 5px;
+        width: 56px;
+        cursor: pointer;
+        img {
+          display: block;
+          max-width: 500px; /*actual image width*/
+          height: auto; /* maintain aspect ratio*/
+          margin: auto; /*optional centering of image*/
+        }
+      }
+    }
+  }
+  .error {
+    label {
+      color: $error;
+      text-transform: none;
+    }
+    input {
+      border-color: $error;
+    }
+  }
+}

@@ -1,0 +1,54 @@
+<form [formGroup]="currentForm">
+  <div [ngClass]="isInvalid || errorMessage ? ' form-item error' : 'form-item'">
+    <label
+      >{{ properties.placeholderText
+      }}{{ properties?.isRequired ? '*' : '' }}</label
+    >
+    <input
+      class="xilo-input"
+      *ngIf="!properties?.isVehicleVIN && !properties?.isAddressSearch"
+      [type]="
+        properties.isPasswordInput
+          ? 'password'
+          : properties?.validationType
+          ? properties?.validationType
+          : 'text'
+      "
+      [formControlName]="properties?.id"
+    />
+    <!-- for vehicle vin search -->
+    <div class="input-search" *ngIf="properties?.isVehicleVIN">
+      <input
+        class="xilo-input"
+        [type]="
+          properties?.validationType ? properties?.validationType : 'text'
+        "
+        maxlength="17"
+        [formControlName]="properties?.id"
+      />
+      <div class="search-icon" (click)="triggerSearchByVin()">
+        <img src="/assets/icon/search-icon.svg" />
+      </div>
+    </div>
+    <!-- for vehicle vin search end -->
+
+    <!-- for address search -->
+    <div
+      class="input-search"
+      *ngIf="properties?.isAddressSearch && !properties?.isVehicleVIN"
+    >
+      <input
+        class="xilo-input"
+        [formControlName]="properties?.id"
+        ngx-google-places-autocomplete
+        [options]="options"
+        #placesRef="ngx-places"
+        (onAddressChange)="handleAddressChange($event)"
+      />
+    </div>
+    <!-- for address search end -->
+
+    <!-- errors showing -->
+    <label *ngIf="isInvalid">{{ getError() }} </label>
+  </div>
+</form>

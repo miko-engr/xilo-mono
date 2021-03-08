@@ -1,0 +1,16 @@
+<div class="content-area">
+    <div class="clients-container">
+        <div class="table-responsive">
+            <table id="documents" class="client-table" style="width: 100%;text-align: center;">
+                <tr>
+                    <th width="40%">File Name</th>
+                    <th>Created At</th>
+                </tr>
+                <tr *ngFor="let d of client.documents">
+                    <td width="40%"><span class="small-text"> <a href="" (click)="openDocument(d.id)">{{d.fileName}}</a></span></td>
+                    <td>{{d.createdAt | date: 'short'}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

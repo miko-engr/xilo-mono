@@ -1,0 +1,42 @@
+<div class="auto-complete-content-area">
+  <mat-card class="mat-elevation-z1">
+    <mat-form-field floatLabel="always">
+      <input matInput type="text" placeholder="Enter Title" [(ngModel)]="selectedDiscount.title">
+    </mat-form-field>
+    <br>
+    <mat-form-field floatLabel="always">
+      <input matInput type="text" placeholder="Enter More Information" [(ngModel)]="selectedDiscount.moreInformation">
+    </mat-form-field>
+    <br>
+    <mat-form-field floatLabel="always">
+      <input matInput type="text" placeholder="Enter Property Key" [(ngModel)]="selectedDiscount.propertyKey">
+    </mat-form-field>
+    <br>
+    <mat-form-field floatLabel="always">
+      <input matInput type="text" placeholder="Enter Object" [(ngModel)]="selectedDiscount.object">
+    </mat-form-field>
+    <br>
+    <mat-form-field floatLabel="always">
+      <input matInput type="text" placeholder="Enter External URL" [(ngModel)]="selectedDiscount.externalUrl">
+    </mat-form-field>
+    <br>
+    <mat-form-field floatLabel="always">
+      <input matInput type="text" placeholder="Enter Mobile URL" [(ngModel)]="selectedDiscount.mobileUrl">
+    </mat-form-field>
+    <br>
+    <mat-form-field floatLabel="always" *ngIf="formsRetrieved === true">
+      <mat-select [(ngModel)]="selectedDiscount.formDiscountId" placeholder="Form">
+          <mat-option *ngFor="let form of forms" [value]="form.id">{{form.title || form.type}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="btn-div">
+      
+      <button class="edit-btn ng-star-inserted" (click)="createDiscount()" routerLink="../discount-home" [routerLinkActive]="['']"><mat-icon>check</mat-icon>Save</button>
+      <button class="edit-btn ng-star-inserted" routerLink="../discount-home" [routerLinkActive]="['']"><mat-icon>cancel</mat-icon> Cancel</button>
+    </div>
+  </mat-card>
+
+  <button mat-button style="display: block;background-color: #8184ff; color: #fff;" routerLink="../discount-home">
+    Back
+  </button>
+</div>

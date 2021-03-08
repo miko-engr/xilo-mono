@@ -1,0 +1,109 @@
+.container {
+    display: flex;
+    flex-flow: column nowrap;
+    .search-hero {
+        height: 22rem;
+        box-sizing: border-box;
+        padding: 4.5rem;
+        width: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        background: #7c7fff;
+
+        .search-hero-container {
+            max-width: 31rem; 
+            display: flex;
+            flex-flow: column nowrap;
+            margin: 0 auto;
+            text-align: center;
+
+            .search-hero-header {
+                color: #fff;
+                font-weight: bold;
+                text-align: center;
+                font-size: 1.6rem;
+            }
+    
+            .search-hero-form {
+                width: 100%;
+                height: 100%;
+                position: relative;
+
+                .search-icon {
+                    content: "";
+                    background: url('../../assets/svgs/search.svg') no-repeat 50%;
+                    background-size: 25px 25px;
+                    display: block;
+                    height: 100%;
+                    position: absolute;
+                    width: 60px;
+                    border: none;
+                    cursor: pointer;
+                }
+
+                .search-hero-input {
+                    box-sizing: border-box;
+                    border-radius: 5px;
+                    display: block;
+                    padding: 20px 20px 20px 60px;
+                    width: 100%;
+                    font-size: 1rem; 
+                    border: none;
+                    outline: none;               
+                }
+            }
+
+            .search-hero-description {
+                color: #fff;
+                font-size: 1.25rem;
+                font-weight: 500;
+            }
+
+            .return-button {
+                height: 2rem;
+                border-radius: .25rem;
+                outline: none;
+                border: 1px solid #000;
+                background: #fff;
+                padding: .25rem 1rem;
+            }
+        }
+    }
+
+    .cards-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        display: flex;
+        flex-flow: row wrap;
+        padding: 2.5rem;
+        justify-content: space-around;
+
+        .card {
+            flex-basis: 33%;
+            padding: 36px 36px 60px;
+            text-align: center;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: space-between;
+
+            .card-button {
+                border-radius: .25rem;
+                height: 2rem;
+                -ms-flex-align: center;
+                align-items: center;
+                background: #7c7fff;
+                color: #fff;
+                width: 11rem;
+                margin: 2rem auto;
+                outline: none;
+                border: none;
+                cursor: pointer;
+            }
+        }
+
+        .card:hover {
+            background: rgba(204,204,204,.5);
+        }
+    }
+}

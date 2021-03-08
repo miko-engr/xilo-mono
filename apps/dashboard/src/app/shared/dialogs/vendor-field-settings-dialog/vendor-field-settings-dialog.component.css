@@ -1,0 +1,190 @@
+.container {
+    text-align: center;
+    background-color: #FAFBFD;
+    display: flex;
+    flex-flow: column;
+}
+
+.settings-card {
+    margin: 0 auto 24px auto;
+}
+
+.section-title {
+    width: 100%;
+    text-align: left;
+}
+
+.section-line-break {
+    color: #ccc;
+    opacity: .3;
+}
+
+.condition-card-container {
+    text-align: center;
+    font-size: 16px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.condition-form {
+    width: 55vw;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: column nowrap;
+    float: left;
+    padding: 12px 0 0 0;
+}
+
+.condition-input {
+    height: 40px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    border: 1px solid #D6D6D6;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding-left: 8px;
+    color: #111;
+    width: 50%;
+}
+
+.condition-input-icon {
+    width: 15px;
+    position: absolute;
+    right: 50%;
+    transform: translateY(34px);
+    cursor: pointer;
+}
+
+.add-card {
+    box-shadow: none;
+    background-color: transparent;
+    border: 1px #ccc dashed;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.condition-card {
+    margin: 24px;
+    min-height: 32px;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.info-icon {
+    font-size: 12px;
+    height: 12px;
+    width: 12px;
+    margin-left: 8px;
+}
+
+.input-label {
+    opacity: .80;
+    font-size: 14px;
+    margin: 4px 0;
+    display: flex;
+    justify-content: flex-start;
+    flex-flow: row nowrap;
+    vertical-align: middle;
+    align-items: center;
+}
+
+.settings-btn {
+    height: 48px;
+    width: 160px;
+    background: transparent;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 8px 24px;
+}
+
+.action-btn {
+    background: transparent;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.settings-btn:hover {
+    opacity: .92;
+}
+
+.primary {
+    background-color: #7c7fff;
+    color: #fff;
+    border: none;
+}
+
+.primary-small {
+    height: auto;
+    width: 25%;
+    padding: .5rem .75rem;
+    font-size: 1rem;
+    background-color: #7c7fff;
+    color: #fff;
+    border: none;
+}
+
+.secondary {
+    background-color: #fff;
+    color: #000;
+    border: 1px #ccc solid;
+}
+
+.remove {
+    background-color: red;
+    color: #fff;
+}
+
+::ng-deep .mat-form-field-flex .mat-form-field-infix {
+    padding: 0;
+    border-top: none;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex {
+    padding: 0;
+    padding-left: 0!important;
+    border-top: none;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: transparent;
+    display: none!important;
+}
+
+.transformation-section {
+    display: flex;
+    flex-flow: column;
+    flex-basis: 100%;
+}
+.transformation-inputs {
+    flex-basis: 75%;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.transformation-group {
+    flex-basis: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.transformation-text {
+    flex-basis: 10%;
+    margin-right: .5rem;
+}
+
+.input-group {
+    text-align: left;
+    padding: .8rem;
+    flex-flow: column;
+}

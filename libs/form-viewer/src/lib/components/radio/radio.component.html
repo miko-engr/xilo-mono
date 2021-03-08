@@ -1,0 +1,29 @@
+<div
+  [class]="to.className || 'xilo-input'"
+  [ngClass]="showError ? ' form-item error' : 'form-item'"
+>
+  <!-- <ng-select
+    class="accordion"
+    [formControl]="formControl"
+    bindValue="value"
+    [items]="to.options"
+    [clearable]="false"
+    [class.is-invalid]="showError"
+  >
+  </ng-select> -->
+
+  <div *ngFor="let option of to.options" class="radio">
+    <input
+      [name]="field.key"
+      [id]="option.label"
+      type="radio"
+      [value]="option.value"
+      [formControl]="formControl"
+      [formlyAttributes]="field"
+    />
+    <label for="option.label">{{ option.label }}</label>
+  </div>
+
+  <!-- errors showing -->
+  <!-- <label *ngIf="showError">{{ getError() }} </label> -->
+</div>

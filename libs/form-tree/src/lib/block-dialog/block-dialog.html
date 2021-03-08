@@ -1,0 +1,60 @@
+<div id="add-question-dropdown" aria-labelledby="add-question-button">
+  <div class="tab-wrapper">
+    <div class="title-row">
+      <h2>Add block</h2>
+      <button (click)="dialogRef.close()" class="dropdown-close-button">
+        <ngx-icon svgSrc="close"></ngx-icon>
+      </button>
+    </div>
+    <div>
+      <tabset>
+        <tab *ngFor="let tab of tabs; let i = index" [active]="i === activeTab">
+          <ng-template tabHeading>
+            <span class="tabHeading">{{tab.title}}</span>
+          </ng-template>
+          <button
+            class="create-button"
+            *ngIf="i === 2"
+            (click)="onTabItemClicked(createBlankQuestionGroup(), tab)"
+          >
+            Create blank question group
+          </button>
+          <button
+            class="create-button"
+            style="margin-right: 8px;"
+            *ngIf="i === 0"
+            (click)="onTabItemClicked(createBlankSection(), tab)"
+          >
+            Create blank section
+          </button>
+          <button
+            class="create-button"
+            *ngIf="i === 0"
+            (click)="onTabItemClicked(createRepeatSection(), tab)"
+          >
+            Create repeat section
+          </button>
+          <!-- <button
+            class="create-button"
+            *ngIf="i === 1"
+            (click)="onTabItemClicked({}, tabs[1])"
+          >
+            Create blank question group
+          </button> -->
+          <div class="tab-items">
+            <button
+              class="item"
+              *ngFor="let item of tab.items"
+              (click)="onTabItemClicked(item, tab)"
+            >
+              <ngx-icon *ngIf="!item.src" [svgSrc]="item.icon" class="icon">
+              </ngx-icon>
+              <img *ngIf="item.src" [src]="item.src" class="icon" />
+              <div class="title">{{item.label}}</div>
+            </button>
+          </div>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</div>

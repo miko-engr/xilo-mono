@@ -1,0 +1,36 @@
+export interface Page {
+    id?: number;
+    title?: string;
+    position?: number;
+    isDriver?: boolean | null;
+    isVehicle?: boolean | null;
+    createdAt?: Date;
+    updatedAt?: Date;
+    companyPageId?: number | null;
+    isHome?: boolean | null;
+    isOwner?: boolean | null;
+    isStartPage?: boolean | null;
+    isDiscountsPage?: boolean | null;
+    isResultsPage?: boolean | null;
+    isInsurance?: boolean | null;
+    // progressButtonText:string | null;
+    isFormCompletedPage?: boolean | null;
+    formCompletedPageHeader?: string | null;
+    formCompletedPageText?: string | null;
+    formCompletedPageIcon?: string | null;
+    formCompletedPageHasTimer?: boolean | null;
+    routePath?: string | null;
+    color?: string | null;
+    conditionObject?: string | null;
+    conditionKey?: string | null;
+    conditionValue?: string | null;
+    conditionOperator?: string | null;
+    isTemplate?: boolean | null;
+    templateCategory?: string | null;
+    templateTitle?: string | null;
+    otherOffersTitle?: string | null;
+    banner?: object | null;
+    bundleFormIds?: number[] | null;
+    hasOtherOffers?: boolean | null;
+    formPageId?: number | null;
+}

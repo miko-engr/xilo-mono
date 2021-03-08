@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    .form-section {
+        flex: 0 1 100%;
+    }
+
+    .form-section-table {
+        flex: 0 1 100%!important;
+    }
+}

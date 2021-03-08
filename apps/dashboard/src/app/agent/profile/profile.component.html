@@ -1,0 +1,26 @@
+<div class="agentProfilePage">
+    <div class="header">
+        <h1 class="header-title">Profile<i (click)="toggleInfo()" class="fa fa-info"></i></h1>
+
+        <div *ngIf="show" class="infoPopup">
+            <i (click)="toggleInfo()" class="fa fa-close"></i>
+            <p class="infoText">To Edit Agency Info: <br>1. Click the field you want to change" <br>2. Enter in the corrct information <br> 
+            3. Add agency logo <br>5. Click "Save" to complete</p>
+        </div>
+    </div>
+    
+    <div>
+        <h1>Profile Section</h1>
+        <label for="email">Email</label>
+        <input type="text">
+        <br>
+        <label for="name">Name</label>
+        <input type="text">
+        <br>
+        <label for="password">Password</label>
+        <input type="text">
+    </div>
+</div>
+
+
+

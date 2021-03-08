@@ -1,0 +1,7 @@
+<h2>Payment Request Button</h2>
+<ngx-stripe-payment-request-button
+  [paymentOptions]="paymentRequestOptions"
+  (payment)="onPaymentMethod($event)"
+  (shippingaddresschange)="onShippingAddressChange($event)"
+  (notavailable)="onNotAvailable()"
+></ngx-stripe-payment-request-button>

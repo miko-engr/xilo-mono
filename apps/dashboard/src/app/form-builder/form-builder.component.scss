@@ -1,0 +1,408 @@
+@import './scss/variables/colors';
+
+/**
+ * Theme Styles
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+.container-root {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+}
+
+.nav-root {
+  width: 100%;
+  height: 5rem;
+  border-bottom: 1px solid #dadada;
+}
+
+.style-guide {
+  transition: background 500ms, background-image 500ms, color 500ms;
+}
+
+.navigation.ngx-nav-menu {
+  background-color: $color-off-white;
+  background: $color-off-white;
+}
+.app {
+  display: flex;
+  flex-flow: row nowrap;
+  position: relative;
+  min-height: 100vh;
+
+  .nav-logo,
+  div.nav-logo {
+    background-color: $color-off-white;
+    background: $color-off-white;
+  }
+
+  ngx-nav-menu,
+  ngx-nav-menu.navigation {
+    background-color: $color-off-white;
+    background: $color-off-white;
+  }
+
+  .nav-items .nav-item,
+  .nav-items div.nav-item {
+    background-color: $color-off-white;
+    background: $color-off-white;
+    color: $color-blue-grey-850;
+  }
+
+  .nav-item-container,
+  li.nav-item-container {
+    background-color: $color-blue-grey-100;
+    background: $color-blue-grey-050;
+    color: $color-blue-grey-850;
+    list-style: none;
+  }
+
+  .sub-nav.sub-nav-item,
+  a.sub-nav.sub-nav-item {
+    background-color: $color-blue-grey-050;
+    background: $color-blue-grey-050;
+    color: $color-blue-grey-875;
+    list-style: none;
+  }
+
+  .navigation {
+    display: flex;
+    flex-shrink: 0;
+    position: relative;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+
+    .logo-text svg {
+      height: 1.5rem;
+    }
+  }
+
+  .main {
+    position: relative;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+    width: 100%;
+    // padding-top: 50px;
+
+    .main-toolbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .page {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.app .ngx-toolbar a.active {
+  font-weight: 900;
+}
+
+/**
+ * Header
+ */
+.style-header {
+  text-transform: uppercase;
+  color: $color-grey-300;
+  font-size: 1rem;
+  position: relative;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+  font-weight: 600;
+
+  &:after {
+    content: '';
+    width: 25px;
+    height: 1px;
+    background: $color-grey-300;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+/**
+ * Icons Preview
+ */
+.icons-preview {
+  li {
+    height: 150px;
+    overflow: hidden;
+    width: 150px;
+    display: inline-block;
+    padding: 10px 5px;
+    text-align: center;
+    margin: 10px;
+    border: solid 1px $color-blue-grey-800;
+    border-radius: 2px;
+
+    .icon-name {
+      color: $color-blue-grey-600;
+      font-size: 0.9rem;
+      line-height: 1rem;
+    }
+
+    .ngx-icon,
+    .large-icon {
+      display: block;
+      font-size: 50px;
+      line-height: 1em;
+    }
+
+    .icon-loading {
+      font-size: 50px;
+      height: 50px;
+      line-height: 0;
+    }
+
+    .icon {
+      display: block;
+    }
+  }
+}
+
+.large-icons {
+  font-size: 50px;
+  line-height: 50px;
+}
+
+.ngx-icon-section,
+.icon-stacking-section,
+.large-icon-section {
+  .large-icon {
+    font-size: 50px;
+    margin-right: 10px;
+    line-height: 50px;
+  }
+}
+
+.icons-preview-code {
+  li {
+    list-style-type: none;
+    padding: 20px;
+    margin-top: 20px;
+
+    .ngx-icon,
+    .icon-fx-stacked,
+    .large-icon {
+      font-size: 50px;
+    }
+
+    .large-icon {
+      display: block;
+      font-size: 50px;
+      margin: 10px;
+    }
+  }
+}
+
+.inputs-section {
+  input {
+    display: block;
+    margin: 8px 0;
+  }
+}
+
+.demo-class {
+  color: yellow !important;
+  text-transform: uppercase;
+}
+
+.CodeMirror {
+  margin-top: 20px;
+}
+
+.fa,
+.fa:before {
+  font-family: FontAwesome !important;
+  vertical-align: top;
+}
+
+.demo-search-box {
+  width: 300px;
+  height: 50px;
+
+  ngx-icon.search-icon {
+    margin-top: 5px;
+  }
+
+  ngx-input[hidden] {
+    display: block !important;
+    width: 0px;
+    transition: width 0.5s;
+  }
+
+  ngx-input,
+  &:hover ngx-input {
+    margin: 0 40px 0 20px;
+    width: 240px;
+    transition: width 0.5s;
+  }
+}
+
+$colors: (
+  'blue': $color-blue,
+  'light-blue': $color-light-blue,
+  'green': $color-green,
+  'orange': $color-orange,
+  'red': $color-red,
+  'purple': $color-purple,
+  'blue-grey': $color-blue-grey,
+  'grey': $color-grey,
+);
+
+$palette: (
+  050: 50%,
+  100: 40%,
+  150: 35%,
+  200: 30%,
+  250: 25%,
+  300: 20%,
+  350: 15%,
+  400: 10%,
+  450: 5%,
+  500: 0,
+  550: 5%,
+  600: 10%,
+  650: 15%,
+  700: 20%,
+  725: 22.5%,
+  750: 25%,
+  775: 27.5%,
+  800: 30%,
+  825: 32.5%,
+  850: 35%,
+  875: 37.5%,
+  900: 40%,
+);
+
+@each $name, $hex in $colors {
+  @each $weight, $percentage in $palette {
+    @if $weight < 100 {
+      .color-#{'' + $name}-#{'0' + $weight} {
+        background-color: lighten($hex, $percentage);
+      }
+    } @else if $weight < 500 {
+      .color-#{'' + $name}-#{$weight} {
+        background-color: lighten($hex, $percentage);
+      }
+    } @else if $weight > 500 {
+      .color-#{'' + $name}-#{$weight} {
+        background-color: darken($hex, $percentage);
+      }
+    } @else {
+      .color-#{'' + $name}-#{$weight} {
+        background-color: $hex;
+      }
+    }
+  }
+}
+
+// end swimlane
+
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.glow-demo {
+  background: $color-blue-grey-850;
+  margin: 20px;
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.badge {
+  clear: both;
+  margin-top: 30px;
+  display: block;
+  background-color: blue;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  user-select: none;
+}
+
+/*
+ * Remove template code below
+ */
+// :host {
+//   display: block;
+//   font-family: sans-serif;
+//   margin: 50px auto;
+// }
+
+.gutter-left {
+  margin-left: 9px;
+}
+
+.col-span-2 {
+  grid-column: span 2;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header {
+  background-color: #143055;
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+main {
+  padding: 0 36px;
+}
+
+p {
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+  margin-left: 18px;
+  font-size: 24px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 20px;
+  margin: 40px 0 10px 0;
+}
+
+pre {
+  padding: 9px;
+  border-radius: 4px;
+  background-color: black;
+  color: #eee;
+}
+
+details {
+  border-radius: 4px;
+  color: #333;
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 3px 9px;
+  margin-bottom: 9px;
+}
+
+summary {
+  cursor: pointer;
+  outline: none;
+  height: 36px;
+  line-height: 36px;
+}

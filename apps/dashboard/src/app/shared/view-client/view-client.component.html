@@ -1,0 +1,28 @@
+<div *ngIf="client.id !== null">
+    <div class="header">
+    <h2 class="header-title">{{returnClientField(client, 'name')}}</h2>
+    <ul class="breadcrumb">
+        <li><a href="javascript:;">Home</a></li>
+        <li> <span>></span></li>
+        <li (click)="returnToTable()" style="cursor: pointer; color: #8d97ad">Prospects</li>
+        <li> <span>></span></li>
+        <li>View</li>
+    </ul>
+</div>
+    <div class="content-area">
+        <div class="tabs-container">
+            <div class="tab tab-item" id="client-tab" (click)="changeRoutes('client')"><h5 class="tab-text" [ngClass]="activeLink == 'client'?'active':''">Prospect</h5></div>
+            <div class="tab tab-item" id="submissions-tab" *ngIf="formSubmissionTabActive" (click)="changeRoutes('submissions')"><h5 class="tab-text" [ngClass]="activeLink == 'submissions'?'active':''">Submissions</h5></div>
+            <div class="tab tab-item" id="auto-tab"  (click)="changeRoutes('auto')"><h5 class="tab-text" [ngClass]="activeLink == 'auto'?'active':''">Auto</h5></div>
+            <div class="tab tab-item" id="home-tab"  (click)="changeRoutes('home')"><h5 class="tab-text" [ngClass]="activeLink == 'home'?'active':''">Home</h5></div>
+            <div class="tab tab-item" id="commercial-tab"  (click)="changeRoutes('commercial')"><h5 class="tab-text" [ngClass]="activeLink == 'commercial'?'active':''">Commercial</h5></div>
+            <div class="tab tab-item" id="notes-tab" (click)="changeRoutes('notes')"><h5 class="tab-text" [ngClass]="activeLink == 'notes'?'active':''" *ngIf="company.hasNotes">Notes</h5></div>
+            <div class="tab tab-item" id="documents-tab" (click)="changeRoutes('documents')"><h5 class="tab-text" [ngClass]="activeLink == 'documents'?'active':''">Documents</h5></div>
+            <div class="tab tab-item" *ngIf="company.hasSalesAutomation" id="flow-tab" (click)="changeRoutes('flow')"><h5 class="tab-text" [ngClass]="activeLink == 'flow'?'active':''">Flow</h5></div>
+            <div class="tab tab-item" *ngIf="company.hasCarrierIntegrations" id="rates-tab" (click)="changeRoutes('rates')"><h5 class="tab-text" [ngClass]="activeLink == 'rates'?'active':''">Rates</h5></div>
+        </div>
+
+    <div class="main">
+            <router-outlet></router-outlet>
+    </div>
+    </div>

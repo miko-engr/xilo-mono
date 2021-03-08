@@ -1,0 +1,58 @@
+<accordion [isAnimated]="true">
+  <accordion-group [isOpen]="true">
+    <div class="header btn-block clearfix" accordion-heading type="div">
+      <div class="logo">
+        <img src="../../../../../../assets/icons/svg/pdf.svg" />
+      </div>
+      <div class="info">
+        <span *ngIf='!isRenamingPdfTitle' (click)='stopClickPropagation($event)' (dblclick)='onTitleDoubleClick($event)'>{{pdf.formName}}</span>
+        <div  *ngIf=' isRenamingPdfTitle'>
+          <input class='rename-input' (click)='stopClickPropagation($event)' type='text' [(ngModel)]='pdf.formName' />
+
+          <button class='button rename-btn' (click)='renamePdfTitle($event)'>Rename</button>
+          <button class='button rename-btn' (click)='cancelPdfTitleRenaming($event)'>Cancel</button>
+        </div>
+        
+        <!-- <div class="title">
+        </div> -->
+        <!-- <div class="description">
+          {{company.description}}
+        </div> -->
+      </div>
+      <div class="buttons">
+        <!-- <ngx-icon
+          svgSrc="chevron-bold-up"
+          class="chevron-bold-up"
+        >
+        </ngx-icon> -->
+        <!-- <ui-switch
+          class="button-switch"
+          [(ngModel)]="enable"
+          size="small"
+        >
+        </ui-switch> -->
+        <!-- <ngx-icon
+          svgSrc="more"
+          class="button-more"
+        >
+        </ngx-icon> -->
+      </div>
+    </div>
+    <div class="content" *ngIf="formFieldsRetrieved">
+      <div class="search-row">
+        <xilo-mono-pdf-mapper
+          [pdfSrc]="pdfSrc"
+          [formFields]="formFields"
+          [pdf]="pdf"
+          [forms]="forms"
+          [contextMenu]="contextMenu"
+          [formFieldsRetrieved]="formFieldsRetrieved"
+          [zoom]="1"
+          (after-load-complete)="loadComplete($event)"
+          (updateFormField)="onUpdateFormField($event)"
+        >
+        </xilo-mono-pdf-mapper>
+      </div>
+    </div>
+  </accordion-group>
+</accordion>

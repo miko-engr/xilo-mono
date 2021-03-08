@@ -1,0 +1,409 @@
+<div class="clients-container fade-white-bg" *ngIf="showDetails">
+    <div class="auto-complete-container">
+
+        <aside class="left-aside" [style.width]="'100%'">
+            <div class="aside-container">
+                <div class="header">
+                    <ul class="breadcrumb">
+                        <li (click)="onChangeView('rater', null)"><a href="javascript:;">Raters</a>
+                        <li>
+                        <li *ngIf="isForm"> <span>></span></li>
+                        <li (click)="onChangeView('form', null)" style="cursor: pointer" [ngStyle]="{color: isForm ? '#8d97ad' : '#8184ff'}" *ngIf="isForm">Forms</li>
+                    </ul>
+                </div>
+                <div class="auto-complete-content-area" *ngIf="isRater === true && ratersRetrieved">
+                    <ul class="item-listing">
+                        <li *ngFor="let rater of raters; index as i">
+                            <span *ngIf="editingRater === false || selectedRater.id !== rater.id">
+                                {{rater.title + ' - ' + rater.state}}
+                                <i class="icon-edit_pencile" style="font-size: 10px" *ngIf="!editingRater" (click)="onChangeEditView('rater', i);"></i>
+                            </span>
+                            <span *ngIf="editingRater === true && selectedRater.id === rater.id" style="display: flex">
+                                <input type="text" class="input-wrapper" [(ngModel)]="selectedRater.title" placeholder="Enter Title Here" style="margin-right: 10px">
+                                <select class="input-wrapper" [(ngModel)]="selectedRater.state" name="states" id="states">
+                                    <option [value]="null" disabled>Select State</option>
+                                    <option *ngFor="let state of states" [value]="state">{{state}}</option>
+                                </select>
+                                <i *ngIf="editingRater" style="font-style: normal; font-weight: bold;margin-top: 5px;margin-left: 9px;" (click)="editingRater = false"> X</i>
+                            </span>
+                            <span class="action-container-side">
+                                <i class="icon-copy" (click)="onDuplicateRater(rater, false)"></i>
+                                <i class="icon-edit_pencile" (click)="onChangeView('form', i);"></i>
+                                <!-- <i class="icon-rubbish-bin" (click)="deleteRater(i)"></i> -->
+                            </span>
+                        </li>
+                        <li *ngIf="addingRater === true">
+                            <span style="display: flex">
+                                <input type="text" class="input-wrapper" placeholder="Enter Title Here" style="margin-right: 10px" [(ngModel)]="newRater.title">
+                                <select class="input-wrapper" [(ngModel)]="newRater.state" name="states" id="states">
+                                    <option [value]="null" disabled>Select State</option>
+                                    <option *ngFor="let state of states" [value]="state">{{state}}</option>
+                                </select>
+                            </span>
+                            <span class="action-container-side">
+                                <i class="icon-resume" (click)="openRatersDialog()"></i>
+                                <i class="icon-rubbish-bin" (click)="addingRater = false; onResetEditing();"></i>
+                            </span>
+                        </li>
+                        <li class="box" style="justify-content: center" *ngIf="!addingRater">
+                            <button mat-icon-button (click)="onChangeAddView('rater')">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </li>
+                        <li class="flex-cenetr" style="margin-top: 10px" *ngIf="addingRater">
+                            <button class="custom-save-btn" (click)="addRater(newRater)"><mat-icon>save</mat-icon>Save</button>
+                        </li>
+                        <li class="flex-cenetr" style="margin-top: 10px" *ngIf="editingRater">
+                            <button class="custom-save-btn" (click)="updateRater(selectedRater)"><mat-icon>save</mat-icon>Save</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="auto-complete-content-area" *ngIf="isForm === true">
+                    <ul class="item-listing">
+                        <li *ngFor="let form of raterForms; index as i">
+                            <span *ngIf="editingForm === false || selectedForm.id !== form.id">
+                                {{form.title || form.type}}
+                            </span>
+                            <span class="action-container-side">
+                                <a [href]="returnFormUrl(form)" target="_blank" style="text-decoration: none;"><i class="icon-eye"></i></a>
+                                <i class="icon-edit_pencile" (click)="onChangeView('dynamicRate', i);"></i>
+                                <i class="icon-rubbish-bin" (click)="removeForm(form, i)"></i>
+                            </span>
+                        </li>
+                        <li *ngIf="addingForm === true">
+                            <span>
+                                <select class="input-wrapper" [(ngModel)]="newForm" name="formOptions" id="formOptions">
+                                    <option [value]="null" disabled>Select Form</option>
+                                    <option *ngFor="let option of forms" [ngValue]="option">{{option.title || option.type}}</option>
+                                </select>
+                            </span>
+                            <span class="action-container-side">
+                                <i class="icon-rubbish-bin" (click)="addingForm = false; onResetEditing();"></i>
+                            </span>
+                        </li>
+                        <li class="box" style="justify-content: center" *ngIf="!addingForm">
+                            <button mat-icon-button (click)="onChangeAddView('form')">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </li>
+                        <li class="flex-cenetr" style="margin-top: 10px" *ngIf="addingForm">
+                            <button class="custom-save-btn" (click)="addForm(newForm)"><mat-icon>save</mat-icon>Save</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="auto-complete-content-area" *ngIf="isDynamicRate === true">
+                    <div class="page-container">
+                        <div class="page-select">
+                            <button class="page-button" (click)="onChangePageView('settings', null)" [ngStyle]="stylePageButton('settings')">Settings</button>
+                            <button class="page-button" (click)="onChangePageView('coverages', null)" [ngStyle]="stylePageButton('coverages')">Coverages</button>
+                            <ng-container *ngFor="let page of raterForms[this.formRaterIndex].pages">
+                                <button class="page-button" (click)="onChangePageView(page.title, page); onResetEditing()" *ngIf="page.title !== 'Results' && page.title !== 'Discounts'" [ngStyle]="stylePageButton(page.title)">
+                                    {{page.title}}
+                                </button>
+                            </ng-container>
+                        </div>
+                        <div class="page" *ngIf="pageTitle === 'settings'">
+                            <div class="settings-container">
+                                <h3 class="settings-title">Settings</h3>
+                                <div class="settings-input-container">
+                                    <div class="settings-input-question">
+                                        <i class="fa fa-comment-alt"></i>
+                                        Is this rate annual or monthly (please choose one)?
+                                    </div>
+                                    <div class="settings-input-answer">
+                                        <input type="checkbox" (ngModelChange)="formRate.isMonthly = !$event" [(ngModel)]="formRate.isAnnual"> Annual
+                                        <input type="checkbox" (ngModelChange)="formRate.isAnnual = !$event" [(ngModel)]="formRate.isMonthly"> Monthly
+                                    </div>
+                                </div>
+                                <div class="settings-input-container">
+                                    <div class="settings-input-question">
+                                        <i class="fa fa-comment-alt"></i>
+                                        What is the average rate for this rater?
+                                    </div>
+                                    <div class="settings-input-answer">
+                                        <input class="settings-input-box" [(ngModel)]="formRate.base" type="number" placeholder="$99">
+                                    </div>
+                                </div>
+                                <div class="settings-input-container">
+                                    <div class="settings-input-question">
+                                        <i class="fa fa-comment-alt"></i>
+                                        What is the minimum rate for this rater?
+                                    </div>
+                                    <div class="settings-input-answer">
+                                        <input class="settings-input-box" [(ngModel)]="formRate.min" type="number" placeholder="$69">
+                                    </div>
+                                </div>
+                                <div class="settings-input-container">
+                                    <div class="settings-input-question">
+                                        <i class="fa fa-comment-alt"></i>
+                                        What is the maxiumum rate for this rater?
+                                    </div>
+                                    <div class="settings-input-answer">
+                                        <input class="settings-input-box" [(ngModel)]="formRate.max" type="number" placeholder="$129">
+                                    </div>
+                                </div>
+                                <div class="settings-input-container">
+                                    <div class="settings-input-question">
+                                        <i class="fa fa-comment-alt"></i>
+                                        Do you want to show a replacement cost?
+                                    </div>
+                                    <div class="settings-input-answer">
+                                        <input [(ngModel)]="formRate.hasReplacementCost" type="checkbox"> Yes
+                                    </div>
+                                </div>
+                                <div class="settings-input-container">
+                                    <div class="settings-input-question">
+                                        <i class="fa fa-comment-alt"></i>
+                                        Do you want to multiply premium by the number of vehicles?
+                                    </div>
+                                    <div class="settings-input-answer">
+                                        <input [(ngModel)]="formRate.hasMultiplyByVehicles" type="checkbox"> Yes
+                                    </div>
+                                </div>
+                                <div *ngIf="formRate.hasReplacementCost">
+                                    <div class="settings-input-container">
+                                        <div class="settings-input-question">
+                                            <i class="fa fa-comment-alt"></i>
+                                            What is the cost per square foot with basic finishings?
+                                        </div>
+                                        <div class="settings-input-answer">
+                                            <input class="settings-input-box" [(ngModel)]="formRate.costPerSqFt" type="number" placeholder="120">
+                                        </div>
+                                    </div>
+                                  <div class="settings-input-container">
+                                        <div class="settings-input-question">
+                                            <i class="fa fa-comment-alt"></i>
+                                            What is the cost per square foot with builder's grade finishings?
+                                        </div>
+                                        <div class="settings-input-answer">
+                                            <input class="settings-input-box" [(ngModel)]="formRate.costPerSqFtBuilder" type="number" placeholder="$199">
+                                        </div>
+                                  </div>
+                                  <div class="settings-input-container">
+                                      <div class="settings-input-question">
+                                          <i class="fa fa-comment-alt"></i>
+                                          What is the cost per square foot with semi-custom finishings?
+                                      </div>
+                                      <div class="settings-input-answer">
+                                          <input class="settings-input-box" [(ngModel)]="formRate.costPerSqFtCustom" type="number" placeholder="$199">
+                                      </div>
+                                  </div>
+                                  <div class="settings-input-container">
+                                      <div class="settings-input-question">
+                                          <i class="fa fa-comment-alt"></i>
+                                          What is the cost per square foot with luxury or designer finishings?
+                                      </div>
+                                      <div class="settings-input-answer">
+                                          <input class="settings-input-box" [(ngModel)]="formRate.costPerSqFtDesigner" type="number" placeholder="$199">
+                                      </div>
+                                  </div>
+                                    <div class="settings-input-container">
+                                        <div class="settings-input-question">
+                                            <i class="fa fa-comment-alt"></i>
+                                            Whats is the total square footage of an average home given your base price?
+                                        </div>
+                                        <div class="settings-input-answer">
+                                            <input class="settings-input-box" [(ngModel)]="formRate.avBaseSqFt" type="number" placeholder="1800 Sq. Ft.">
+                                        </div>
+                                    </div>
+                                    <div class="settings-input-container">
+                                        <div class="settings-input-question">
+                                            <i class="fa fa-comment-alt"></i>
+                                            How much does the premium increase every 100 sq. ft. above the average square footage?
+                                        </div>
+                                        <div class="settings-input-answer">
+                                            <input class="settings-input-box" [(ngModel)]="formRate.premiumIncreasePerSqFt" type="number" placeholder="$20">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="settings-save-button-container">
+                                <button class="settings-save" (click)="updateDynamicRate(formRate)">Save</button>
+                            </div>
+                        </div>
+                        <div class="page" *ngIf="pageTitle === 'coverages'">
+                            <div class="settings-container">
+                                <h3 class="settings-title">Coverages</h3>
+                                <div class="coverages-container" (cdkDropListDropped)="dropItCoverages($event)" [cdkDropListData]="formRate.coverages" cdkDropList>
+                                    <div class="coverage-box" *ngFor="let coverage of formRate.dynamicCoverages; index as i" cdkDrag>
+                                        <div class="coverage-image">
+                                            <div class="image" *ngIf="coverage.image" [innerHTML]="coverage.image | safe: 'html'">
+                                            </div>
+                                            <label *ngIf="!coverage.image || coverage.image === null">
+                                                <img src="../../assets/upload-image.png" alt="Image" class="upload-img" (click)="openImageDialog('editing', i)" />
+                                                <span class="drag-title" (click)="openImageDialog('editing', i)">
+                                                    Click Here
+                                                </span>
+                                                    <span>To Select Image</span>
+                                            </label>
+                                            <span class="upload-btn" (click)="openImageDialog('editing', i)"> Change Image +</span>
+                                        </div>
+                                        <div class="coverage-details-container">
+                                            <p class="coverage-detail" *ngIf="!editingCoverage || coverageIndex !== i">{{coverage.title}}</p>
+                                            <p class="coverage-detail" *ngIf="!editingCoverage || coverageIndex !== i">${{coverage.premiumIncrease}} Difference</p>
+                                            <i class="icon-edit_pencile" style="color: blue" *ngIf="!editingCoverage" (click)="onChangeCoverageView('editingCoverage', i)"></i>
+                                            <input type="text" *ngIf="editingCoverage && coverageIndex === i" [(ngModel)]="coverage.title" class="coverage-input" placeholder="Enter Title">
+                                            <input type="text" *ngIf="editingCoverage && coverageIndex === i" [(ngModel)]="coverage.premiumIncrease" class="coverage-input" placeholder="Enter Increase (Or Negative Decease)">
+                                            <br><a *ngIf="editingCoverage && coverageIndex === i" (click)="editingCoverage = false">cancel</a>
+                                        </div>
+                                        <div class="coverage-specs-container">
+                                            <div class="coverage-spec" *ngFor="let spec of coverage.specs; index as j">
+                                                <p class="spec-header" *ngIf="!editingSpec || specIndex !== j || coverageIndex !== i">{{spec.title}}</p>
+                                                <p class="spec-sub-header" *ngIf="!editingSpec || specIndex !== j || coverageIndex !== i">{{spec.coverage}}</p>
+                                                <input type="text" class="spec-input" [(ngModel)]="spec.title" *ngIf="editingSpec && coverageIndex === i && specIndex === j" placeholder="Enter Title">
+                                                <input type="text" class="spec-input" [(ngModel)]="spec.coverage" *ngIf="editingSpec && coverageIndex === i && specIndex === j" placeholder="Enter Coverage">
+                                                <div class="spec-action-container">
+                                                    <button class="spec-save" *ngIf="editingSpec && coverageIndex === i && specIndex === j" (click)="saveSpec(spec, i, j)">Save</button>
+                                                    <i class="icon-edit_pencile" *ngIf="!editingSpec || specIndex !== j || coverageIndex !== i" (click)="onChangeCoverageView('editingSpec', i, j)" style="color: blue"></i>
+                                                    <i class="icon-rubbish-bin" *ngIf="!editingSpec || specIndex !== j || coverageIndex !== i" (click)="removeSpec(spec, i, j)" style="color: red; margin-left: 10px"></i>
+                                                </div>
+                                            </div>
+                                            <div class="coverage-spec" *ngIf="addingSpec && coverageIndex === i">
+                                                <input type="text" [(ngModel)]="newSpec.title" placeholder="Enter Title" class="spec-input">
+                                                <input type="text" [(ngModel)]="newSpec.coverage" placeholder="Enter Coverage" class="spec-input">
+                                                <div class="spec-action-container">
+                                                    <button class="spec-save" (click)="addSpec(newSpec, i)">Add</button>
+                                                    <i class="icon-rubbish-bin" (click)="onResetEditing()" style="color: red; margin-left: 10px"></i>
+                                                </div>
+                                            </div>
+                                            <div class="coverage-space">
+                                                <mat-icon (click)="onChangeCoverageView('addingSpecOnCoverage', i, j)">add</mat-icon>
+                                            </div>
+                                            <div class="coverage-space">
+                                                <button class="settings-save" (click)="updateCoverage(coverage, i)">Save</button>
+                                            </div>
+                                            <div class="coverage-space">
+                                                <button class="settings-save" (click)="deleteCoverage(i)" style="background: red">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="coverage-box" *ngIf="!addingCoverage">
+                                        <mat-icon (click)="onChangeCoverageView('addingCoverage', i, j)">add</mat-icon>
+                                    </div>
+                                    <div class="coverage-box" *ngIf="addingCoverage">
+                                        <div class="coverage-image">
+                                            <div class="image" *ngIf="newCoverage.image" [innerHTML]="newCoverage.image | safe: 'html'">
+                                            </div>
+                                            <label *ngIf="!newCoverage.image || newCoverage.image === null">
+                                                <img src="../../assets/upload-image.png" alt="Image" class="upload-img" (click)="openImageDialog('adding')" />
+                                                <span class="drag-title" (click)="openImageDialog('adding')">
+                                                    Click Here
+                                                </span>
+                                                    <span>To Select Image</span>
+                                            </label>
+                                            <span class="upload-btn" (click)="openImageDialog('adding')"> Change Image +</span>
+                                        </div>
+                                        <div class="coverage-details-container">
+                                            <input type="text" class="coverage-detail-input" [(ngModel)]="newCoverage.title" placeholder="Title">
+                                            <input type="text" class="coverage-detail-input" [(ngModel)]="newCoverage.premiumIncrease" placeholder="Increase (Add Negative For Decrease)">
+                                        </div>
+                                        <div class="coverage-specs-container">
+                                            <!-- <div class="coverage-spec" *ngFor="let spec of newCoverage.specs">
+                                                <p class="spec-header">{{spec.title}}</p>
+                                                <p class="spec-sub-header">{{spec.coverage}}</p>
+                                                <div class="spec-action-container">
+                                                    <i class="icon-edit_pencile" style="color: blue"></i>
+                                                    <i class="icon-rubbish-bin" style="color: red; margin-left: 10px"></i>
+                                                </div>
+                                            </div>
+                                            <div class="coverage-spec" *ngIf="addingSpec && coverageIndex === i">
+                                                <input type="text" placeholder="Bodily Injury" [(ngModel)]="newSpec.title">
+                                                <input type="text" placeholder="15/25/100" [(ngModel)]="newSpec.coverage">
+                                                <div class="spec-action-container">
+                                                    <button class="spec-save" (click)="createSpec(newSpec, i)">Save</button>
+                                                    <i class="icon-rubbish-bin" style="color: red; margin-left: 10px"></i>
+                                                </div>
+                                            </div> -->
+                                            <div class="coverage-space" *ngIf="!addingSpec">
+                                                <!-- <mat-icon (click)="onChangeCoverageView('addingSpecOnNewCoverage', i, j)">add</mat-icon> -->
+                                                <button class="settings-save" (click)="createCoverage(newCoverage)">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="page" *ngIf="(pageTitle !== 'settings' && pageTitle !== 'coverages')">
+                            <div class="page-container">
+                                <div class="page-question-container" *ngFor="let question of selectedPage.questions; index as i">
+                                    <div class="page-question">
+                                        <h4 class="page-question-title">{{question.headerText}}</h4>
+                                    </div>
+                                    <div class="page-answers-container">
+                                        <div class="page-answer-group" *ngFor="let condition of question.conditions; index as j">
+                                            <span>
+                                                If
+                                                <select name="answers" class="settings-input-box" [(ngModel)]="condition.answerDynamicRateConditionId" id="answers">
+                                                    <option [value]="null" disabled>Select Answer</option>
+                                                    <option [value]="answer.id" *ngFor="let answer of question.answers; index as k">Answer {{(+k+1) + ' - ' + (answer.placeholderText || answer.displayValue)}}</option>
+                                                </select>
+                                                <select name="operators" [(ngModel)]="condition.operator" class="settings-input-box" id="operators">
+                                                    <option [value]="null" disabled>Select Operator</option>
+                                                    <option value="equals">Equals To</option>
+                                                    <option value="gt">Is Greater Than</option>
+                                                    <option value="lt">Is Less Than</option>
+                                                    <option value="btw">Is In Between</option>
+                                                </select>
+                                                <input type="text" class="settings-input-box" [(ngModel)]="condition.value" placeholder="This Value"> <span *ngIf="condition.operator === 'btw'">and</span>
+                                                <input type="text" class="settings-input-box" [(ngModel)]="condition.valueRange" *ngIf="condition.operator === 'btw'" placeholder="This Value">
+                                                , Then
+                                                <select name="change" [(ngModel)]="condition.change" class="settings-input-box" id="change">
+                                                    <option [value]="null" disabled>Select Premium Change</option>
+                                                    <option value="increase">Increase</option>
+                                                    <option value="multiply">Multiply</option>
+                                                </select>
+                                                 Rate By
+                                                <input type="number" class="settings-input-box" [(ngModel)]="condition.multiplier" placeholder=".9">
+                                            </span>
+                                            <button class="page-answer-save" (click)="updateDynamicRateCondition(condition)">Save</button>
+                                            <button class="page-answer-save" style="background: red" (click)="deleteCondition(condition, question, j)">Delete</button>
+                                        </div>
+                                        <div class="page-answer-group" *ngIf="addingCondition && i === conditionIndex">
+                                            <span>
+                                                If
+                                                <select name="answers" class="settings-input-box" [(ngModel)]="newCondition.answerDynamicRateConditionId" id="answers">
+                                                    <option [value]="null" disabled>Select Answer</option>
+                                                    <option [value]="answer.id" *ngFor="let answer of question.answers; index as k">Answer {{(+k+1) + ' - ' + (answer.placeholderText || answer.displayValue)}}</option>
+                                                </select>
+                                                <select name="operators" [(ngModel)]="newCondition.operator" class="settings-input-box" id="operators">
+                                                    <option [value]="null" disabled>Select Operator</option>
+                                                    <option value="equals">Equals To</option>
+                                                    <option value="gt">Is Greater Than</option>
+                                                    <option value="lt">Is Less Than</option>
+                                                    <option value="btw">Is In Between</option>
+                                                </select>
+                                                <input type="text" class="settings-input-box" [(ngModel)]="newCondition.value" placeholder="This Value"> <span *ngIf="newCondition.operator === 'btw'">and</span>
+                                                <input type="text" class="settings-input-box" [(ngModel)]="newCondition.valueRange" *ngIf="newCondition.operator === 'btw'" placeholder="This Value">
+                                                , Then
+                                                <select name="change" [(ngModel)]="newCondition.change" class="settings-input-box" id="change">
+                                                    <option [value]="null" disabled>Select Premium Change</option>
+                                                    <option value="increase">Increase</option>
+                                                    <option value="multiply">Multiply</option>
+                                                </select> Rate By
+                                                <input type="number" class="settings-input-box" [(ngModel)]="newCondition.multiplier" placeholder=".9">
+                                            </span>
+                                        </div>
+                                        <div class="page-answer-group" *ngIf="addingCondition && i === conditionIndex">
+                                            <button class="settings-save" (click)="addCondition(newCondition, question)">Save</button>
+                                            <button class="settings-save" style="background: red" (click)="onResetEditing()">Cancel</button>
+                                        </div>
+                                        <div class="page-answer-group" *ngIf="!addingCondition">
+                                            <mat-icon (click)="conditionIndex = i; addingCondition = true;">add</mat-icon>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <button mat-button style="display: block;background-color: #8184ff; color: #fff;" (click)="onChangeView(isPage ? 'form' : isQuestion ? 'page' : isAnswer ? 'question' : '', null)"
+                    *ngIf="isPage || isQuestion || isAnswer">
+                    Back
+                </button> -->
+
+            </div>
+        </aside>
+    </div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '0',fullScreenBackdrop: true }"></ngx-loading>

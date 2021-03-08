@@ -1,0 +1,93 @@
+@import './font';
+@import './mixins';
+//
+// Variables
+// --------------------------------------------------
+//== Colors
+$white: #ffffff;
+$almost-white: #fafafa;
+$strock-divider: #b4b4bb;
+$secondary-text: #636363;
+$subtle-green: #d3f7f4;
+$black-light: #111111;
+$warning: #fec059;
+$error: #ff6e6e;
+$success: #23d6c8;
+$summary-type: #696863;
+$black: #000000;
+$gray-darker: lighten($black, 13.5%); // #222
+$gray-dark: #636363;
+$gray: lighten($black, 33.5%); // #555
+$gray-light: lighten($black, 46.7%); // #777
+$black-lighter: #202020;
+$blue: #6e71ff;
+$header-subtext: #333333;
+$progress-bar-color: #e4e4e3;
+$dark-grey: #808080;
+$light-grey: #d9d9d9;
+$purple: #b97cfc;
+$pink: #f93b69;
+$green: #b0e8e2;
+$orange: #eb8b6e;
+$theme-bg-base: $white;
+$primary-color-summary: #6e71ff;
+$bar-bg: rgba(0, 0, 0, 0.075);
+$bg-mobile: #e5e5e5;
+$gray-100: #19191d;
+// Font Size
+$font8: 8px;
+$font9: 9px;
+$font10: 10px;
+$font11: 11px;
+$font12: 12px;
+$font13: 13px;
+$font14: 14px;
+$font15: 15px;
+$font16: 16px;
+$font17: 17px;
+$font18: 18px;
+$font19: 19px;
+$font20: 20px;
+$font21: 21px;
+$font22: 22px;
+$font23: 23px;
+$font24: 24px;
+$font25: 25px;
+$font26: 26px;
+$font32: 32px;
+
+//== Typography
+$font-family-Inter-Regular: InterRegular, Helvetica Neue, Arial;
+$font-family-Inter-bold: InterBold, Helvetica Neue, Arial;
+$font-family-Inter-medium: InterMediumm, Helvetica Neue, Arial;
+$font-family-Inter-semi-bold: InterSemiBold, Helvetica Neue, Arial;
+$font-family-sans-serif: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-family-serif: Georgia, 'Times New Roman', Times, serif;
+$font-family-monospace: Menlo, Monaco, Consolas, 'Courier New', monospace;
+
+//theme style start
+$font-family-base: $font-family-Inter-Regular !default;
+$body-bg-base: $theme-bg-base !default;
+$text-color-base: $gray-dark !default;
+$text-heading: $black-light !default;
+$theme-header-bg: none;
+$font-size-base: $font14 !default;
+$brand: var(--brand-color) !default;
+$secondary-color: var(--secondary-color) !default;
+$secondary-color-light: var(--secondary-color-light) !default;
+$hover: rgba($brand, 0.15);
+$brand-color-light: var(--brand-color-light) !default;
+$list-over: linear-gradient(
+    0deg,
+    rgba(110, 113, 255, 0.2),
+    rgba(110, 113, 255, 0.2)
+  ),
+  $white;
+//theme style end
+//Additional settings
+
+$bar-size: 5px;
+$bar-radius: 2px;
+$Line-height130: 130%;
+
+//Headding Mobile and Desktop

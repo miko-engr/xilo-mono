@@ -1,0 +1,147 @@
+<div class="main-header">
+    <div class="main-header-data">
+        <div class="main-header-logo">
+            <ul class="menu-left">
+                <li>
+                    <button (click)="toggelLeftPanel()" class="menu-hover-btn">
+                        <img src="../../assets/menu-btn.png" alt="xilo Logo">
+                    </button>
+                </li>
+                <li><span class="menu-divider"></span></li>
+                <li>
+                    <img class="logo-img" src="../../assets/xilo_icon_only.png" alt="xilo Logo">
+                </li>
+            </ul>
+        </div>
+        <div class="header-title">
+            {{returnPage()}}
+        </div>
+    </div>
+    <div class="menu-right">
+        <!-- <div class="tabs-container" (click)="hitActionMenu('toggle')">
+            <div class="tab create-button"> 
+               <p>+ Action</p>
+            </div>
+         </div>
+         <div class="action-menu" [ngStyle]="styleActionMenu()" (mouseleave)="inMenu = false" (mouseenter)="inMenu = true">
+             <div class="triangle"></div>
+             <div class="action-menu-header">Action Menu</div>
+             <div class="action-menu-body">
+                 <div class="action-menu-body-tab" (click)="openCSVDialog()">
+                    <div class="action-menu-body-tab-container">
+                        <div class="action-menu-body-tab-icon">
+                            <span class="icon-telemarketer"></span>
+                        </div>
+                        <p class="action-menu-body-tab-text">Bulk Add</p>
+                    </div>
+                 </div>
+             </div>
+             <div class="action-menu-footer"></div>
+         </div> -->
+        <div class="tabs-container hover-style" style="text-align: center" *ngIf="userRetrieved" (click)="logout()">
+            <!-- Logout of {{user.username}} -->
+            <div class="user-profile" matTooltip="Logout">
+                <div class="user-info">{{user?.firstName + ' ' + user?.lastName}}
+                    <sub>XILO {{user?.company?.companyId}}</sub>
+                </div>
+                <div class="user-icon">
+                    <mat-icon>account_circle</mat-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="menu-overlay" (click)="toggelLeftPanel()" [ngClass]="menuActive?'open-menu-overlay':''"></div>
+<div class="side-bar" [ngClass]="menuActive?'toggel-sidebar':''">
+    <ul class="fa-ul button-list">
+
+        <!-- <li class="logo">
+
+        </li> -->
+        <li class="list-item">
+            <div class="item" [routerLink]="['./prospects']" [routerLinkActive]="['']"
+                (click)="toggelLeftPanelFromTab()" #rla2="routerLinkActive" [class.item]="!rla2.isActive"
+                [class.item-clicked]="rla2.isActive">
+                <span class="icon-telemarketer" [class.icon]="!rla2.isActive"
+                    [class.icon-clicked]="rla2.isActive"></span>
+                <span class="caption">Prospects</span>
+            </div>
+        </li>
+        <li class="list-item">
+            <div class="item" [routerLink]="hasFormBuilder ? ['./forms-list'] : ['./forms/list']" [routerLinkActive]="['']" (click)="toggelLeftPanelFromTab()"
+                #rla6="routerLinkActive" [class.item]="!rla6.isActive" [class.item-clicked]="rla6.isActive">
+                <span class="icon-web-design" [class.icon]="!rla6.isActive" [class.icon-clicked]="rla6.isActive"></span>
+                <span class="caption">Forms</span>
+            </div>
+        </li>
+        <li class="list-item">
+            <div class="item" [routerLink]="['./analytics']" [routerLinkActive]="['']"
+                (click)="toggelLeftPanelFromTab()" #rla8="routerLinkActive" [class.item]="!rla8.isActive"
+                [class.item-clicked]="rla8.isActive">
+                <span class="icon-analytics" [class.icon]="!rla8.isActive" [class.icon-clicked]="rla8.isActive"></span>
+                <span class="caption">Analytics</span>
+            </div>
+        </li>
+        <li class="list-item">
+            <div class="item" [routerLink]="['./team']" [routerLinkActive]="['']" (click)="toggelLeftPanelFromTab()"
+                #rla3="routerLinkActive" [class.item]="!rla3.isActive" [class.item-clicked]="rla3.isActive">
+                <span class="icon-group" [class.icon]="!rla3.isActive" [class.icon-clicked]="rla3.isActive"></span>
+                <span class="caption">Team</span>
+            </div>
+        </li>
+        <li class="list-item">
+            <div class="item" [routerLink]="['./tracking']" [routerLinkActive]="['']" (click)="toggelLeftPanelFromTab()"
+                #rla4="routerLinkActive" [class.item]="!rla4.isActive" [class.item-clicked]="rla4.isActive">
+                <span class="icon-cycle" [class.icon]="!rla4.isActive" [class.icon-clicked]="rla4.isActive"></span>
+                <span class="caption">Tracking</span>
+            </div>
+        </li>
+        <!-- <li class="list-item">
+            <div class="item"
+                [routerLink]="['./analytics']"
+                [routerLinkActive]="['']"
+                (click) = "toggelLeftPanelFromTab()"
+                #rla5="routerLinkActive"
+                [class.item]="!rla5.isActive"
+                [class.item-clicked]="rla5.isActive">
+                <span class="icon-analytics" [class.icon]="!rla5.isActive"
+                 [class.icon-clicked]="rla5.isActive"></span>
+                <span class="caption">Analytics</span>
+            </div>
+        </li> -->
+        <li class="list-item" *ngIf="company.hasSalesAutomation">
+            <div class="item" [routerLink]="['./automation']" [routerLinkActive]="['']"
+                (click)="toggelLeftPanelFromTab()" #rla7="routerLinkActive" [class.item]="!rla7.isActive"
+                [class.item-clicked]="rla7.isActive">
+                <span class="icon-smart-home" [class.icon]="!rla7.isActive" [class.icon-clicked]="rla7.isActive"></span>
+                <span class="caption">Automation</span>
+            </div>
+        </li>
+        <li class="list-item">
+            <div class="item" [routerLink]="['./business/company']" [routerLinkActive]="['']"
+                (click)="toggelLeftPanelFromTab()" #rla1="routerLinkActive" [class.item]="!rla1.isActive"
+                [class.item-clicked]="rla1.isActive">
+                <span class="icon-avatar" [class.icon]="!rla1.isActive" [class.icon-clicked]="rla1.isActive"></span>
+                <span class="caption">Settings</span>
+            </div>
+        </li>
+        <li class="list-item">
+            <div 
+                class="item" 
+                (click)="externalRouteTo('https://xilo-support.zendesk.com/hc/en-us')"
+            >
+                <span class="icon">
+                    <img src="../../assets/svgs/help.svg" alt="Help icon">
+                </span>
+                <span class="caption">Help</span>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="dashboard">
+    <router-outlet></router-outlet>
+</div>
+<footer class="profile-footer">
+    <p>All Rights Reserved by <a href="https://www.xilo.io" target="_blank">XILO.io</a></p>
+</footer>

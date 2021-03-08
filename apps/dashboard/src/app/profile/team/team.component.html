@@ -1,0 +1,15 @@
+<div class="content-area">
+	<!-- Tab section -->
+		<div class="tabs-container">
+		<div class="tab tab-item" id="user-tab" routerLink="/profile/team/users" [routerLinkActive]="['']" #rla1="routerLinkActive"><h5  class="tab-text" [ngClass]="rla1.isActive?'active':''">Admins</h5></div>
+        <div class="tab tab-item" id="agent-tab" routerLink="/profile/team/agents" [routerLinkActive]="['']" #rla2="routerLinkActive"><h5  class="tab-text" [ngClass]="rla2.isActive?'active':''">Agents</h5></div>
+        <div class="clearfix"></div>
+    </div>
+
+	<!-- End tabn navigation -->
+<div class="main">
+    <router-outlet></router-outlet>
+</div>
+
+</div>
+

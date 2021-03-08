@@ -1,0 +1,98 @@
+.integrations-main-block {
+     font-family: Lato;
+     font-style: normal;
+     margin: 10px 0;
+     border: 1px solid #bbb8b8;
+     border-radius: 5px;
+     padding: 15px 5px;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     div {
+          padding: 0 10px;
+          height: 100%;
+     }
+     .info-label-container {
+          display: contents;
+          font-size: 14px;
+     }
+     .integrations-icon {
+          display: flex;
+          align-items: center;
+     }
+     .integrations-info {
+          width: 70%;
+          display: inline-table;
+          .info-label {
+               font-family: Lato;
+               font-style: normal;
+               font-weight: 600;
+               font-size: 16px;
+               line-height: 19px;
+               display: flex;
+               align-items: flex-end;
+               color: #000000;
+          }
+     }
+     .integrations-action {
+          display: contents;
+          .integrations-buttons {
+               display: flex;
+               height: fit-content !important;
+               justify-content: flex-end;
+               align-items: center;
+               width: 20%;
+               button {
+                    background-color: #8184ff;
+                    color: #fff;
+                    font-size: 15px;
+                    line-height: inherit;
+                    border: none;
+                    padding: 10px;
+                    min-width: 115px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    margin-left: 10px;
+               }
+               mat-icon {
+                    padding: 4px;
+                    border: 1px solid #b9b4b4;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    min-width: 24px;
+                    min-height: 24px;
+               }
+          }
+     }
+     .disconnect-btn{
+          background-color: #f5f5ff !important;
+          color: #333333 !important;
+      }
+     a {
+          color: #333333 !important;
+          text-decoration: none;
+     }
+      p {
+          font-family: Lato;
+          font-style: normal;
+      }
+
+      .integrations-icon {
+           img {
+                height: 70px;
+           }
+      }
+
+
+     @media only screen and (max-width:600px) {
+          .integrations-info {
+              display: none;
+          }
+          .integrations-icon {
+               img {
+                    height: 50px;
+                    width: 50px;
+               }
+          }
+     }
+}

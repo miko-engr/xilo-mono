@@ -1,0 +1,46 @@
+.agentProfilePage{
+    margin-top: 4rem;
+}
+
+.header {
+    border-bottom: #c0c0c0 1px solid;
+    width: 100%;
+    padding: 30px 20px;
+    height: 40px;
+    line-height: 10px;
+    transition: all 0.5s ease;
+}
+
+.header-title {
+    float: left;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.fa-info {
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.fa-close {
+    float: right;
+    margin: 5px;
+}
+
+.infoText {
+    text-align: left;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 20px;
+}
+
+.infoPopup {
+    position: absolute;
+    background-color: #DFE3E6;
+    margin-left: 110px;
+    float: left;
+    width: 200px;
+    height: auto;
+    border-radius: 5px;
+}

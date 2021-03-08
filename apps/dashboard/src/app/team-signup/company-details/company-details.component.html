@@ -1,0 +1,143 @@
+<div class="team_main_block">
+  <div class="stepper_main_block">
+    <form 
+      #companyForm="ngForm"
+      (ngSubmit)="onNext()"
+      *ngIf="company"
+      >
+        <label>Agency Information</label>
+        <mat-form-field>
+            <mat-label>Agency Name</mat-label>
+            <input
+                matInput
+                name="agencyName"
+                #agencyName="ngModel"
+                [(ngModel)]="company.name"
+                placeholder="ABC Insurance Agency"
+                required
+                pattern="(\s*[^\s]+\s*)+"
+            />
+            <mat-error *ngIf="agencyName?.invalid">
+              <div *ngIf="agencyName.errors.required">Agency name is required</div>
+              <div *ngIf="agencyName?.errors?.pattern">Please add proper agency name</div>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Agency Phone Number</mat-label>
+          <section class="c-error" *ngIf="error$ | async as error">
+            <h1>{{ error }}</h1>
+          </section>
+          <input 
+            matInput 
+            name="agencyPhone" 
+            #agencyPhone="ngModel" 
+            type="text" 
+            [(ngModel)]="company.contactNumber"
+            placeholder="Agency Phone Number"
+            (keyup)="checkContactNumber()" 
+            required
+            pattern="(\s*[^\s]+\s*)+"  
+            mask="(000) 000-0000" 
+          />
+          <mat-error *ngIf="agencyPhone?.invalid">
+            <div *ngIf="agencyPhone.errors.required">Agency phone is required</div>
+            <div *ngIf="agencyPhone.errors.pattern">Please add proper value</div>
+            <div *ngIf="agencyPhone.errors.mask">Please add proper phone number</div>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Website</mat-label>
+          <input 
+            matInput 
+            name="website" 
+            #website="ngModel" 
+            placeholder="Website" 
+            [(ngModel)]="company.companyWebsite" 
+            required
+            pattern="(\s*[^\s]+\s*)+" 
+          />
+          <mat-error *ngIf="website?.invalid">
+            <div *ngIf="website.errors.required">Website is required</div>
+            <div *ngIf="website.errors.pattern">Please add proper value</div>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Address</mat-label>
+          <input 
+            matInput 
+            name="Address" 
+            #fullAddress="ngModel" 
+            ngx-google-places-autocomplete
+            (onAddressChange)="addressChange($event)" 
+            placeholder="Location"
+            [(ngModel)]="company.fullAddress" 
+            required
+            pattern="(\s*[^\s]+\s*)+"
+          />
+          <mat-error *ngIf="fullAddress?.invalid">
+            <div *ngIf="fullAddress.errors.required">Address is required</div>
+            <div *ngIf="fullAddress.errors.pattern">Please add proper value</div>
+          </mat-error>
+        </mat-form-field>
+        <br>
+        <label>Brand Information</label>
+        <mat-form-field>
+          <mat-label>Brand Color</mat-label>
+          <input 
+            matInput 
+            #brandColor="ngModel" 
+            name="brandColor" 
+            type="text" 
+            [(colorPicker)]="tempColor"
+            (colorPickerChange)="onChangeColor($event, 'brandColor')"
+            (colorPickerOpen)="isColorPickerOpen('brandColor')" 
+            placeholder="#111111" 
+            [(ngModel)]="company.brandColor"
+            required 
+            pattern="(\s*[^\s]+\s*)+"
+          />
+          <mat-error *ngIf="brandColor?.invalid">
+            <div *ngIf="brandColor.errors.required">Brand color is required</div>
+            <div *ngIf="brandColor.errors.pattern">Please add proper value</div>
+          </mat-error>
+        </mat-form-field>
+        <div class="team-signup-logo-container">
+          <input 
+            type="file" 
+            (change)="getImage($event)" 
+            #selectFile 
+            (click)="selectFile.value = null"
+            accept="image/jpg, image/jpeg, image/png" 
+          />
+          <div class="logo" *ngIf="company?.logo || imageSrc">
+            <span class="brand-logo-block">
+              <img 
+                [src]="imageSrc || company?.logo" 
+                alt="no-images" 
+                class="brand-preview" 
+              />
+            </span>
+            <img 
+              class="change_logo mt-2" 
+              (click)="selectFile.click()" 
+              src="assets/signup-flow/edit.svg"
+            >
+          </div>
+          <div 
+            class="logo upload_logo" 
+            (click)="selectFile.click()" 
+            *ngIf="!company?.logo && !imageSrc">
+            <mat-icon>image</mat-icon>
+            <div class="text">
+              <span class="upload-text">Upload</span>
+              your logo here<br />
+              <span class="format">
+                Recommended formats JPG, PNG — max size 4MB
+              </span>
+            </div>
+          </div>
+        </div>
+        <button type="submit" [disabled]="!companyForm.form.valid" class="primary-btn mt-3">Next</button>
+    </form>
+  </div>
+</div>
